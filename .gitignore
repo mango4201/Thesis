@@ -1,0 +1,22 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.run.xml
+*.synctex.gz
+*.toc
+*.out
+*.lof
+*.lot
+*.nav
+*.snm
+
+# Build folders (if you have them)
+_build/
+build/
+
+!main.pdf
