@@ -1,0 +1,14 @@
+\begin{tikzpicture}[node/.style={circle,draw,thick,minimum size=7mm,inner sep=0pt,font=\small,fill=white},
+edge/.style={thick}, weight/.style={font=\scriptsize,fill=white,inner sep=1pt}]
+\node[node] (A) at (0,1) {$A$};
+\node[node] (B) at (2,1) {$B$};
+\node[node] (C) at (0,-1) {$C$};
+\node[node] (D) at (2,-1) {$D$};
+\newcommand{\costedge}[4]{\draw[edge] (#1) -- (#2) node[midway,weight] {$#3\,/\,#4$};}
+\costedge{A}{B}{1}{5}
+\costedge{A}{C}{2}{6}
+\costedge{A}{D}{4}{2}
+\costedge{B}{C}{3}{2}
+\costedge{B}{D}{6}{1}
+\costedge{C}{D}{5}{4}
+\end{tikzpicture}
