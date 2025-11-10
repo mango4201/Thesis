@@ -7,6 +7,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{ifthen} % not strictly needed, but fine to have
 
 \lstdefinestyle{src}{
   basicstyle=\ttfamily\small,
@@ -14,7 +15,17 @@
   breaklines=true, breakatwhitespace=true,
   showstringspaces=false, tabsize=2
 }
-\newcommand{\src}[2]{\section*{#2}\lstinputlisting[style=src]{#1}}
+
+% Safer wrapper: only include if the file exists
+\newcommand{\SrcFile}[2]{%
+  \IfFileExists{#1}{%
+    \section*{#2}%
+    \lstinputlisting[style=src]{#1}%
+  }{%
+    \section*{#2 (missing)}%
+    \noindent\textit{File not found: \texttt{#1}}%
+  }%
+}
 
 % ---- You will override these in each pack file ----
 \newcommand{\PackTitle}{(set in pack file)}
