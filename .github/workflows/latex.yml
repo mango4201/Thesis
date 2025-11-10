@@ -17,4 +17,28 @@ jobs:
           root_file: main.tex
           latexmk_shell_escape: true
           # latex-action auto-detects biber from .bcf (works with biblatex)
+  build-packs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pack:
+          - tools/pack-frontmatter.tex
+          - tools/pack-ch12.tex
+          - tools/pack-ch34.tex
+          - tools/pack-ch56.tex
+          - tools/pack-appendix.tex
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build ${{ matrix.pack }}
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: ${{ matrix.pack }}
+          latexmk_shell_escape: true
+
+      - name: Upload pack PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.pack }}-${{ github.sha }}
+          path: tools/*.pdf
 
