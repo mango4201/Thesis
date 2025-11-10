@@ -1,0 +1,41 @@
+name: Export readable sources
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Make readable folder
+        run: |
+          set -e
+          rm -rf readable
+          mkdir -p readable/frontmatter readable/chapters readable/appendices readable/tools
+          export FILES="main.tex notation.tex references.bib 00_titlepage.tex \
+                        frontmatter/*.tex chapters/*.tex appendices/*.tex tools/*.tex"
+          for f in $FILES; do
+            [ -f "$f" ] || continue
+            dest_md="readable/${f}.md"
+            mkdir -p "$(dirname "$dest_md")"
+            {
+              echo "## $f"
+              echo
+              echo '```tex'
+              cat "$f"
+              echo '```'
+              echo
+            } > "$dest_md"
+          done
+
+      - name: Commit readable sources
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(readable): update Markdown copies of sources"
+          file_pattern: readable/**
