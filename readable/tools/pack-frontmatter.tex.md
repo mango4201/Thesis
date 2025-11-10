@@ -1,0 +1,17 @@
+## tools/pack-frontmatter.tex
+
+```tex
+\def\PackTitle{Front matter, notation, bibliography}
+\def\PackFiles{
+  \SrcFile{main.tex}{main.tex}
+  \SrcFile{00_titlepage.tex}{00\_titlepage.tex}
+  \SrcFile{notation.tex}{notation.tex}
+  \SrcFile{references.bib}{references.bib}
+  \SrcFile{frontmatter/abstract.tex}{frontmatter/abstract.tex}
+  \SrcFile{frontmatter/affidavit.tex}{frontmatter/affidavit.tex}
+  % \SrcFile{frontmatter/kurzfassung.tex}{frontmatter/kurzfassung.tex} % if present
+  % \SrcFile{frontmatter/acknowledgements.tex}{frontmatter/acknowledgements.tex} % if present
+}
+\input{tools/srcpack-template}
+```
+

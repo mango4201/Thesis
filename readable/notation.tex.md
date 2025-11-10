@@ -1,0 +1,25 @@
+## notation.tex
+
+```tex
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\E}{\ensuremath{\mathbb{E}}}
+
+\newcommand{\cS}{\ensuremath{\mathcal{S}}}
+\newcommand{\cT}{\ensuremath{\mathcal{T}}}
+\newcommand{\cF}{\ensuremath{\mathcal{F}}}
+
+\newcommand{\T}{\ensuremath{\mathcal{T}}}           % set of spanning trees
+\newcommand{\Scenarios}{\ensuremath{\mathcal{U}}}   % uncertainty set
+
+\newcommand{\opt}{\ensuremath{\mathrm{OPT}}}
+\DeclareMathOperator{\cost}{cost}
+\DeclareMathOperator{\regret}{Regret}
+
+\newcommand{\norm}[1]{\ensuremath{\left\lVert #1 \right\rVert}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert #1 \right\rvert}}
+\newcommand{\st}{\text{s.t.}}
+\newcommand{\MST}{\ensuremath{\mathrm{MST}}}
+\newcommand{\cs}[1]{\ensuremath{c^{(#1)}}}
+```
+
