@@ -1,0 +1,69 @@
+name: Build thesis PDFs
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-main:
+    name: Build main.pdf
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Cache TeXLive to speed up subsequent runs (optional but nice)
+      - uses: actions/cache@v4
+        with:
+          path: ~/.texlive
+          key: texlive-${{ runner.os }}-${{ hashFiles('**/*.tex', '**/*.bib') }}
+          restore-keys: |
+            texlive-${{ runner.os }}-
+
+      - name: LaTeX build (main)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          latexmk_use_lualatex: false
+          latexmk_shell_escape: true
+          # biblatex/biber is auto-detected; you don't need to set anything else.
+
+      - name: Upload main.pdf
+        uses: actions/upload-artifact@v4
+        with:
+          name: main-${{ github.sha }}
+          path: main.pdf
+
+  build-packs:
+    name: Build source packs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pack:
+          - tools/pack-frontmatter.tex
+          - tools/pack-ch12.tex
+          - tools/pack-ch34.tex
+          - tools/pack-ch56.tex
+          - tools/pack-appendix.tex
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.texlive
+          key: texlive-${{ runner.os }}-${{ hashFiles('**/*.tex', '**/*.bib') }}
+          restore-keys: |
+            texlive-${{ runner.os }}-
+
+      - name: LaTeX build (${{ matrix.pack }})
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: ${{ matrix.pack }}
+          latexmk_use_lualatex: false
+          latexmk_shell_escape: true
+
+      - name: Upload pack PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.pack }}-${{ github.sha }}
+          path: tools/*.pdf
