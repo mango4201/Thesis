@@ -1,0 +1,36 @@
+## chapters/03_minmax.tex
+
+```tex
+\chapter{Min-Max Spanning Tree}\label{ch:minmax}
+\section{Models}\label{sec:mm-models}
+\subsection{Discrete Scenarios}\label{sub:mm-discrete}
+\[
+  \min_{T\in\mathcal{T}} \max_{u\in\mathcal{U}} \sum_{e\in T} c^{(u)}_e
+\]
+\subsection{Interval Uncertainty}\label{sub:mm-interval}
+% Formal objective; evaluation on bounds.
+
+\section{Short Properties Used Later}\label{sec:mm-properties}
+\begin{lemma}[Interval extremal cost for a fixed tree]\label{lem:mm-extremal-cost}
+For interval costs, the worst-case cost of a fixed tree is attained by setting each chosen edge to its upper bound.
+\end{lemma}
+\begin{proof}
+% Brief linearity/extreme-point argument.
+\end{proof}
+
+\section{Reported Complexity and Approximability}\label{sec:mm-complexity}
+\subsection{Discrete: dependence on the number of scenarios $K$}\label{sub:mm-k}
+% Constant K (positive results) vs. unbounded K (hardness); cite precisely.
+\subsection{Intervals: NP-hardness}\label{sub:mm-interval-hard}
+% Clean statement; cite.
+
+\section{Modeling Patterns / Formulations (Pointers)}\label{sec:mm-modeling}
+% Standard robust counterparts; cite, no derivations.
+
+\section{Worked Micro-Graph Example}\label{sec:mm-example}
+% Compute Min-Max vs nominal MST on the tiny graph; show contrast.
+
+% (Optional) Context pointer to robust shortest path / min-cut.
+
+```
+

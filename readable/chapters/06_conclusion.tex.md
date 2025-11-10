@@ -1,0 +1,11 @@
+## chapters/06_conclusion.tex
+
+```tex
+\chapter{Conclusion and Outlook}\label{ch:conclusion}
+\section{Key Takeaways}\label{sec:concl-takeaways}
+\section{Limitations}\label{sec:concl-limits}
+\section{Outlook}\label{sec:concl-outlook}
+% Optional pointers: Γ-budgeted, locally budgeted sets; min-max-min.
+
+```
+

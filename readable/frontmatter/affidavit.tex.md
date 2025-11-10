@@ -1,0 +1,14 @@
+## frontmatter/affidavit.tex
+
+```tex
+\chapter*{Affidavit / Eidesstattliche Versicherung}
+I hereby declare that I have written this thesis independently and that I have not used
+any sources or aids other than those indicated. All passages which are quoted or closely
+paraphrased from other works are marked as such. This thesis has not been submitted in
+the same or a substantially similar form to any other examination board.
+
+\vspace{2cm}
+\noindent Place, Date \hfill Signature
+\addcontentsline{toc}{chapter}{Affidavit / Eidesstattliche Versicherung}
+```
+
