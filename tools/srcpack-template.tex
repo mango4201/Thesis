@@ -7,7 +7,6 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage{ifthen} % not strictly needed, but fine to have
 
 \lstdefinestyle{src}{
   basicstyle=\ttfamily\small,
@@ -16,9 +15,9 @@
   showstringspaces=false, tabsize=2
 }
 
-% Safer wrapper: only include if the file exists
+% safer: only include if file exists; otherwise print a warning section
 \newcommand{\SrcFile}[2]{%
-  \IfFileExists{#1}{%
+  \InputIfFileExists{#1}{%
     \section*{#2}%
     \lstinputlisting[style=src]{#1}%
   }{%
@@ -27,7 +26,6 @@
   }%
 }
 
-% ---- You will override these in each pack file ----
 \newcommand{\PackTitle}{(set in pack file)}
 \newcommand{\PackFiles}{\relax}
 
@@ -38,7 +36,5 @@
 \end{center}
 \tableofcontents\newpage
 
-% Render the file list:
 \PackFiles
-
 \end{document}

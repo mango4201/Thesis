@@ -28,7 +28,13 @@ jobs:
           - tools/pack-ch56.tex
           - tools/pack-appendix.tex
     steps:
-      - uses: actions/checkout@v4
+  - uses: actions/checkout@v4
+  - name: Show repo tree
+    run: |
+      echo "::group::Tree"
+      ls -R
+      echo "::endgroup::"
+
 
       - name: Build ${{ matrix.pack }}
         uses: xu-cheng/latex-action@v3
