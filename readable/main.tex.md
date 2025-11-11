@@ -1,32 +1,40 @@
 ## main.tex
 
 ```tex
-\documentclass[12pt,a4paper]{report}   % or: scrreprt (KOMA)
+\documentclass[12pt,a4paper]{report}
 
-% Layout & fonts
+% --- Layout & language ---
 \usepackage[margin=3cm]{geometry}
+\usepackage[english]{babel}
+
+% --- Math, graphics, tables ---
+\usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{enumitem}
 \usepackage{csquotes}
-\usepackage[english]{babel}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,fit,decorations.pathreplacing}
-\usepackage{xcolor}
 
-% Colors
+% --- Colors ---
+\usepackage{xcolor}
 \definecolor{RWTHBlue}{RGB}{0,84,159}
 \definecolor{RWTHBlue20}{RGB}{46,124,196}
 \definecolor{TextGray}{RGB}{51,51,51}
 \definecolor{RuleGray}{RGB}{189,189,189}
 \definecolor{TOCGray}{RGB}{85,85,85}
 
-% Bibliography
-\usepackage[backend=biber,style=authoryear,maxbibnames=6]{biblatex}
-\addbibresource{references.bib}
+% --- Captions & tables ---
+\usepackage[labelfont=bf,font=small]{caption}
+\renewcommand{\arraystretch}{1.15}
 
-% Headings & TOC styling
+% --- ToC styling (optional, but you had it) ---
+\usepackage{tocloft}
+\renewcommand{\cfttoctitlefont}{\large\bfseries\color{RWTHBlue}}
+\renewcommand{\cftsecfont}{\color{TOCGray}}
+\renewcommand{\cftsubsecfont}{\color{TOCGray}}
+
+% --- Headings ---
 \usepackage{titlesec}
 \titleformat{\section}{\Large\bfseries\scshape\color{RWTHBlue}}{\thesection}{0.7em}{}
 \titleformat{\subsection}{\large\bfseries\color{RWTHBlue20}}{\thesubsection}{0.6em}{}
@@ -35,22 +43,21 @@
 \titlespacing*{\subsection}{0pt}{1.1ex plus .3ex}{0.6ex}
 \titlespacing*{\subsubsection}{0pt}{1.0ex plus .2ex}{0.4ex}
 
-% Captions & tables
-\usepackage[labelfont=bf,font=small]{caption}
-\renewcommand{\arraystretch}{1.15}
-
-% Page style (footer page numbers)
+% --- Footer page numbers ---
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
 \cfoot{\color{TOCGray}\thepage}
 \renewcommand{\headrulewidth}{0pt}
 
-% Hyperlinks (load last)
-\usepackage[hidelinks]{hyperref}
-\hypersetup{colorlinks=true,linkcolor=RWTHBlue,citecolor=RWTHBlue20,urlcolor=RWTHBlue}
+% --- Bibliography ---
+\usepackage[backend=biber,style=authoryear,maxbibnames=6]{biblatex}
+\addbibresource{references.bib}
 
-% Theorems
+% --- Hyperlinks (load last) ---
+\usepackage[hidelinks,colorlinks=true,linkcolor=RWTHBlue,citecolor=RWTHBlue20,urlcolor=RWTHBlue]{hyperref}
+
+% --- Theorems ---
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -58,7 +65,7 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
-% Notation macros
+% --- Notation macros ---
 \input{notation}
 
 

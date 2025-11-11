@@ -12,7 +12,7 @@
 \vspace{18mm}
 
 {\large Bachelor Thesis in Computer Science\par}
-{\large January 2025\par} % <-- change month/year if needed
+{\large March 2026\par} % <-- change month/year if needed
 
 \vspace{18mm}
 
