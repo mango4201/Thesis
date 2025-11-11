@@ -3,75 +3,54 @@
 ```tex
 \documentclass[12pt,a4paper]{report}   % or: scrreprt (KOMA)
 
+% Layout & fonts
 \usepackage[margin=3cm]{geometry}
-\usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{amsmath,amssymb,amsthm}
-\usepackage{mathtools}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{enumitem}
 \usepackage{csquotes}
-\usepackage[backend=biber,style=authoryear,maxbibnames=6]{biblatex}
-\addbibresource{references.bib}
-
-% language: English only
 \usepackage[english]{babel}
-
-% optional: page numbers centered at bottom (like many examples)
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\cfoot{\thepage}
-\renewcommand{\headrulewidth}{0pt}
-
-% TikZ
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,fit,decorations.pathreplacing}
+\usepackage{xcolor}
 
-% ---- colors (RGB, works everywhere)
-\usepackage{xcolor} % must be loaded before \definecolor
-\definecolor{RWTHBlue}{RGB}{0,84,159}    % primary
-\definecolor{RWTHBlue20}{RGB}{46,124,196}% lighter accent
+% Colors
+\definecolor{RWTHBlue}{RGB}{0,84,159}
+\definecolor{RWTHBlue20}{RGB}{46,124,196}
 \definecolor{TextGray}{RGB}{51,51,51}
 \definecolor{RuleGray}{RGB}{189,189,189}
 \definecolor{TOCGray}{RGB}{85,85,85}
 
-% links
-\usepackage{hyperref}
-\hypersetup{
-  colorlinks=true,
-  linkcolor=RWTHBlue,
-  citecolor=RWTHBlue20,
-  urlcolor=RWTHBlue
-}
+% Bibliography
+\usepackage[backend=biber,style=authoryear,maxbibnames=6]{biblatex}
+\addbibresource{references.bib}
 
-% headings
+% Headings & TOC styling
 \usepackage{titlesec}
-\titleformat{\section}{\large\bfseries\scshape\color{RWTHBlue}}{\thesection}{0.6em}{}
-\titleformat{\subsection}{\normalsize\bfseries\color{RWTHBlue20}}{\thesubsection}{0.6em}{}
-\titlespacing*{\section}{0pt}{1.0ex plus .3ex}{0.6ex}
-\titlespacing*{\subsection}{0pt}{0.8ex plus .2ex}{0.4ex}
+\titleformat{\section}{\Large\bfseries\scshape\color{RWTHBlue}}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\large\bfseries\color{RWTHBlue20}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{TOCGray}}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.4ex plus .4ex}{0.8ex}
+\titlespacing*{\subsection}{0pt}{1.1ex plus .3ex}{0.6ex}
+\titlespacing*{\subsubsection}{0pt}{1.0ex plus .2ex}{0.4ex}
 
-% footer page numbers
+% Captions & tables
+\usepackage[labelfont=bf,font=small]{caption}
+\renewcommand{\arraystretch}{1.15}
+
+% Page style (footer page numbers)
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
 \cfoot{\color{TOCGray}\thepage}
 \renewcommand{\headrulewidth}{0pt}
 
-% toc greys
-\usepackage{tocloft}
-\renewcommand{\cfttoctitlefont}{\large\bfseries\color{RWTHBlue}}
-\renewcommand{\cftsecfont}{\color{TOCGray}}
-\renewcommand{\cftsubsecfont}{\color{TOCGray}}
+% Hyperlinks (load last)
+\usepackage[hidelinks]{hyperref}
+\hypersetup{colorlinks=true,linkcolor=RWTHBlue,citecolor=RWTHBlue20,urlcolor=RWTHBlue}
 
-% captions + tables
-\usepackage[labelfont=bf,font=small]{caption}
-\usepackage{booktabs}
-\renewcommand{\arraystretch}{1.15}
-
-
-% theorem styles
+% Theorems
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -79,27 +58,8 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 
+% Notation macros
 \input{notation}
-
-% Bigger, cleaner headings
-\usepackage{titlesec}
-
-% Sections ≈ 14.4pt (Large), small caps, RWTHBlue
-\titleformat{\section}
-  {\Large\bfseries\scshape\color{RWTHBlue}}{\thesection}{0.7em}{}
-
-% Subsections ≈ 12pt (large)
-\titleformat{\subsection}
-  {\large\bfseries\color{RWTHBlue20}}{\thesubsection}{0.6em}{}
-
-% Subsubsections ≈ 11pt (normalsize)
-\titleformat{\subsubsection}
-  {\normalsize\bfseries\color{TOCGray}}{\thesubsubsection}{0.6em}{}
-
-% Slightly more breathing room above, tight below
-\titlespacing*{\section}{0pt}{1.4ex plus .4ex}{0.8ex}
-\titlespacing*{\subsection}{0pt}{1.1ex plus .3ex}{0.6ex}
-\titlespacing*{\subsubsection}{0pt}{1.0ex plus .2ex}{0.4ex}
 
 
 \begin{document}
