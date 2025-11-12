@@ -1,14 +1,150 @@
 \chapter{Introduction}\label{ch:intro}
+
+% =========================
+% 1.1 Motivation and Problem Statement
+% =========================
 \section{Motivation and Problem Statement}\label{sec:intro-motivation}
-% Networks under cost uncertainty; why robustness vs. nominal MST.
 
+Designing cost–efficient networks is a recurring task in transportation, telecommunications, energy, and logistics.
+When edge costs are known, the \emph{minimum spanning tree} (MST) is a classical and well-understood baseline: it connects all vertices with minimum total cost.
+In practice, however, costs are seldom known precisely at design time.
+They depend on estimates, market prices, delays, outages, or policy changes, which may shift before the network is built or operated.
+A tree that is optimal for a single nominal estimate can therefore become unexpectedly expensive when the realized costs differ.
+
+This thesis studies spanning trees when edge costs are \emph{uncertain}.
+We consider two common ways of representing uncertainty that already cover many practical situations:
+(i) a \emph{discrete set of scenarios}, each a full cost vector; and
+(ii) \emph{interval ranges} for each edge, forming a Cartesian product of bounds.
+Given such an uncertainty description, there are (at least) two natural design goals.
+The first is \emph{Min--Max}: choose a tree that keeps its \emph{worst-case total cost} as small as possible across all scenarios.
+The second is \emph{Min--Max Regret}: choose a tree whose cost is, in the worst case, close to the \emph{scenario-optimal} MST; that is, we hedge not against absolute cost but against how far we fall short of the best we could have done if the scenario had been known in advance.
+Both perspectives formalize robustness, yet they prioritize different risks: Min--Max is absolute (guard the total), Regret is relative (guard the performance gap).
+
+Even at this conceptual level, two ingredients are crucial.
+First, we need a clean and self-contained foundation for MST reasoning—cuts, cycles, and the fundamental exchange arguments—so that all later robust models rest on solid ground.
+Second, when costs lie in intervals, we must understand \emph{where} worst cases live: Do we have to consider all points in a box, or do extremal cases suffice (e.g., bounds on selected edges)?
+Answering such questions allows us to reason about robustness without enumerating infinitely many possibilities.
+
+% --- Bridge sentence (keeps §1.1 motivational; detailed scope now lives in §1.2)
+We focus on spanning trees under discrete- and interval-uncertainty and study Min--Max and Min--Max Regret objectives; precise models and notation follow in \Cref{ch:foundations}.
+
+% --- Internal notes for later tightening (comments only; do not print)
+% TODO[LATER:intro-highlight]: After Chapters 3–4 are finalized, append 2–3 concrete highlight sentences
+% (complexity/approximation pointers with citations) at the end of this section.
+% TODO[LATER:micro-graph]: If we decide to show the running micro-graph in Ch.1, add a one-sentence
+% pointer here; otherwise keep it first in Ch.2.
+
+
+% =========================
+% 1.2 Objectives and Scope
+% =========================
 \section{Objectives and Scope}\label{sec:intro-scope}
-% Min-Max and Min-Max Regret spanning trees; discrete scenarios and intervals; what is out of scope.
 
+This thesis aims to provide a self-contained, correctness-first primer on robust spanning trees that carries the reader from classical MST reasoning to two robust objectives—\emph{Min--Max} and \emph{Min--Max Regret}—under two standard uncertainty styles (discrete scenarios and intervals).
+The emphasis is on precise modeling, short but complete foundational proofs, and a curated synthesis of established complexity and approximation results, complemented by small worked examples.
+
+\paragraph{Objectives.}
+We pursue the following concrete objectives:
+\begin{itemize}
+  \item \textbf{Foundational bedrock.} Present the graph/MST basics used later (cuts, cycles, fundamental exchange arguments), with complete proofs and a tiny running example (\Cref{ch:foundations}).
+  \item \textbf{Unified modeling.} Formalize \emph{Min--Max} and \emph{Min--Max Regret} for spanning trees under (a) \emph{discrete} uncertainty and (b) \emph{interval} uncertainty, using consistent notation across chapters (\Cref{ch:minmax,ch:regret}).
+  \item \textbf{Extremal reasoning for intervals.} State and use short extremal lemmas that identify where worst cases occur within interval boxes, enabling analysis without enumerating infinitely many realizations.
+  \item \textbf{Curated landscape.} Collect and organize established results on computational complexity and known approximation (or inapproximability) guarantees for the above models.
+  \item \textbf{Illustrative micro-examples.} Use a single small graph throughout to compare behaviors of the models and to make definitions tangible.
+  \item \textbf{Synthesis and outlook.} Summarize models and results in a one-page table and outline concise takeaways and avenues for future work (\Cref{ch:synthesis,ch:conclusion}).
+\end{itemize}
+
+\paragraph{Scope and boundaries.}
+We deliberately restrict attention to the following setting:
+\begin{itemize}
+  \item \textbf{Problem class.} Undirected, connected graphs with real-valued edge costs; solutions are spanning trees.
+  \item \textbf{Uncertainty descriptions.} (i) \emph{Discrete} sets of cost scenarios, i.e., a finite set \(\Scenarios=\{c^{(1)},\dots,c^{(K)}\}\); (ii) \emph{Interval} uncertainty given by per-edge bounds forming a Cartesian product \(\prod_{e}[\,\ell_e,u_e\,]\).
+  \item \textbf{Objectives.} \emph{Min--Max} (minimize worst-case total cost) and \emph{Min--Max Regret} (minimize worst-case gap to the scenario-optimal MST). Formal definitions appear in \Cref{ch:foundations} and are used in \Cref{ch:minmax,ch:regret}.
+\end{itemize}
+
+% Single pointer to avoid duplicating content from §1.4 (Roadmap).
+A detailed per-chapter roadmap is given in \Cref{sec:intro-roadmap}.
+
+% --- Internal notes for later tightening (comments only; do not print)
+% TODO[LATER:technical-contrib]: After Chapters 3–4 stabilize, replace generic “curated landscape”
+% phrasing with specific bullets (complexity/approximation headlines) + citations.
+% TODO[LATER:appendix-choice]: If we select a representative hardness proof for Appendix A,
+% add a one-sentence pointer here under Scope and update the Roadmap in §1.4 accordingly.
+
+% =========================
+% 1.3 Contributions  — deliverables & value added
+% =========================
 \section{Contributions}\label{sec:intro-contrib}
-% Self-contained primer; consistent notation; curated landscape; example gallery.
 
+This section states what the reader \emph{gets} from this document—concrete deliverables and value added beyond a standard overview.
+\begin{itemize}
+  \item \textbf{Foundations package (Chapter~\ref{ch:foundations}).}
+  A self-contained write-up of the MST toolkit (cut/cycle criteria, fundamental exchange arguments) with complete proofs, a consistent notation bank, and one reusable micro-graph figure.
+  % Acceptance: proofs compile clean; figure referenced later; notation matches Appendix~B.
+
+  \item \textbf{Interval extremal toolkit.}
+  A compact set of lemmas pinpointing where worst cases occur in interval boxes, with short proofs and guidance on how they are used later for Min--Max and Regret analyses.
+  % TODO[LATER:crossref]: Insert lemma labels once fixed in Chs. 3–4.
+
+  \item \textbf{Normalized notation and cross-referencing.}
+ One consistent symbol set \((\Scenarios, \cT, \MSTcost(\cdot))\) and a clear cross-reference policy (via \texttt{\string\Cref}) applied throughout, so readers can navigate definitions/results without ambiguity.
+  % Acceptance: no duplicate macros; all symbols listed in Appendix~B.
+
+  \item \textbf{Organized literature map.}
+  A tabulated map of established complexity and approximation/inapproximability results, indexed by objective (Min--Max / Regret), uncertainty (discrete / interval), and scenario parameter \(K\) where relevant.
+  % TODO[LATER:results]: Replace generic wording with 2–4 concrete headline bullets + citations after Chs. 3–4.
+
+  \item \textbf{Synthesis artifacts (Chapter~\ref{ch:synthesis}).}
+  (i) A one-page summary table (models \(\times\) uncertainty \(\times\) complexity/approx); 
+  (ii) a small example gallery (shared micro-graph) illustrating behaviors across objectives.
+  % Acceptance: table compiles; at least two contrasting examples; consistent captions.
+
+  \item \textbf{Optional full proof (Appendix~A).}
+  One representative hardness proof reproduced in full for pedagogical completeness.
+  % TODO[LATER:appendix]: Confirm the chosen problem/source; add forward reference here once selected.
+
+  \item \textbf{Reproducible build and readable sources.}
+  Clean Route~A LaTeX build (biblatex/biber, cleveref, TikZ) and a \emph{readable} Markdown export of chapters to facilitate review.
+  % Acceptance: CI builds PDF; readable/*.md up-to-date on push.
+\end{itemize}
+
+% --- Internal notes for later tightening (comments only; do not print)
+% Non-goals (to avoid overlap with §1.2): we do not list uncertainty styles or objectives again here.
+% TODO[LATER:verify-alignment]: After Chs. 2–5 stabilize, check each bullet against actual contents and update wording.
+
+% =========================
+% 1.4 Thesis Roadmap
+% =========================
 \section{Thesis Roadmap}\label{sec:intro-roadmap}
-% One paragraph per Chapter 2--6 (cross-ref: \Cref{ch:foundations,ch:minmax,ch:regret,ch:synthesis,ch:conclusion}).
+
+This document proceeds from foundations to robust models and, finally, to a concise synthesis.
+
+\begin{enumerate}
+  \item \textbf{Chapter~\ref{ch:foundations} (Foundations).}
+  We fix notation and present the MST toolkit with complete proofs: the Fundamental Cut Lemma and the cycle/cut optimality criteria. A tiny running graph is introduced once and reused later.
+
+  \item \textbf{Chapter~\ref{ch:minmax} (Min--Max Spanning Tree).}
+  We formalize Min--Max for spanning trees under discrete scenarios and interval uncertainty, and we state the minimal interval extremal facts needed to reason about worst cases. A small worked example illustrates the model.
+
+  \item \textbf{Chapter~\ref{ch:regret} (Min--Max Regret Spanning Tree).}
+  We formalize regret and its discrete/interval variants, relate regret to scenario-optimal MSTs, and use short extremal lemmas for intervals. A worked example mirrors Chapter~\ref{ch:minmax} for direct comparison.
+
+  \item \textbf{Chapter~\ref{ch:synthesis} (Synthesis \& Example Gallery).}
+  We summarize the established landscape in a one-page table (model \(\times\) uncertainty; complexity; (in)approximability; notes on \(K\)) and gather a few TikZ micro-examples that highlight behavioral contrasts.
+
+  \item \textbf{Chapter~\ref{ch:conclusion} (Conclusion \& Outlook).}
+  We extract the main takeaways, note limitations, and briefly indicate natural extensions (e.g., budgeted-\(\Gamma\) uncertainty or polyhedral sidebars) that lie beyond our core scope.
+\end{enumerate}
+
+\paragraph{Appendices.}
+Appendix~A (optional) contains one representative hardness/inapproximability proof rendered in our notation.
+Appendix~B lists all symbols in a compact table for quick reference.
+Appendix~C holds auxiliary figures or expanded examples referenced from the main text.
+
+% --- Internal notes for later tightening (comments only; do not print)
+% TODO[LATER:labels]: After Chapters 2–4 stabilize, add precise forward-refs to lemma/theorem labels where helpful.
+% TODO[LATER:table-ref]: Insert the label for the synthesis table once finalized (e.g., \Cref{tab:synthesis}).
+% TODO[LATER:examples]: If specific example numbers are introduced, append them here for quick navigation.
+
 
 % (Optional) Box: Uncertainty sets at a glance (discrete, intervals; Γ-budgeted context).

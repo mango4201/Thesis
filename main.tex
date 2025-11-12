@@ -3,6 +3,8 @@
 % --- Layout & language ---
 \usepackage[margin=3cm]{geometry}
 \usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
 % --- Math, graphics, tables ---
 \usepackage{amsmath,amssymb,amsthm,mathtools}
@@ -51,8 +53,9 @@
 \usepackage[backend=biber,style=authoryear,maxbibnames=6]{biblatex}
 \addbibresource{references.bib}
 
-% --- Hyperlinks (load last) ---
+% --- Hyperlinks & clever references ---
 \usepackage[hidelinks,colorlinks=true,linkcolor=RWTHBlue,citecolor=RWTHBlue20,urlcolor=RWTHBlue]{hyperref}
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref} % <-- add this after hyperref
 
 % --- Theorems ---
 \newtheorem{definition}{Definition}
