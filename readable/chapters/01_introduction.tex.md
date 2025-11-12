@@ -30,6 +30,7 @@ Answering such questions allows us to reason about robustness without enumeratin
 
 % --- Bridge sentence (keeps §1.1 motivational; detailed scope now lives in §1.2)
 We focus on spanning trees under discrete- and interval-uncertainty and study Min--Max and Min--Max Regret objectives; precise models and notation follow in \Cref{ch:foundations}.
+We also fix basic complexity and approximation vocabulary early on, enabling concise statements in later chapters.
 
 % --- Internal notes for later tightening (comments only; do not print)
 % TODO[LATER:intro-highlight]: After Chapters 3–4 are finalized, append 2–3 concrete highlight sentences
@@ -50,11 +51,15 @@ The emphasis is on precise modeling, short but complete foundational proofs, and
 We pursue the following concrete objectives:
 \begin{itemize}
   \item \textbf{Foundational bedrock.} Present the graph/MST basics used later (cuts, cycles, fundamental exchange arguments), with complete proofs and a tiny running example (\Cref{ch:foundations}).
+    \item \textbf{Algorithmic preliminaries (complexity \& approximation).}
+A concise primer (decision vs.\ optimization; P/NP; reductions; weak/strong NP-hardness; approximation ratios; PTAS/FPTAS; APX) so that results in later chapters can be stated tersely; this primer will live in Chapter~\ref{ch:foundations}.
+% TODO[LATER]: once the subsection label exists, change "Chapter~\ref{ch:foundations}" to \Cref{sec:found-complexity}.
   \item \textbf{Unified modeling.} Formalize \emph{Min--Max} and \emph{Min--Max Regret} for spanning trees under (a) \emph{discrete} uncertainty and (b) \emph{interval} uncertainty, using consistent notation across chapters (\Cref{ch:minmax,ch:regret}).
   \item \textbf{Extremal reasoning for intervals.} State and use short extremal lemmas that identify where worst cases occur within interval boxes, enabling analysis without enumerating infinitely many realizations.
   \item \textbf{Curated landscape.} Collect and organize established results on computational complexity and known approximation (or inapproximability) guarantees for the above models.
   \item \textbf{Illustrative micro-examples.} Use a single small graph throughout to compare behaviors of the models and to make definitions tangible.
   \item \textbf{Synthesis and outlook.} Summarize models and results in a one-page table and outline concise takeaways and avenues for future work (\Cref{ch:synthesis,ch:conclusion}).
+
 \end{itemize}
 
 \paragraph{Scope and boundaries.}
@@ -84,6 +89,10 @@ This section states what the reader \emph{gets} from this document—concrete de
   \item \textbf{Foundations package (Chapter~\ref{ch:foundations}).}
   A self-contained write-up of the MST toolkit (cut/cycle criteria, fundamental exchange arguments) with complete proofs, a consistent notation bank, and one reusable micro-graph figure.
   % Acceptance: proofs compile clean; figure referenced later; notation matches Appendix~B.
+  
+  \item \textbf{Compact complexity/approximation primer.}
+A one-page glossary of the terms we use for algorithmic results, included in Chapter~\ref{ch:foundations} to keep Chapters~\ref{ch:minmax}--\ref{ch:regret} focused on model specifics.
+% TODO[LATER]: swap Chapter~\ref{ch:foundations} with \Cref{sec:found-complexity} once that label exists.
 
   \item \textbf{Interval extremal toolkit.}
   A compact set of lemmas pinpointing where worst cases occur in interval boxes, with short proofs and guidance on how they are used later for Min--Max and Regret analyses.
@@ -123,8 +132,9 @@ This section states what the reader \emph{gets} from this document—concrete de
 This document proceeds from foundations to robust models and, finally, to a concise synthesis.
 
 \begin{enumerate}
-  \item \textbf{Chapter~\ref{ch:foundations} (Foundations).}
-  We fix notation and present the MST toolkit with complete proofs: the Fundamental Cut Lemma and the cycle/cut optimality criteria. A tiny running graph is introduced once and reused later.
+\item \textbf{Chapter~\ref{ch:foundations} (Foundations).}
+We fix notation, prove the MST toolkit (Fundamental Cut Lemma; cycle/cut criteria), introduce a tiny running graph, and include a short primer on complexity and approximation to support the statements used in later chapters.
+% TODO[LATER]: append "see \Cref{sec:found-complexity}" once the subsection is created.
 
   \item \textbf{Chapter~\ref{ch:minmax} (Min--Max Spanning Tree).}
   We formalize Min--Max for spanning trees under discrete scenarios and interval uncertainty, and we state the minimal interval extremal facts needed to reason about worst cases. A small worked example illustrates the model.

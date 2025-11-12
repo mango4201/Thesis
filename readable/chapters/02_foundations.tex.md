@@ -30,6 +30,40 @@ For a spanning tree $T$, the following are equivalent:
 \section{Uncertainty Sets and Robust Criteria (Definitions Only)}\label{sec:found-robust-defs}
 % Discrete scenarios \mathcal{U}, interval bounds; define Min-Max and Min-Max Regret objectives formally.
 
+% =========================
+% Algorithmic Preliminaries (Complexity & Approximation)
+% =========================
+\section{Algorithmic Preliminaries: Complexity and Approximation}\label{sec:found-complexity}
+
+\subsection{Decision vs.\ Optimization; P, NP, Reductions}\label{sec:found-pnp}
+% TODO: Briefly separate decision vs. optimization versions.
+% TODO: Define polynomial time, class P, class NP (verifiability).
+% TODO: Define reductions (many-one), NP-hard, NP-complete.
+% TODO: Weakly vs. strongly NP-hard; pseudo-polynomial algorithms.
+% TODO: Cite concise sources (OptiB Ch.~10; TGNO §1.1 bullets; AMO Ch.~3). 
+% Refs: \cite{Goerigk2021RCO} for robust context pointers. 
+% Cross-refs: Used explicitly in \Cref{sec:mm-complexity,sec:regret-complexity}.
+
+\subsection{Approximation Notions}\label{sec:found-approx}
+% TODO: Define \alpha-approximation (minimization), approximation ratio.
+% TODO: PTAS vs. FPTAS; why only FPTAS implies pseudo-polytime.
+% TODO: APX-hard / inapproximability statement form (“unless P=NP”).
+% TODO: Mention K-dependent results: how scenario count K enters ratios/complexity.
+% Cross-refs: Will be invoked in \Cref{sub:mm-k,sub:regret-k,sub:regret-interval-hard}.
+
+\subsection{Proof Patterns We Will Use}\label{sec:found-patterns}
+% TODO: (1) Exchange arguments for MST (already in §\ref{sec:found-mst-criteria}).
+% TODO: (2) Extremal arguments on boxes (interval sets) for fixed solutions.
+% TODO: (3) Gap-preserving reductions (only at a high level; details deferred to App.~\ref{app:rep-proof} if used).
+% Cross-refs: \Cref{lem:mm-extremal-cost,lem:regret-extremal} later.
+
+% --- Optional: tiny checklist for readers
+\paragraph{Reader’s checklist (non-printing comments).}
+% After reading §\ref{sec:found-complexity}, the reader should be able to:
+% - parse statements like “NP-hard even for unbounded K”; 
+% - understand statements like “admits a 2-approximation under intervals”.
+
+
 \section{Running Micro-Graph and Notation Table}\label{sec:found-micro}
 % Include small TikZ; if big symbol table, move to App. B and reference here.
 ```
