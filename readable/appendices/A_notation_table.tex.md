@@ -1,4 +1,4 @@
-## appendices/B_notation_table.tex
+## appendices/A_notation_table.tex
 
 ```tex
 \chapter{Notation Table}\label{app:notation}

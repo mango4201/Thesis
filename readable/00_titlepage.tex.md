@@ -17,10 +17,7 @@
 \vspace{18mm}
 
 {\LARGE\bfseries
-Min-Max and Min-Max Regret Spanning Trees\par}
-\vspace{4mm}
-{\large
-Concepts, Complexity, and Results in Robust Combinatorial Optimization\par}
+Min-max and Min-max Regret Spanning Trees under Discrete and Interval Uncertainty\par}
 
 \vspace{18mm}
 

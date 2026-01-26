@@ -150,5 +150,27 @@
   note    = {Institutional example PDF}
   % url    = { [optional institutional link] }
 }
+
+@article{KasperskiZielinski2006,
+  author       = {Adam Kasperski and Pawe{\l} Zieli{\'n}ski},
+  title        = {An approximation algorithm for interval data minmax regret combinatorial optimization problems},
+  journaltitle = {Information Processing Letters},
+  year         = {2006},
+  volume       = {97},
+  number       = {5},
+  pages        = {177--180},
+  doi          = {10.1016/j.ipl.2005.11.003}
+}
+
+@article{AverbakhLebedev2004,
+  author       = {Igor Averbakh and Vasilij Lebedev},
+  title        = {Interval data minmax regret network optimization problems},
+  journaltitle = {Discrete Applied Mathematics},
+  year         = {2004},
+  volume       = {138},
+  number       = {3},
+  pages        = {289--301},
+  doi          = {10.1016/S0166-218X(03)00462-1}
+}
 ```
 

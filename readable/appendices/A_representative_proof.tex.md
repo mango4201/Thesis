@@ -1,8 +1,0 @@
-## appendices/A_representative_proof.tex
-
-```tex
-\chapter{Representative Full Proof (Optional)}\label{app:rep-proof}
-% Reproduce one canonical hardness / inapproximability proof in your notation.
-% Summarize in Chapters 3/4; keep this appendix self-contained.
-```
-

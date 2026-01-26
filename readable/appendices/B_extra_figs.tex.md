@@ -1,4 +1,4 @@
-## appendices/C_extra_figs.tex
+## appendices/B_extra_figs.tex
 
 ```tex
 \chapter{Additional Figures and Instances (Optional)}\label{app:extra-figs}
