@@ -1,36 +1,289 @@
 ## chapters/04_regret.tex
 
 ```tex
+%═══════════════════════════════════════════════════════════
+% CHAPTER 4: MIN-MAX REGRET SPANNING TREE
+% 
+% Prerequisites: Ch2 (MST), Ch3 (Min-Max for contrast)
+% Provides:
+%   - Regret definition and formulation
+%   - Interval extremal regret lemma + proof
+%   - K=2 weakly NP-hard (reuse Ch3 construction)
+%   - 2-approximation for interval regret + FULL proof
+% Labels created:
+%   - ch:regret, sec:regret-definition, sec:regret-extremal,
+%     sec:regret-complexity-discrete, sec:regret-approx-interval,
+%     sec:regret-discussion,
+%     lem:interval-extremal-regret, thm:regret-k2-hard,
+%     thm:regret-kconst-pseudo, thm:regret-kunbdd-hard,
+%     thm:regret-interval-hard, thm:regret-2approx,
+%     lem:regret-lower-bound, lem:regret-upper-bound
+% Page budget: 11.3 pages
+% Status: PLACEHOLDER
+%═══════════════════════════════════════════════════════════
+
 \chapter{Min-Max Regret Spanning Tree}\label{ch:regret}
-\section{Regret Definition and Objective}\label{sec:regret-def}
-% Regret(T,u) = c^{(u)}(T) - \min_{T'\in\mathcal{T}} c^{(u)}(T').
 
-\section{Models}\label{sec:regret-models}
-\subsection{Discrete Scenarios}\label{sub:regret-discrete}
-% Formalization; pointer to compact formulations (cite).
-\subsection{Interval Uncertainty}\label{sub:regret-interval}
-% Define how the worst-case regret scenario is constructed (bounds).
+% CHAPTER OVERVIEW:
+% This chapter formalises Min-Max Regret objective, which measures
+% performance gap vs scenario-optimal solutions. Structure mirrors Ch3
+% (discrete + interval), but intervals are NP-hard (unlike Min-Max).
+% Positive result: clean 2-approximation via midpoint heuristic (full proof).
 
-\section{Short Properties Used Later}\label{sec:regret-properties}
-\begin{lemma}[Interval extremal regret for a fixed tree]\label{lem:regret-extremal}
-For interval costs, the worst-case regret of a fixed tree is attained at bound assignments.
+%─────────────────────────────────────────────────────────
+% SECTION 4.1: REGRET DEFINITION AND OBJECTIVE (1.8 pages)
+%─────────────────────────────────────────────────────────
+\section{Regret Formulation}\label{sec:regret-definition}
+
+% TODO: Regret concept (0.6 pg)
+%   - Definition: Regret(T,c) = c(T) - MST(c)
+%   - Interpretation: performance gap vs scenario-optimal
+%   - Why it matters: relative vs absolute robustness
+
+% TODO: Discrete scenarios (0.6 pg)
+%   - Formal objective: min_{T∈𝒯} max_{k∈[K]} Regret(T, c^(k))
+%   - Requires computing MST(c^(k)) for each scenario k
+%   - Worked example (micro-graph): Show T_Regret ≠ T_MinMax
+
+% TODO: Interval uncertainty (0.6 pg)
+%   - Formal objective: min_{T∈𝒯} max_{c∈𝒰} Regret(T, c)
+%   - Challenge: MST(c) varies with c in 𝒰
+%   - Worked example (micro-graph): Compute regret for T₁, T₂, T₃
+
+%─────────────────────────────────────────────────────────
+% SECTION 4.2: EXTREMAL PROPERTIES FOR INTERVALS (2.2 pages)
+%─────────────────────────────────────────────────────────
+\section{Interval Regret Extremal Behaviour}\label{sec:regret-extremal}
+
+% PROOF INVENTORY: 1 lemma + proof (1.0 pg)
+
+% SOURCE: Implicit in interval regret analysis (Goerigk Ch5)
+\begin{lemma}[Interval Extremal Regret]\label{lem:interval-extremal-regret}
+% TODO: Statement (0.3 pg)
+% For fixed T∈𝒯, max_{c∈𝒰} Regret(T,c) is attained at a
+% vertex (extremal point) of the interval box ∏[ℓₑ,uₑ].
 \end{lemma}
 \begin{proof}
-% Difference of linear problems over a box has extremal optimum.
+% TODO: Proof (0.7 pg)
+% Regret(T,c) = c(T) - MST(c)
+% c(T) is linear in c
+% MST(c) is piecewise linear concave function of c
+% Max of (linear - concave) over box attained at vertex
+% Construction: worst case sets c_e to upper/lower strategically
+% depending on which edges compete for MST
 \end{proof}
 
-\section{Reported Complexity and Approximability}\label{sec:regret-complexity}
-\subsection{Discrete $K$: constant vs.\ unbounded}\label{sub:regret-k}
-% State results; cite.
-\subsection{Intervals: NP-hardness; 2-approximation}\label{sub:regret-interval-hard}
-% State the 2-approx guarantee succinctly; cite.
+% TODO: Implications (0.7 pg)
+%   - Can evaluate regret of any T in polynomial time (check 2^|E| vertices)
+%   - BUT: finding optimal T still NP-hard (unlike Min-Max!)
+%   - Cite: Averbakh-Lebedev (2004) for NP-hardness
 
-\section{Modeling Pointers / Reformulations}\label{sec:regret-modeling}
-% Cite compact/dual ideas; no derivations.
+% TODO: Comparison with Min-Max extremal (0.5 pg)
+%   - Min-Max: all chosen edges → upper (Lemma 3.1, simple)
+%   - Regret: strategic mix depending on competing trees (complex)
+%   - More complex but still extremal
 
-\section{Worked Micro-Graph Example}\label{sec:regret-example}
-% Compute regrets and compare with Min-Max.
+%─────────────────────────────────────────────────────────
+% SECTION 4.3: COMPLEXITY: DISCRETE SCENARIOS (2.5 pages)
+%─────────────────────────────────────────────────────────
+\section{Complexity for Discrete Scenarios}\label{sec:regret-complexity-discrete}
 
-\section{Pointer to Appendix A (Representative Full Proof)}\label{sec:regret-appA} % optional
-```
+\subsection{Constant K}
+
+% PROOF INVENTORY: 1 adapted proof (0.6 pg) + 1 cited theorem (0.4 pg)
+
+% SOURCE: Goerigk Theorem 8.7
+\begin{theorem}[K=2 Weak NP-Hardness]\label{thm:regret-k2-hard}
+% TODO: Statement
+% Min-Max Regret ST with K=2 discrete scenarios is weakly NP-hard.
+\end{theorem}
+\begin{proof}
+% TODO: Proof (0.6 pg) — REUSE partition reduction from Theorem 3.2
+% Same grid graph construction as Theorem 3.2 (Chapter 3)
+% 
+% KEY OBSERVATION:
+% In that construction, MST(c^(k)) = 0 for all k=1,2
+% (All vertical edges + one row's edges = zero cost tree in each scenario)
+% 
+% Therefore: Regret(T, c^(k)) = c^(k)(T) - 0 = c^(k)(T)
+% So Min-Max Regret ≡ Min-Max for this instance
+% 
+% By Theorem 3.2, Min-Max is weakly NP-hard
+% ∴ Min-Max Regret is weakly NP-hard
+% 
+% SOURCE: Goerigk Theorem 8.7 ("use same construction as Theorem 8.4")
+\end{proof}
+
+% SOURCE: Goerigk Theorem 8.6 (Aissi-Bazgan-Vanderpooten 2005)
+\begin{theorem}[Pseudo-Polynomial for Constant K]\label{thm:regret-kconst-pseudo}
+% TODO: Statement + explanation (0.4 pg)
+% For constant K, Min-Max Regret ST admits:
+%   (i) Pseudo-polynomial algorithm
+%   (ii) FPTAS
+\end{theorem}
+
+% TODO: Explanation (cite + intuition, NO proof):
+%   - Same multicriteria technique as Min-Max (Goerigk Thm 8.6)
+%   - SOURCE: Aissi-Bazgan-Vanderpooten (2005)
+
+\subsection{Unbounded K}
+
+% PROOF INVENTORY: 1 cited theorem (sketch, 0.9 pg) + 1 approx (0.6 pg)
+
+% SOURCE: Goerigk Theorem 8.8 (Kouvelis-Yu 1997)
+\begin{theorem}[Strong NP-Hardness]\label{thm:regret-kunbdd-hard}
+% TODO: Statement
+% Min-Max Regret ST with K part of input is strongly NP-hard.
+\end{theorem}
+
+% TODO: Sketch + citation (0.9 pg, NO full proof):
+%   - Reduction from 3-PARTITION problem
+%   - Grid graph with K=m scenarios
+%   - Construction: MST(c^(k)) = 0 in every scenario
+%   - So regret reduces to cost minimisation
+%   - Regret optimal ⟺ 3-PARTITION solvable
+%   - SOURCE: Kouvelis-Yu (1997), Goerigk Theorem 8.8
+
+% TODO: Midpoint O(K)-approximation (0.6 pg):
+%   - Same midpoint heuristic as Min-Max
+%   - Open gap (cite Goerigk Open Problem 10)
+
+%─────────────────────────────────────────────────────────
+% SECTION 4.4: APPROXIMATION FOR INTERVALS (3.3 pages)
+%─────────────────────────────────────────────────────────
+\section{Interval Regret Approximation}\label{sec:regret-approx-interval}
+
+% PROOF INVENTORY: 3 theorems/lemmas with FULL proofs (2.5 pg total)
+
+% SOURCE: Averbakh-Lebedev (2004)
+\begin{theorem}[Interval NP-Hardness]\label{thm:regret-interval-hard}
+% TODO: Statement + citation (0.3 pg)
+% Min-Max Regret ST with interval uncertainty is NP-hard.
+% SOURCE: Averbakh-Lebedev (2004)
+% (Cite only, no proof — established result from network optimisation)
+\end{theorem}
+
+% SOURCE: Kasperski-Zielinski (2006), Goerigk Theorem 5.26
+\begin{theorem}[2-Approximation via Midpoint]\label{thm:regret-2approx}
+% TODO: Statement (0.3 pg)
+% Let T_mid = MST((ℓ+u)/2). Then T_mid is a 2-approximation
+% for Min-Max Regret ST with interval uncertainty.
+\end{theorem}
+
+% TODO: Supporting lemmas (prove in full before main theorem)
+
+% SOURCE: Kasperski-Zielinski (2006), Goerigk Lemma 5.24
+\begin{lemma}[Lower Bound on Regret]\label{lem:regret-lower-bound}
+% TODO: Statement
+% For any trees T, T' ∈ 𝒯:
+%   max_{c∈𝒰} Regret(T,c) ≥ Σ_{e: xₑ>x'ₑ} ūₑ - Σ_{e: xₑ<x'ₑ} ℓₑ
+% where xₑ=1 if e∈T, else 0 (similarly for T')
+\end{lemma}
+\begin{proof}
+% TODO: Proof (0.7 pg) — FULL PROOF
+% Construct adversarial scenario:
+%   - For edges in T but not T': set to upper bound ū_e
+%   - For edges in T' but not T: set to lower bound ℓ_e
+%   - For remaining edges: set to favour T' as MST
+% Then c(T) ≥ Σ_{e∈T∖T'} ū_e and MST(c) ≤ Σ_{e∈T'∖T} ℓ_e
+% Regret(T,c) = c(T) - MST(c) ≥ ... (algebra)
+% 
+% SOURCE: Kasperski-Zielinski (2006), Goerigk Lemma 5.24
+\end{proof}
+
+% SOURCE: Kasperski-Zielinski (2006), Goerigk Lemma 5.25
+\begin{lemma}[Upper Bound Relating Solutions]\label{lem:regret-upper-bound}
+% TODO: Statement
+% For any trees T, T' ∈ 𝒯:
+%   max_{c∈𝒰} Regret(T,c) ≤ max_{c∈𝒰} Regret(T',c) + 
+%                             Σ_{e: xₑ>x'ₑ} ūₑ - Σ_{e: xₑ<x'ₑ} ℓₑ
+\end{lemma}
+\begin{proof}
+% TODO: Proof (0.7 pg) — FULL PROOF
+% For any c∈𝒰:
+%   Regret(T,c) = c(T) - MST(c)
+%              ≤ c(T) - c(T')         (MST(c) ≥ c(T') always)
+%              = Σ_{e∈T} cₑ - Σ_{e∈T'} cₑ
+%              = Σ_{e∈T∖T'} cₑ - Σ_{e∈T'∖T} cₑ
+% 
+% Now take max over c:
+%   max Regret(T,c) ≤ max [Σ_{e∈T∖T'} cₑ - Σ_{e∈T'∖T} cₑ + (Regret(T',c) - ...)]
+%   ... (algebra combining worst-case scenarios)
+% 
+% SOURCE: Kasperski-Zielinski (2006), Goerigk Lemma 5.25
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:regret-2approx}]
+% TODO: Main proof (1.1 pg) — FULL PROOF using Lemmas 4.6-4.7
+% 
+% Let T_mid = MST(c_mid) where c_mid = (ℓ+u)/2
+% Let T* = optimal Min-Max Regret tree
+% 
+% STEP 1: Use optimality of T_mid for midpoint costs:
+%   Σ_{e∈T_mid} c_mid,e ≤ Σ_{e∈T*} c_mid,e
+%   ⟹ Σ_{e∈T_mid} (ℓₑ+ūₑ)/2 ≤ Σ_{e∈T*} (ℓₑ+ūₑ)/2
+%   Rearranging: Σ_{e∈T_mid∖T*} ūₑ - Σ_{e∈T*∖T_mid} ℓₑ ≤ 
+%                Σ_{e∈T*∖T_mid} ūₑ - Σ_{e∈T_mid∖T*} ℓₑ
+% 
+% STEP 2: Apply Lemma 4.6 (lower bound) with T=T*, T'=T_mid:
+%   max Regret(T*,c) ≥ Σ_{e: x*ₑ>x_mid,e} ūₑ - Σ_{e: x*ₑ<x_mid,e} ℓₑ
+% 
+% STEP 3: Apply Lemma 4.7 (upper bound) with T=T_mid, T'=T*:
+%   max Regret(T_mid,c) ≤ max Regret(T*,c) + [Σ ūₑ - Σ ℓₑ]
+% 
+% STEP 4: Combine Step 1-3 via algebra:
+%   From Step 1: symmetric difference terms relate
+%   From Step 2: OPT ≥ RHS
+%   From Step 3: ALG ≤ OPT + RHS
+%   ⟹ ALG ≤ 2·OPT
+% 
+% SOURCE: Kasperski-Zielinski (2006), Goerigk Theorem 5.26
+\end{proof}
+
+% TODO: Tightness discussion (0.5 pg):
+%   - Open Problem: Is 2 tight? (Goerigk Open Problem 2)
+%   - No better algorithm known for any combinatorial problem
+%   - No inapproximability bound either
+
+%─────────────────────────────────────────────────────────
+% SECTION 4.5: DISCUSSION AND COMPARISON (2.2 pages)
+%─────────────────────────────────────────────────────────
+\section{Discussion}\label{sec:regret-discussion}
+
+% TODO: Min-Max vs Regret (0.8 pg)
+%   - Conceptual: absolute cost vs relative performance
+%   - Complexity parallel: both hard for discrete
+%   - Intervals differ: Min-Max poly, Regret NP-hard + 2-approx
+%   - Micro-graph: Show T_MinMax ≠ T_Regret for same instance
+
+% TODO: Complexity landscape table (0.6 pg)
+%   | | Min-Max Discrete | Regret Discrete | Min-Max Interval | Regret Interval |
+%   | K=const | Weak NP-hard, FPTAS | Weak NP-hard, FPTAS | P | NP-hard, 2-approx |
+%   | K unbdd | Strong NP-hard, O(K) | Strong NP-hard, O(K) | P | NP-hard, 2-approx |
+
+% TODO: Why Regret harder for intervals (0.5 pg)
+%   - Min-Max: extremal lemma + worst case explicit → polynomial
+%   - Regret: must compare against varying MST(c) → combinatorial search
+%   - 2-approximation uses midpoint as "neutral" scenario
+
+% TODO: Modelling remarks (0.3 pg)
+%   - Compact reformulations exist (dualization techniques)
+%   - Branch-and-bound algorithms (Montemanni-Gambardella 2005)
+
+%─────────────────────────────────────────────────────────
+% SECTION 4.6: CHAPTER SUMMARY (0.3 pages)
+%─────────────────────────────────────────────────────────
+\section*{Summary}
+
+% TODO: Summary paragraph (0.3 pg)
+% Min-Max Regret complexity mirrors Min-Max for discrete scenarios
+% (Theorems 4.2-4.4) but diverges for intervals. While Min-Max intervals
+% are polynomial (Ch3), Regret intervals remain NP-hard (Theorem 4.8)
+% despite extremal properties (Lemma 4.1). Positive result: simple
+% 2-approximation via midpoint MST (Theorem 4.5, proved via Lemmas 4.6-4.7).
+% This approximation is best known for any robust combinatorial problem
+% with intervals, though tightness remains open. Chapter 5 synthesises
+% these findings alongside Min-Max results.
+
+% END OF CHAPTER 4```
 

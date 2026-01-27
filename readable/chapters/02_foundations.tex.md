@@ -1,280 +1,227 @@
 ## chapters/02_foundations.tex
 
 ```tex
+%═══════════════════════════════════════════════════════════
+% CHAPTER 2: FOUNDATIONS
+% 
+% Prerequisites: None (self-contained)
+% Provides: 
+%   - Graph notation (G, V, E, cuts, cycles)
+%   - Spanning tree theory (𝒯, MST criteria, 5 complete proofs)
+%   - Uncertainty models (discrete, interval)
+%   - Complexity glossary (P, NP, approximation)
+%   - Micro-graph (Fig. 2.1)
+% Labels created: 
+%   - ch:foundations, sec:graph-notation, sec:mst-criteria,
+%     sec:kruskal-prim, sec:uncertainty, sec:complexity,
+%     lem:fund-cycle, lem:fund-cut, thm:cycle-criterion,
+%     thm:cut-criterion, thm:mst-equivalence, fig:micro-graph
+% Page budget: 9.3 pages
+% Status: READY FOR WRITING
+%═══════════════════════════════════════════════════════════
+
 \chapter{Foundations}\label{ch:foundations}
-% ==== Chapter 2 Plan (AWU Index — do not compile) ====
-% §2.1 Graphs, Trees, Notation
-%   [2.1.1] Core objects — defs G=(V,E), δ(X), path/cycle, spanning tree, T in \cT.
-%   [2.1.2] Fundamental structures — fundamental cycle C_f (f∉T), fundamental cut δ(X_e) (e∈T).
-%   [2.1.3] Tree basics — unique path, |E(T)|=|V|-1, removing a tree edge splits the graph.
-%   [2.1.4] Fundamental cycle lemma — adding f∉T creates a unique cycle C_f (label: lem:fund-cycle).
-% §2.2 Fundamental Cut Lemma
-%   [2.2.1] Lemma + proof  (label: lem:fund-cut).
-%   [2.2.2] Remark         (label: rem:fund-cut).
-% §2.3 MST Optimality
-%   [2.3.0] Safe/unsafe + ties (remark) (label: rem:safe-unsafe).
-%   [2.3.1] Cycle criterion (→ necessity)   (label: thm:mst-cycle-necessity).
-%   [2.3.2] Cut criterion   (→ necessity)   (label: thm:mst-cut-necessity).
-%   [2.3.3] Equivalence (← sufficiency)     (label: thm:mst-equivalence) (+ compat: thm:mst-criteria).
-%   [2.3.4] Distinct weights ⇒ unique MST   (label: prop:unique-mst) [optional].
-% §2.4 Algorithms (anchors only)
-%   [2.4.1] Kruskal recap (label: rem:kruskal).
-%   [2.4.2] Prim recap    (label: rem:prim).
-% §2.5 Robust Definitions Only
-%   [2.5.1] Uncertainty sets (label: def:uncertainty).
-%   [2.5.2] Objectives Min–Max / Regret (label: def:robust-objs).
-% §2.6 Algorithmic Preliminaries
-%   [2.6.1] P/NP, reductions, weak/strong, pseudo-poly    (label: def:complexity).
-%   [2.6.2] Approximation notions, PTAS/FPTAS, APX, L-reductions (label: def:approx).
-%   [2.6.3] Proof patterns (exchange/extremal/reductions) (label: rem:proof-patterns).
-% §2.7 Figure + Notation pointer
-%   [2.7.1] TikZ micro-graph (label: fig:micro-graph).
-%   [2.7.2] Notation pointer to Appendix B (label: rem:notation-pointer).
-% ==== End Plan ====
 
-% =============================
-% §2.1 Graphs, Trees, and Notation
-% =============================
-\section{Graphs, Trees, and Notation}\label{sec:found-notation}
+% CHAPTER OVERVIEW:
+% This chapter establishes all mathematical tools needed for Chapters 3-4.
+% We prove MST optimality criteria from scratch (exchange arguments) and
+% define robust optimization objectives. A fixed micro-graph is introduced
+% for use in all worked examples throughout the thesis.
 
-% AWU 2.1.1 — Core objects (180–230w)
-\paragraph{AWU 2.1.1 (Core objects; purpose).}
-Fix a finite, undirected, simple (no loops or parallel edges) graph \(G=(V,E)\).
-Unless stated otherwise, \(G\) is connected. For \(X\subseteq V\), the \emph{cut}
-induced by \(X\) is \(\delta(X):=\{\{u,v\}\in E : u\in X, v\in V\setminus X\}\).
-A \emph{path} is a sequence of distinct vertices whose consecutive pairs form edges; a
-\emph{cycle} is a closed path with at least three vertices. A subgraph \(T=(V, E(T))\)
-is a \emph{spanning tree} if it is connected and acyclic. We denote by \(\cT\) the set
-of all spanning trees of \(G\). When an edge-weight (cost) vector \(c\in \mathbb{R}_{\ge 0}^{E}\)
-is fixed, the cost of a tree \(T\) under \(c\) is \(c(T):=\sum_{e\in E(T)} c_e\).
-The minimum spanning tree (MST) value under \(c\) is \(\MSTcost(c):=\min_{T\in\cT} c(T)\).
-All symbols in this section are consistent with the global notation file and will be
-referenced throughout the thesis.
+%─────────────────────────────────────────────────────────
+% SECTION 2.1: GRAPHS, TREES, AND NOTATION (2.2 pages)
+%─────────────────────────────────────────────────────────
+\section{Graphs, Trees, and Notation}\label{sec:graph-notation}
 
-% AWU 2.1.2 — Fundamental structures (150–200w)
-\paragraph{AWU 2.1.2 (Fundamental structures; purpose).}
-Fix a spanning tree \(T\in\cT\). For any non-tree edge \(f\in E\setminus E(T)\), the graph \(T\cup\{f\}\)
-contains a unique simple cycle; this is the \emph{fundamental cycle} of \(f\) with respect to \(T\) and is
-denoted by \(C_f\). For any tree edge \(e\in E(T)\), the graph \(T\setminus\{e\}\) has exactly two connected
-components; let \(X_e\subset V\) be the vertex set of one such component (the choice is arbitrary but fixed).
-The set \(\delta(X_e)\) is the \emph{fundamental cut} of \(e\) with respect to \(T\). By construction, every edge
-in \(\delta(X_e)\) has one endpoint in \(X_e\) and the other in \(V\setminus X_e\). Fundamental cycles and
-fundamental cuts are well-defined with respect to \(T\) and will be used to formulate and prove optimality
-criteria for MSTs.
+% TODO: Graph model (0.4 pg)
+%   - Definition: G=(V,E), undirected, connected, simple
+%   - Cuts δ(X), paths, cycles
+%   - Edge cost vector c ∈ ℝ^|E|
 
-% AWU 2.1.3 — Tree basics (facts used later)
-\paragraph{AWU 2.1.3 (Tree basics; purpose).}\label{lem:tree-basics}
-Let \(T\) be a spanning tree on \(G\). Then: (i) between any two vertices of \(T\) there is a unique simple path;
-(ii) \(|E(T)|=|V|-1\); (iii) removing any tree edge disconnects \(T\) into exactly two components. These facts will
-be used to justify fundamental cuts/cycles.
+% TODO: Spanning trees (0.5 pg)
+%   - Definition: T ∈ 𝒯, |E(T)| = |V|-1
+%   - Tree cost: c(T) = Σ_{e∈T} cₑ
+%   - MST value: MST(c) = min_{T∈𝒯} c(T)
+%   - Three tree facts: unique paths, n-1 edges, removal splits
 
-% AWU 2.1.4 — Fundamental cycle lemma
-\begin{lemma}[Fundamental Cycle Lemma]\label{lem:fund-cycle}
-Let \(T\in\cT\) and let \(f\in E\setminus E(T)\) be a non-tree edge with endpoints \(u,v\).
-Then the graph \(T\cup\{f\}\) contains a unique simple cycle, namely \(C_f\), obtained by adding \(f\) to
-the unique \(u\)-\(v\) path in \(T\).
+% TODO: Fundamental structures (0.5 pg)
+%   - Fundamental cycle C_f for f∉T
+%   - Fundamental cut δ(X_e) for e∈T
+
+% TODO: Micro-graph figure + description (0.8 pg)
+%   - TikZ figure: 4-vertex "Y-graph"
+%   - Edge list with interval costs [ℓₑ, uₑ]
+%     e1={1,2}: [2,8], e2={2,3}: [1,5], e3={2,4}: [3,7]
+%     e4={3,4}: [2,6], e5={1,3}: [4,9]
+%   - Three spanning trees: T1={e1,e2,e3}, T2={e1,e2,e4}, T3={e2,e3,e5}
+%   - Three scenarios: S1 (optimistic), S2 (pessimistic), S3 (mixed)
+%   - Label: \label{fig:micro-graph}
+%   - Caption: "Running micro-graph G used throughout this thesis..."
+
+%─────────────────────────────────────────────────────────
+% SECTION 2.2: MST OPTIMALITY CRITERIA (3.8 pages)
+%─────────────────────────────────────────────────────────
+\section{Minimum Spanning Tree Optimality}\label{sec:mst-criteria}
+
+% PROOF INVENTORY FOR THIS SECTION (3.8 pages total):
+% - Lemma 2.1 (Fundamental Cycle) + proof (0.4 pg)
+% - Lemma 2.2 (Fundamental Cut) + proof (0.4 pg)
+% - Remark on ties (0.2 pg)
+% - Theorem 2.3 (Cycle Criterion necessity) + proof (0.5 pg)
+% - Theorem 2.4 (Cut Criterion necessity) + proof (0.5 pg)
+% - Theorem 2.5 (Equivalence/sufficiency) + proof (0.8 pg)
+% - Corollary on uniqueness (0.2 pg)
+% - Micro-graph example (0.5 pg)
+
+% TODO: Fundamental Lemmas (1.0 pg)
+
+% SOURCE: Korte-Vygen §6.1, AMO §13.1
+\begin{lemma}[Fundamental Cycle]\label{lem:fund-cycle}
+% TODO: Statement
+% Let T be a spanning tree and f∈E∖E(T). Then T∪{f} contains
+% a unique cycle, called the fundamental cycle of f w.r.t. T.
 \end{lemma}
 \begin{proof}
-By \Cref{lem:tree-basics}, there is a unique simple path in \(T\) between \(u\) and \(v\).
-Adding \(f=\{u,v\}\) closes exactly one simple cycle consisting of this path plus \(f\).
-No other cycle can appear because \(T\) is acyclic and \(f\) was the only added edge.
+% TODO: Proof (0.4 pg)
+% Use unique path property of trees + adding edge creates cycle
 \end{proof}
 
-% =============================
-% §2.2 Fundamental Cut Lemma
-% =============================
-\section{Fundamental Cut Lemma}\label{sec:found-fundcut}
-
-% AWU 2.2.1 — Lemma + proof (280–360w)
-\begin{lemma}[Fundamental Cut Lemma]\label{lem:fund-cut}
-Let \(T\in\cT\) be a spanning tree and let \(e\in E(T)\). Let \(X_e\subset V\) be a component vertex set of
-\(T\setminus\{e\}\), and let \(\delta(X_e)\) be its fundamental cut. Then \(E(T)\cap \delta(X_e)=\{e\}\); that is,
-\(e\) is the unique tree edge crossing its fundamental cut.
+% SOURCE: Korte-Vygen §6.1, AMO §13.1
+\begin{lemma}[Fundamental Cut]\label{lem:fund-cut}
+% TODO: Statement
+% Let T be a spanning tree and e∈E(T). Let X⊆V be one component
+% of T\{e}. Then δ(X) contains only e among tree edges.
 \end{lemma}
 \begin{proof}
-Deleting \(e\) from \(T\) yields two connected components with vertex sets \(X_e\) and \(V\setminus X_e\).
-Any remaining edge of \(T\) lies entirely inside one of these components (otherwise \(T\) would still be connected
-after deleting \(e\), contradicting that \(T\) is a tree). Hence no edge of \(E(T)\setminus\{e\}\) has endpoints in
-distinct components, i.e., no such edge lies in \(\delta(X_e)\). On the other hand, \(e\) itself has one endpoint in
-\(X_e\) and the other in \(V\setminus X_e\) by construction, so \(e\in \delta(X_e)\). Therefore
-\(E(T)\cap \delta(X_e)=\{e\}\).
+% TODO: Proof (0.4 pg)
+% Tree removal splits into 2 components; any other tree edge would
+% reconnect them → contradiction
 \end{proof}
 
-% AWU 2.2.2 — Short remark (60–100w)
-\begin{remark}\label{rem:fund-cut}
-The set \(\delta(X_e)\) and the property in \Cref{lem:fund-cut} depend only on \(T\) and the choice of the tree edge \(e\).
-This lemma will be cited in the proofs of the MST cut and cycle criteria
-(\Cref{thm:mst-cut-necessity,thm:mst-cycle-necessity,thm:mst-equivalence}). Equal edge weights are permitted; uniqueness
-in the lemma refers to set membership in \(E(T)\), not to minimum or maximum weights.
-\end{remark}
+% TODO: Remark on cost ties (0.2 pg)
+% Equal weights allowed, uniqueness refers to set membership
 
-% =============================
-% §2.3 MST Optimality: Cycle and Cut Criteria
-% =============================
-\section{MST Optimality: Cycle and Cut Criteria}\label{sec:found-mst-criteria}
+% TODO: MST Criteria Theorems (2.3 pg)
 
-% AWU 2.3.0 — Safe/unsafe edges and ties
-\begin{remark}[Safe/unsafe edges and ties]\label{rem:safe-unsafe}
-\emph{Cut property (safe edges).} For any cut, every cheapest edge crossing it is safe to add to some MST.
-\emph{Cycle property (unsafe edges).} On any cycle, every edge strictly heavier than the minimum-cost edge on that cycle
-is unsafe for every MST. With ties, statements are understood as ``one of the cheapest'' or ``no strictly cheaper
-alternative'': our theorems use inequalities like \(c_e\le c_{e'}\) to cover equal-cost cases. These formulations
-justify the one-paragraph correctness arguments for Kruskal and Prim in \Cref{sec:found-kruskal-prim}.
-\end{remark}
-
-% AWU 2.3.1 — Cycle criterion (necessity)
-\begin{theorem}[Cycle Criterion: Necessity]\label{thm:mst-cycle-necessity}
-Let \(T\) be an MST under edge costs \(c\). For every non-tree edge \(f\in E\setminus E(T)\) with fundamental cycle \(C_f\),
-every tree edge \(e\in E(T)\cap C_f\) satisfies \(c_e\le c_f\). In words: no edge of \(T\) on \(C_f\) is more expensive than \(f\).
+% SOURCE: Korte-Vygen Thm 6.4, AMO Thm 13.1
+\begin{theorem}[MST Cycle Criterion]\label{thm:cycle-criterion}
+% TODO: Statement (necessity)
+% T is MST ⟹ for all e∉T, e is not strictly cheaper than max
+% edge in fundamental cycle C_e
 \end{theorem}
 \begin{proof}
-Suppose there exists \(f\notin E(T)\) and \(e\in C_f\cap E(T)\) with \(c_e>c_f\). Then \(T' := T\setminus\{e\}\cup\{f\}\) is a
-spanning tree (swapping along the fundamental cycle). Its cost is \(c(T')=c(T)-c_e+c_f<c(T)\), contradicting optimality of \(T\).
-The exchange is valid because adding \(f\) creates exactly one cycle \(C_f\), and removing any tree edge on that cycle restores acyclicity.
+% TODO: Proof (0.5 pg)
+% Assume ∃f∈C_e\{e} with c_f > c_e. Then T-f+e is cheaper → contradiction
 \end{proof}
 
-% AWU 2.3.2 — Cut criterion (necessity)
-\begin{theorem}[Cut Criterion: Necessity]\label{thm:mst-cut-necessity}
-Let \(T\) be an MST under edge costs \(c\). For every tree edge \(e\in E(T)\) with fundamental cut \(\delta(X_e)\), we have
-\(c_e\le c_{e'}\) for all \(e'\in \delta(X_e)\). Equivalently, \(e\) is among the cheapest edges crossing its fundamental cut.
+% SOURCE: Korte-Vygen Thm 6.5, AMO Thm 13.2
+\begin{theorem}[MST Cut Criterion]\label{thm:cut-criterion}
+% TODO: Statement (necessity)
+% T is MST ⟹ for all e∈T, e is among cheapest edges in δ(X_e)
 \end{theorem}
 \begin{proof}
-Assume there exists \(e'\in \delta(X_e)\) with \(c_{e'}<c_e\). By \Cref{lem:fund-cut}, \(e'\notin E(T)\). Then
-\(T':=T\setminus\{e\}\cup\{e'\}\) is a spanning tree whose cost is strictly smaller than \(c(T)\), a contradiction.
+% TODO: Proof (0.5 pg)
+% Assume ∃f∈δ(X_e) with c_f < c_e. Then T-e+f is cheaper → contradiction
 \end{proof}
 
-% AWU 2.3.3 — Equivalence (sufficiency from either property)
-\begin{theorem}[MST Criteria Equivalence]\label{thm:mst-equivalence}\label{thm:mst-criteria}
-A spanning tree \(T\) is an MST under costs \(c\) if and only if it satisfies either of the following equivalent properties:
-\begin{enumerate}
-  \item (Cut property) For every \(e\in E(T)\), \(e\) is among the cheapest edges in its fundamental cut \(\delta(X_e)\).
-  \item (Cycle property) For every \(f\in E\setminus E(T)\) and every \(e\in C_f\cap E(T)\), \(c_e\le c_f\).
-\end{enumerate}
+% SOURCE: Korte-Vygen Thm 6.6
+\begin{theorem}[MST Characterisation]\label{thm:mst-equivalence}
+% TODO: Statement (sufficiency + equivalence)
+% Either criterion is necessary and sufficient for MST
 \end{theorem}
 \begin{proof}
-The forward implications are \Cref{thm:mst-cut-necessity,thm:mst-cycle-necessity}. For the converse, assume the cut property holds
-and suppose, for contradiction, that there exists a spanning tree \(T^*\) with \(c(T^*)<c(T)\). Consider the symmetric difference
-\(E(T)\triangle E(T^*)\); pick \(e\in E(T)\setminus E(T^*)\) that lies on a path to reduce \(c(T)\). The unique cut \(\delta(X_e)\)
-separates the components of \(T\setminus\{e\}\); because \(T^*\) is connected, it contains some edge \(e'\in \delta(X_e)\cap E(T^*)\).
-By the cut property, \(c_e\le c_{e'}\). Swapping \(e\) for \(e'\) in \(T\) does not increase cost; repeating yields a tree no more
-expensive than \(T^*\), contradicting minimality of \(T^*\). The cycle-property-based converse is analogous via exchanges along
-fundamental cycles.
+% TODO: Proof (0.8 pg)
+% Show cycle criterion ⟹ cut criterion via exchange arguments
+% Show cut criterion ⟹ MST via greedy matroid property
 \end{proof}
 
-% AWU 2.3.4 — Distinct weights ⇒ unique MST (optional)
-\begin{proposition}[Distinct Weights Imply Uniqueness]\label{prop:unique-mst}
-If all edge costs are pairwise distinct, the MST is unique.
-\end{proposition}
-\begin{proof}
-Under distinct costs, the minimum edge on any cut is unique, hence \Cref{thm:mst-equivalence}(1) selects a unique edge at each step
-of any cut-respecting construction, resulting in a unique MST. Alternatively, if two different MSTs existed, their symmetric difference
-would contain a cycle with two different maximum-cost edges, contradicting distinctness.
-\end{proof}
+% TODO: Corollary on unique MST (0.2 pg)
+% If all edge costs distinct, MST is unique
 
-% =============================
-% §2.4 Kruskal and Prim (brief recap)
-% =============================
-\section{Algorithmic Anchors: Kruskal and Prim}\label{sec:found-kruskal-prim}
+% TODO: Micro-graph example (0.5 pg)
+% Compute MST for midpoint costs c_mid = (ℓ+u)/2
+% Show fundamental cycle for one non-tree edge
+% Show fundamental cut for one tree edge
 
-% AWU 2.4.1 — Kruskal recap (120–160w)
-\begin{remark}[Kruskal]\label{rem:kruskal}
-Kruskal's algorithm scans edges in nondecreasing cost order and adds an edge if and only if it does not create a cycle with the edges
-already chosen. Correctness follows from the cut property: when the algorithm considers an edge \(e\) that connects two components of the
-current forest, \(e\) is the cheapest edge crossing the cut induced by these components; therefore it is safe to include. The process
-terminates with a spanning tree after selecting \(|V|-1\) edges.
-\end{remark}
+%─────────────────────────────────────────────────────────
+% SECTION 2.3: ALGORITHMIC ANCHORS (0.8 pages)
+%─────────────────────────────────────────────────────────
+\section{Kruskal and Prim: Algorithmic Remarks}\label{sec:kruskal-prim}
 
-% AWU 2.4.2 — Prim recap (120–160w)
-\begin{remark}[Prim]\label{rem:prim}
-Prim's algorithm grows a single tree from an arbitrary start vertex by repeatedly adding the cheapest-cost edge leaving the current tree
-to a new vertex. By the cut property, the chosen edge is safe at each step (it is cheapest across the cut defined by the current tree and
-its complement). After \(|V|-1\) iterations the result is a spanning tree whose cost is minimum.
-\end{remark}
+% TODO: Kruskal algorithm (0.4 pg)
+%   - Greedy: sort edges, add if no cycle
+%   - Correctness: uses cut property (Theorem 2.4)
+%   - Runtime: O(m log n) with union-find
+%   - NO pseudocode (remark-style only)
 
-% =============================
-% §2.5 Uncertainty Sets and Robust Criteria (definitions only)
-% =============================
-\section{Uncertainty Sets and Robust Criteria (Definitions Only)}\label{sec:found-robust-defs}
+% TODO: Prim algorithm (0.4 pg)
+%   - Greedy: grow tree from root, add cheapest leaving edge
+%   - Correctness: uses cut property on {visited} vs {unvisited}
+%   - Runtime: O(m log n) with priority queue
+%   - NO pseudocode (remark-style only)
 
-% AWU 2.5.1 — Uncertainty sets (150–200w)
-\begin{definition}[Uncertainty Sets]\label{def:uncertainty}
-We consider two cost-uncertainty models. (i) \emph{Discrete scenarios:} a finite set \(\Scenarios=\{c^{(1)},\dots,c^{(K)}\}\subset
-\mathbb{R}_{\ge 0}^{E}\) of edge-cost vectors. (ii) \emph{Interval boxes:} for each \(e\in E\), a closed interval \([\ell_e,u_e]\subseteq
-\mathbb{R}_{\ge 0}\), so the admissible costs form the Cartesian product \(\prod_{e\in E}[\ell_e,u_e]\). For any \(c\) in the respective
-uncertainty set, the cost of a spanning tree \(T\) is \(c(T)=\sum_{e\in E(T)} c_e\), and the scenario-specific MST value is
-\(\MSTcost(c)=\min_{T\in \cT} c(T)\). For a scenario index \(u\in\{1,\dots,K\}\), we write \(\cs{u}\) for the corresponding cost vector
-with components \(\cs{u}_e\).
-\end{definition}
+%─────────────────────────────────────────────────────────
+% SECTION 2.4: UNCERTAINTY AND ROBUST OBJECTIVES (1.5 pages)
+%─────────────────────────────────────────────────────────
+\section{Uncertainty Models and Robust Optimisation}\label{sec:uncertainty}
 
-% AWU 2.5.2 — Objectives (180–240w)
-\begin{definition}[Robust Objectives]\label{def:robust-objs}
-Given an uncertainty set \(\Scenarios\): (i) The \emph{Min--Max Spanning Tree} problem seeks \(T\in \cT\) minimizing the worst-case cost
-\(\max_{c\in \Scenarios} c(T)\). (ii) The \emph{Min--Max Regret Spanning Tree} problem seeks \(T\in \cT\) minimizing the worst-case regret
-\(\max_{c\in \Scenarios} \bigl(c(T)-\MSTcost(c)\bigr)\). In the interval model, the maxima are taken over all \(c\in \prod_{e\in E}[\ell_e,u_e]\).
-These are the only robust notions used later; structural results and examples are deferred to Chapters~3 and~4.
-\end{definition}
+% TODO: Discrete scenarios (0.4 pg)
+%   - Definition: 𝒰 = {c^(1), ..., c^(K)}
+%   - Min-Max objective: min_{T∈𝒯} max_{k∈[K]} c^(k)(T)
+%   - Min-Max Regret: min_{T∈𝒯} max_{k∈[K]} [c^(k)(T) - MST(c^(k))]
 
-% =============================
-% §2.6 Algorithmic Preliminaries (complexity & approximation)
-% =============================
-\section{Algorithmic Preliminaries}\label{sec:found-complexity}
+% TODO: Interval uncertainty (0.4 pg)
+%   - Definition: 𝒰 = ∏_{e∈E} [ℓₑ, uₑ]
+%   - Min-Max objective: min_{T∈𝒯} max_{c∈𝒰} c(T)
+%   - Min-Max Regret: min_{T∈𝒯} max_{c∈𝒰} [c(T) - MST(c)]
 
-% AWU 2.6.1 — P/NP & reductions (180–230w)
-\paragraph{AWU 2.6.1 (Complexity glossary).}\label{def:complexity}
-An \emph{optimization problem} associates a cost to each feasible solution and seeks a minimum (or maximum). A related \emph{decision version}
-asks if there exists a solution of cost at most a given threshold. Class \(\mathbf{P}\) contains decision problems solvable in polynomial time;
-class \(\mathbf{NP}\) contains problems verifiable in polynomial time. A problem is \emph{NP-hard} if every problem in \(\mathbf{NP}\) reduces to it via
-a polynomial-time many-one reduction; it is \emph{NP-complete} if it is both in \(\mathbf{NP}\) and NP-hard. An NP-hard problem is \emph{weakly}
-NP-hard if it admits a pseudo-polynomial-time algorithm; otherwise it is \emph{strongly} NP-hard. A running time is \emph{pseudo-polynomial} if it
-is polynomial in the numeric value of inputs (e.g., cost magnitudes) rather than only in input length.
+% TODO: Notation summary (0.3 pg)
+%   - Scenario notation: c^(k) or \cs{k}
+%   - Macro list: \Scenarios, \cT, \MSTcost{c}
+%   - Pointer to Appendix A (notation table)
 
-% AWU 2.6.2 — Approximation notions (180–230w)
-\paragraph{AWU 2.6.2 (Approximation glossary).}\label{def:approx}
-For a minimization problem with optimal value \(\mathrm{OPT}\), an algorithm is an \(\alpha\)-\emph{approximation} if it returns a solution of cost at most
-\(\alpha\cdot \mathrm{OPT}\) for all inputs (ratio \(\alpha\ge 1\)). A \emph{PTAS} (polynomial-time approximation scheme) is a family of algorithms that, for any fixed
-\(\varepsilon>0\), yields a \((1+\varepsilon)\)-approximation in time polynomial in the input size (but possibly exponential in \(1/\varepsilon\)); an \emph{FPTAS} is
-polynomial in both input size and \(1/\varepsilon\). Class \(\mathbf{APX}\) contains problems admitting some constant-factor approximation; a problem is \emph{APX-hard}
-if it is at least as hard to approximate as every problem in \(\mathbf{APX}\) under appropriate approximation-preserving reductions (e.g., L-reductions).
-Inapproximability statements are typically conditioned on \(\mathbf{P}\ne \mathbf{NP}\).
+% TODO: Micro-graph scenarios table (0.4 pg)
+%   - Scenario 1: all lower bounds c^(1) = (2,1,3,2,4)
+%   - Scenario 2: all upper bounds c^(2) = (8,5,7,6,9)
+%   - Scenario 3: mixed c^(3) = (5,1,7,2,4)
+%   - Table: c^(k)(T₁), c^(k)(T₂), c^(k)(T₃) for k=1,2,3
 
-% AWU 2.6.3 — Proof patterns we will use (130–180w)
-\paragraph{AWU 2.6.3 (Proof patterns).}\label{rem:proof-patterns}
-We rely on three recurring proof patterns. (i) \emph{Exchange arguments} on trees: modify a tree along a fundamental cut or cycle to obtain a cheaper tree,
-contradicting optimality (used in \Cref{sec:found-mst-criteria}). (ii) \emph{Extremal arguments} for interval uncertainty: identify a scenario in the uncertainty
-box that maximizes a given linear functional, avoiding enumeration (details appear in Chapters~3--4). (iii) \emph{Reductions}: classical NP-hardness via many-one
-reductions and approximation lower bounds via gap-preserving reductions; full proofs are cited or deferred to Appendix~A if reproduced.
+%─────────────────────────────────────────────────────────
+% SECTION 2.5: COMPLEXITY & APPROXIMATION GLOSSARY (1.5 pages)
+%─────────────────────────────────────────────────────────
+\section{Algorithmic Preliminaries}\label{sec:complexity}
 
-% =============================
-% §2.7 Running Micro-Graph & Notation Table
-% =============================
-\section{Micro-Graph and Notation Pointer}\label{sec:found-micro}
+% TODO: Complexity glossary (0.8 pg)
+%   - Decision vs optimisation problems
+%   - P, NP (verifiability), NP-hard, NP-complete
+%   - Reductions (many-one, polynomial time)
+%   - Weak vs strong NP-hardness
+%   - Pseudo-polynomial algorithms
+%   - Why K matters: K=2 vs K part of input
 
-% AWU 2.7.1 — TikZ micro-graph (single figure)
-\begin{figure}[t]
-  \centering
-  % Simple reusable micro-graph (5 nodes, 6 edges). Weights are placeholders.
-  \begin{tikzpicture}[scale=1, every node/.style={circle, draw, inner sep=1.2pt}]
-    \node (a) at (0,0) {\small a};
-    \node (b) at (2,0) {\small b};
-    \node (c) at (4,0) {\small c};
-    \node (d) at (1,1.6) {\small d};
-    \node (e) at (3,1.6) {\small e};
-    % edges with example weights
-    \draw (a) -- node[below] {\small 2} (b);
-    \draw (b) -- node[below] {\small 3} (c);
-    \draw (a) -- node[left]  {\small 4} (d);
-    \draw (d) -- node[above] {\small 1} (e);
-    \draw (e) -- node[right] {\small 5} (c);
-    \draw (b) -- node[above] {\small 6} (e); % non-tree edge candidate
-  \end{tikzpicture}
-  \caption{Reused micro-graph for illustrating fundamental cuts/cycles.}
-  \label{fig:micro-graph}
-\end{figure}
+% TODO: Approximation glossary (0.5 pg)
+%   - α-approximation (min: ALG ≤ α·OPT)
+%   - PTAS, FPTAS (and why FPTAS needs pseudo-poly nominal algorithm)
+%   - APX, APX-hard
+%   - Inapproximability statements ("unless P=NP")
 
-% AWU 2.7.2 — Notation pointer
-\begin{remark}\label{rem:notation-pointer}
-All symbols introduced in \Cref{sec:found-notation,sec:found-robust-defs,sec:found-complexity} are summarized in Appendix~B (Notation Table).
-We use \texttt{\string\Cref} for all internal cross-references.
-\end{remark}
-```
+% TODO: Proof patterns (0.2 pg)
+%   - Exchange arguments (used in §2.2)
+%   - Extremal arguments for intervals (Ch3-4)
+%   - Reductions for hardness (Ch3-4)
+
+%─────────────────────────────────────────────────────────
+% SECTION 2.6: CHAPTER SUMMARY (0.3 pages)
+%─────────────────────────────────────────────────────────
+\section*{Summary}
+
+% TODO: Summary paragraph (0.3 pg)
+% We have established the complete MST toolkit:
+%   - Fundamental cycle/cut lemmas (Lemmas 2.1-2.2)
+%   - Optimality criteria via exchange arguments (Theorems 2.3-2.5)
+%   - Sections 2.4-2.5 define uncertainty models and complexity terminology
+%   - Micro-graph (Fig. 2.1) will be reused in all worked examples (§3.4, §4.5, §5.2)
+%   - All notation tabulated in Appendix A
+
+% END OF CHAPTER 2```
 
