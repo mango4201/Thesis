@@ -16,8 +16,8 @@
 % ────────────────────────────────────────────────────────
 \vspace*{1cm}
 
-{\large RWTH Aachen University}\\[0.3cm]
-{\large Faculty of Mathematics, Computer Science and Natural Sciences}\\[0.3cm]
+{\large RWTH Aachen}\\[0.3cm]
+{\large Faculty of Computer Science}\\[0.3cm]
 {\large Chair of Combinatorial Optimization}\\[0.3cm]
 
 \vspace{1.5cm}
@@ -60,7 +60,7 @@
     {\large\bfseries First Examiner}\\[0.2cm]
     Prof.\ Dr.\ Christina Büsing\\[0.1cm]
     Chair of Combinatorial Optimization\\[0.1cm]
-    RWTH Aachen University
+    RWTH Aachen
 \end{minipage}%
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -68,7 +68,7 @@
     {\large\bfseries Second Examiner}\\[0.2cm]
     Prof.\ Dr.\ Arie M.\ C.\ A.\ Koster\\[0.1cm]
     Chair II für Mathematics\\[0.1cm]
-    RWTH Aachen University
+    RWTH Aachen
 \end{minipage}
 
 \vfill
