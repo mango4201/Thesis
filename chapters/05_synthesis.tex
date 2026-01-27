@@ -1,15 +1,211 @@
+%═══════════════════════════════════════════════════════════
+% CHAPTER 5: SYNTHESIS AND EXAMPLE GALLERY
+% 
+% Prerequisites: Ch2-4 (all results established)
+% Provides:
+%   - Comprehensive results table (2 objectives × 2 models × 2 K cases)
+%   - Key patterns synthesis
+%   - TikZ example gallery (micro-graph under 4 objectives)
+%   - Extremal behavior visualisation
+%   - Takeaways for practitioners
+% Labels created:
+%   - ch:synthesis, sec:results-table, sec:example-gallery,
+%     sec:takeaways,
+%     tab:complexity-landscape, fig:micro-graph-gallery,
+%     fig:extremal-visualisation
+% Page budget: 6.3 pages
+% Status: PLACEHOLDER
+%═══════════════════════════════════════════════════════════
+
 \chapter{Synthesis and Example Gallery}\label{ch:synthesis}
-\section{One-Page Summary Table}\label{sec:syn-table}
-% Rows: (Min-Max, Regret) x (Discrete, Interval). Columns: model, assumptions, reported complexity, best approx/inapprox, K-notes.
 
-\section{Gallery A: Discrete Scenarios}\label{sec:syn-disc}
-% TikZ comparisons (eigene Abbildung).
+% CHAPTER OVERVIEW:
+% This chapter consolidates all complexity and approximation results from
+% Chapters 3-4 into a unified framework. A comprehensive table classifies
+% results by objective and uncertainty model. The micro-graph example
+% gallery illustrates that optimal solutions differ across models. We
+% extract key takeaways for robust spanning tree optimization.
 
-\section{Gallery B: Interval Uncertainty}\label{sec:syn-interval}
-% TikZ comparisons (eigene Abbildung).
+%─────────────────────────────────────────────────────────
+% SECTION 5.1: SUMMARY OF RESULTS (2.5 pages)
+%─────────────────────────────────────────────────────────
+\section{Comprehensive Results Classification}\label{sec:results-table}
 
-% (Optional) Sidebar: contrast with robust min-cut vs. s-t cut.
+\subsection{Complexity and Approximation Landscape}
 
-\section{Takeaways}\label{sec:syn-takeaways}
-% Bullet list of core patterns the reader should retain.
+% TODO: Comprehensive table (1.5 pg) — This is Table 5.1
 
+% Table 5.1: Complexity and approximation landscape for robust spanning trees
+% 
+% | Objective | Uncertainty | K=constant | K unbounded | Key Observations |
+% |-----------|------------|------------|-------------|------------------|
+% | Min-Max | Discrete | Weakly NP-hard (K=2, Thm 3.2) | Strongly NP-hard (Thm 3.4) | Extremal: max at scenarios |
+% |         |          | Pseudo-poly, FPTAS (Thm 3.3) | O(K)-approx (midpoint) | Complexity grows with K |
+% |         |          |                               | Not (2-ε)-approx (Thm 3.5) | |
+% | Min-Max | Interval | POLYNOMIAL (Lemma 3.1) | POLYNOMIAL | Extremal: chosen edges → upper |
+% |         |          | MST on upper bounds    |            | Reduces to nominal MST |
+% | Regret  | Discrete | Weakly NP-hard (K=2, Thm 4.2) | Strongly NP-hard (Thm 4.4) | Reuses Min-Max constructions |
+% |         |          | Pseudo-poly, FPTAS (Thm 4.3)  | O(K)-approx (midpoint)      | MST(c^k) complicates but |
+% |         |          |                                |                             | doesn't change complexity |
+% | Regret  | Interval | NP-hard (Thm 4.8, AL04) | NP-hard | Extremal: strategic boundaries |
+% |         |          | 2-approximation (Thm 4.5) | 2-approximation | MST(c) varies → harder than Min-Max |
+% |         |          | via midpoint              | via midpoint    | Best known approx for any problem! |
+%
+% \label{tab:complexity-landscape}
+% Caption: "Complete complexity and approximation classification..."
+
+\subsection{Key Patterns and Insights}
+
+% TODO: Pattern synthesis (1.0 pg)
+
+% PATTERN 1: Extremal behaviour
+%   - All interval objectives have worst cases at boundaries
+%   - Min-Max: simple (all chosen → upper)
+%   - Regret: complex (strategic mix)
+
+% PATTERN 2: K matters for discrete
+%   - Constant K → pseudo-poly + FPTAS (multicriteria method)
+%   - Unbounded K → strong NP-hard (3-SAT/3-PARTITION reductions)
+%   - Threshold at K=2 already weakly NP-hard
+
+% PATTERN 3: Interval dichotomy
+%   - Min-Max easy (polynomial via extremal evaluation)
+%   - Regret hard (NP-hard, but 2-approx available)
+%   - Fundamental difference: fixed MST vs varying MST(c)
+
+% PATTERN 4: Midpoint heuristic universality
+%   - Works for both objectives (Min-Max and Regret)
+%   - Performance: O(K) for discrete, 2-exact for Regret intervals
+%   - Simple practical algorithm despite theoretical limits
+
+% PATTERN 5: Open questions
+%   - Tightness of 2-approximation (Goerigk Open Problem 2)
+%   - Gap between O(K) and O(log^(1-ε) n) (Open Problems 10, 12)
+
+%─────────────────────────────────────────────────────────
+% SECTION 5.2: ILLUSTRATIVE EXAMPLE GALLERY (3.0 pages)
+%─────────────────────────────────────────────────────────
+\section{Example Gallery}\label{sec:example-gallery}
+
+\subsection{Micro-Graph Solutions Across Objectives}
+
+% TODO: Figure 5.1 (1.5 pg) — TikZ gallery with 4 subfigures
+% 
+% Figure 5.1: Micro-graph solutions under different objectives
+% 
+% (a) Nominal MST(c_mid):
+%     - Solve MST with midpoint costs c_mid = (ℓ+u)/2
+%     - Highlight optimal tree T_nominal in red
+%     - Show cost: MST(c_mid) = ...
+% 
+% (b) Min-Max discrete (K=3 scenarios):
+%     - Optimal tree T_MM_discrete (may differ from T_nominal)
+%     - Show worst-case cost: max_{k∈{1,2,3}} c^(k)(T_MM_discrete) = ...
+% 
+% (c) Min-Max interval:
+%     - Optimal tree T_MM_interval = MST(upper bounds)
+%     - Show worst-case cost: max_{c∈𝒰} c(T_MM_interval) = ...
+% 
+% (d) Regret interval:
+%     - Optimal or near-optimal tree T_Regret
+%     - Show worst-case regret: max_{c∈𝒰} Regret(T_Regret, c) = ...
+% 
+% Table below figure:
+% | Tree | c_mid | Max cost (discrete) | Max cost (interval) | Max regret (interval) |
+% |------|-------|---------------------|---------------------|-----------------------|
+% | T₁   | ...   | ...                 | ...                 | ...                   |
+% | T₂   | ...   | ...                 | ...                 | ...                   |
+% | T₃   | ...   | ...                 | ...                 | ...                   |
+% 
+% \label{fig:micro-graph-gallery}
+% Caption: "Comparison of optimal solutions for the micro-graph (Fig. 2.1)
+%           under different robust objectives. Highlighted edges form the
+%           optimal tree for each model. Observe that optimal solutions
+%           differ across objectives, validating the need for robust optimisation."
+
+\subsection{Extremal Behaviour Visualisation}
+
+% TODO: Figure 5.2 (0.8 pg) — TikZ geometric interpretation
+% 
+% Figure 5.2: Geometric interpretation of extremal lemmas
+% 
+% Illustrate interval box [ℓ,u]^|E| as:
+%   - 2D or 3D cube for visualisation
+%   - Vertices (extremal points) marked
+%   - For Min-Max: show vertex where chosen edges at upper bounds
+%   - For Regret: show vertex with strategic boundary assignment
+% 
+% \label{fig:extremal-visualisation}
+% Caption: "Geometric interpretation of extremal lemmas (Lemmas 3.1, 4.1).
+%           For fixed tree T, worst-case cost/regret lives at vertices
+%           (extremal points) of the interval uncertainty box. Min-Max uses
+%           simple rule (chosen → upper), Regret uses strategic assignment."
+
+\subsection{Worked Example: Partition Reduction}
+
+% TODO: Small partition example (0.7 pg)
+% 
+% Instance: PARTITION problem with items {3,4,5,6}, target Q=9
+% 
+% Grid graph construction (reference Figure 3.1):
+%   - Show 2×5 grid (n=4 items)
+%   - Edge costs in scenarios 1 and 2
+%   - Solution tree: row 1 uses {3,6}, row 2 uses {4,5}
+%   - Both scenarios have cost Q=9
+% 
+% Illustrates: How hardness proof works (Theorem 3.2)
+
+%─────────────────────────────────────────────────────────
+% SECTION 5.3: KEY TAKEAWAYS (0.5 pages)
+%─────────────────────────────────────────────────────────
+\section{Key Takeaways}\label{sec:takeaways}
+
+% TODO: 5-6 bullet synthesis (0.5 pg)
+
+% TAKEAWAY 1: Interval extremal principle
+%   Worst cases always occur at interval boundaries for both Min-Max
+%   and Regret (Lemmas 3.1, 4.1). This geometric insight enables
+%   tractable evaluation of any candidate solution.
+
+% TAKEAWAY 2: Complexity hierarchy
+%   Polynomial nominal MST → NP-hard robust variants. Progression:
+%   Min-Max intervals (poly) → Min-Max discrete K=const (weak NP-hard, FPTAS) →
+%   Min-Max discrete K unbounded (strong NP-hard) → Regret intervals (NP-hard, 2-approx).
+
+% TAKEAWAY 3: K is critical parameter
+%   Constant K allows FPTAS via multicriteria methods (Theorems 3.3, 4.3).
+%   Unbounded K yields strong NP-hardness via SAT/partition reductions
+%   (Theorems 3.4, 4.4). Threshold behaviour at K=2.
+
+% TAKEAWAY 4: Approximation asymmetry
+%   Min-Max discrete: hard to approximate beyond O(K), no constant-factor
+%   possible (Theorem 3.5). Regret intervals: clean 2-approximation exists
+%   (Theorem 4.5), though tightness unknown.
+
+% TAKEAWAY 5: Midpoint heuristic universality
+%   Simple practical algorithm: solve MST at midpoint/average costs.
+%   Works across both objectives with provable guarantees (O(K) or 2-exact).
+%   Despite theoretical limits, often best choice in practice.
+
+% TAKEAWAY 6: Open frontier
+%   Several approximation gaps remain open (Goerigk Ch11):
+%   (i) Is 2-approx tight for interval regret? (Open Problem 2)
+%   (ii) Close gap O(K) vs O(log^(1-ε) n) for discrete problems? (Open Problems 10, 12)
+
+%─────────────────────────────────────────────────────────
+% SECTION 5.4: CHAPTER SUMMARY (0.3 pages)
+%─────────────────────────────────────────────────────────
+\section*{Summary}
+
+% TODO: Summary paragraph (0.3 pg)
+% Table 5.1 synthesises all complexity and approximation results from
+% Chapters 3-4, indexed by objective and uncertainty structure. The
+% micro-graph example gallery (Figures 5.1-5.2) illustrates that optimal
+% solutions differ across models, validating the need for robust optimisation.
+% The extremal lemmas (Lemmas 3.1, 4.1) have geometric interpretation:
+% worst cases live at vertices of the interval box. The 2-approximation
+% for interval regret (Theorem 4.5) stands out as the best known result
+% for any robust combinatorial problem. Several approximation gaps remain
+% open challenges for future research (§5.3).
+
+% END OF CHAPTER 5

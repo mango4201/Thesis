@@ -1,16 +1,58 @@
-\chapter{Notation Table}\label{app:notation}
-\begin{tabular}{ll}
-\toprule
-Symbol & Meaning \\
-\midrule
-$G=(V,E)$ & Undirected connected graph \\
-$c_e$ & Edge cost (nominal) \\
-$\delta(X)$ & Cut induced by $X\subseteq V$ \\
-$\mathcal{T}$ & Set of spanning trees \\
-$C_e$ & Fundamental cycle of non-tree edge $e$ w.r.t.\ $T$ \\
-$X_e$ & Vertex side for the fundamental cut of $e\in E(T)$ \\
-$\mathcal{U}$ & Uncertainty set of scenarios \\
-$c^{(u)}_e$ & Cost of $e$ in scenario $u$ \\
-$\mathrm{Regret}(T,u)$ & Scenario regret \\
-\bottomrule
-\end{tabular}
+%═══════════════════════════════════════════════════════════
+% APPENDIX A: NOTATION TABLE
+% 
+% Prerequisites: All chapters (references notation used throughout)
+% Provides: Comprehensive alphabetised symbol reference
+% Labels created: app:notation, tab:notation
+% Page budget: 1.0 page
+% Status: PLACEHOLDER
+%═══════════════════════════════════════════════════════════
+
+\chapter{Notation}\label{app:notation}
+
+% TODO: Introduction paragraph (0.1 pg)
+% This appendix provides a comprehensive reference for all mathematical
+% notation used throughout the thesis. Symbols are listed alphabetically
+% with their meaning and the section where they first appear.
+
+% TODO: Notation table (0.9 pg) — 3 columns, ~40 entries
+
+% Table A.1: Mathematical notation
+% \label{tab:notation}
+%
+% | Symbol | Meaning | First Use |
+% |--------|---------|-----------|
+% | c | Edge cost vector, c∈ℝ^|E| | §2.1 |
+% | c^(k) or \cs{k} | Cost vector in scenario k | §2.4 |
+% | c(T) | Cost of spanning tree T, Σ_{e∈T} c_e | §2.1 |
+% | 𝒯 or \cT | Set of all spanning trees of G | §2.1 |
+% | C_f | Fundamental cycle of edge f∉T | §2.1 |
+% | δ(X) or \cut{X} | Cut defined by vertex set X⊆V | §2.1 |
+% | E | Edge set of graph G | §2.1 |
+% | G=(V,E) | Undirected graph with vertex set V, edge set E | §2.1 |
+% | K | Number of discrete scenarios | §2.4 |
+% | ℓ_e | Lower bound of interval cost for edge e | §2.4 |
+% | MST(c) or \MSTcost{c} | Minimum spanning tree cost under c | §2.1 |
+% | ℕ or \N | Natural numbers | §2.5 |
+% | OPT | Optimal objective value | §2.5 |
+% | ℝ or \R | Real numbers | §2.1 |
+% | Regret(T,c) | Regret of tree T under cost c, c(T)-MST(c) | §4.1 |
+% | T | Spanning tree, T∈𝒯 | §2.1 |
+% | u_e or ū_e | Upper bound of interval cost for edge e | §2.4 |
+% | 𝒰 or \Scenarios | Uncertainty set | §2.4 |
+% | V | Vertex set of graph G | §2.1 |
+% | x_e | Binary indicator: 1 if e∈T, else 0 | §4.4 |
+% | [K] | Set {1,2,...,K} | §2.4 |
+% | ∏_{e∈E}[ℓ_e,u_e] | Product of edge intervals (interval uncertainty) | §2.4 |
+% | α-approximation | Algorithm with guarantee ALG ≤ α·OPT | §2.5 |
+% | FPTAS | Fully polynomial-time approximation scheme | §2.5 |
+% | NP-hard | Computational complexity class | §2.5 |
+% | P | Polynomial time complexity class | §2.5 |
+% | PTAS | Polynomial-time approximation scheme | §2.5 |
+
+% TODO: Additional notes (if needed)
+% - Notation \Cref{...} used for cross-references (cleveref package)
+% - Macro definitions in notation.tex
+% - British English spelling conventions (optimisation, colour)
+
+% END OF APPENDIX A

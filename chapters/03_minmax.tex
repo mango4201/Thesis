@@ -1,31 +1,210 @@
-\chapter{Min-Max Spanning Tree}\label{ch:minmax}
-\section{Models}\label{sec:mm-models}
-\subsection{Discrete Scenarios}\label{sub:mm-discrete}
-\[
-  \min_{T\in\mathcal{T}} \max_{u\in\mathcal{U}} \sum_{e\in T} c^{(u)}_e
-\]
-\subsection{Interval Uncertainty}\label{sub:mm-interval}
-% Formal objective; evaluation on bounds.
+%═══════════════════════════════════════════════════════════
+% CHAPTER 3: MIN-MAX SPANNING TREE
+% 
+% Prerequisites: Ch2 (MST criteria, uncertainty definitions)
+% Provides:
+%   - Min-Max formulation (discrete + interval)
+%   - Interval extremal lemma + proof
+%   - K=2 weakly NP-hard + FULL proof (partition reduction)
+%   - K=const pseudo-poly + FPTAS (cited)
+%   - K unbounded strongly NP-hard + inapproximability (cited + sketched)
+% Labels created:
+%   - ch:minmax, sec:mm-formulation, sec:mm-extremal,
+%     sec:mm-complexity, sec:mm-discussion,
+%     lem:interval-extremal-cost, thm:mm-k2-hard,
+%     thm:mm-kconst-pseudo, thm:mm-kunbdd-hard, fig:partition-grid
+% Page budget: 10.6 pages
+% Status: PLACEHOLDER
+%═══════════════════════════════════════════════════════════
 
-\section{Short Properties Used Later}\label{sec:mm-properties}
-\begin{lemma}[Interval extremal cost for a fixed tree]\label{lem:mm-extremal-cost}
-For interval costs, the worst-case cost of a fixed tree is attained by setting each chosen edge to its upper bound.
+\chapter{Min-Max Spanning Tree}\label{ch:minmax}
+
+% CHAPTER OVERVIEW:
+% This chapter formalises the Min-Max objective for spanning trees under
+% discrete scenarios and interval uncertainty. We prove the interval
+% extremal lemma and provide one complete hardness proof (K=2 via partition),
+% then cite stronger results for K unbounded. Complexity ranges from
+% polynomial (intervals) to strongly NP-hard (discrete K unbounded).
+
+%─────────────────────────────────────────────────────────
+% SECTION 3.1: PROBLEM FORMULATION (2.2 pages)
+%─────────────────────────────────────────────────────────
+\section{Problem Formulation}\label{sec:mm-formulation}
+
+% TODO: Discrete scenarios (0.9 pg)
+%   - Formal objective: min_{T∈𝒯} max_{k∈[K]} c^(k)(T)
+%   - Interpretation: hedge against worst scenario
+%   - Worked example (micro-graph): Compute for K=3 scenarios
+%   - Show T_optimal ≠ T_MST(c_mid)
+
+% TODO: Interval uncertainty (0.9 pg)
+%   - Formal objective: min_{T∈𝒯} max_{c∈∏[ℓₑ,uₑ]} c(T)
+%   - Intuition: worst-case at interval boundaries (preview extremal lemma)
+%   - Worked example (micro-graph): Show optimal T may differ from discrete
+
+% TODO: Connection (0.4 pg)
+%   - Discrete is special case of interval (K scenarios as vertices of box)
+%   - But complexity differs dramatically (polynomial vs NP-hard)
+
+%─────────────────────────────────────────────────────────
+% SECTION 3.2: EXTREMAL PROPERTIES FOR INTERVALS (1.5 pages)
+%─────────────────────────────────────────────────────────
+\section{Interval Worst-Case Characterisation}\label{sec:mm-extremal}
+
+% PROOF INVENTORY: 1 lemma + proof (0.8 pg)
+
+% SOURCE: Implicit in Goerigk Theorem 4.8
+\begin{lemma}[Interval Extremal Cost]\label{lem:interval-extremal-cost}
+% TODO: Statement (0.3 pg)
+% For fixed T∈𝒯, max_{c∈𝒰} c(T) is attained at c* with:
+%   c*_e = u_e if e∈T, else arbitrary
 \end{lemma}
 \begin{proof}
-% Brief linearity/extreme-point argument.
+% TODO: Proof (0.5 pg)
+% c(T) = Σ_{e∈T} c_e is linear in c
+% Maximum over product [ℓₑ,uₑ] attained at vertex (extreme point)
+% For chosen edges, maximize → set to u_e
 \end{proof}
 
-\section{Reported Complexity and Approximability}\label{sec:mm-complexity}
-\subsection{Discrete: dependence on the number of scenarios $K$}\label{sub:mm-k}
-% Constant K (positive results) vs. unbounded K (hardness); cite precisely.
-\subsection{Intervals: NP-hardness}\label{sub:mm-interval-hard}
-% Clean statement; cite.
+% TODO: Implications (0.7 pg)
+%   - Can evaluate any tree by setting chosen edges to upper bounds
+%   - Min-Max with intervals = nominal MST on upper bounds → polynomial
+%   - Cite: Goerigk Theorem 4.8
+%   - Explain why: worst case explicit, use Kruskal/Prim on (u_e)
 
-\section{Modeling Patterns / Formulations (Pointers)}\label{sec:mm-modeling}
-% Standard robust counterparts; cite, no derivations.
+%─────────────────────────────────────────────────────────
+% SECTION 3.3: COMPLEXITY RESULTS (3.5 pages)
+%─────────────────────────────────────────────────────────
+\section{Complexity and Approximation}\label{sec:mm-complexity}
 
-\section{Worked Micro-Graph Example}\label{sec:mm-example}
-% Compute Min-Max vs nominal MST on the tiny graph; show contrast.
+\subsection{Discrete Scenarios: Constant K}
 
-% (Optional) Context pointer to robust shortest path / min-cut.
+% PROOF INVENTORY: 1 full proof (1.2 pg) + 1 cited theorem (0.4 pg)
 
+% SOURCE: Goerigk Theorem 8.4 (Kouvelis-Yu 1997)
+\begin{theorem}[Partition Reduction]\label{thm:mm-k2-hard}
+% TODO: Statement
+% Min-Max spanning tree with K=2 discrete scenarios is weakly NP-hard.
+\end{theorem}
+\begin{proof}
+% TODO: FULL PROOF (1.2 pg) — This is our representative hardness proof
+% Reduction from PARTITION problem
+% 
+% SOURCE VERIFICATION:
+% - Goerigk (2021), Theorem 8.4, page 245
+% - Original: Kouvelis-Yu (1997)
+% - Reduction: PARTITION → Min-Max ST K=2
+% - Verified against /mnt/project/24_Robust_Optimization_book-1.pdf
+%
+% CONSTRUCTION:
+% Given PARTITION instance: n items, weights w_i, target Q = (Σw_i)/2
+% Build grid graph G=(V,E):
+%   - Vertices: V = {v_{i,j} : i∈{1,2}, j∈{0,...,n}}
+%   - Edges: E = horizontal + vertical
+%   - Two scenarios: c^(1) and c^(2)
+%     Scenario 1: row 1 has weights, row 2 has zeros
+%     Scenario 2: row 2 has weights, row 1 has zeros
+%   - All vertical edges cost zero in both scenarios
+%
+% EQUIVALENCE:
+% PARTITION has solution ⟺ Min-Max ST has value Q
+%
+% (⟹) If partition P exists with Σ_{i∈P} w_i = Q:
+%   Construct T using row 1 edges for i∈P, row 2 for i∉P
+%   Then c^(1)(T) = Q and c^(2)(T) = Q
+%
+% (⟸) If optimal T* has value Q:
+%   Let Q₁ = cost in scenario 1, Q₂ = cost in scenario 2
+%   Since Q₁ + Q₂ = 2Q and max{Q₁,Q₂} = Q
+%   Must have Q₁ = Q₂ = Q → induces partition
+%
+% Figure 3.1 will show grid graph structure
+\end{proof}
+
+% TODO: Figure 3.1 (0.3 pg): Grid graph construction for partition reduction
+%   - TikZ figure showing 2×(n+1) grid
+%   - Edge labels with scenario costs
+%   - Caption: "Grid graph G for reduction from PARTITION..."
+%   \label{fig:partition-grid}
+
+% SOURCE: Goerigk Theorem 8.2-8.3 (Aissi-Bazgan-Vanderpooten 2005)
+\begin{theorem}[Pseudo-Polynomial Algorithm]\label{thm:mm-kconst-pseudo}
+% TODO: Statement + explanation (0.4 pg)
+% For constant K, Min-Max ST admits:
+%   (i) Pseudo-polynomial algorithm
+%   (ii) FPTAS
+\end{theorem}
+
+% TODO: Explanation (cite + intuition, NO proof):
+%   - Based on multicriteria Exact-P method
+%   - Intuition: Treat as K-criteria optimisation
+%   - DP on Pareto frontier → pseudo-polynomial in cost magnitudes
+%   - FPTAS via scaling technique
+%   - SOURCE: Goerigk Thm 8.2-8.3, Aissi-Bazgan-Vanderpooten (2005)
+
+\subsection{Discrete Scenarios: Unbounded K}
+
+% PROOF INVENTORY: 2 cited theorems (sketch + citation, ~1.5 pg)
+
+% SOURCE: Goerigk Theorem 8.5 (Kasperski-Zielinski 2009)
+\begin{theorem}[Strong NP-Hardness]\label{thm:mm-kunbdd-hard}
+% TODO: Statement
+% Min-Max ST with K part of input is strongly NP-hard and
+% not approximable within (2-ε) for any ε>0.
+\end{theorem}
+
+% TODO: Sketch + citation (0.8 pg, NO full proof):
+%   - Reduction from 3-SAT
+%   - Gadget construction: each clause → subgraph
+%   - Scenarios encode literal conflicts
+%   - 3-SAT solution ⟺ Min-Max cost = 1
+%   - SOURCE: Goerigk Thm 8.5, Kasperski-Zielinski (2009)
+%   - Reference similar construction in Goerigk Thm 7.5 for shortest path
+
+% TODO: Inapproximability (0.4 pg):
+%   - If (2-ε)-approximable, could solve 3-SAT
+%   - SOURCE: Kasperski-Zielinski (2009)
+
+% TODO: Midpoint O(K)-approximation (0.5 pg):
+%   - Midpoint heuristic: solve MST at c_mid = average over scenarios
+%   - Achieves O(K) ratio
+%   - SOURCE: Goerigk Corollary 5.22
+%   - Open gap: O(K) vs O(log^(1-ε) n) lower bound
+
+%─────────────────────────────────────────────────────────
+% SECTION 3.4: DISCUSSION AND CONTRAST (2.1 pages)
+%─────────────────────────────────────────────────────────
+\section{Discussion}\label{sec:mm-discussion}
+
+% TODO: Discrete vs Interval comparison table (0.7 pg)
+%   | Model | K=const | K unbounded | Interval |
+%   | Min-Max | Weak NP-hard, FPTAS | Strong NP-hard, O(K)-approx | Polynomial |
+
+% TODO: Why intervals are easy (0.5 pg)
+%   - Extremal lemma makes worst case explicit (Lemma 3.1)
+%   - No inter-edge dependencies in product structure
+%   - Contrast: discrete requires K worst-case evaluations
+
+% TODO: Comparison with nominal MST (0.5 pg)
+%   - Min-Max solution avoids high-upper-bound edges
+%   - Micro-graph example: Compare T_MM vs T_MST(c_mid)
+
+% TODO: Modeling remarks (0.4 pg)
+%   - LP reformulations exist (cite compact formulation papers)
+%   - Not our focus (structural/complexity emphasis)
+
+%─────────────────────────────────────────────────────────
+% SECTION 3.5: CHAPTER SUMMARY (0.3 pages)
+%─────────────────────────────────────────────────────────
+\section*{Summary}
+
+% TODO: Summary paragraph (0.3 pg)
+% Min-Max ST complexity depends critically on uncertainty structure.
+% Intervals are polynomial (Lemma 3.1 + Goerigk Thm 4.8) via extremal
+% evaluation. Discrete scenarios harder: weakly NP-hard even K=2
+% (Theorem 3.2, partition reduction), with FPTAS for constant K
+% (Theorem 3.3). For unbounded K: strongly NP-hard (Theorem 3.4),
+% O(K) approximation, no constant-factor possible (Theorem 3.5).
+% Chapter 5 synthesis table compares with Min-Max Regret results.
+
+% END OF CHAPTER 3
