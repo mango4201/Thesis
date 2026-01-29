@@ -30,7 +30,7 @@
 \usepackage[labelfont=bf,font=small]{caption}
 \renewcommand{\arraystretch}{1.15}
 
-% --- ToC styling (optional, but you had it) ---
+% --- ToC styling ---
 \usepackage{tocloft}
 \renewcommand{\cfttoctitlefont}{\large\bfseries\color{RWTHBlue}}
 \renewcommand{\cftsecfont}{\color{TOCGray}}
@@ -58,7 +58,7 @@
 
 % --- Hyperlinks & clever references ---
 \usepackage[hidelinks,colorlinks=true,linkcolor=RWTHBlue,citecolor=RWTHBlue20,urlcolor=RWTHBlue]{hyperref}
-\usepackage[nameinlink,capitalise,noabbrev]{cleveref} % <-- add this after hyperref
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref} % <-- must be after hyperref
 
 % --- Theorems ---
 \newtheorem{definition}{Definition}
@@ -86,8 +86,8 @@
 % \input{frontmatter/acknowledgements} % optional
 
 \tableofcontents
-% \listoffigures                       % enable if many figures
-% \listoftables                        % enable if many tables
+\listoffigures   % 4-6 TikZ figures throughout thesis
+\listoftables    % 2 major tables (complexity landscape + notation)
 
 % ===== MAIN MATTER =====
 \cleardoublepage
@@ -102,8 +102,8 @@
 
 % ===== APPENDICES =====
 \appendix
-\input{appendices/A_notation_table}         % move big symbol table here if needed
-% \input{appendices/B_extra_figs}           % optional
+\input{appendices/A_notation_table}
+% \input{appendices/B_extra_figs}  % optional
 
 % ===== BIBLIOGRAPHY =====
 \cleardoublepage
@@ -112,12 +112,5 @@
 % ===== AFFIDAVIT =====
 \cleardoublepage
 \input{frontmatter/affidavit}
-\end{document}
-
-
-
-
-
-
-```
+\end{document}```
 
