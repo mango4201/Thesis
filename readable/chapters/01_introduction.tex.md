@@ -90,16 +90,15 @@ These extensions represent active research directions and are briefly discussed 
 The goal is not encyclopedic coverage but rather a self-contained, rigorous treatment of the selected models, proving foundational results from first principles and synthesising established complexity and approximability findings into a unified classification.
 
 %─────────────────────────────────────────────────────────
-% SECTION 1.3: CONTRIBUTIONS (0.8 pages)
+% SECTION 1.3: CONTRIBUTIONS (0.8 pages) — REVISED
 %─────────────────────────────────────────────────────────
 \section{Contributions}\label{sec:intro-contributions}
 
 This thesis delivers five principal contributions to the literature on robust spanning tree optimisation.
 
 First, we provide self-contained minimum spanning tree foundations (Chapter~2).
-Rather than assuming familiarity with MST theory, we prove five fundamental results from first principles: the fundamental cycle and cut lemmas via exchange arguments, and three MST optimality criteria (cycle property, cut property, and their equivalence).
-These proofs establish the mathematical toolkit needed for subsequent robust analysis.
-Additionally, Chapter~2 includes a complexity primer defining polynomial time, NP-hardness (weak and strong), and approximation concepts (constant-factor algorithms, FPTAS, PTAS) with precise terminology for classifying the robust variants.
+We prove five fundamental results from first principles: the fundamental cycle and cut lemmas via exchange arguments, and three MST optimality criteria (cycle property, cut property, and their equivalence).
+Chapter~2 also includes a complexity primer defining polynomial time, NP-hardness (weak and strong), and approximation concepts (constant-factor algorithms, FPTAS, PTAS) for classifying the robust variants.
 
 Second, we establish extremal characterisation for interval uncertainty (Chapters~3 and 4).
 For the Min-Max objective, Lemma~3.1 proves that worst-case costs occur when chosen edges are assigned their upper bounds, immediately yielding a polynomial-time algorithm.
@@ -108,9 +107,9 @@ Both lemmas are proved in full, and their implications for algorithm design are 
 
 Third, we provide two representative complexity proofs (Chapters~3 and 4).
 Theorem~3.2 establishes weak NP-hardness of Min-Max spanning trees with two discrete scenarios via a reduction from the PARTITION problem, constructing a grid graph where scenario costs encode target subset sums.
-This proof is presented completely, including the reduction construction, correctness argument, and encoding analysis.
-Theorem~4.2 then extends this result to Min-Max Regret by reusing the same construction with adjusted analysis, demonstrating that regret complexity mirrors absolute cost complexity for discrete scenarios.
-Together with cited results for larger scenario counts, these establish a complete complexity hierarchy across the design space.
+The proof includes the reduction construction, correctness argument, and encoding analysis.
+Theorem~4.2 extends this to Min-Max Regret by reusing the construction with adjusted analysis, demonstrating that regret complexity mirrors absolute cost complexity for discrete scenarios.
+Together with cited results for larger scenario counts, these establish a complete complexity hierarchy.
 
 Fourth, we prove a 2-approximation algorithm for interval regret spanning trees (Chapter~4).
 Theorem~4.5 demonstrates that solving the MST problem at midpoint costs yields a solution whose worst-case regret is at most twice optimal.
@@ -119,12 +118,10 @@ This result is noteworthy as the best known constant-factor approximation for an
 
 Fifth, we synthesise results into a comprehensive classification table (Chapter~5).
 Table~5.1 organises eight problem variants (two objectives, two uncertainty models, two scenario count regimes) with their complexity classes and approximation guarantees.
-The table reveals structural patterns: intervals exhibit extremal behaviour enabling tractability, scenario count $K$ acts as a complexity parameter (constant versus unbounded), and Min-Max and Regret objectives display parallel hardness for discrete scenarios but diverge for intervals.
-This classification serves as a reference for practitioners and researchers working with robust spanning tree models.
+The table reveals structural patterns: intervals exhibit extremal behaviour enabling tractability, scenario count $K$ acts as a complexity parameter (constant versus unbounded), and the two objectives display parallel hardness for discrete scenarios but diverge for intervals.
 
 Throughout the thesis, a fixed four-vertex micro-graph with interval costs and derived discrete scenarios provides worked examples illustrating optimal solutions under each objective and uncertainty model.
 This pedagogical device grounds abstract theoretical results in concrete calculations, demonstrating that robust optima genuinely differ from nominal solutions.
-
 
 %─────────────────────────────────────────────────────────
 % SECTION 1.4: THESIS STRUCTURE (0.7 pages)
