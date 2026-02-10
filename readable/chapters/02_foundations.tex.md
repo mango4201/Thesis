@@ -4,60 +4,182 @@
 %═══════════════════════════════════════════════════════════
 % CHAPTER 2: FOUNDATIONS
 % 
-% Prerequisites: None (self-contained)
-% Provides: 
-%   - Graph notation (G, V, E, cuts, cycles)
-%   - Spanning tree theory (𝒯, MST criteria, 5 complete proofs)
-%   - Uncertainty models (discrete, interval)
-%   - Complexity glossary (P, NP, approximation)
-%   - Micro-graph (Fig. 2.1)
-% Labels created: 
-%   - ch:foundations, sec:graph-notation, sec:mst-criteria,
-%     sec:kruskal-prim, sec:uncertainty, sec:complexity,
-%     lem:fund-cycle, lem:fund-cut, thm:cycle-criterion,
-%     thm:cut-criterion, thm:mst-equivalence, fig:micro-graph
-% Page budget: 9.3 pages
-% Status: READY FOR WRITING
+% Status: FINAL - Paragraphs fixed, numeric citations implemented
+% Date: 2026-02-06
+% All corrections applied
 %═══════════════════════════════════════════════════════════
 
 \chapter{Foundations}\label{ch:foundations}
 
-% CHAPTER OVERVIEW:
-% This chapter establishes all mathematical tools needed for Chapters 3-4.
-% We prove MST optimality criteria from scratch (exchange arguments) and
-% define robust optimization objectives. A fixed micro-graph is introduced
-% for use in all worked examples throughout the thesis.
+This chapter establishes the mathematical foundations for analysing robust spanning tree problems.
+We prove minimum spanning tree optimality criteria from first principles (\Cref{sec:mst-criteria}), formalise two uncertainty models -- discrete scenarios and interval bounds (\Cref{sec:uncertainty}) -- and define the Min-Max and Min-Max Regret objectives that drive our complexity analyses in Chapters~\ref{ch:minmax} and~\ref{ch:regret}.
+A fixed micro-graph introduced in \Cref{sec:graph-notation} serves as a running example throughout.
 
 %─────────────────────────────────────────────────────────
-% SECTION 2.1: GRAPHS, TREES, AND NOTATION (2.2 pages)
+% SECTION 2.1: GRAPHS, TREES, AND NOTATION
 %─────────────────────────────────────────────────────────
 \section{Graphs, Trees, and Notation}\label{sec:graph-notation}
 
-% TODO: Graph model (0.4 pg)
-%   - Definition: G=(V,E), undirected, connected, simple
-%   - Cuts δ(X), paths, cycles
-%   - Edge cost vector c ∈ ℝ^|E|
+We work exclusively with undirected graphs throughout this thesis.
+A \emph{\textcolor{RWTHBlue}{graph}} is a pair $G = (V, E)$, where $V$ is a finite non-empty set of \emph{vertices} (or \emph{nodes}) and $E \subseteq \{\{u, v\} \mid u, v \in V, u \neq v\}$ is a set of \emph{edges}.
+Each edge connects exactly two distinct vertices; we write $\{u, v\} \in E$ or equivalently $uv \in E$ to denote an edge between $u$ and $v$.
+A graph is called \emph{\textcolor{RWTHBlue}{simple}} if it contains no multiple edges (at most one edge between any pair of vertices) and no loops (edges connecting a vertex to itself).
+All graphs considered in this thesis are simple.
+We denote $n = |V|$ and $m = |E|$ for the number of vertices and edges, respectively.
+Two vertices $u, v \in V$ are \emph{adjacent} (or \emph{neighbours}) if $uv \in E$, and the \emph{degree} of a vertex $v$, written $\deg(v)$, is the number of edges incident to $v$.
 
-% TODO: Spanning trees (0.5 pg)
-%   - Definition: T ∈ 𝒯, |E(T)| = |V|-1
-%   - Tree cost: c(T) = Σ_{e∈T} cₑ
-%   - MST value: MST(c) = min_{T∈𝒯} c(T)
-%   - Three tree facts: unique paths, n-1 edges, removal splits
+A \emph{\textcolor{RWTHBlue}{path}} in $G$ is a sequence of distinct vertices $v_0, v_1, \ldots, v_k$ such that $\{v_{i-1}, v_i\} \in E$ for all $i \in \{1, \ldots, k\}$.
+The \emph{length} of this path is $k$ (the number of edges).
+A \emph{\textcolor{RWTHBlue}{cycle}} is a path $v_0, v_1, \ldots, v_k$ with $k \geq 2$ together with the additional edge $\{v_k, v_0\} \in E$, forming a closed walk with no repeated vertices except the first and last.
 
-% TODO: Fundamental structures (0.5 pg)
-%   - Fundamental cycle C_f for f∉T
-%   - Fundamental cut δ(X_e) for e∈T
+A graph $G$ is \emph{\textcolor{RWTHBlue}{connected}} if for every pair of vertices $u, v \in V$, there exists a path from $u$ to $v$.
+Connectivity is necessary for spanning trees to exist: a disconnected graph cannot possess a spanning tree, as no tree can simultaneously reach all vertices while remaining acyclic.
+\textcolor{RWTHOrange}{\textbf{Throughout this thesis, we assume all graphs are connected.}}
 
-% TODO: Micro-graph figure + description (0.8 pg)
-%   - TikZ figure: 4-vertex "Y-graph"
-%   - Edge list with interval costs [ℓₑ, uₑ]
-%     e1={1,2}: [2,8], e2={2,3}: [1,5], e3={2,4}: [3,7]
-%     e4={3,4}: [2,6], e5={1,3}: [4,9]
-%   - Three spanning trees: T1={e1,e2,e3}, T2={e1,e2,e4}, T3={e2,e3,e5}
-%   - Three scenarios: S1 (optimistic), S2 (pessimistic), S3 (mixed)
-%   - Label: \label{fig:micro-graph}
-%   - Caption: "Running micro-graph G used throughout this thesis..."
+For a non-empty proper subset $X \subseteq V$ (that is, $\emptyset \neq X \subsetneq V$), the \emph{\textcolor{RWTHBlue}{cut}} induced by $X$ is the set of edges crossing the partition $(X, V \setminus X)$:
+\[
+\cut{X} = \{\{u, v\} \in E \mid u \in X,\, v \in V \setminus X\}.
+\]
+Intuitively, $\cut{X}$ comprises all edges with exactly one endpoint in $X$.
+See \Cref{fig:cut-illustration} for a visual representation.
 
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    scale=1.2,
+    vertex/.style={circle, draw=black, thick, minimum size=6mm},
+    inset/.style={circle, draw=black, thick, fill=RWTHLightBlue!30, minimum size=6mm},
+    outset/.style={circle, draw=black, thick, fill=RWTHOrange!20, minimum size=6mm},
+    cutedge/.style={very thick, color=RWTHRed},
+    normaledge/.style={thick, color=black!40}
+]
+    % Vertices in X (blue shaded)
+    \node[inset] (v1) at (0, 1.5) {$1$};
+    \node[inset] (v2) at (0, 0) {$2$};
+    
+    % Vertices in V\X (orange shaded)
+    \node[outset] (v3) at (2, 1.5) {$3$};
+    \node[outset] (v4) at (2, 0) {$4$};
+    
+    % Edges within X
+    \draw[normaledge] (v1) -- (v2);
+    
+    % Edges within V\X
+    \draw[normaledge] (v3) -- (v4);
+    
+    % Cut edges (red, thick)
+    \draw[cutedge] (v1) -- (v3);
+    \draw[cutedge] (v2) -- (v3);
+    \draw[cutedge] (v2) -- (v4);
+    
+    % Labels
+    \node[anchor=east, color=RWTHBlue] at (-0.3, 0.75) {$X$};
+    \node[anchor=west, color=RWTHOrange] at (2.3, 0.75) {$V \setminus X$};
+    
+    % Cut label
+    \node[anchor=north, color=RWTHRed, font=\small\bfseries] at (1, -0.7) {$\cut{X} = \{\{1,3\}, \{2,3\}, \{2,4\}\}$};
+\end{tikzpicture}
+\caption{Illustration of a cut $\cut{X}$ induced by vertex set $X = \{1, 2\}$. The cut $\cut{X}$ consists of the three red edges connecting the blue-shaded vertices in $X$ to the orange-shaded vertices in $V \setminus X$.}
+\label{fig:cut-illustration}
+\end{figure}
+
+Each edge $e \in E$ has an associated \emph{cost} $c_e \in \R$.
+We represent the cost structure either as a \emph{\textcolor{RWTHBlue}{cost function}} $c \colon E \to \R$ or equivalently as a \emph{cost vector} $c \in \R^{|E|}$ indexed by the edges.
+For any subset $F \subseteq E$, we write $c(F) = \sum_{e \in F} c_e$ for the total cost of the edge set $F$.
+
+\paragraph{Spanning Trees.}
+
+A \emph{\textcolor{RWTHBlue}{spanning tree}} of $G$ is a connected acyclic subgraph $T \subseteq G$ that includes all vertices of $G$, that is, $V(T) = V(G)$.
+We denote by $\cT$ the set of all spanning trees of $G$.
+Since spanning trees are both connected and acyclic, they satisfy precisely $|E(T)| = n - 1$ edges, where $E(T) \subseteq E$ denotes the edge set of $T$.
+For a spanning tree $T \in \cT$, we write $c(T) = c(E(T)) = \sum_{e \in E(T)} c_e$ for the \emph{\textcolor{RWTHBlue}{cost}} of $T$.
+
+The \emph{\textcolor{RWTHBlue}{minimum spanning tree problem}} (MST) seeks a spanning tree of minimum cost:
+\begin{equation}\label{eq:mst-definition}
+\MSTcost{c} = \min_{T \in \cT} c(T).
+\end{equation}
+Any tree $T^* \in \cT$ satisfying $c(T^*) = \MSTcost{c}$ is called an \emph{MST} under cost vector $c$.
+The MST is unique if all edge costs are distinct; when edge costs have ties (equal values), multiple spanning trees may achieve the minimum cost $\MSTcost{c}$.
+
+Spanning trees possess three fundamental structural properties that we exploit repeatedly:
+
+\begin{enumerate}[label=\textbf{(P\arabic*)},ref=P\arabic*]
+\item\label{prop:tree-unique-path} For any two vertices $u, v \in V$, there exists a \emph{unique} path in $T$ connecting $u$ and $v$.
+\item\label{prop:tree-remove-disconnects} Removing any edge $e \in E(T)$ disconnects $T$ into exactly two connected components.
+\item\label{prop:tree-add-cycle} Adding any edge $f \in E \setminus E(T)$ to $T$ creates exactly one cycle.
+\end{enumerate}
+
+Property~\ref{prop:tree-unique-path} follows from the definition of trees as connected acyclic graphs: connectivity ensures path existence, while acyclicity guarantees uniqueness (a second path would form a cycle).
+Properties~\ref{prop:tree-remove-disconnects} and~\ref{prop:tree-add-cycle} are immediate consequences: removing an edge from a minimally connected subgraph (a tree on $n$ vertices has exactly $n-1$ edges) must disconnect it, while adding an edge to a maximally acyclic subgraph must create a cycle \cite[Theorem~2.1]{KorteVygen2018}.
+
+\paragraph{Fundamental Structures.}
+
+We now introduce two graph-theoretic constructs -- fundamental cycles and fundamental cuts -- that play a central role in characterising MST optimality.
+Let $T \in \cT$ be a spanning tree and let $f \in E \setminus E(T)$ be an edge not in $T$ with endpoints $u$ and $v$.
+By property~\ref{prop:tree-add-cycle}, adding $f$ to $T$ creates a unique cycle.
+Since $T$ is a tree, by property~\ref{prop:tree-unique-path}, there exists a unique path $P$ in $T$ from $u$ to $v$.
+We call the cycle $C_f = E(P) \cup \{f\}$ the \emph{\textcolor{RWTHBlue}{fundamental cycle}} of $f$ with respect to $T$.
+
+Similarly, let $e \in E(T)$ be an edge in the tree $T$.
+By property~\ref{prop:tree-remove-disconnects}, removing $e$ from $T$ partitions $V$ into exactly two connected components.
+Let $X_e \subseteq V$ denote one of these components (the choice is arbitrary; either component induces the same cut).
+The \emph{\textcolor{RWTHBlue}{fundamental cut}} of $e$ with respect to $T$ is the cut $\cut{X_e}$ induced by $X_e$.
+Crucially, $e$ is the \emph{only} tree edge in $\cut{X_e}$; all other edges in the cut belong to $E \setminus E(T)$.
+These fundamental structures underpin the MST optimality criteria developed in \Cref{sec:mst-criteria}: fundamental cycles correspond to potential edge exchanges for non-tree edges, while fundamental cuts correspond to exchanges for tree edges.
+
+\paragraph{Running Example: The Micro-graph.}
+
+To provide concrete illustrations of concepts throughout this thesis, we introduce a fixed four-vertex graph that serves as our running example.
+Let $G = (V, E)$ with vertex set $V = \{1, 2, 3, 4\}$ and five edges:
+\begin{align*}
+e_1 &= \{1, 2\}, \quad e_2 = \{2, 3\}, \quad e_3 = \{2, 4\}, \\
+e_4 &= \{3, 4\}, \quad e_5 = \{1, 3\}.
+\end{align*}%
+The structure is depicted in \Cref{fig:micro-graph}.
+Vertex~2 serves as a central hub with edges to vertices 1, 3, and 4, while edges $e_5 = \{1, 3\}$ and $e_4 = \{3, 4\}$ provide alternative connections.
+
+In anticipation of the robust optimisation framework of \Cref{sec:uncertainty}, we associate each edge $e_i$ with an \emph{interval cost} $[\ell_{e_i}, u_{e_i}]$ representing uncertainty in edge costs:
+\begin{align*}
+e_1 &\colon [2, 8], \quad e_2 \colon [1, 5], \quad e_3 \colon [3, 7], \\
+e_4 &\colon [2, 6], \quad e_5 \colon [4, 9].
+\end{align*}%
+From these intervals, we derive three \emph{discrete scenarios} that instantiate specific cost realisations: $c^{(1)} = (2, 1, 3, 2, 4)$ (all lower bounds), $c^{(2)} = (8, 5, 7, 6, 9)$ (all upper bounds), and $c^{(3)} = (5, 1, 7, 2, 4)$ (mixed costs).
+Graph $G$ admits eight spanning trees in total.
+We highlight three representative trees that exhibit different structural properties: $T_1 = \{e_1, e_2, e_3\}$ (star centred at vertex~2), $T_2 = \{e_1, e_2, e_4\}$ (path $1$--$2$--$3$--$4$), and $T_3 = \{e_2, e_3, e_5\}$ (includes edge $e_5$).
+These trees and scenarios provide a consistent testbed for demonstrating how optimal solutions vary across objectives and uncertainty models in subsequent chapters.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    scale=2.0,
+    vertex/.style={circle, draw=RWTHBlue, very thick, fill=RWTHBlue!20, minimum size=9mm, font=\bfseries},
+    edge/.style={very thick, color=black!70},
+    every node/.style={font=\small}
+]
+    % Vertices positioned for clear layout
+    \node[vertex] (v1) at (0, 1.8) {$1$};
+    \node[vertex] (v2) at (1.5, 1.8) {$2$};
+    \node[vertex] (v3) at (0, 0) {$3$};
+    \node[vertex] (v4) at (1.5, 0) {$4$};
+    
+    % Edges with labels showing intervals
+    \draw[edge] (v1) -- (v2) node[midway, above, font=\scriptsize] {$e_1$: $[2,8]$};
+    \draw[edge] (v2) -- (v3) node[midway, right, font=\scriptsize] {$e_2$: $[1,5]$};
+    \draw[edge] (v2) -- (v4) node[midway, right, font=\scriptsize] {$e_3$: $[3,7]$};
+    \draw[edge] (v3) -- (v4) node[midway, below, font=\scriptsize] {$e_4$: $[2,6]$};
+    \draw[edge] (v1) -- (v3) node[midway, left, font=\scriptsize] {$e_5$: $[4,9]$};
+    
+    % Combined horizontal legend (no overlap)
+    \node[anchor=north, align=center, font=\scriptsize] at (0.75, -0.7) {
+        \textcolor{RWTHBlue}{\textbf{Scenarios:}} $c^{(1)} = (2,1,3,2,4)$, $c^{(2)} = (8,5,7,6,9)$, $c^{(3)} = (5,1,7,2,4)$ \\[1ex]
+        \textcolor{RWTHOrange}{\textbf{Representative trees:}} $T_1 = \{e_1, e_2, e_3\}$, $T_2 = \{e_1, e_2, e_4\}$, $T_3 = \{e_2, e_3, e_5\}$
+    };
+\end{tikzpicture}
+\caption{The micro-graph $G$ with interval costs $[\ell_e, u_e]$ on each edge, used throughout this thesis.}
+\label{fig:micro-graph}
+\end{figure}
+
+% END OF SECTION 2.1
 %─────────────────────────────────────────────────────────
 % SECTION 2.2: MST OPTIMALITY CRITERIA (3.8 pages)
 %─────────────────────────────────────────────────────────
