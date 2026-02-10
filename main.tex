@@ -23,11 +23,18 @@
 \definecolor{RuleGray}{RGB}{189,189,189}
 \definecolor{TOCGray}{RGB}{85,85,85}
 
+% Additional RWTH Corporate Design colors (for pedagogical clarity)
+\definecolor{RWTHOrange}{RGB}{246,168,0}        % RWTH Orange (accent)
+\definecolor{RWTHRed}{RGB}{204,7,30}            % RWTH Red (emphasis)
+\definecolor{RWTHLightBlue}{RGB}{142,186,229}   % Light Blue (backgrounds)
+\definecolor{RWTHPetrol}{RGB}{0,97,101}         % Petrol (alternative)
+\definecolor{RWTHGreen}{RGB}{87,171,39}         % Green (positive emphasis)
+
 % --- Captions & tables ---
 \usepackage[labelfont=bf,font=small]{caption}
 \renewcommand{\arraystretch}{1.15}
 
-% --- ToC styling ---
+% --- ToC styling (optional, but you had it) ---
 \usepackage{tocloft}
 \renewcommand{\cfttoctitlefont}{\large\bfseries\color{RWTHBlue}}
 \renewcommand{\cftsecfont}{\color{TOCGray}}
@@ -49,13 +56,13 @@
 \cfoot{\color{TOCGray}\thepage}
 \renewcommand{\headrulewidth}{0pt}
 
-% --- Bibliography ---
-\usepackage[backend=biber,style=authoryear,maxbibnames=6]{biblatex}
+% --- Bibliography (UPDATED TO NUMERIC-COMP) ---
+\usepackage[backend=biber,style=numeric-comp,sorting=none,maxbibnames=6]{biblatex}
 \addbibresource{references.bib}
 
 % --- Hyperlinks & clever references ---
 \usepackage[hidelinks,colorlinks=true,linkcolor=RWTHBlue,citecolor=RWTHBlue20,urlcolor=RWTHBlue]{hyperref}
-\usepackage[nameinlink,capitalise,noabbrev]{cleveref} % <-- must be after hyperref
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref} % <-- add this after hyperref
 
 % --- Theorems ---
 \newtheorem{definition}{Definition}
@@ -83,8 +90,8 @@
 % \input{frontmatter/acknowledgements} % optional
 
 \tableofcontents
-\listoffigures   % 4-6 TikZ figures throughout thesis
-\listoftables    % 2 major tables (complexity landscape + notation)
+% \listoffigures                       % enable if many figures
+% \listoftables                        % enable if many tables
 
 % ===== MAIN MATTER =====
 \cleardoublepage
@@ -99,8 +106,8 @@
 
 % ===== APPENDICES =====
 \appendix
-\input{appendices/A_notation_table}
-% \input{appendices/B_extra_figs}  % optional
+\input{appendices/A_notation_table}         % move big symbol table here if needed
+% \input{appendices/B_extra_figs}           % optional
 
 % ===== BIBLIOGRAPHY =====
 \cleardoublepage
