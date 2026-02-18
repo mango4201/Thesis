@@ -196,7 +196,7 @@ Our first lemma relates non-tree edges to the cycles they create.
 
 \begin{lemma}[Fundamental Cycle Lemma]\label{lem:fund-cycle}
 Let $G = (V, E)$ be a connected graph with cost function $c \colon E \to \R$, and let $T$ be a minimum spanning tree of $G$ under $c$.
-For any edge $f \in E \setminus E(T)$ not in the tree, the edge $f$ has maximum cost among all edges in its fundamental cycle $C_f$.
+For any edge $f \in E \setminus E(T)$, the edge $f$ has maximum cost among all edges in its fundamental cycle $C_f$.
 That is, $c_f \geq c_e$ for every edge $e \in C_f$.
 \end{lemma}
 
@@ -227,7 +227,7 @@ The dual characterisation holds for tree edges via cuts.
 
 \begin{lemma}[Fundamental Cut Lemma]\label{lem:fund-cut}
 Let $G = (V, E)$ be a connected graph with cost function $c \colon E \to \R$, and let $T$ be a minimum spanning tree of $G$ under $c$.
-For any edge $e \in E(T)$ in the tree, the edge $e$ has minimum cost among all edges in its fundamental cut $\cut{X_e}$.
+For any edge $e \in E(T)$, the edge $e$ has minimum cost among all edges in its fundamental cut $\cut{X_e}$.
 That is, $c_e \leq c_f$ for every edge $f \in \cut{X_e}$.
 \end{lemma}
 
@@ -258,13 +258,12 @@ These fundamental exchange properties establish necessary conditions for a tree 
 The optimality criteria developed next strengthen these to necessary and sufficient characterisations.
 
 % END OF PART 1
+
 %─────────────────────────────────────────────────────────
 % SECTION 2.2: MST OPTIMALITY CRITERIA (PART 2 of 2)
-% Three Optimality Theorems - All 6 Feedback Points Applied
+% Three Equivalent Optimality Theorems
 % Target: ~2.7 pages
 %─────────────────────────────────────────────────────────
-
-We now show these necessary conditions are also sufficient, establishing a complete characterisation of minimum spanning tree optimality.
 
 \begin{theorem}[Cycle Criterion]\label{thm:cycle-criterion}
 Let $G = (V, E)$ be a connected graph with cost function $c \colon E \to \R$, and let $T$ be a spanning tree of $G$.
@@ -281,44 +280,44 @@ If $T$ is a minimum spanning tree, then every non-tree edge has maximum cost in 
 Suppose every non-tree edge has maximum cost in its fundamental cycle.
 We show $T$ is a minimum spanning tree by proving $c(T) \leq c(T')$ for any spanning tree $T'$.
 
-The proof proceeds by an iterative exchange argument.
-If $T = T'$, then $c(T) = c(T')$ and we are done.
-Otherwise, $T$ and $T'$ differ, so there exists an edge $e \in E(T) \setminus E(T')$.
-Let $e = \{s, t\}$ and define $X_e \subseteq V$ as the component containing $s$ after removing $e$ from $T$, so that $t \in V \setminus X_e$.
-The edge $e$ is the unique tree edge in the fundamental cut $\cut{X_e}$ (by \Cref{lem:fund-cut}).
+If $T = T'$, we are done.
+Otherwise, there exists an edge $e \in E(T) \setminus E(T')$.
+Write $e = \{s, t\}$ and let $X_e \subseteq V$ denote the component containing $s$ after removing $e$ from $T$, so that $t \in V \setminus X_e$.
+Since $T'$ is connected, there exists a path $P$ in $T'$ from $s$ to $t$.
+Because $s$ and $t$ lie on opposite sides of the partition $(X_e, V \setminus X_e)$, the path $P$ must cross it at least once.
 
-Since $T'$ is connected, there exists a unique path $P$ in $T'$ from $s$ to $t$.
-Because $s \in X_e$ and $t \in V \setminus X_e$ lie on opposite sides of the partition, this path must cross the cut $(X_e, V \setminus X_e)$ at least once.
-Moreover, since $e \notin E(T')$, every edge crossing the cut along $P$ is a non-tree edge with respect to $T$.
-Let $f$ be any such crossing edge on $P$.
-Then $f \in E(T')$ (it is on the $T'$-path), $f \notin E(T)$ (as $e$ is the unique tree edge in $\cut{X_e}$), and $f \in \cut{X_e}$ (it crosses the partition).
+Pick any edge $f$ on $P$ that crosses the partition.
+Then $f$ has one endpoint in $X_e$ and the other in $V \setminus X_e$, hence $f \in \cut{X_e}$.
+Moreover, $f \in E(T')$ (since $f$ lies on the path $P$) and $f \notin E(T)$ (since $e$ is the unique tree edge in $\cut{X_e}$ by construction of the fundamental cut; see \Cref{sec:graph-notation}).
 
-We now construct a new spanning tree $T'' = (V, E(T') \setminus \{f\} \cup \{e\})$ by exchanging $e$ for $f$.
-To verify $T''$ is a spanning tree, observe that $f$ lies on the $T'$-path $P$ from $s$ to $t$, so removing $f$ from $T'$ disconnects $s$ from $t$ while adding $e = \{s, t\}$ reconnects them.
-The fundamental cycle of $e$ in $T'$ is $C_e^{T'} = P \cup \{e\}$, and since $f \in P$, we have $f \in C_e^{T'}$.
-Removing $f$ breaks this cycle, ensuring $T''$ is acyclic.
-With $|E(T'')| = n - 1$ edges, $T''$ is connected and acyclic, hence a spanning tree.
+We construct a new spanning tree $T'' = (V, E(T') \setminus \{f\} \cup \{e\})$ by removing $f$ and adding $e$.
+To verify that $T''$ is a spanning tree, note that $f$ lies on the path $P$ from $s$ to $t$ in $T'$, so removing $f$ disconnects $s$ from $t$, while adding $e = \{s, t\}$ reconnects them.
+Thus $T''$ is connected.
+Furthermore, the fundamental cycle of $e$ in $T'$ is precisely $P \cup \{e\}$, and since $f \in P$, removing $f$ eliminates this unique cycle, ensuring $T''$ is acyclic.
+With $|E(T'')| = n - 1$ edges, $T''$ is a spanning tree.
 
-It remains to show $c(T'') \leq c(T')$.
+We now verify that $c(T'') \leq c(T')$.
 Since $f \notin E(T)$, the edge $f$ creates a fundamental cycle $C_f$ in $T$.
-The unique $T$-path between the endpoints of $f$ must cross the cut $(X_e, V \setminus X_e)$, and because $e$ is the unique tree edge in $\cut{X_e}$, this path contains $e$.
+The path in $T$ connecting the endpoints of $f$ must cross the partition $(X_e, V \setminus X_e)$, and because $e$ is the unique tree edge in $\cut{X_e}$, this path contains $e$.
 Therefore $e \in C_f$.
 By assumption, $f$ has maximum cost in $C_f$, so $c_f \geq c_e$.
-
-The cost of $T''$ satisfies
+Hence
 \[
 c(T'') = c(T') - c_f + c_e \leq c(T').
 \]
-Moreover, $|E(T) \cap E(T'')| = |E(T) \cap E(T')| + 1$, as we added $e \in E(T)$ and removed $f \notin E(T)$.
 
-Repeating this exchange, we construct a sequence $T' = T_0, T_1, \ldots, T_k = T$ of spanning trees where each $T_{i+1}$ is obtained from $T_i$ by exchanging an edge of $E(T) \setminus E(T_i)$ for an edge of $E(T_i) \setminus E(T)$, with $c(T_{i+1}) \leq c(T_i)$ and $|E(T) \cap E(T_{i+1})| = |E(T) \cap E(T_i)| + 1$.
-Since spanning trees have $n - 1$ edges, this process terminates after at most $n - 1$ steps with $T_k = T$.
-The cost inequality chain gives $c(T) = c(T_k) \leq c(T_{k-1}) \leq \cdots \leq c(T_1) \leq c(T_0) = c(T')$.
+Moreover, $|E(T) \cap E(T'')| = |E(T) \cap E(T')| + 1$, since we added $e \in E(T)$ and removed $f \notin E(T)$.
 
+Repeating this exchange, we obtain a sequence of spanning trees $T' = T_0, T_1, T_2, \ldots$ where each $T_{i+1}$ is derived from $T_i$ by exchanging an edge of $E(T) \setminus E(T_i)$ with an edge of $E(T_i) \setminus E(T)$, satisfying $c(T_{i+1}) \leq c(T_i)$ and $|E(T) \cap E(T_{i+1})| = |E(T) \cap E(T_i)| + 1$.
+Since spanning trees have exactly $n - 1$ edges, the process terminates after at most $n - 1$ iterations with some $T_k = T$.
+The cost satisfies
+\[
+c(T) = c(T_k) \leq c(T_{k-1}) \leq \cdots \leq c(T_1) \leq c(T_0) = c(T').
+\]
 Therefore $c(T) \leq c(T')$ for every spanning tree $T'$, which means $T$ is a minimum spanning tree.
 \end{proof}
 
-The dual characterisation via cuts provides a parallel criterion.
+The dual characterisation via cuts is analogous.
 
 \begin{theorem}[Cut Criterion]\label{thm:cut-criterion}
 Let $G = (V, E)$ be a connected graph with cost function $c \colon E \to \R$, and let $T$ be a spanning tree of $G$.
@@ -335,24 +334,26 @@ If $T$ is a minimum spanning tree, then every tree edge has minimum cost in its 
 Suppose every tree edge has minimum cost in its fundamental cut.
 We show $c(T) \leq c(T')$ for any spanning tree $T'$.
 
-The proof follows the same structure as \Cref{thm:cycle-criterion}.
+The argument mirrors the proof of \Cref{thm:cycle-criterion}.
 If $T = T'$, we are done.
-Otherwise, pick any edge $e \in E(T) \setminus E(T')$ with $e = \{s, t\}$, and let $X_e$ be the component containing $s$ in $T \setminus \{e\}$.
+Otherwise, pick any edge $e \in E(T) \setminus E(T')$ with $e = \{s, t\}$, and let $X_e$ denote the component containing $s$ in $T \setminus \{e\}$.
 
-Since $T'$ is connected, the unique $T'$-path $P$ from $s$ to $t$ must cross the partition $(X_e, V \setminus X_e)$ because $s$ and $t$ are on opposite sides.
-Since $e \notin E(T')$, at least one edge $f$ on $P$ crosses the cut and satisfies $f \in E(T')$, $f \notin E(T)$, and $f \in \cut{X_e}$.
+Since $T'$ is connected, there exists a path $P$ in $T'$ from $s$ to $t$.
+Because $s \in X_e$ and $t \in V \setminus X_e$ lie on opposite sides of the partition, the path $P$ crosses $(X_e, V \setminus X_e)$ at least once.
+Let $f$ be any edge on $P$ crossing the partition.
+Then $f \in \cut{X_e}$, $f \in E(T')$, and $f \notin E(T)$.
 By the cut criterion, $c_e \leq c_f$.
 
-By the same spanning tree verification as in \Cref{thm:cycle-criterion}, the exchange $T'' = (V, E(T') \setminus \{f\} \cup \{e\})$ produces a spanning tree with
+By the same spanning tree verification as in \Cref{thm:cycle-criterion}, the exchange $T'' = (V, E(T') \setminus \{f\} \cup \{e\})$ yields a spanning tree with
 \[
 c(T'') = c(T') - c_f + c_e \leq c(T')
 \]
 and $|E(T) \cap E(T'')| = |E(T) \cap E(T')| + 1$.
 
-Iterating this exchange until $T'' = T$, we obtain $c(T) \leq c(T')$, so $T$ is a minimum spanning tree.
+Iterating this exchange until $T'' = T$ gives $c(T) \leq c(T')$, so $T$ is a minimum spanning tree.
 \end{proof}
 
-The two criteria characterise the same class of trees.
+The two criteria are equivalent.
 
 \begin{theorem}[Equivalence of Criteria]\label{thm:mst-equivalence}
 Let $G = (V, E)$ be a connected graph with cost function $c \colon E \to \R$, and let $T$ be a spanning tree of $G$.
@@ -365,14 +366,9 @@ By \Cref{thm:cut-criterion}, $T$ satisfies the cut criterion if and only if $T$ 
 Therefore, $T$ satisfies the cycle criterion if and only if $T$ satisfies the cut criterion.
 \end{proof}
 
-These three theorems provide a complete local characterisation of MST optimality: a spanning tree is minimum if and only if it passes these edge-level checks, with no global comparisons needed.
-This characterisation extends naturally to the robust spanning tree problems in Chapters~3 and~4, where analogous exchange arguments underlie the analysis of optimality under uncertainty.
-
-\begin{remark}
-The cycle and cut criteria are implicitly maintained by the classical greedy algorithms of Kruskal and Prim.
-Kruskal's algorithm builds a forest satisfying the cycle criterion at each step by adding edges in non-decreasing cost order, while Prim's algorithm grows a tree satisfying the cut criterion by repeatedly adding minimum-cost edges crossing the current cut.
-Detailed algorithmic descriptions are beyond the scope of this thesis; we refer the reader to \cite[Chapter~6]{KorteVygen2018}.
-\end{remark}
+Together, these three theorems fully characterise minimum spanning tree optimality through local edge-level conditions, enabling verification without comparing against all exponentially many spanning trees.
+The characterisations extend naturally to the robust spanning tree problems in Chapters~\ref{ch:minmax} and~\ref{ch:regret}, where similar exchange arguments establish optimality under uncertainty.
+The correctness of classical greedy algorithms such as Kruskal's and Prim's follows from these criteria, as discussed in \Cref{sec:kruskal-prim}.
 
 % END OF SECTION 2.2
 
