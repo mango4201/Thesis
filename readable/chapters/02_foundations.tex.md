@@ -1,6 +1,9 @@
 ## chapters/02_foundations.tex
 
 ```tex
+## chapters/02_foundations.tex
+
+```tex
 %═══════════════════════════════════════════════════════════
 % CHAPTER 2: FOUNDATIONS
 % 
@@ -36,7 +39,7 @@ The \emph{length} of this path is $k$ (the number of edges).
 A \emph{\textcolor{RWTHBlue}{cycle}} is a sequence of distinct vertices $v_0, v_1, \ldots, v_k$ with $k \geq 2$ such that $\{v_{i-1}, v_i\} \in E$ for all $i \in \{1, \ldots, k\}$ and $\{v_k, v_0\} \in E$.
 
 A graph $G$ is \emph{\textcolor{RWTHBlue}{connected}} if for every pair of vertices $u, v \in V$, there exists a path from $u$ to $v$.
-Connectivity is necessary for spanning trees to exist: a disconnected graph cannot possess a spanning tree, as no tree can simultaneously reach all vertices while remaining acyclic.
+A spanning tree can only exist if $G$ is connected, since the tree must reach every vertex.
 \textcolor{RWTHOrange}{\textbf{Throughout this thesis, we assume all graphs are connected.}}
 
 For a non-empty proper subset $X \subseteq V$ (that is, $\emptyset \neq X \subsetneq V$), the \emph{\textcolor{RWTHBlue}{cut}} induced by $X$ is the set of edges crossing the partition $(X, V \setminus X)$:
@@ -412,7 +415,7 @@ The process terminates when the forest becomes a spanning tree (after adding exa
 The correctness follows immediately from the cycle criterion (\Cref{thm:cycle-criterion}).
 When the algorithm terminates with spanning tree $T$, consider any non-tree edge $f \in E \setminus E(T)$.
 Since $f$ was rejected, adding $f$ would have created a cycle with edges already in $T$.
-All edges in this cycle were added before $f$ was considered, hence have cost at most $c_f$ (by the sorting order).
+All edges in this cycle were added before $f$ was considered, hence each has cost at most $c_f$ (by the sorting order).
 Therefore $f$ has maximum cost in its fundamental cycle, satisfying the cycle criterion.
 
 With an efficient union-find data structure to track connected components, Kruskal's algorithm runs in $O(m \log n)$ time, dominated by the initial edge sorting \cite[Theorem~6.5]{KorteVygen2018}.
@@ -425,7 +428,7 @@ The process continues until all vertices are included.
 
 The correctness follows from the cut criterion (\Cref{thm:cut-criterion}).
 Each edge $e$ added to the tree is, by construction, the minimum-cost edge in $\cut{V(T)}$ at the moment of addition.
-Since $e$ remains in the final tree and $\cut{V(T)}$ at that moment equals the fundamental cut $\cut{X_e}$, the edge $e$ satisfies the cut criterion.
+The set $V(T)$ at this moment becomes $X_e$ in the final tree, so $e$ has minimum cost in its fundamental cut $\cut{X_e}$, satisfying the cut criterion.
 
 With a priority queue maintaining the minimum-cost edge to each non-tree vertex, Prim's algorithm achieves $O(m + n^2)$ time with a simple array implementation, or $O(m + n \log n)$ with Fibonacci heaps \cite[Theorem~6.7]{KorteVygen2018}.
 
@@ -434,7 +437,7 @@ With a priority queue maintaining the minimum-cost edge to each non-tree vertex,
 Both algorithms solve the deterministic MST problem optimally in polynomial time.
 However, under uncertainty, the situation changes fundamentally.
 When edge costs are uncertain, neither algorithm directly applies: the greedy choices depend on which cost realisation occurs, yet the spanning tree must be chosen before costs are revealed.
-The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address precisely this challenge, and their computational complexity differs markedly from the deterministic case.
+The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address precisely this challenge, and several variants become NP-hard despite the tractability of the deterministic case.
 
 %─────────────────────────────────────────────────────────
 % SECTION 2.4: UNCERTAINTY AND ROBUST OBJECTIVES (1.5 pages)
@@ -499,5 +502,5 @@ The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address 
 %   - Micro-graph (Fig. 2.1) will be reused in all worked examples (§3.4, §4.5, §5.2)
 %   - All notation tabulated in Appendix A
 
-% END OF CHAPTER 2``````
+% END OF CHAPTER 2`````````
 
