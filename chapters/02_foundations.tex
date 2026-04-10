@@ -1,15 +1,18 @@
 %═══════════════════════════════════════════════════════════
 % CHAPTER 2: FOUNDATIONS
 % 
-% Status: FINAL REVIEW COMPLETE - 1% improvement applied
-% Date: 2026-02-10
-% Change: Split long micro-graph paragraph (lines 135-137)
+% Status: SECTIONS 2.1-2.2 FINALISED
+% Date: 2026-04-10
+% Final review: 12 changes applied (cost note, cycle def, 
+%   property binding, E(P) clarification, only-tree-edge 
+%   justification, Remark on Cost Ties, expanded iterations,
+%   \Cref fixes throughout)
 %═══════════════════════════════════════════════════════════
 
 \chapter{Foundations}\label{ch:foundations}
 
 This chapter establishes the mathematical foundations for analysing robust spanning tree problems.
-We prove minimum spanning tree optimality criteria from first principles (\Cref{sec:mst-criteria}), formalise two uncertainty models -- discrete scenarios and interval bounds (\Cref{sec:uncertainty}) -- and define the Min-Max and Min-Max Regret objectives that drive our complexity analyses in Chapters~\ref{ch:minmax} and~\ref{ch:regret}.
+We prove minimum spanning tree optimality criteria from first principles (\Cref{sec:mst-criteria}), formalise two uncertainty models -- discrete scenarios and interval bounds (\Cref{sec:uncertainty}) -- and define the Min-Max and Min-Max Regret objectives that drive our complexity analyses in \Cref{ch:minmax,ch:regret}.
 A fixed micro-graph introduced in \Cref{sec:graph-notation} serves as a running example throughout.
 
 %─────────────────────────────────────────────────────────
@@ -27,7 +30,7 @@ Two vertices $u, v \in V$ are \emph{adjacent} (or \emph{neighbours}) if $uv \in 
 
 A \emph{\textcolor{RWTHBlue}{path}} in $G$ is a sequence of distinct vertices $v_0, v_1, \ldots, v_k$ such that $\{v_{i-1}, v_i\} \in E$ for all $i \in \{1, \ldots, k\}$.
 The \emph{length} of this path is $k$ (the number of edges).
-A \emph{\textcolor{RWTHBlue}{cycle}} is a path $v_0, v_1, \ldots, v_k$ with $k \geq 2$ together with the additional edge $\{v_k, v_0\} \in E$, forming a closed walk with no repeated vertices except the first and last.
+A \emph{\textcolor{RWTHBlue}{cycle}} is a sequence of distinct vertices $v_0, v_1, \ldots, v_k$ with $k \geq 2$ such that $\{v_{i-1}, v_i\} \in E$ for all $i \in \{1, \ldots, k\}$ and $\{v_k, v_0\} \in E$.
 
 A graph $G$ is \emph{\textcolor{RWTHBlue}{connected}} if for every pair of vertices $u, v \in V$, there exists a path from $u$ to $v$.
 Connectivity is necessary for spanning trees to exist: a disconnected graph cannot possess a spanning tree, as no tree can simultaneously reach all vertices while remaining acyclic.
@@ -82,6 +85,7 @@ See \Cref{fig:cut-illustration} for a visual representation.
 
 Each edge $e \in E$ has an associated \emph{cost} $c_e \in \R$.
 We represent the cost structure either as a \emph{\textcolor{RWTHBlue}{cost function}} $c \colon E \to \R$ or equivalently as a \emph{cost vector} $c \in \R^{|E|}$ indexed by the edges.
+Costs may be positive, negative, or zero; the MST algorithms discussed in \Cref{sec:kruskal-prim} handle all cases correctly.
 For any subset $F \subseteq E$, we write $c(F) = \sum_{e \in F} c_e$ for the total cost of the edge set $F$.
 
 \paragraph{Spanning Trees.}
@@ -98,7 +102,7 @@ The \emph{\textcolor{RWTHBlue}{minimum spanning tree problem}} (MST) seeks a spa
 Any tree $T^* \in \cT$ satisfying $c(T^*) = \MSTcost{c}$ is called an \emph{MST} under cost vector $c$.
 The MST is unique if all edge costs are distinct; when edge costs have ties (equal values), multiple spanning trees may achieve the minimum cost $\MSTcost{c}$.
 
-Spanning trees possess three fundamental structural properties that we exploit repeatedly:
+A spanning tree $T$ possesses three fundamental structural properties that we exploit repeatedly:
 
 \begin{enumerate}[label=\textbf{(P\arabic*)},ref=P\arabic*]
 \item\label{prop:tree-unique-path} For any two vertices $u, v \in V$, there exists a \emph{unique} path in $T$ connecting $u$ and $v$.
@@ -115,13 +119,14 @@ We now introduce two graph-theoretic constructs -- fundamental cycles and fundam
 Let $T \in \cT$ be a spanning tree and let $f \in E \setminus E(T)$ be an edge not in $T$ with endpoints $u$ and $v$.
 By property~\ref{prop:tree-add-cycle}, adding $f$ to $T$ creates a unique cycle.
 Since $T$ is a tree, by property~\ref{prop:tree-unique-path}, there exists a unique path $P$ in $T$ from $u$ to $v$.
-We call the cycle $C_f = E(P) \cup \{f\}$ the \emph{\textcolor{RWTHBlue}{fundamental cycle}} of $f$ with respect to $T$.
+We call the cycle $C_f = E(P) \cup \{f\}$ (where $E(P)$ denotes the edges of path $P$) the \emph{\textcolor{RWTHBlue}{fundamental cycle}} of $f$ with respect to $T$.
 
 Similarly, let $e \in E(T)$ be an edge in the tree $T$.
 By property~\ref{prop:tree-remove-disconnects}, removing $e$ from $T$ partitions $V$ into exactly two connected components.
 Let $X_e \subseteq V$ denote one of these components (the choice is arbitrary; either component induces the same cut).
 The \emph{\textcolor{RWTHBlue}{fundamental cut}} of $e$ with respect to $T$ is the cut $\cut{X_e}$ induced by $X_e$.
 Crucially, $e$ is the \emph{only} tree edge in $\cut{X_e}$; all other edges in the cut belong to $E \setminus E(T)$.
+This follows because $X_e$ is a connected component of $T \setminus \{e\}$: any other tree edge crossing the partition would connect $X_e$ to $V \setminus X_e$, contradicting the component structure.
 These fundamental structures underpin the MST optimality criteria developed in \Cref{sec:mst-criteria}: fundamental cycles correspond to potential edge exchanges for non-tree edges, while fundamental cuts correspond to exchanges for tree edges.
 
 \paragraph{Running Example: The Micro-graph.}
@@ -203,13 +208,13 @@ Then there exists an edge $e \in C_f$ with $c_e > c_f$.
 Since $f \notin E(T)$ and $C_f$ is created by adding $f$ to $T$, the edge $e$ must be a tree edge.
 
 We construct an alternative spanning tree by exchanging $e$ for $f$.
-Removing $e$ from $T$ breaks the cycle $C_f$ into two components, which $f$ reconnects.
+Removing $e$ from $T$ disconnects $T$ into two components; since $e$ lies on the path connecting $f$'s endpoints in $T$, the edge $f$ bridges these components.
 Define $T'$ with edge set $E(T') = E(T) \setminus \{e\} \cup \{f\}$.
 
 To verify that $T'$ is a spanning tree, we check three properties.
 First, $|E(T')| = |E(T)| - 1 + 1 = n - 1$, as required for a tree on $n$ vertices.
 Second, $T'$ is connected: removing $e$ partitions $V$ into two components, but $f$ crosses this partition (as $f$ completes the cycle $C_f$ containing $e$), so adding $f$ reconnects the graph.
-Third, $T'$ is acyclic: removing $e$ from the cycle $T \cup \{f\}$ eliminates the unique cycle, leaving no cycles.
+Third, $T'$ is acyclic: adding $f$ to $T$ created exactly one cycle (namely $C_f$), and removing $e \in C_f \setminus \{f\}$ eliminates it.
 
 The cost of $T'$ is
 \[
@@ -253,6 +258,13 @@ Therefore, $e$ must have minimum cost in $\cut{X_e}$.
 
 These fundamental exchange properties establish necessary conditions for a tree to be an MST.
 The optimality criteria developed next strengthen these to necessary and sufficient characterisations.
+
+\begin{remark}[Cost Ties]\label{rem:cost-ties}
+The fundamental lemmas use non-strict inequalities: $c_f \geq c_e$ in \Cref{lem:fund-cycle} and $c_e \leq c_f$ in \Cref{lem:fund-cut}.
+This correctly handles cost ties, where multiple edges share the same cost.
+Strict inequalities would establish uniqueness of the MST, which requires all edge costs to be distinct.
+When ties exist, multiple spanning trees may achieve the minimum cost, and the lemmas apply to each of them.
+\end{remark}
 
 % END OF PART 1
 
@@ -338,7 +350,7 @@ Otherwise, pick any edge $e \in E(T) \setminus E(T')$ with $e = \{s, t\}$, and l
 Since $T'$ is connected, there exists a path $P$ in $T'$ from $s$ to $t$.
 Because $s \in X_e$ and $t \in V \setminus X_e$ lie on opposite sides of the partition, the path $P$ crosses $(X_e, V \setminus X_e)$ at least once.
 Let $f$ be any edge on $P$ crossing the partition.
-Then $f \in \cut{X_e}$, $f \in E(T')$, and $f \notin E(T)$.
+Then $f \in \cut{X_e}$, $f \in E(T')$, and $f \notin E(T)$ (since $e$ is the unique tree edge in $\cut{X_e}$ and $f \neq e$).
 By the cut criterion, $c_e \leq c_f$.
 
 By the same spanning tree verification as in \Cref{thm:cycle-criterion}, the exchange $T'' = (V, E(T') \setminus \{f\} \cup \{e\})$ yields a spanning tree with
@@ -347,7 +359,12 @@ c(T'') = c(T') - c_f + c_e \leq c(T')
 \]
 and $|E(T) \cap E(T'')| = |E(T) \cap E(T')| + 1$.
 
-Iterating this exchange until $T'' = T$ gives $c(T) \leq c(T')$, so $T$ is a minimum spanning tree.
+Repeating this exchange, we obtain a sequence $T' = T_0, T_1, \ldots, T_k = T$ where each step satisfies $c(T_{i+1}) \leq c(T_i)$ and increases $|E(T) \cap E(T_i)|$ by one.
+The process terminates when $T_k = T$, yielding
+\[
+c(T) = c(T_k) \leq c(T_{k-1}) \leq \cdots \leq c(T_0) = c(T').
+\]
+Therefore $c(T) \leq c(T')$ for every spanning tree $T'$, so $T$ is a minimum spanning tree.
 \end{proof}
 
 The two criteria are equivalent.
@@ -364,27 +381,57 @@ Therefore, $T$ satisfies the cycle criterion if and only if $T$ satisfies the cu
 \end{proof}
 
 Together, these three theorems fully characterise minimum spanning tree optimality through local edge-level conditions, enabling verification without comparing against all exponentially many spanning trees.
-The characterisations extend naturally to the robust spanning tree problems in Chapters~\ref{ch:minmax} and~\ref{ch:regret}, where similar exchange arguments establish optimality under uncertainty.
+The characterisations extend naturally to the robust spanning tree problems in \Cref{ch:minmax,ch:regret}, where similar exchange arguments establish optimality under uncertainty.
 The correctness of classical greedy algorithms such as Kruskal's and Prim's follows from these criteria, as discussed in \Cref{sec:kruskal-prim}.
 
 % END OF SECTION 2.2
 
 %─────────────────────────────────────────────────────────
-% SECTION 2.3: ALGORITHMIC ANCHORS (0.8 pages)
+% SECTION 2.3: KRUSKAL AND PRIM — ALGORITHMIC REMARKS
+% 
+% Goal: Provide remark-style algorithmic context (no pseudocode)
+% Prerequisites: Section 2.2 (optimality criteria)
+% Page budget: ~0.8 pages
+% Sources: Skript_OptiB §2.3, Korte-Vygen §6.1
 %─────────────────────────────────────────────────────────
 \section{Kruskal and Prim: Algorithmic Remarks}\label{sec:kruskal-prim}
 
-% TODO: Kruskal algorithm (0.4 pg)
-%   - Greedy: sort edges, add if no cycle
-%   - Correctness: uses cut property (Theorem 2.4)
-%   - Runtime: O(m log n) with union-find
-%   - NO pseudocode (remark-style only)
+The optimality criteria developed in \Cref{sec:mst-criteria} directly yield the correctness of the two most classical MST algorithms: Kruskal's algorithm (1956) and Prim's algorithm (1957).
+Both are \emph{greedy} methods that build a spanning tree incrementally, maintaining optimality conditions throughout \cite[§2.3]{BuesingOptiB2023}.
+We describe each algorithm briefly, emphasising its connection to the criteria rather than implementation details.
 
-% TODO: Prim algorithm (0.4 pg)
-%   - Greedy: grow tree from root, add cheapest leaving edge
-%   - Correctness: uses cut property on {visited} vs {unvisited}
-%   - Runtime: O(m log n) with priority queue
-%   - NO pseudocode (remark-style only)
+\paragraph{Kruskal's Algorithm.}
+
+Kruskal's algorithm constructs an MST by processing edges in non-decreasing order of cost.
+Starting with an empty edge set, the algorithm considers each edge in turn and adds it to the current forest if and only if it does not create a cycle.
+The process terminates when the forest becomes a spanning tree (after adding exactly $n - 1$ edges).
+
+The correctness follows immediately from the cycle criterion (\Cref{thm:cycle-criterion}).
+When the algorithm terminates with spanning tree $T$, consider any non-tree edge $f \in E \setminus E(T)$.
+Since $f$ was rejected, adding $f$ would have created a cycle with edges already in $T$.
+All edges in this cycle were added before $f$ was considered, hence have cost at most $c_f$ (by the sorting order).
+Therefore $f$ has maximum cost in its fundamental cycle, satisfying the cycle criterion.
+
+With an efficient union-find data structure to track connected components, Kruskal's algorithm runs in $O(m \log n)$ time, dominated by the initial edge sorting \cite[Theorem~6.5]{KorteVygen2018}.
+
+\paragraph{Prim's Algorithm.}
+
+Prim's algorithm grows a single tree from an arbitrary starting vertex.
+At each step, it adds the minimum-cost edge crossing the cut between the current tree vertices and the remaining vertices.
+The process continues until all vertices are included.
+
+The correctness follows from the cut criterion (\Cref{thm:cut-criterion}).
+Each edge $e$ added to the tree is, by construction, the minimum-cost edge in $\cut{V(T)}$ at the moment of addition.
+Since $e$ remains in the final tree and $\cut{V(T)}$ at that moment equals the fundamental cut $\cut{X_e}$, the edge $e$ satisfies the cut criterion.
+
+With a priority queue maintaining the minimum-cost edge to each non-tree vertex, Prim's algorithm achieves $O(m + n^2)$ time with a simple array implementation, or $O(m + n \log n)$ with Fibonacci heaps \cite[Theorem~6.7]{KorteVygen2018}.
+
+\paragraph{Relevance to Robust Problems.}
+
+Both algorithms solve the deterministic MST problem optimally in polynomial time.
+However, under uncertainty, the situation changes fundamentally.
+When edge costs are uncertain, neither algorithm directly applies: the greedy choices depend on which cost realisation occurs, yet the spanning tree must be chosen before costs are revealed.
+The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address precisely this challenge, and their computational complexity differs markedly from the deterministic case.
 
 %─────────────────────────────────────────────────────────
 % SECTION 2.4: UNCERTAINTY AND ROBUST OBJECTIVES (1.5 pages)
@@ -449,4 +496,4 @@ The correctness of classical greedy algorithms such as Kruskal's and Prim's foll
 %   - Micro-graph (Fig. 2.1) will be reused in all worked examples (§3.4, §4.5, §5.2)
 %   - All notation tabulated in Appendix A
 
-% END OF CHAPTER 2
+% END OF CHAPTER 2```
