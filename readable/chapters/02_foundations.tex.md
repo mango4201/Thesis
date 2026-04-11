@@ -424,8 +424,10 @@ At each step, it adds the minimum-cost edge crossing the cut between the current
 The process continues until all vertices are included.
 
 The correctness follows from the cut criterion (\Cref{thm:cut-criterion}).
-Each edge $e$ added to the tree is, by construction, the minimum-cost edge in $\cut{V(T)}$ at the moment of addition.
-The set $V(T)$ at this moment becomes $X_e$ in the final tree, so $e$ has minimum cost in its fundamental cut $\cut{X_e}$, satisfying the cut criterion.
+Consider any tree edge $e \in E(T)$, and let $S$ denote the set of tree vertices at the moment $e$ was added.
+By construction, $e$ was the minimum-cost edge in $\cut{S}$.
+In the final tree, removing $e$ partitions $V$ into $S$ and $V \setminus S$: vertices added after $e$ are all reachable from $S$ only through $e$ itself.
+Hence $\cut{X_e} = \cut{S}$, and $e$ has minimum cost in its fundamental cut, satisfying the cut criterion.
 
 With a priority queue maintaining the minimum-cost edge to each non-tree vertex, Prim's algorithm achieves $O(m + n^2)$ time with a simple array implementation, or $O(m + n \log n)$ with Fibonacci heaps \cite[Theorem~6.7]{KorteVygen2018}.
 
