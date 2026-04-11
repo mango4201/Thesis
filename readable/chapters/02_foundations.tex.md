@@ -1,9 +1,6 @@
 ## chapters/02_foundations.tex
 
 ```tex
-## chapters/02_foundations.tex
-
-```tex
 %═══════════════════════════════════════════════════════════
 % CHAPTER 2: FOUNDATIONS
 % 
