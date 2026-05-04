@@ -439,67 +439,217 @@ When edge costs are uncertain, neither algorithm directly applies: the greedy ch
 The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address precisely this challenge, and several variants become NP-hard despite the tractability of the deterministic case.
 
 %─────────────────────────────────────────────────────────
-% SECTION 2.4: UNCERTAINTY AND ROBUST OBJECTIVES (1.5 pages)
+% SECTION 2.4: UNCERTAINTY MODELS AND ROBUST OPTIMISATION
+% 
+% Goal: Define discrete/interval uncertainty and robust objectives
+% Prerequisites: Section 2.1 (micro-graph), Section 2.2 (MST)
+% Page budget: ~1.5 pages
+% Sources: Goerigk2021RCO Ch3-4, Ch8; KouvelisYu1997
+% Mathematical correctness: Verified against Goerigk Definitions 3.1-3.5
 %─────────────────────────────────────────────────────────
 \section{Uncertainty Models and Robust Optimisation}\label{sec:uncertainty}
 
-% TODO: Discrete scenarios (0.4 pg)
-%   - Definition: 𝒰 = {c^(1), ..., c^(K)}
-%   - Min-Max objective: min_{T∈𝒯} max_{k∈[K]} c^(k)(T)
-%   - Min-Max Regret: min_{T∈𝒯} max_{k∈[K]} [c^(k)(T) - MST(c^(k))]
+In many practical applications, edge costs are not known precisely at decision time.
+Construction expenses may fluctuate, travel times depend on traffic conditions, and communication link costs vary with demand.
+Robust optimisation addresses this challenge by seeking solutions that perform well across all possible cost realisations, rather than optimising for a single nominal scenario \cite{KouvelisYu1997}.
+This section formalises two uncertainty models and the corresponding robust objectives that we analyse in \Cref{ch:minmax,ch:regret}.
 
-% TODO: Interval uncertainty (0.4 pg)
-%   - Definition: 𝒰 = ∏_{e∈E} [ℓₑ, uₑ]
-%   - Min-Max objective: min_{T∈𝒯} max_{c∈𝒰} c(T)
-%   - Min-Max Regret: min_{T∈𝒯} max_{c∈𝒰} [c(T) - MST(c)]
+\paragraph{Discrete Scenarios.}
 
-% TODO: Notation summary (0.3 pg)
-%   - Scenario notation: c^(k) or \cs{k}
-%   - Macro list: \Scenarios, \cT, \MSTcost{c}
-%   - Pointer to Appendix A (notation table)
+In the \emph{\textcolor{RWTHBlue}{discrete scenario model}}, uncertainty is represented by a finite set of possible cost vectors.
 
-% TODO: Micro-graph scenarios table (0.4 pg)
-%   - Scenario 1: all lower bounds c^(1) = (2,1,3,2,4)
-%   - Scenario 2: all upper bounds c^(2) = (8,5,7,6,9)
-%   - Scenario 3: mixed c^(3) = (5,1,7,2,4)
-%   - Table: c^(k)(T₁), c^(k)(T₂), c^(k)(T₃) for k=1,2,3
+\begin{definition}[Discrete Uncertainty Set]\label{def:discrete-uncertainty}
+A \emph{\textcolor{RWTHBlue}{discrete uncertainty set}} consists of $K$ explicitly given cost vectors:
+\[
+\Scenarios = \{\cs{1}, \cs{2}, \ldots, \cs{K}\},
+\]
+where each \emph{\textcolor{RWTHBlue}{scenario}} $\cs{k}$, for $k \in \{1, \ldots, K\}$, is a cost vector in $\R^{|E|}$ assigning cost $\cs{k}_e$ to every edge $e \in E$.
+\end{definition}
+
+The parameter $K$ denotes the number of scenarios.
+When $K$ is a fixed constant (such as $K = 2$), we speak of a \emph{constant number of scenarios}; when $K$ is part of the input and may grow with the problem size, we speak of \emph{unbounded} $K$.
+This distinction is crucial for computational complexity: several robust spanning tree problems are polynomial-time solvable for constant $K$ but become NP-hard when $K$ is unbounded \cite{AissiBazganVanderpooten2009Survey}.
+
+\paragraph{Interval Uncertainty.}
+
+In the \emph{\textcolor{RWTHBlue}{interval model}}, each edge cost may take any value within a specified range.
+
+\begin{definition}[Interval Uncertainty Set]\label{def:interval-uncertainty}
+An \emph{\textcolor{RWTHBlue}{interval uncertainty set}} is defined by lower and upper bounds on each edge:
+\[
+\Scenarios = \prod_{e \in E} [\ell_e, u_e] = \bigl\{c \in \R^{|E|} : \ell_e \leq c_e \leq u_e \text{ for all } e \in E\bigr\},
+\]
+where $0 \leq \ell_e \leq u_e$ for each edge $e \in E$.
+\end{definition}
+
+The non-negativity assumption $\ell_e \geq 0$ is standard in the robust spanning tree literature \cite{Goerigk2021RCO,KouvelisYu1997} and reflects the fact that edge costs typically represent non-negative quantities such as distances, construction expenses, or transmission delays.
+
+Unlike the discrete model with finitely many scenarios, interval uncertainty encompasses a continuum of possible cost vectors.
+Despite this, many robust problems under interval uncertainty admit efficient solutions by exploiting the structure of the uncertainty set: worst-case costs are often attained at the boundary of the intervals.
+We develop these arguments in \Cref{ch:minmax,ch:regret}.
+
+\paragraph{Robust Objectives.}
+
+Given an uncertainty set $\Scenarios$, we model robust optimisation as a sequential game: a decision-maker first selects a spanning tree $T$, then an adversary selects the worst-case cost vector $c \in \Scenarios$.
+This structure motivates two robust objectives.
+
+The \emph{\textcolor{RWTHBlue}{min-max objective}} minimises the maximum cost over all scenarios:
+\begin{equation}\label{eq:minmax-objective}
+\min_{T \in \cT} \max_{c \in \Scenarios} c(T).
+\end{equation}
+A spanning tree achieving this minimum is called a \emph{\textcolor{RWTHBlue}{min-max spanning tree}}.
+This objective bounds the worst possible outcome regardless of which scenario materialises.
+
+The \emph{\textcolor{RWTHBlue}{min-max regret objective}} instead minimises the maximum \emph{\textcolor{RWTHBlue}{regret}}, which measures how far a solution falls short of the scenario-specific optimum:
+\begin{equation}\label{eq:regret-def}
+\Regret{T}{c} = c(T) - \MSTcost{c}.
+\end{equation}
+The min-max regret problem seeks a tree minimising the worst-case regret:
+\begin{equation}\label{eq:minmax-regret-objective}
+\min_{T \in \cT} \max_{c \in \Scenarios} \Regret{T}{c} = \min_{T \in \cT} \max_{c \in \Scenarios} \bigl[c(T) - \MSTcost{c}\bigr].
+\end{equation}
+A spanning tree achieving this minimum is called a \emph{\textcolor{RWTHBlue}{min-max regret spanning tree}}.
+This objective minimises \emph{opportunity cost}: the loss from not knowing the scenario in advance.
+
+Computing regret requires knowing $\MSTcost{c}$, which depends on the scenario $c$.
+For discrete scenarios, we can precompute the MST for each scenario separately.
+For interval uncertainty, the adversary's choice of $c$ affects both $c(T)$ and $\MSTcost{c}$ simultaneously, and the worst-case scenario is generally not simply all upper bounds; identifying it requires the extremal arguments developed in \Cref{ch:minmax,ch:regret}.
+
+\paragraph{Worked Example: Discrete Scenarios on the Micro-graph.}
+
+We illustrate the robust objectives using the discrete scenario model on the micro-graph from \Cref{sec:graph-notation}.
+(A worked example for interval uncertainty requires the extremal analysis developed in \Cref{ch:minmax,ch:regret}.)
+
+The micro-graph has vertices $V = \{1,2,3,4\}$, edges $\{e_1, \ldots, e_5\}$, and interval costs as specified in \Cref{fig:micro-graph}.
+We derive three discrete scenarios:
+$\cs{1} = (2, 1, 3, 2, 4)$ (all lower bounds),
+$\cs{2} = (8, 5, 7, 6, 9)$ (all upper bounds), and
+$\cs{3} = (5, 1, 7, 2, 4)$ (mixed).
+We evaluate three spanning trees:
+$T_1 = \{e_1, e_2, e_3\}$,
+$T_2 = \{e_1, e_2, e_4\}$, and
+$T_3 = \{e_2, e_3, e_5\}$.
+
+\Cref{tab:micro-graph-costs} records the cost and regret for each tree--scenario pair.
+The bottom row shows the MST cost for each scenario; note that the MST varies: $T_2$ is optimal under $\cs{1}$ and $\cs{2}$, but under $\cs{3}$ a different tree $T^* = \{e_2, e_4, e_5\}$ achieves the minimum cost~7.
+
+\begin{table}[htbp]
+\centering
+\caption{Costs and regrets for representative spanning trees under three discrete scenarios.}
+\label{tab:micro-graph-costs}
+\begin{tabular}{l ccc c ccc c}
+\toprule
+& \multicolumn{3}{c}{Cost $\cs{k}(T)$} & & \multicolumn{3}{c}{Regret} & Max \\
+\cmidrule(lr){2-4} \cmidrule(lr){6-8}
+Tree & $k{=}1$ & $k{=}2$ & $k{=}3$ & & $k{=}1$ & $k{=}2$ & $k{=}3$ & Regret \\
+\midrule
+$T_1 = \{e_1, e_2, e_3\}$ & 6 & 20 & 13 & & 1 & 1 & 6 & 6 \\
+$T_2 = \{e_1, e_2, e_4\}$ & 5 & 19 & 8 & & 0 & 0 & 1 & 1 \\
+$T_3 = \{e_2, e_3, e_5\}$ & 8 & 21 & 12 & & 3 & 2 & 5 & 5 \\
+\midrule
+$\MSTcost{\cs{k}}$ & 5 & 19 & 7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+To find the min-max regret tree, we proceed in two steps: compute each tree's maximum regret across scenarios (rightmost column), then select the tree with the smallest maximum.
+Tree $T_2$ has max regret~1, compared to~6 for $T_1$ and~5 for $T_3$, making $T_2$ the min-max regret spanning tree.
+
+For the min-max objective, we compare worst-case costs: $T_2$ achieves~19 (under $\cs{2}$), versus~20 for $T_1$ and~21 for $T_3$.
+Thus $T_2$ is also the min-max spanning tree.
+In this example, both objectives select the same tree, though this coincidence does not hold in general.
+
+% END OF SECTION 2.4
 
 %─────────────────────────────────────────────────────────
-% SECTION 2.5: COMPLEXITY & APPROXIMATION GLOSSARY (1.5 pages)
+% SECTION 2.5: ALGORITHMIC PRELIMINARIES
+% 
+% Goal: Define complexity and approximation terminology
+% Prerequisites: None (self-contained glossary)
+% Page budget: ~1.0-1.2 pages
+% Sources: Goerigk2021RCO Ch2; Skript_OptiB Ch10-11; KorteVygen2018 Ch15
+% 
+% Key terms to highlight (blue): 
+%   polynomial time, P, NP, NP-hard, pseudo-polynomial,
+%   weakly/strongly NP-hard, approximation algorithm, FPTAS
 %─────────────────────────────────────────────────────────
 \section{Algorithmic Preliminaries}\label{sec:complexity}
 
-% TODO: Complexity glossary (0.8 pg)
-%   - Decision vs optimisation problems
-%   - P, NP (verifiability), NP-hard, NP-complete
-%   - Reductions (many-one, polynomial time)
-%   - Weak vs strong NP-hardness
-%   - Pseudo-polynomial algorithms
-%   - Why K matters: K=2 vs K part of input
+This section introduces the complexity and approximation terminology needed to interpret the results in \Cref{ch:minmax,ch:regret}.
+We focus on concepts directly relevant to robust spanning tree problems; for comprehensive treatments, see \cite[Chapter~2]{Goerigk2021RCO} or \cite[Chapter~15]{KorteVygen2018}.
 
-% TODO: Approximation glossary (0.5 pg)
-%   - α-approximation (min: ALG ≤ α·OPT)
-%   - PTAS, FPTAS (and why FPTAS needs pseudo-poly nominal algorithm)
-%   - APX, APX-hard
-%   - Inapproximability statements ("unless P=NP")
+\paragraph{Polynomial Time and the Class $\mathsf{P}$.}
 
-% TODO: Proof patterns (0.2 pg)
-%   - Exchange arguments (used in §2.2)
-%   - Extremal arguments for intervals (Ch3-4)
-%   - Reductions for hardness (Ch3-4)
+An algorithm runs in \emph{\textcolor{RWTHBlue}{polynomial time}} if, given an input of size $n$, it terminates in at most $O(n^k)$ steps for some fixed constant $k$.
+The class $\mathsf{P}$ consists of all problems solvable by a polynomial-time algorithm.
+Problems in $\mathsf{P}$ are considered \emph{tractable}: their running time grows manageably with input size.
+
+The minimum spanning tree problem lies in $\mathsf{P}$: Kruskal's algorithm solves it in $O(m \log n)$ time (\Cref{sec:kruskal-prim}).
+However, introducing uncertainty can push problems outside $\mathsf{P}$, as we shall see in \Cref{ch:minmax,ch:regret}.
+
+\paragraph{Hard Problems: $\mathsf{NP}$ and $\mathsf{NP}$-hardness.}
+
+The class $\mathsf{NP}$ (nondeterministic polynomial time) contains problems whose solutions can be \emph{verified} in polynomial time, even if finding a solution may be difficult.
+For instance, verifying that a given tree has cost at most $B$ takes $O(n)$ time, so the decision version of MST is in $\mathsf{NP}$.
+
+A problem is \emph{\textcolor{RWTHBlue}{$\mathsf{NP}$-hard}} if every problem in $\mathsf{NP}$ can be \emph{reduced} to it: transformed in polynomial time such that solving the target problem yields a solution to the original.
+Informally, $\mathsf{NP}$-hard problems are ``at least as hard'' as the hardest problems in $\mathsf{NP}$.
+No polynomial-time algorithm is known for any $\mathsf{NP}$-hard problem, and the widely believed conjecture $\mathsf{P} \neq \mathsf{NP}$ implies none exists.
+
+\paragraph{Weak and Strong $\mathsf{NP}$-hardness.}
+
+A \emph{\textcolor{RWTHBlue}{pseudo-polynomial}} algorithm has running time polynomial in the input size \emph{and} the numeric values in the input.
+For example, the knapsack problem can be solved in $O(nW)$ time, where $W$ is the capacity; this is polynomial in $W$ but not in $\log W$ (the number of bits needed to encode $W$).
+
+A problem is \emph{\textcolor{RWTHBlue}{weakly $\mathsf{NP}$-hard}} if it is $\mathsf{NP}$-hard but admits a pseudo-polynomial algorithm.
+It is \emph{\textcolor{RWTHBlue}{strongly $\mathsf{NP}$-hard}} if it remains $\mathsf{NP}$-hard even when all numeric values are bounded by a polynomial in $n$; such problems have no pseudo-polynomial algorithm unless $\mathsf{P} = \mathsf{NP}$.
+
+This distinction matters for robust spanning trees: the number of scenarios $K$ plays a role analogous to numeric input values.
+Problems polynomial for constant $K$ may become $\mathsf{NP}$-hard when $K$ grows with the input.
+
+\paragraph{Approximation Algorithms.}
+
+When exact polynomial-time algorithms are unlikely, we seek efficient algorithms that compute near-optimal solutions with provable guarantees.
+
+An \emph{\textcolor{RWTHBlue}{$\alpha$-approximation algorithm}} for a minimisation problem is a polynomial-time algorithm that, for every instance, returns a solution of cost at most $\alpha$ times the optimum, where $\alpha \geq 1$ is the \emph{approximation ratio}.
+For example, a $2$-approximation guarantees a solution at most twice as costly as optimal.
+
+A \emph{\textcolor{RWTHBlue}{fully polynomial-time approximation scheme}} (FPTAS) goes further: for any desired accuracy $\varepsilon > 0$, it computes a $(1 + \varepsilon)$-approximation in time polynomial in both $n$ and $1/\varepsilon$.
+An FPTAS is the strongest positive result for an $\mathsf{NP}$-hard problem, as setting $\varepsilon$ sufficiently small yields a solution arbitrarily close to optimal.
+However, strongly $\mathsf{NP}$-hard problems cannot have an FPTAS unless $\mathsf{P} = \mathsf{NP}$.
+
+\paragraph{Relevance to This Thesis.}
+
+The complexity of robust spanning tree problems hinges on two factors:
+
+\begin{enumerate}[nosep]
+\item \textbf{Number of scenarios $K$}: For discrete uncertainty, many problems are in $\mathsf{P}$ when $K$ is constant but become $\mathsf{NP}$-hard when $K$ is part of the input.
+
+\item \textbf{Uncertainty model}: For interval uncertainty, the continuum of scenarios prevents enumeration. Some variants remain in $\mathsf{P}$ by exploiting MST structure (\Cref{sec:mst-criteria}); others are $\mathsf{NP}$-hard.
+\end{enumerate}
+
+\Cref{ch:minmax,ch:regret} classify each problem variant accordingly and present polynomial-time algorithms or approximations as appropriate.
+
+% END OF SECTION 2.5
 
 %─────────────────────────────────────────────────────────
-% SECTION 2.6: CHAPTER SUMMARY (0.3 pages)
+% SECTION 2.6: CHAPTER SUMMARY
+% 
+% Goal: Summarise Chapter 2 and preview Chapters 3-4
+% Prerequisites: Sections 2.1-2.5
+% Page budget: ~0.3 pages
 %─────────────────────────────────────────────────────────
 \section*{Summary}
 
-% TODO: Summary paragraph (0.3 pg)
-% We have established the complete MST toolkit:
-%   - Fundamental cycle/cut lemmas (Lemmas 2.1-2.2)
-%   - Optimality criteria via exchange arguments (Theorems 2.3-2.5)
-%   - Sections 2.4-2.5 define uncertainty models and complexity terminology
-%   - Micro-graph (Fig. 2.1) will be reused in all worked examples (§3.4, §4.5, §5.2)
-%   - All notation tabulated in Appendix A
+This chapter established the foundations for analysing robust spanning tree problems.
+\Cref{sec:graph-notation} introduced graph-theoretic notation and the minimum spanning tree problem, along with the micro-graph (\Cref{fig:micro-graph}) that serves as a running example throughout the thesis.
+\Cref{sec:mst-criteria} proved five results characterising MST optimality: the Fundamental Cycle and Cut Lemmas, the Cycle and Cut Criteria, and their equivalence.
+These criteria underpin Kruskal's and Prim's algorithms (\Cref{sec:kruskal-prim}).
 
-% END OF CHAPTER 2`````````
+\Cref{sec:uncertainty} formalised two uncertainty models (discrete scenarios and interval uncertainty) and defined the min-max and min-max regret objectives.
+\Cref{sec:complexity} reviewed the complexity and approximation terminology needed for subsequent chapters.
+
+With these foundations in place, \Cref{ch:minmax} analyses min-max spanning trees and \Cref{ch:regret} treats min-max regret spanning trees, each under both uncertainty models.
+
+% END OF CHAPTER 2```
 
