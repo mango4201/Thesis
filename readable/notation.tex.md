@@ -12,22 +12,27 @@
 \newcommand{\cF}{\mathcal{F}}
 \newcommand{\Scenarios}{\mathcal{U}} % uncertainty set
 
-% Operators & helpers
-\newcommand{\opt}{\mathrm{OPT}}
+% Operators and helpers
+\newcommand{\OPT}{\mathrm{OPT}}
+\newcommand{\ALG}{\mathrm{ALG}}
+\newcommand{\opt}{\OPT} % backwards-compatible alias
+
 \DeclareMathOperator{\cost}{cost}
 \DeclareMathOperator{\regret}{Regret}
-\newcommand{\Regret}[2]{\regret(#1, #2)}  % usage: \Regret{T}{c} produces Regret(T, c)
+
+\newcommand{\Regret}[2]{\regret(#1,#2)} % usage: \Regret{T}{c} gives Regret(T,c)
+
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 \newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
 \newcommand{\st}{\text{s.t.}}
+
 \newcommand{\MST}{\mathrm{MST}}
-% MST value under costs c (function-style)
 \newcommand{\MSTcost}[1]{\mathrm{MST}(#1)}
 \newcommand{\cs}[1]{c^{(#1)}}
 
 % Graph notation
-\newcommand{\cut}[1]{\delta(#1)}  % cut notation, usage: \cut{X}
+\newcommand{\cut}[1]{\delta(#1)} % cut notation, usage: \cut{X}
 
 % Complexity helpers
-\DeclareMathOperator{\poly}{poly}  % polynomial, usage: O(\poly(n))```
+\DeclareMathOperator{\poly}{poly} % polynomial, usage: O(\poly(n))```
 
