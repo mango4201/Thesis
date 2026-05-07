@@ -5,7 +5,7 @@
 % Provides: Comprehensive symbol reference
 % Labels created: app:notation
 % Page budget: 1-2 pages (longtable handles page breaks)
-% Status: IN PROGRESS (updated through Section 2.4)
+% Status: COMPLETE through Chapter 2 (sections 2.1-2.5)
 %
 % REQUIRES: \usepackage{longtable} in main.tex preamble
 %           Add after \usepackage{booktabs}
@@ -46,6 +46,7 @@ $T$ & Spanning tree, $T \in \cT$ & \S\ref{sec:graph-notation} \\
 $c \colon E \to \R$ & Edge cost function & \S\ref{sec:graph-notation} \\
 $c(T)$ & Cost of tree $T$, i.e., $\sum_{e \in T} c_e$ & \S\ref{sec:graph-notation} \\
 $\MSTcost{c}$ & Minimum spanning tree cost under $c$ & \S\ref{sec:graph-notation} \\
+$T^*$ & A minimum spanning tree, $c(T^*) = \MSTcost{c}$ & \S\ref{sec:graph-notation} \\
 $C_f$ & Fundamental cycle of non-tree edge $f$ & \S\ref{sec:graph-notation} \\
 $\cut{X_e}$ & Fundamental cut of tree edge $e$ & \S\ref{sec:graph-notation} \\
 \midrule
@@ -55,6 +56,7 @@ $\Scenarios$ & Uncertainty set (discrete or interval) & \S\ref{sec:uncertainty} 
 $K$ & Number of discrete scenarios & \S\ref{sec:uncertainty} \\
 $\cs{k}$ & Scenario $k$ cost vector, $k \in \{1, \ldots, K\}$ & \S\ref{sec:uncertainty} \\
 $[\ell_e, u_e]$ & Interval cost bounds for edge $e$ & \S\ref{sec:uncertainty} \\
+$\ell_e, u_e$ & Lower and upper bounds on edge cost (interval model) & \S\ref{sec:uncertainty} \\
 \midrule
 
 \multicolumn{3}{l}{\textit{Robust Objectives}} \\
@@ -65,7 +67,12 @@ $\Regret{T}{c}$ & Regret of $T$ under $c$: $c(T) - \MSTcost{c}$ & \S\ref{sec:unc
 $\mathsf{P}$ & Polynomial-time complexity class & \S\ref{sec:complexity} \\
 $\mathsf{NP}$ & Nondeterministic polynomial-time class & \S\ref{sec:complexity} \\
 $\mathsf{NP}$-hard & At least as hard as $\mathsf{NP}$-complete problems & \S\ref{sec:complexity} \\
-$\alpha$-approximation & Algorithm guaranteeing $\mathrm{ALG} \leq \alpha \cdot \opt$ & \S\ref{sec:complexity} \\
+Weakly $\mathsf{NP}$-hard & $\mathsf{NP}$-hard with a pseudo-polynomial algorithm & \S\ref{sec:complexity} \\
+Strongly $\mathsf{NP}$-hard & $\mathsf{NP}$-hard even with poly-bounded numeric values & \S\ref{sec:complexity} \\
+Pseudo-polynomial & Algorithm polynomial in input size and numeric magnitudes & \S\ref{sec:complexity} \\
+$\alpha$-approximation & Algorithm guaranteeing $\mathrm{ALG} \leq \alpha \cdot \OPT$ & \S\ref{sec:complexity} \\
+$\varepsilon$ & Tolerance parameter for approximation schemes & \S\ref{sec:complexity} \\
+PTAS & Polynomial-time approximation scheme & \S\ref{sec:complexity} \\
 FPTAS & Fully polynomial-time approximation scheme & \S\ref{sec:complexity} \\
 
 \end{longtable}

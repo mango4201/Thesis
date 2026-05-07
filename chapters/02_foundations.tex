@@ -11,9 +11,10 @@
 
 \chapter{Foundations}\label{ch:foundations}
 
-This chapter establishes the mathematical foundations for analysing robust spanning tree problems.
-We prove minimum spanning tree optimality criteria from first principles (\Cref{sec:mst-criteria}), formalise two uncertainty models -- discrete scenarios and interval bounds (\Cref{sec:uncertainty}) -- and define the Min-Max and Min-Max Regret objectives that drive our complexity analyses in \Cref{ch:minmax,ch:regret}.
-A fixed micro-graph introduced in \Cref{sec:graph-notation} serves as a running example throughout.
+This chapter develops the foundations needed for analysing robust spanning tree problems.
+After fixing graph-theoretic notation and introducing the running micro-graph (\Cref{sec:graph-notation}), we prove the MST optimality criteria from first principles (\Cref{sec:mst-criteria}) and remark on the classical greedy algorithms they justify (\Cref{sec:kruskal-prim}).
+\Cref{sec:uncertainty} then formalises the two uncertainty models, discrete scenarios and interval uncertainty, together with the min-max and min-max regret objectives.
+\Cref{sec:complexity} reviews the complexity and approximation terminology used in \Cref{ch:minmax,ch:regret}.
 
 %─────────────────────────────────────────────────────────
 % SECTION 2.1: GRAPHS, TREES, AND NOTATION
@@ -85,7 +86,7 @@ See \Cref{fig:cut-illustration} for a visual representation.
 
 Each edge $e \in E$ has an associated \emph{cost} $c_e \in \R$.
 We represent the cost structure either as a \emph{\textcolor{RWTHBlue}{cost function}} $c \colon E \to \R$ or equivalently as a \emph{cost vector} $c \in \R^{|E|}$ indexed by the edges.
-Costs may be positive, negative, or zero; the MST algorithms discussed in \Cref{sec:kruskal-prim} handle all cases correctly.
+Costs may be positive, negative, or zero in the deterministic setting; the robust models in \Cref{sec:uncertainty} will additionally impose non-negative costs.
 For any subset $F \subseteq E$, we write $c(F) = \sum_{e \in F} c_e$ for the total cost of the edge set $F$.
 
 \paragraph{Spanning Trees.}
@@ -93,7 +94,7 @@ For any subset $F \subseteq E$, we write $c(F) = \sum_{e \in F} c_e$ for the tot
 A \emph{\textcolor{RWTHBlue}{spanning tree}} of $G$ is a connected acyclic subgraph $T \subseteq G$ that includes all vertices of $G$, that is, $V(T) = V(G)$.
 We denote by $\cT$ the set of all spanning trees of $G$.
 Since spanning trees are both connected and acyclic, they satisfy precisely $|E(T)| = n - 1$ edges, where $E(T) \subseteq E$ denotes the edge set of $T$.
-For a spanning tree $T \in \cT$, we write $c(T) = c(E(T)) = \sum_{e \in E(T)} c_e$ for the \emph{\textcolor{RWTHBlue}{cost}} of $T$.
+For a spanning tree $T \in \cT$, we write $c(T) = c(E(T)) = \sum_{e \in E(T)} c_e$ for the cost of $T$.
 
 The \emph{\textcolor{RWTHBlue}{minimum spanning tree problem}} (MST) seeks a spanning tree of minimum cost:
 \begin{equation}\label{eq:mst-definition}
@@ -115,7 +116,7 @@ Properties~\ref{prop:tree-remove-disconnects} and~\ref{prop:tree-add-cycle} are 
 
 \paragraph{Fundamental Structures.}
 
-We now introduce two graph-theoretic constructs -- fundamental cycles and fundamental cuts -- that play a central role in characterising MST optimality.
+We now introduce two graph-theoretic constructs, fundamental cycles and fundamental cuts, that play a central role in characterising MST optimality.
 Let $T \in \cT$ be a spanning tree and let $f \in E \setminus E(T)$ be an edge not in $T$ with endpoints $u$ and $v$.
 By property~\ref{prop:tree-add-cycle}, adding $f$ to $T$ creates a unique cycle.
 Since $T$ is a tree, by property~\ref{prop:tree-unique-path}, there exists a unique path $P$ in $T$ from $u$ to $v$.
@@ -131,7 +132,7 @@ These fundamental structures underpin the MST optimality criteria developed in \
 
 \paragraph{Running Example: The Micro-graph.}
 
-To provide concrete illustrations of concepts throughout this thesis, we introduce a fixed four-vertex graph that serves as our running example.
+To anchor the concepts of this thesis, we fix a four-vertex graph that recurs throughout as a running example.
 Let $G = (V, E)$ with vertex set $V = \{1, 2, 3, 4\}$ and five edges:
 \begin{align*}
 e_1 &= \{1, 2\}, \quad e_2 = \{2, 3\}, \quad e_3 = \{2, 4\}, \\
@@ -145,9 +146,9 @@ In anticipation of the robust optimisation framework of \Cref{sec:uncertainty}, 
 e_1 &\colon [2, 8], \quad e_2 \colon [1, 5], \quad e_3 \colon [3, 7], \\
 e_4 &\colon [2, 6], \quad e_5 \colon [4, 9].
 \end{align*}%
-From these intervals, we derive three \emph{discrete scenarios} that instantiate specific cost realisations: $c^{(1)} = (2, 1, 3, 2, 4)$ (all lower bounds), $c^{(2)} = (8, 5, 7, 6, 9)$ (all upper bounds), and $c^{(3)} = (5, 1, 7, 2, 4)$ (mixed costs).
+From these intervals, we derive three \emph{discrete scenarios} that instantiate specific cost realisations: $\cs{1} = (2, 1, 3, 2, 4)$ (all lower bounds), $\cs{2} = (8, 5, 7, 6, 9)$ (all upper bounds), and $\cs{3} = (5, 1, 7, 2, 4)$ (mixed costs).
 Graph $G$ admits eight spanning trees in total.
-We highlight three representative trees that exhibit different structural properties: $T_1 = \{e_1, e_2, e_3\}$ (star centred at vertex~2), $T_2 = \{e_1, e_2, e_4\}$ (path $1$--$2$--$3$--$4$), and $T_3 = \{e_2, e_3, e_5\}$ (includes edge $e_5$).
+We highlight three representative trees that exhibit different structural properties: $T_1 = \{e_1, e_2, e_3\}$ (star centred at vertex~2), $T_2 = \{e_1, e_2, e_4\}$ (path $1$--$2$--$3$--$4$), and $T_3 = \{e_2, e_3, e_5\}$ (path $1$--$3$--$2$--$4$).
 These trees and scenarios provide a consistent testbed for demonstrating how optimal solutions vary across objectives and uncertainty models in subsequent chapters.
 
 \begin{figure}[htbp]
@@ -173,7 +174,7 @@ These trees and scenarios provide a consistent testbed for demonstrating how opt
     
     % Combined horizontal legend (no overlap)
     \node[anchor=north, align=center, font=\scriptsize] at (0.75, -0.7) {
-        \textcolor{RWTHBlue}{\textbf{Scenarios:}} $c^{(1)} = (2,1,3,2,4)$, $c^{(2)} = (8,5,7,6,9)$, $c^{(3)} = (5,1,7,2,4)$ \\[1ex]
+        \textcolor{RWTHBlue}{\textbf{Scenarios:}} $\cs{1} = (2,1,3,2,4)$, $\cs{2} = (8,5,7,6,9)$, $\cs{3} = (5,1,7,2,4)$ \\[1ex]
         \textcolor{RWTHOrange}{\textbf{Representative trees:}} $T_1 = \{e_1, e_2, e_3\}$, $T_2 = \{e_1, e_2, e_4\}$, $T_3 = \{e_2, e_3, e_5\}$
     };
 \end{tikzpicture}
@@ -208,7 +209,7 @@ Then there exists an edge $e \in C_f$ with $c_e > c_f$.
 Since $f \notin E(T)$ and $C_f$ is created by adding $f$ to $T$, the edge $e$ must be a tree edge.
 
 We construct an alternative spanning tree by exchanging $e$ for $f$.
-Removing $e$ from $T$ disconnects $T$ into two components; since $e$ lies on the path connecting $f$'s endpoints in $T$, the edge $f$ bridges these components.
+Removing $e$ from $T$ disconnects $T$ into two components; since $e$ lies on the path connecting the endpoints of $f$ in $T$, the edge $f$ bridges these components.
 Define $T'$ with edge set $E(T') = E(T) \setminus \{e\} \cup \{f\}$.
 
 To verify that $T'$ is a spanning tree, we check three properties.
@@ -260,10 +261,8 @@ These fundamental exchange properties establish necessary conditions for a tree 
 The optimality criteria developed next strengthen these to necessary and sufficient characterisations.
 
 \begin{remark}[Cost Ties]\label{rem:cost-ties}
-The fundamental lemmas use non-strict inequalities: $c_f \geq c_e$ in \Cref{lem:fund-cycle} and $c_e \leq c_f$ in \Cref{lem:fund-cut}.
-This correctly handles cost ties, where multiple edges share the same cost.
-Strict inequalities would establish uniqueness of the MST, which requires all edge costs to be distinct.
-When ties exist, multiple spanning trees may achieve the minimum cost, and the lemmas apply to each of them.
+The fundamental lemmas use non-strict inequalities ($c_f \geq c_e$ in \Cref{lem:fund-cycle}; $c_e \leq c_f$ in \Cref{lem:fund-cut}), since multiple edges may share the same cost.
+When all edge costs are distinct, the MST is unique and the inequalities can be tightened to strict; when ties exist, multiple spanning trees may achieve the minimum cost, and the lemmas apply to each of them.
 \end{remark}
 
 % END OF PART 1
@@ -420,11 +419,21 @@ Prim's algorithm grows a single tree from an arbitrary starting vertex.
 At each step, it adds the minimum-cost edge crossing the cut between the current tree vertices and the remaining vertices.
 The process continues until all vertices are included.
 
-The correctness follows from the cut criterion (\Cref{thm:cut-criterion}).
-Consider any tree edge $e \in E(T)$, and let $S$ denote the set of tree vertices at the moment $e$ was added.
-By construction, $e$ was the minimum-cost edge in $\cut{S}$.
-In the final tree, removing $e$ partitions $V$ into $S$ and $V \setminus S$: vertices added after $e$ are all reachable from $S$ only through $e$ itself.
-Hence $\cut{X_e} = \cut{S}$, and $e$ has minimum cost in its fundamental cut, satisfying the cut criterion.
+The correctness follows by induction on the steps of the algorithm.
+Let $S_t$ denote the set of tree vertices before step $t$ and $e_t$ the edge added at step $t$.
+We claim that the partial tree built so far can be extended to some MST of $G$ at every step; since the algorithm terminates with a spanning tree, this implies the final tree is itself an MST.
+
+The base case is trivial: the empty tree on the chosen root extends to any MST.
+For the inductive step, assume the partial tree $T_{t-1}$ is contained in some MST $T^*$, and consider the edge $e_t$ added next.
+If $e_t \in E(T^*)$, the induction continues with the same $T^*$.
+
+Otherwise $e_t \notin E(T^*)$.
+The unique path in $T^*$ between the endpoints of $e_t$ starts in $S_{t-1}$ (one endpoint of $e_t$ lies there) and ends outside $S_{t-1}$ (the other endpoint is the newly added vertex), so it must cross the cut $\cut{S_{t-1}}$ at some edge $f \in E(T^*)$.
+By Prim's choice, $e_t$ is the minimum-cost edge in $\cut{S_{t-1}}$, hence $c_{e_t} \leq c_f$.
+The exchange $T^{**} = (T^* \setminus \{f\}) \cup \{e_t\}$ is again a spanning tree: adding $e_t$ to $T^*$ creates exactly its fundamental cycle, and $f$ lies on that cycle, so removing $f$ restores acyclicity.
+Its cost satisfies $c(T^{**}) = c(T^*) - c_f + c_{e_t} \leq c(T^*)$, so $T^{**}$ is also an MST and contains $T_{t-1} \cup \{e_t\}$.
+
+By induction, the spanning tree built by Prim's algorithm is an MST.
 
 With a priority queue maintaining the minimum-cost edge to each non-tree vertex, Prim's algorithm achieves $O(m + n^2)$ time with a simple array implementation, or $O(m + n \log n)$ with Fibonacci heaps \cite[Theorem~6.7]{KorteVygen2018}.
 
@@ -433,7 +442,7 @@ With a priority queue maintaining the minimum-cost edge to each non-tree vertex,
 Both algorithms solve the deterministic MST problem optimally in polynomial time.
 However, under uncertainty, the situation changes fundamentally.
 When edge costs are uncertain, neither algorithm directly applies: the greedy choices depend on which cost realisation occurs, yet the spanning tree must be chosen before costs are revealed.
-The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address precisely this challenge, and several variants become NP-hard despite the tractability of the deterministic case.
+The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address precisely this challenge, and several variants become $\mathsf{NP}$-hard despite the tractability of the deterministic case.
 
 %─────────────────────────────────────────────────────────
 % SECTION 2.4: UNCERTAINTY MODELS AND ROBUST OPTIMISATION
@@ -465,7 +474,7 @@ where each \emph{\textcolor{RWTHBlue}{scenario}} $\cs{k}$, for $k \in \{1, \ldot
 
 The parameter $K$ denotes the number of scenarios.
 When $K$ is a fixed constant (such as $K = 2$), we speak of a \emph{constant number of scenarios}; when $K$ is part of the input and may grow with the problem size, we speak of \emph{unbounded} $K$.
-This distinction is crucial for computational complexity: several robust spanning tree problems are polynomial-time solvable for constant $K$ but become NP-hard when $K$ is unbounded \cite{AissiBazganVanderpooten2009Survey}.
+This distinction is crucial for computational complexity: several robust spanning tree problems are polynomial-time solvable for constant $K$ but become $\mathsf{NP}$-hard when $K$ is unbounded \cite{AissiBazganVanderpooten2009Survey}.
 
 \paragraph{Interval Uncertainty.}
 
@@ -479,7 +488,7 @@ An \emph{\textcolor{RWTHBlue}{interval uncertainty set}} is defined by lower and
 where $0 \leq \ell_e \leq u_e$ for each edge $e \in E$.
 \end{definition}
 
-The non-negativity assumption $\ell_e \geq 0$ is standard in the robust spanning tree literature \cite{Goerigk2021RCO,KouvelisYu1997} and reflects the fact that edge costs typically represent non-negative quantities such as distances, construction expenses, or transmission delays.
+This non-negativity reflects edge costs typically representing distances, construction expenses, or transmission delays, and is standard in the robust spanning tree literature \cite{Goerigk2021RCO,KouvelisYu1997}.
 
 Unlike the discrete model with finitely many scenarios, interval uncertainty encompasses a continuum of possible cost vectors.
 Despite this, many robust problems under interval uncertainty admit efficient solutions by exploiting the structure of the uncertainty set: worst-case costs are often attained at the boundary of the intervals.
@@ -487,7 +496,7 @@ We develop these arguments in \Cref{ch:minmax,ch:regret}.
 
 \paragraph{Robust Objectives.}
 
-Given an uncertainty set $\Scenarios$, we model robust optimisation as a sequential game: a decision-maker first selects a spanning tree $T$, then an adversary selects the worst-case cost vector $c \in \Scenarios$.
+Given an uncertainty set $\Scenarios$, we model robust optimisation as a sequential game: a decision-maker first selects a spanning tree $T$, then an adversary selects a worst-case scenario $c \in \Scenarios$.
 This structure motivates two robust objectives.
 
 The \emph{\textcolor{RWTHBlue}{min-max objective}} minimises the maximum cost over all scenarios:
@@ -579,40 +588,54 @@ We focus on concepts directly relevant to robust spanning tree problems; for com
 
 An algorithm runs in \emph{\textcolor{RWTHBlue}{polynomial time}} if, given an input of size $n$, it terminates in at most $O(n^k)$ steps for some fixed constant $k$.
 The class $\mathsf{P}$ consists of all problems solvable by a polynomial-time algorithm.
-Problems in $\mathsf{P}$ are considered \emph{tractable}: their running time grows manageably with input size.
-
-The minimum spanning tree problem lies in $\mathsf{P}$: Kruskal's algorithm solves it in $O(m \log n)$ time (\Cref{sec:kruskal-prim}).
-However, introducing uncertainty can push problems outside $\mathsf{P}$, as we shall see in \Cref{ch:minmax,ch:regret}.
+Problems in $\mathsf{P}$ are considered tractable: their running time grows manageably with the input size.
+The minimum spanning tree problem lies in $\mathsf{P}$, since Kruskal's algorithm solves it in $O(m \log n)$ time (\Cref{sec:kruskal-prim}).
+Introducing uncertainty, however, can push problems outside $\mathsf{P}$, as we shall see in \Cref{ch:minmax,ch:regret}.
 
 \paragraph{Hard Problems: $\mathsf{NP}$ and $\mathsf{NP}$-hardness.}
 
-The class $\mathsf{NP}$ (nondeterministic polynomial time) contains problems whose solutions can be \emph{verified} in polynomial time, even if finding a solution may be difficult.
-For instance, verifying that a given tree has cost at most $B$ takes $O(n)$ time, so the decision version of MST is in $\mathsf{NP}$.
+The class $\mathsf{NP}$ (nondeterministic polynomial time) contains problems whose candidate solutions can be \emph{verified} in polynomial time, even if finding such a solution may itself be hard.
+To make this concrete, consider the decision version of MST: given a graph $G = (V, E)$, costs $c$, and a budget $B$, does there exist a spanning tree of cost at most $B$?
+A candidate solution is a set $T \subseteq E$ of $n - 1$ edges.
+Verifying it requires two checks: that $T$ is a spanning tree (one breadth-first search on the $n - 1$ edges of $T$ runs in $O(n)$ time and confirms connectedness), and that the sum of its edge costs does not exceed $B$ (another $O(n)$ additions).
+Since both checks are polynomial, the decision MST lies in $\mathsf{NP}$.
 
-A problem is \emph{\textcolor{RWTHBlue}{$\mathsf{NP}$-hard}} if every problem in $\mathsf{NP}$ can be \emph{reduced} to it: transformed in polynomial time such that solving the target problem yields a solution to the original.
-Informally, $\mathsf{NP}$-hard problems are ``at least as hard'' as the hardest problems in $\mathsf{NP}$.
-No polynomial-time algorithm is known for any $\mathsf{NP}$-hard problem, and the widely believed conjecture $\mathsf{P} \neq \mathsf{NP}$ implies none exists.
+A problem is \emph{\textcolor{RWTHBlue}{$\mathsf{NP}$-hard}} if every problem in $\mathsf{NP}$ can be \emph{reduced} to it: transformed in polynomial time so that solving the target problem also solves the original.
+Informally, $\mathsf{NP}$-hard problems are at least as hard as the hardest problems in $\mathsf{NP}$.
+No polynomial-time algorithm is known for any $\mathsf{NP}$-hard problem, and the widely believed conjecture $\mathsf{P} \neq \mathsf{NP}$ implies that none exists.
 
 \paragraph{Weak and Strong $\mathsf{NP}$-hardness.}
 
-A \emph{\textcolor{RWTHBlue}{pseudo-polynomial}} algorithm has running time polynomial in the input size \emph{and} the numeric values in the input.
-For example, the knapsack problem can be solved in $O(nW)$ time, where $W$ is the capacity; this is polynomial in $W$ but not in $\log W$ (the number of bits needed to encode $W$).
+The knapsack problem is $\mathsf{NP}$-hard, yet a textbook dynamic-programming algorithm solves it in $O(nW)$ time, where $W$ is the knapsack capacity.
+At first sight this seems to contradict $\mathsf{P} \neq \mathsf{NP}$.
+The resolution lies in how input size is measured: a number $W$ is encoded in binary using only about $\log_2 W$ bits, not $W$ itself.
+Doubling $W$ therefore adds just one bit to the input but doubles the runtime, so $O(nW)$ is polynomial in the \emph{value} of $W$ but exponential in the \emph{bit-length} of $W$, which is what ``polynomial-time'' strictly demands.
 
-A problem is \emph{\textcolor{RWTHBlue}{weakly $\mathsf{NP}$-hard}} if it is $\mathsf{NP}$-hard but admits a pseudo-polynomial algorithm.
-It is \emph{\textcolor{RWTHBlue}{strongly $\mathsf{NP}$-hard}} if it remains $\mathsf{NP}$-hard even when all numeric values are bounded by a polynomial in $n$; such problems have no pseudo-polynomial algorithm unless $\mathsf{P} = \mathsf{NP}$.
-
-This distinction matters for robust spanning trees: the number of scenarios $K$ plays a role analogous to numeric input values.
-Problems polynomial for constant $K$ may become $\mathsf{NP}$-hard when $K$ grows with the input.
+An algorithm is \emph{\textcolor{RWTHBlue}{pseudo-polynomial}} if its running time is polynomial in the input size and in the magnitudes of the numeric values appearing in the input.
+Such an algorithm is not polynomial in the strict sense, but it is efficient whenever those values are not too large.
+This motivates two refinements of $\mathsf{NP}$-hardness:
+\begin{itemize}[nosep]
+\item A problem is \emph{\textcolor{RWTHBlue}{weakly $\mathsf{NP}$-hard}} if it is $\mathsf{NP}$-hard and admits a pseudo-polynomial algorithm. The knapsack problem is the canonical example.
+\item A problem is \emph{\textcolor{RWTHBlue}{strongly $\mathsf{NP}$-hard}} if it is $\mathsf{NP}$-hard even when all numeric values are bounded by a polynomial in $n$. Such problems admit no pseudo-polynomial algorithm unless $\mathsf{P} = \mathsf{NP}$.
+\end{itemize}
+This distinction is significant for robust spanning trees: the number of scenarios $K$ plays a role analogous to a numeric input value, and several variants will turn out to be weakly $\mathsf{NP}$-hard (\Cref{ch:minmax,ch:regret}).
 
 \paragraph{Approximation Algorithms.}
 
-When exact polynomial-time algorithms are unlikely, we seek efficient algorithms that compute near-optimal solutions with provable guarantees.
+When an exact polynomial-time algorithm is unlikely to exist, we settle for efficient algorithms returning provably near-optimal solutions.
 
-An \emph{\textcolor{RWTHBlue}{$\alpha$-approximation algorithm}} for a minimisation problem is a polynomial-time algorithm that, for every instance, returns a solution of cost at most $\alpha$ times the optimum, where $\alpha \geq 1$ is the \emph{approximation ratio}.
-For example, a $2$-approximation guarantees a solution at most twice as costly as optimal.
+An \emph{\textcolor{RWTHBlue}{$\alpha$-approximation algorithm}} for a minimisation problem is a polynomial-time algorithm that, on every instance, returns a solution of cost at most $\alpha$ times the optimum, where $\alpha \geq 1$ is the \emph{approximation ratio}.
+The ratio is fixed for the algorithm: a $2$-approximation guarantees a solution at most twice as costly as the optimum, with no tighter promise.
+Christofides' algorithm for the metric travelling salesman problem, for instance, is a $\tfrac{3}{2}$-approximation \cite[Theorem~21.5]{KorteVygen2018}.
 
-A \emph{\textcolor{RWTHBlue}{fully polynomial-time approximation scheme}} (FPTAS) goes further: for any desired accuracy $\varepsilon > 0$, it computes a $(1 + \varepsilon)$-approximation in time polynomial in both $n$ and $1/\varepsilon$.
-An FPTAS is the strongest positive result for an $\mathsf{NP}$-hard problem, as setting $\varepsilon$ sufficiently small yields a solution arbitrarily close to optimal.
+For some problems, the ratio can instead be tuned by the user.
+A \emph{\textcolor{RWTHBlue}{polynomial-time approximation scheme}} (PTAS) takes any $\varepsilon > 0$ as input and returns a $(1 + \varepsilon)$-approximation in time polynomial in $n$ for each fixed $\varepsilon$.
+Setting $\alpha := 1 + \varepsilon$, this is precisely an $\alpha$-approximation for any $\alpha > 1$ chosen by the user, with smaller $\varepsilon$ yielding tighter guarantees.
+The catch is that the runtime may grow rapidly in $1/\varepsilon$ (for instance, $O(n^{1/\varepsilon})$), so a PTAS need not be practical for very small $\varepsilon$.
+
+A \emph{\textcolor{RWTHBlue}{fully polynomial-time approximation scheme}} (FPTAS) is a PTAS whose running time is additionally polynomial in $1/\varepsilon$.
+The trade-off then becomes graceful: halving $\varepsilon$ at most polynomially increases the runtime.
+The knapsack problem admits an FPTAS \cite[Theorem~17.9]{KorteVygen2018}, illustrating that even some $\mathsf{NP}$-hard problems can be approximated to within any desired precision in practical time.
 However, strongly $\mathsf{NP}$-hard problems cannot have an FPTAS unless $\mathsf{P} = \mathsf{NP}$.
 
 \paragraph{Relevance to This Thesis.}
@@ -621,7 +644,6 @@ The complexity of robust spanning tree problems hinges on two factors:
 
 \begin{enumerate}[nosep]
 \item \textbf{Number of scenarios $K$}: For discrete uncertainty, many problems are in $\mathsf{P}$ when $K$ is constant but become $\mathsf{NP}$-hard when $K$ is part of the input.
-
 \item \textbf{Uncertainty model}: For interval uncertainty, the continuum of scenarios prevents enumeration. Some variants remain in $\mathsf{P}$ by exploiting MST structure (\Cref{sec:mst-criteria}); others are $\mathsf{NP}$-hard.
 \end{enumerate}
 
@@ -638,14 +660,9 @@ The complexity of robust spanning tree problems hinges on two factors:
 %─────────────────────────────────────────────────────────
 \section*{Summary}
 
-This chapter established the foundations for analysing robust spanning tree problems.
-\Cref{sec:graph-notation} introduced graph-theoretic notation and the minimum spanning tree problem, along with the micro-graph (\Cref{fig:micro-graph}) that serves as a running example throughout the thesis.
-\Cref{sec:mst-criteria} proved five results characterising MST optimality: the Fundamental Cycle and Cut Lemmas, the Cycle and Cut Criteria, and their equivalence.
-These criteria underpin Kruskal's and Prim's algorithms (\Cref{sec:kruskal-prim}).
-
-\Cref{sec:uncertainty} formalised two uncertainty models (discrete scenarios and interval uncertainty) and defined the min-max and min-max regret objectives.
-\Cref{sec:complexity} reviewed the complexity and approximation terminology needed for subsequent chapters.
-
-With these foundations in place, \Cref{ch:minmax} analyses min-max spanning trees and \Cref{ch:regret} treats min-max regret spanning trees, each under both uncertainty models.
+Two technical pillars established in this chapter recur throughout the rest of the thesis.
+The first is the local characterisation of MST optimality through fundamental cycles and cuts (\Cref{thm:cycle-criterion,thm:cut-criterion}): the exchange arguments built on these criteria will reappear repeatedly in the robust setting.
+The second is the cross-product of uncertainty models (discrete scenarios and interval uncertainty) with robust objectives (min-max cost and min-max regret), which yields the four problem variants analysed in \Cref{ch:minmax,ch:regret}.
+Several of these variants will turn out to be $\mathsf{NP}$-hard, in sharp contrast to the polynomial-time tractability of the deterministic MST.
 
 % END OF CHAPTER 2
