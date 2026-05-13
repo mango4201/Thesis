@@ -47,7 +47,7 @@ For instance, in the telecommunications example, scenarios might correspond to d
 The second is \emph{interval uncertainty}, where each edge cost is known to lie within a specified range, bounded by lower and upper estimates.
 This representation is particularly natural when costs are subject to continuous variation within known limits, such as fluctuations in commodity prices or exchange rates.
 
-Together, these two objectives (Min-Max and Min-Max Regret) and two uncertainty models (discrete scenarios and interval bounds) define a design space with four fundamental problem variants.
+Together, these two objectives (Min-Max and Min-Max Regret) and the uncertainty models studied in this thesis (discrete scenarios, interval bounds, and budgeted uncertainty) define a design space of robust spanning tree variants.
 The central question addressed in this thesis is: how does computational complexity and approximability vary across this space?
 Which combinations admit polynomial-time algorithms, and which are computationally intractable?
 For the hard cases, what approximation guarantees can be achieved?
@@ -61,8 +61,8 @@ These questions form the core of robust spanning tree optimisation and motivate 
 
 This thesis addresses three core questions that arise naturally from the robust spanning tree framework outlined above.
 
-First, what is the computational complexity of finding optimal robust spanning trees under discrete scenarios and interval uncertainty?
-For each combination of objective (Min-Max or Regret) and uncertainty model (discrete or interval), does there exist a polynomial-time algorithm, or is the problem computationally intractable?
+First, what is the computational complexity of finding optimal robust spanning trees under the uncertainty models studied here?
+For each combination of objective (Min-Max or Regret) and uncertainty model (discrete, interval, or budgeted), does there exist a polynomial-time algorithm, or is the problem computationally intractable?
 When hardness arises, does it stem from the number of scenarios being unbounded, or is even the case of two scenarios already difficult?
 Answering these questions requires establishing precise complexity classifications: polynomial-time solvability, weak NP-hardness (admitting pseudo-polynomial algorithms), or strong NP-hardness (remaining hard even with unary-encoded inputs).
 
@@ -78,12 +78,12 @@ These questions determine the boundary between tractable and intractable robust 
 
 The scope of this thesis is deliberately focused.
 We restrict attention to spanning tree problems in undirected, connected graphs with static, single-stage decisions: a tree is selected once, before any uncertainty is resolved, and remains fixed.
-The uncertainty models studied are discrete scenarios (a finite collection of cost vectors) and interval bounds (per-edge lower and upper limits forming a Cartesian product).
+The uncertainty models studied are discrete scenarios (a finite collection of cost vectors), interval bounds (per-edge lower and upper limits forming a Cartesian product), and budgeted uncertainty (intervals with an additional cap on the total deviation, introduced briefly in \Cref{sec:mm-budgeted}).
 The objectives analysed are Min-Max (minimising worst-case absolute cost) and Min-Max Regret (minimising worst-case performance gap against scenario-optimal solutions).
 
-This thesis does not cover budgeted uncertainty (where at most a specified number of edges deviate from nominal costs), polyhedral uncertainty sets, or distributional robustness (where costs follow known probability distributions).
+This thesis does not cover polyhedral uncertainty sets, ellipsoidal uncertainty, or distributional robustness (where costs follow known probability distributions).
 It also excludes two-stage and recoverable optimisation models, where decisions can be partially adjusted after observing realisations.
-These extensions represent active research directions and are briefly discussed in the outlook (\Cref{ch:conclusion}), but they lie outside the core scope of this work.
+These extensions represent active research directions and are briefly discussed in the outlook (\Cref{sec:outlook}), but they lie outside the core scope of this work.
 The goal is not encyclopaedic coverage but rather a self-contained, rigorous treatment of the selected models, proving foundational results from first principles and synthesising established complexity and approximability findings into a unified classification.
 
 %─────────────────────────────────────────────────────────
@@ -113,11 +113,11 @@ Fourth, we prove a 2-approximation algorithm for interval regret spanning trees 
 The proof is developed rigorously through two supporting lemmas (\Cref{lem:regret-lower-bound,lem:regret-upper-bound}) bounding the midpoint solution's regret from below and above.
 This result is noteworthy as the best known constant-factor approximation for any robust combinatorial optimisation problem under interval uncertainty, though the tightness of the factor 2 remains an open question in the literature.
 
-Fifth, we synthesise results into a comprehensive classification table (\Cref{ch:synthesis}).
-\Cref{tab:complexity-landscape} organises eight problem variants (two objectives, two uncertainty models, two scenario count regimes) with their complexity classes and approximation guarantees.
-The table reveals structural patterns: intervals exhibit extremal behaviour enabling tractability, scenario count $K$ acts as a complexity parameter (constant versus unbounded), and the two objectives display parallel hardness for discrete scenarios but diverge for intervals.
+Fifth, we synthesise results into a comprehensive classification table (\Cref{ch:conclusion}).
+\Cref{tab:complexity-landscape} organises problem variants by objective and uncertainty model (discrete, interval, budgeted) with their complexity classes and approximation guarantees.
+The table reveals structural patterns: intervals and budgeted uncertainty exhibit extremal behaviour enabling tractability for Min-Max, scenario count $K$ acts as a complexity parameter (constant versus unbounded) for discrete uncertainty, and the two objectives display parallel hardness for discrete scenarios but diverge for intervals.
 
-Throughout the thesis, a fixed four-vertex micro-graph with interval costs and derived discrete scenarios provides worked examples illustrating optimal solutions under each objective and uncertainty model.
+Throughout the thesis, a fixed four-vertex micro-graph with interval costs, derived discrete scenarios, and derived budgeted parameters (nominal costs and maximum deviations) provides worked examples illustrating optimal solutions under each objective and uncertainty model.
 This pedagogical device grounds abstract theoretical results in concrete calculations, demonstrating that robust optima genuinely differ from nominal solutions.
 
 %─────────────────────────────────────────────────────────
@@ -135,9 +135,6 @@ A fixed micro-graph is introduced for illustrative examples throughout.
 \Cref{ch:regret} examines the Min-Max Regret objective, which measures relative performance rather than absolute cost.
 Interval regret is shown to be harder than interval Min-Max despite sharing extremal properties, while discrete regret mirrors the complexity hierarchy of discrete Min-Max.
 
-\Cref{ch:synthesis} synthesises results from \Cref{ch:minmax,ch:regret} into a comprehensive classification table spanning eight problem variants.
-An example gallery demonstrates how optimal solutions vary across objectives and uncertainty models, and key patterns are extracted for practitioners.
-
-\Cref{ch:conclusion} summarises achievements, acknowledges deliberate scope limitations, and surveys related robust optimisation models (budgeted uncertainty, two-stage formulations, recoverable robustness) along with open questions from the literature.
+\Cref{ch:conclusion} consolidates the results from \Cref{ch:minmax,ch:regret} into a comprehensive classification table, displays the running micro-graph under each robust objective in an example gallery, acknowledges the deliberate scope limitations of this work, and points to related robust optimisation models (polyhedral uncertainty, two-stage formulations, recoverable robustness) along with open questions from the literature.
 
 \Cref{app:notation} provides an alphabetised notation table for quick reference.

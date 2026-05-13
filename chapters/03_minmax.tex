@@ -8,13 +8,16 @@
 %   - K=2 weakly NP-hard + FULL proof (partition reduction)
 %   - K=const pseudo-poly + FPTAS (cited)
 %   - K unbounded strongly NP-hard + inapproximability (cited + sketched)
+%   - Budgeted uncertainty: polynomial via Bertsimas-Sim enumeration
 % Labels created:
 %   - ch:minmax, sec:mm-formulation, sec:mm-extremal,
-%     sec:mm-complexity, sec:mm-discussion,
+%     sec:mm-complexity, sec:mm-budgeted, sec:mm-discussion,
 %     lem:interval-extremal-cost, thm:mm-k2-hard,
-%     thm:mm-kconst-pseudo, thm:mm-kunbdd-hard, fig:partition-grid
-% Page budget: 10.6 pages
-% Status: PLACEHOLDER
+%     thm:mm-kconst-pseudo, thm:mm-kunbdd-hard,
+%     thm:mm-budgeted-poly, tab:budgeted-micrograph,
+%     fig:partition-grid
+% Page budget: 12.1 pages
+% Status: PLACEHOLDER (§3.4 sketched; full draft preserved in \iffalse block)
 %═══════════════════════════════════════════════════════════
 
 \chapter{Min-Max Spanning Tree}\label{ch:minmax}
@@ -172,13 +175,163 @@
 %   - Open gap: O(K) vs O(log^(1-ε) n) lower bound
 
 %─────────────────────────────────────────────────────────
-% SECTION 3.4: DISCUSSION AND CONTRAST (2.1 pages)
+% SECTION 3.4: BUDGETED UNCERTAINTY (1.5 pages)
+%
+% Goal: Treat the third standard uncertainty model.
+% Result: Polynomial-time algorithm via Bertsimas-Sim enumeration
+%         (citing Goerigk Theorem 4.21).
+% Proof status: cite the framework, instantiate for MST.
+% Worked example: micro-graph with bar_c = midpoint, hat_c = half-width.
+%
+% STATUS: SKETCHED — full draft preserved below in \iffalse...\fi block.
+%─────────────────────────────────────────────────────────
+\section{Budgeted Uncertainty}\label{sec:mm-budgeted}
+
+% TODO: Section opening (0.1 pg)
+%   - Bridge from §2.4 definition: the budgeted set Scenarios^Gamma
+%   - Position between discrete and interval, parameter Gamma as conservatism dial
+%   - Section roadmap: per-tree evaluation → framework theorem → worked example → regret pointer
+
+% TODO: Per-tree worst-case characterisation (0.3 pg)
+%   - Inner max over Scenarios^Gamma is an LP over a bounded polytope
+%   - Extreme-point structure: adversary picks the Gamma edges of T with largest hat_c
+%   - Per-tree evaluation is polynomial, but tree enumeration is not
+%   - Sets up the need for the framework theorem below
+
+% TODO: Theorem thm:mm-budgeted-poly (0.4 pg)
+%   - Statement: Min-Max ST under continuous budgeted uncertainty is polynomial
+%   - Reformulation via Goerigk Theorem 4.21:
+%       min_T max_c c(T) = min_{pi in Pi} ( min_T sum_e (bar_c_e + [hat_c_e - pi]^+) + Gamma*pi )
+%     with Pi = {0} ∪ {hat_c_e : e in E}
+%   - Inner min is a nominal MST → Kruskal in O(m log n)
+%   - |Pi| ≤ m+1 candidates → overall O(m^2 log n)
+%   - PROOF: Direct instantiation of Goerigk Thm 4.21 + Lemma 4.20
+%     (no derivation needed; cite the framework)
+
+% TODO: Interpretation paragraph (0.1 pg)
+%   - π as price per unit deviation budget; Γπ total payment to adversary
+%   - [hat_c_e - π]^+ residual marginal cost after pricing
+%   - Enumeration explores piecewise-linear break-points
+
+% TODO: Worked example on the micro-graph (0.4 pg)
+%   - Use bar_c_e = (l_e + u_e)/2, hat_c_e = (u_e - l_e)/2 from existing intervals
+%   - Table of (bar_c, hat_c) values per edge (or reuse derived from Tab. 2.1)
+%   - Set Γ = 2
+%   - Candidate set Π = {0, 2, 2.5, 3}
+%   - Table of modified costs c'_e(π) for each π, MST cost, +Γπ, total
+%   - Identify optimum: π=2, tree T_2 = {e1,e2,e4}, objective 17
+%   - Cross-check via direct computation: bar_c(T_2) + top-2 hat_c on T_2 = 12+3+2 = 17
+%   - NUMERICS ARE VERIFIED (Python enumeration; see thread context)
+%   - Label: tab:budgeted-micrograph
+
+% TODO: Cross-model comparison (0.1 pg)
+%   - T_2 is optimal under discrete, interval, AND budgeted
+%   - Worst-case costs differ: 19 (discrete/interval) vs 17 (budgeted Γ=2)
+%   - Γ as smooth interpolation: Γ=0 → deterministic on bar_c (cost 12); Γ=|E| → interval (cost 19)
+
+% TODO: Regret pointer (0.1 pg)
+%   - Min-Max regret under budgeted is NP-hard
+%   - Argument: interval is the special case Γ=|E|, so regret-interval NP-hardness lifts
+%   - Cite AverbakhLebedev2004 for regret-interval, Goerigk §4.5.3 for the general reformulation
+%   - State explicitly: not pursued further in this thesis
+
+%─────────────────────────────────────────────────────────
+% FULL DRAFT (preserved for later use; uncomment by removing \iffalse...\fi wrapper)
+%─────────────────────────────────────────────────────────
+\iffalse
+
+The budgeted uncertainty set $\Scenarios^{\Gamma}$ introduced in \Cref{def:budgeted-uncertainty} sits between the discrete and interval models: edge costs may deviate from their nominal values up to a maximum deviation each, but the total deviation across all edges is bounded by~$\Gamma$.
+This section shows that the resulting min-max spanning tree problem is solvable in polynomial time, by reduction to a finite family of nominal MST instances.
+
+\paragraph{Worst-Case Cost of a Fixed Tree.}
+
+For a fixed spanning tree $T \in \cT$, the inner maximisation
+\[
+\max_{c \in \Scenarios^{\Gamma}} c(T) = \max_{\delta \in [0,1]^{|E|},\ \sum_e \delta_e \leq \Gamma} \sum_{e \in T}\bigl(\bar{c}_e + \hat{c}_e\, \delta_e\bigr)
+\]
+is a linear program over a bounded polytope, hence attains its maximum at an extreme point.
+At any extreme point of the deviation polytope, the adversary selects the $\Gamma$ edges of $T$ with the largest deviations $\hat{c}_e$ and sets $\delta_e = 1$ on those edges; the remaining deviations are zero.
+This evaluation is polynomial per tree, but enumerating all spanning trees is not: the algorithm below avoids enumeration via a duality-based reformulation.
+
+\paragraph{Polynomial-Time Algorithm.}
+
+\begin{theorem}[Min-Max Spanning Tree under Budgeted Uncertainty]\label{thm:mm-budgeted-poly}
+The min-max spanning tree problem under continuous budgeted uncertainty $\Scenarios^{\Gamma}$ can be solved in polynomial time.
+Specifically, the optimum is attained by
+\[
+\min_{T \in \cT} \max_{c \in \Scenarios^{\Gamma}} c(T)
+\;=\; \min_{\pi \in \Pi}\, \Biggl( \min_{T \in \cT} \sum_{e \in E(T)} \bigl(\bar{c}_e + [\hat{c}_e - \pi]^{+}\bigr) \;+\; \Gamma\,\pi \Biggr),
+\]
+where $\Pi = \{0\} \cup \{\hat{c}_e : e \in E\}$ and $[x]^{+} = \max\{x, 0\}$.
+The inner minimum is a nominal MST instance, solvable by Kruskal's algorithm in $O(m \log n)$ time; with $|\Pi| \leq m + 1$ candidates, the overall running time is $O(m^2 \log n)$.
+\end{theorem}
+
+\begin{proof}
+The result is a direct instantiation of \cite[Theorem~4.21]{Goerigk2021RCO}, which establishes the reformulation for any min-max combinatorial optimisation problem $\min_{x \in \mathcal{X}} \max_{c \in \Scenarios^{\Gamma}} c^{\top} x$ with $\mathcal{X} \subseteq \{0,1\}^n$.
+For min-max spanning trees, $\mathcal{X} = \{\mathbf{1}_T : T \in \cT\}$, and the inner minimisation over $\mathcal{X}$ at fixed~$\pi$ becomes the nominal MST problem with modified edge costs $c'_e(\pi) = \bar{c}_e + [\hat{c}_e - \pi]^{+}$.
+Kruskal's algorithm solves each such instance in $O(m \log n)$.
+The candidate set $\Pi$ contains at most $m + 1$ values \cite[Lemma~4.20]{Goerigk2021RCO}, giving the stated bound.
+\end{proof}
+
+The reformulation has an intuitive interpretation: $\pi$ acts as a price the decision-maker pays per unit of deviation budget. The term $\Gamma\,\pi$ is the total payment to the adversary, while $[\hat{c}_e - \pi]^{+}$ is the residual marginal cost an edge contributes once its deviation has been priced at~$\pi$.
+Enumerating $\pi$ over $\Pi$ explores all break-points of this piecewise-linear function and identifies the optimal trade-off.
+
+\paragraph{Worked Example.}
+
+We instantiate the budgeted model on the micro-graph (\Cref{fig:micro-graph}) by setting nominal costs $\bar{c}_e = (\ell_e + u_e)/2$ and maximum deviations $\hat{c}_e = (u_e - \ell_e)/2$; this aligns the budgeted model with the interval data from \Cref{tab:micro-graph-costs}. \Cref{tab:budgeted-micrograph} lists the resulting values.
+
+\begin{table}[h]
+\centering
+\caption{Budgeted parameters for the micro-graph, derived from \Cref{tab:micro-graph-costs}.}\label{tab:budgeted-micrograph}
+\begin{tabular}{lccccc}
+\toprule
+Edge & $e_1$ & $e_2$ & $e_3$ & $e_4$ & $e_5$ \\
+\midrule
+$\bar{c}_e$ & $5$ & $3$ & $5$ & $4$ & $6.5$ \\
+$\hat{c}_e$ & $3$ & $2$ & $2$ & $2$ & $2.5$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Setting $\Gamma = 2$, the candidate set is $\Pi = \{0, 2, 2.5, 3\}$.
+For each $\pi \in \Pi$ we form the modified cost vector $c'(\pi)$, solve the nominal MST on $c'(\pi)$, and add $\Gamma\,\pi$:
+\[
+\begin{array}{c|cccc|c|c}
+\pi & c'_{e_1} & c'_{e_2} & c'_{e_3} & c'_{e_4} & c'_{e_5} & \min_T c'(T) + \Gamma\pi \\
+\midrule
+0   & 8   & 5 & 7 & 6 & 9   & 19 + 0 = 19 \\
+2   & 6   & 3 & 5 & 4 & 7   & 13 + 4 = 17 \\
+2.5 & 5.5 & 3 & 5 & 4 & 6.5 & 12.5 + 5 = 17.5 \\
+3   & 5   & 3 & 5 & 4 & 6.5 & 12 + 6 = 18 \\
+\end{array}
+\]
+The minimum is attained at $\pi = 2$ with objective value~$17$.
+The optimal tree, identified by Kruskal on $c'(2)$, is $T_2 = \{e_1, e_2, e_4\}$.
+Direct verification confirms this value: under $T_2$, the adversary selects the two edges with the largest deviations ($e_1$ with $\hat{c} = 3$ and $e_2$ or $e_4$ with $\hat{c} = 2$), yielding a worst-case cost of $\bar{c}(T_2) + 3 + 2 = 12 + 5 = 17$, matching the framework result.
+
+\paragraph{Comparison with the Other Models.}
+
+The micro-graph illustrates how the optimal min-max tree shifts with the uncertainty model.
+The same tree $T_2$ is optimal under all three models (discrete with the scenarios of \Cref{tab:micro-graph-costs}, interval with the bounds $[\ell_e, u_e]$, and budgeted with $\Gamma = 2$ as above), but the worst-case costs differ: $19$ for discrete and interval (full upper bounds attained), $17$ for budgeted with $\Gamma = 2$.
+As $\Gamma$ increases from~$0$ to~$|E|$, the budgeted objective interpolates smoothly between the deterministic problem on $\bar{c}$ (cost $12$) and the interval problem on $[\bar{c}_e, \bar{c}_e + \hat{c}_e]$ (cost~$19$).
+
+\paragraph{Regret Variant.}
+
+The min-max \emph{regret} spanning tree problem under budgeted uncertainty is $\mathsf{NP}$-hard: since the interval model is the special case $\Gamma = |E|$ of the budgeted model, the $\mathsf{NP}$-hardness of min-max regret under interval uncertainty (\Cref{ch:regret}; see \cite{AverbakhLebedev2004}) carries over.
+We do not pursue this variant in detail; \cite[\S4.5.3]{Goerigk2021RCO} provides general reformulation results for min-max regret under budgeted uncertainty.
+
+\fi
+
+% END OF SECTION 3.4
+
+%─────────────────────────────────────────────────────────
+% SECTION 3.5: DISCUSSION AND CONTRAST (2.1 pages)
 %─────────────────────────────────────────────────────────
 \section{Discussion}\label{sec:mm-discussion}
 
-% TODO: Discrete vs Interval comparison table (0.7 pg)
-%   | Model | K=const | K unbounded | Interval |
-%   | Min-Max | Weak NP-hard, FPTAS | Strong NP-hard, O(K)-approx | Polynomial |
+% TODO: Discrete vs Interval vs Budgeted comparison table (0.7 pg)
+%   | Model    | K=const | K unbounded | Interval | Budgeted |
+%   | Min-Max  | Weak NP-hard, FPTAS | Strong NP-hard, O(K)-approx | Polynomial | Polynomial |
 
 % TODO: Why intervals are easy (0.5 pg)
 %   - Extremal lemma makes worst case explicit (Lemma 3.1)
@@ -194,7 +347,7 @@
 %   - Not our focus (structural/complexity emphasis)
 
 %─────────────────────────────────────────────────────────
-% SECTION 3.5: CHAPTER SUMMARY (0.3 pages)
+% SECTION 3.6: CHAPTER SUMMARY (0.3 pages)
 %─────────────────────────────────────────────────────────
 \section*{Summary}
 
@@ -205,6 +358,9 @@
 % (Theorem 3.2, partition reduction), with FPTAS for constant K
 % (Theorem 3.3). For unbounded K: strongly NP-hard (Theorem 3.4),
 % O(K) approximation, no constant-factor possible (Theorem 3.5).
+% Budgeted uncertainty is polynomial (Theorem 3.X, Bertsimas-Sim
+% framework via Goerigk Theorem 4.21) by reduction to O(m) nominal
+% MST instances.
 % Chapter 5 synthesis table compares with Min-Max Regret results.
 
 % END OF CHAPTER 3

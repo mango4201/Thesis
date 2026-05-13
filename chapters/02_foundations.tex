@@ -13,7 +13,7 @@
 
 This chapter develops the foundations needed for analysing robust spanning tree problems.
 After fixing graph-theoretic notation and introducing the running micro-graph (\Cref{sec:graph-notation}), we prove the MST optimality criteria from first principles (\Cref{sec:mst-criteria}) and remark on the classical greedy algorithms they justify (\Cref{sec:kruskal-prim}).
-\Cref{sec:uncertainty} then formalises the two uncertainty models, discrete scenarios and interval uncertainty, together with the min-max and min-max regret objectives.
+\Cref{sec:uncertainty} then formalises the three uncertainty models, discrete scenarios, interval uncertainty, and budgeted uncertainty, together with the min-max and min-max regret objectives.
 \Cref{sec:complexity} reviews the complexity and approximation terminology used in \Cref{ch:minmax,ch:regret}.
 
 %─────────────────────────────────────────────────────────
@@ -458,7 +458,7 @@ The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address 
 In many practical applications, edge costs are not known precisely at decision time.
 Construction expenses may fluctuate, travel times depend on traffic conditions, and communication link costs vary with demand.
 Robust optimisation addresses this challenge by seeking solutions that perform well across all possible cost realisations, rather than optimising for a single nominal scenario \cite{KouvelisYu1997}.
-This section formalises two uncertainty models and the corresponding robust objectives that we analyse in \Cref{ch:minmax,ch:regret}.
+This section formalises three uncertainty models and the corresponding robust objectives that we analyse in \Cref{ch:minmax,ch:regret}.
 
 \paragraph{Discrete Scenarios.}
 
@@ -493,6 +493,24 @@ This non-negativity reflects edge costs typically representing distances, constr
 Unlike the discrete model with finitely many scenarios, interval uncertainty encompasses a continuum of possible cost vectors.
 Despite this, many robust problems under interval uncertainty admit efficient solutions by exploiting the structure of the uncertainty set: worst-case costs are often attained at the boundary of the intervals.
 We develop these arguments in \Cref{ch:minmax,ch:regret}.
+
+\paragraph{Budgeted Uncertainty.}
+
+In the \emph{\textcolor{RWTHBlue}{budgeted model}}, each edge has a baseline cost together with a bound on how far it may rise, and a single parameter caps how many edges may deviate from baseline at once.
+
+\begin{definition}[Budgeted Uncertainty Set]\label{def:budgeted-uncertainty}
+Let $\bar{c} \in \R^{|E|}_{\geq 0}$ be a vector of \emph{\textcolor{RWTHBlue}{nominal costs}} (the baseline value of each edge), $\hat{c} \in \R^{|E|}_{\geq 0}$ a vector of \emph{\textcolor{RWTHBlue}{maximum deviations}} (the largest upward perturbation each edge can suffer), and $\Gamma \in [0, |E|]$ a \emph{\textcolor{RWTHBlue}{deviation budget}}.
+The \emph{\textcolor{RWTHBlue}{budgeted uncertainty set}} is
+\[
+\Scenarios^{\Gamma} = \biggl\{ c \in \R^{|E|}_{\geq 0} : c_e = \bar{c}_e + \hat{c}_e\, \delta_e,\ \delta_e \in [0,1] \text{ for } e \in E,\ \sum_{e \in E} \delta_e \leq \Gamma \biggr\}.
+\]
+\end{definition}
+
+Each edge cost $c_e$ is determined by a deviation factor $\delta_e \in [0,1]$: at $\delta_e = 0$ the edge takes its nominal cost $\bar{c}_e$, at $\delta_e = 1$ it takes the worst-case value $\bar{c}_e + \hat{c}_e$, and intermediate values interpolate linearly.
+The budget constraint $\sum_e \delta_e \leq \Gamma$ limits the cumulative deviation across the graph.
+Setting $\Gamma = 0$ recovers the deterministic problem on $\bar{c}$, while $\Gamma = |E|$ allows every edge to deviate independently and recovers an interval model with $[\ell_e, u_e] = [\bar{c}_e, \bar{c}_e + \hat{c}_e]$ \cite{Goerigk2021RCO}.
+The budget $\Gamma$ thus offers a tunable middle ground: the modeller controls how conservative the analysis is through a single parameter, rather than committing in advance to a fixed scenario list or to the full interval ranges.
+As we shall see in \Cref{sec:mm-budgeted}, this added structure allows the min-max spanning tree problem to remain polynomial-time solvable under budgeted uncertainty.
 
 \paragraph{Robust Objectives.}
 
@@ -662,7 +680,7 @@ The complexity of robust spanning tree problems hinges on two factors:
 
 Two technical pillars established in this chapter recur throughout the rest of the thesis.
 The first is the local characterisation of MST optimality through fundamental cycles and cuts (\Cref{thm:cycle-criterion,thm:cut-criterion}): the exchange arguments built on these criteria will reappear repeatedly in the robust setting.
-The second is the cross-product of uncertainty models (discrete scenarios and interval uncertainty) with robust objectives (min-max cost and min-max regret), which yields the four problem variants analysed in \Cref{ch:minmax,ch:regret}.
+The second is the family of uncertainty models (discrete scenarios, interval uncertainty, and budgeted uncertainty) combined with robust objectives (min-max cost and min-max regret), which yields the problem variants analysed in \Cref{ch:minmax,ch:regret}.
 Several of these variants will turn out to be $\mathsf{NP}$-hard, in sharp contrast to the polynomial-time tractability of the deterministic MST.
 
 % END OF CHAPTER 2
