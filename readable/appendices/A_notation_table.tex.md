@@ -55,11 +55,15 @@ $\cut{X_e}$ & Fundamental cut of tree edge $e$ & \S\ref{sec:graph-notation} \\
 \midrule
 
 \multicolumn{3}{l}{\textit{Uncertainty Models}} \\
-$\Scenarios$ & Uncertainty set (discrete or interval) & \S\ref{sec:uncertainty} \\
+$\Scenarios$ & Uncertainty set (discrete, interval, or budgeted) & \S\ref{sec:uncertainty} \\
 $K$ & Number of discrete scenarios & \S\ref{sec:uncertainty} \\
 $\cs{k}$ & Scenario $k$ cost vector, $k \in \{1, \ldots, K\}$ & \S\ref{sec:uncertainty} \\
 $[\ell_e, u_e]$ & Interval cost bounds for edge $e$ & \S\ref{sec:uncertainty} \\
 $\ell_e, u_e$ & Lower and upper bounds on edge cost (interval model) & \S\ref{sec:uncertainty} \\
+$\Scenarios^{\Gamma}$ & Budgeted uncertainty set & \S\ref{sec:uncertainty} \\
+$\Gamma$ & Deviation budget (budgeted model) & \S\ref{sec:uncertainty} \\
+$\bar{c}_e$ & Nominal cost of edge $e$ (budgeted model) & \S\ref{sec:uncertainty} \\
+$\hat{c}_e$ & Maximum deviation of edge $e$ (budgeted model) & \S\ref{sec:uncertainty} \\
 \midrule
 
 \multicolumn{3}{l}{\textit{Robust Objectives}} \\
