@@ -35,14 +35,14 @@ A tree that is optimal for one cost estimate may perform poorly when costs devia
 Thus, while the MST problem is well understood in the deterministic setting, real-world applications demand solutions that are \emph{robust} to cost uncertainty.
 
 Under uncertainty, two natural design objectives emerge.
-The first is the \emph{Min-Max} objective, which seeks to minimise the worst-case absolute cost across all possible cost realisations.
+The first is the \emph{min-max} objective, which seeks to minimise the worst-case absolute cost across all possible cost realisations.
 This conservative approach hedges against expensive scenarios by selecting a spanning tree whose cost remains controlled even in the most unfavourable circumstances.
 Mathematically, given a set of possible cost vectors, the goal is to find a tree that minimises the maximum cost it could incur.
 
-The second objective is \emph{Min-Max Regret}, which measures performance not in absolute terms but relative to what could have been achieved with perfect hindsight.
+The second objective is \emph{min-max regret}, which measures performance not in absolute terms but relative to what could have been achieved with perfect hindsight.
 Regret quantifies the difference between a chosen solution's cost and the optimal cost for a given realisation.
-The Min-Max Regret objective minimises the worst-case performance gap, hedging against the possibility of missing the truly optimal solution.
-Unlike Min-Max, which guards against high absolute costs, Regret focuses on relative performance: ensuring that no matter which cost scenario materialises, the chosen tree is competitive with the scenario-optimal solution.
+The min-max regret objective minimises the worst-case performance gap, hedging against the possibility of missing the truly optimal solution.
+Unlike min-max, which guards against high absolute costs, regret focuses on relative performance: ensuring that no matter which cost scenario materialises, the chosen tree is competitive with the scenario-optimal solution.
 
 To model uncertainty, we consider two standard representations that arise naturally in applications.
 The first is \emph{discrete scenario uncertainty}, where a planner enumerates a finite set of plausible cost vectors, each representing a different potential future state.
@@ -50,7 +50,7 @@ For instance, in the telecommunications example, scenarios might correspond to d
 The second is \emph{interval uncertainty}, where each edge cost is known to lie within a specified range, bounded by lower and upper estimates.
 This representation is particularly natural when costs are subject to continuous variation within known limits, such as fluctuations in commodity prices or exchange rates.
 
-Together, these two objectives (Min-Max and Min-Max Regret) and the uncertainty models studied in this thesis (discrete scenarios, interval bounds, and budgeted uncertainty) define a design space of robust spanning tree variants.
+Together, these two objectives (min-max and min-max regret) and the uncertainty models studied in this thesis (discrete scenarios, interval bounds, and budgeted uncertainty) define a design space of robust spanning tree variants.
 The central question addressed in this thesis is: how does computational complexity and approximability vary across this space?
 Which combinations admit polynomial-time algorithms, and which are computationally intractable?
 For the hard cases, what approximation guarantees can be achieved?
@@ -65,13 +65,13 @@ These questions form the core of robust spanning tree optimisation and motivate 
 This thesis addresses three core questions that arise naturally from the robust spanning tree framework outlined above.
 
 First, what is the computational complexity of finding optimal robust spanning trees under the uncertainty models studied here?
-For each combination of objective (Min-Max or Regret) and uncertainty model (discrete, interval, or budgeted), does there exist a polynomial-time algorithm, or is the problem computationally intractable?
+For each combination of objective (min-max or regret) and uncertainty model (discrete, interval, or budgeted), does there exist a polynomial-time algorithm, or is the problem computationally intractable?
 When hardness arises, does it stem from the number of scenarios being unbounded, or is even the case of two scenarios already difficult?
-Answering these questions requires establishing precise complexity classifications: polynomial-time solvability, weak NP-hardness (admitting pseudo-polynomial algorithms), or strong NP-hardness (remaining hard even with unary-encoded inputs).
+Answering these questions requires establishing precise complexity classifications: polynomial-time solvability, weak $\mathsf{NP}$-hardness (admitting pseudo-polynomial algorithms), or strong $\mathsf{NP}$-hardness (remaining hard even with unary-encoded inputs).
 
 Second, where do worst-case costs occur within interval uncertainty?
 When each edge cost lies in a specified range, must one consider all points within the Cartesian product of intervals, or can worst cases be characterised more simply?
-This question is critical because if worst cases always occur at interval boundaries---such as the upper or lower bounds---then the infinite continuous uncertainty set can be reduced to a finite discrete problem.
+This question is critical because if worst cases always occur at interval boundaries, such as the upper or lower bounds, then the infinite continuous uncertainty set can be reduced to a finite discrete problem.
 Extremal lemmas that identify such worst-case locations are therefore essential tools for both algorithmic design and theoretical analysis.
 
 Third, for problems that are computationally hard, what approximation guarantees can be achieved?
@@ -82,7 +82,7 @@ These questions determine the boundary between tractable and intractable robust 
 The scope of this thesis is deliberately focused.
 We restrict attention to spanning tree problems in undirected, connected graphs with static, single-stage decisions: a tree is selected once, before any uncertainty is resolved, and remains fixed.
 The uncertainty models studied are discrete scenarios (a finite collection of cost vectors), interval bounds (per-edge lower and upper limits forming a Cartesian product), and budgeted uncertainty (intervals with an additional cap on the total deviation, introduced briefly in \Cref{sec:mm-budgeted}).
-The objectives analysed are Min-Max (minimising worst-case absolute cost) and Min-Max Regret (minimising worst-case performance gap against scenario-optimal solutions).
+The objectives analysed are min-max (minimising worst-case absolute cost) and min-max regret (minimising worst-case performance gap against scenario-optimal solutions).
 
 This thesis does not cover polyhedral uncertainty sets, ellipsoidal uncertainty, or distributional robustness (where costs follow known probability distributions).
 It also excludes two-stage and recoverable optimisation models, where decisions can be partially adjusted after observing realisations.
@@ -98,17 +98,17 @@ This thesis delivers five principal contributions to the literature on robust sp
 
 First, we provide self-contained minimum spanning tree foundations (\Cref{ch:foundations}).
 We prove five fundamental results from first principles: the fundamental cycle and cut lemmas via exchange arguments, and three MST optimality criteria (cycle property, cut property, and their equivalence).
-\Cref{ch:foundations} also includes a complexity primer defining polynomial time, NP-hardness (weak and strong), and approximation concepts (constant-factor algorithms, FPTAS, PTAS) for classifying the robust variants.
+\Cref{ch:foundations} also includes a complexity primer defining polynomial time, $\mathsf{NP}$-hardness (weak and strong), and approximation concepts (constant-factor algorithms, FPTAS, PTAS) for classifying the robust variants.
 
 Second, we establish extremal characterisations for interval uncertainty (\Cref{ch:minmax,ch:regret}).
-For the Min-Max objective, \Cref{lem:interval-extremal-cost} proves that worst-case costs occur when chosen edges are assigned their upper bounds, immediately yielding a polynomial-time algorithm.
-For the Regret objective, \Cref{lem:interval-extremal-regret} proves that worst-case regret occurs at boundary vertices of the interval box, though determining which boundary is harder.
+For the min-max objective, \Cref{lem:interval-extremal-cost} proves that worst-case costs occur when chosen edges are assigned their upper bounds, immediately yielding a polynomial-time algorithm.
+For the regret objective, \Cref{lem:interval-extremal-regret} proves that worst-case regret occurs at boundary vertices of the interval box, though determining which boundary is harder.
 Both lemmas are proved in full, and their implications for algorithm design are developed carefully.
 
 Third, we provide two representative complexity proofs (\Cref{ch:minmax,ch:regret}).
-\Cref{thm:mm-k2-hard} establishes weak NP-hardness of Min-Max spanning trees with two discrete scenarios via a reduction from the \textsc{Partition} problem, constructing a grid graph where scenario costs encode target subset sums.
+\Cref{thm:mm-k2-hard} establishes weak $\mathsf{NP}$-hardness of min-max spanning trees with two discrete scenarios via a reduction from the \textsc{Partition} problem, constructing a grid graph where scenario costs encode target subset sums.
 The proof includes the reduction construction, correctness argument, and encoding analysis.
-\Cref{thm:regret-k2-hard} extends this to Min-Max Regret by reusing the construction with adjusted analysis, demonstrating that regret complexity mirrors absolute cost complexity for discrete scenarios.
+\Cref{thm:regret-k2-hard} extends this to min-max regret by reusing the construction with adjusted analysis, demonstrating that regret complexity mirrors absolute cost complexity for discrete scenarios.
 Together with cited results for larger scenario counts, these establish a complete complexity hierarchy.
 
 Fourth, we prove a 2-approximation algorithm for interval regret spanning trees (\Cref{ch:regret}).
@@ -117,8 +117,8 @@ The proof is developed rigorously through two supporting lemmas (\Cref{lem:regre
 This result is noteworthy as the best known constant-factor approximation for any robust combinatorial optimisation problem under interval uncertainty, though the tightness of the factor 2 remains an open question in the literature.
 
 Fifth, we synthesise results into a comprehensive classification table (\Cref{ch:conclusion}).
-\Cref{tab:complexity-landscape} organises problem variants by objective and uncertainty model (discrete, interval, budgeted) with their complexity classes and approximation guarantees.
-The table reveals structural patterns: intervals and budgeted uncertainty exhibit extremal behaviour enabling tractability for Min-Max, scenario count $K$ acts as a complexity parameter (constant versus unbounded) for discrete uncertainty, and the two objectives display parallel hardness for discrete scenarios but diverge for intervals.
+\Cref{tab:complexity-landscape} organises problem variants by objective and uncertainty model with their complexity classes and approximation guarantees.
+The table reveals structural patterns: intervals and budgeted uncertainty exhibit extremal behaviour enabling tractability for min-max, scenario count $K$ acts as a complexity parameter (constant versus unbounded) for discrete uncertainty, and the two objectives display parallel hardness for discrete scenarios but diverge for intervals.
 
 Throughout the thesis, a fixed four-vertex micro-graph with interval costs, derived discrete scenarios, and derived budgeted parameters (nominal costs and maximum deviations) provides worked examples illustrating optimal solutions under each objective and uncertainty model.
 This pedagogical device grounds abstract theoretical results in concrete calculations, demonstrating that robust optima genuinely differ from nominal solutions.
@@ -131,12 +131,11 @@ This pedagogical device grounds abstract theoretical results in concrete calcula
 The remainder of this thesis is organised as follows.
 
 \Cref{ch:foundations} establishes mathematical foundations, proving minimum spanning tree optimality criteria from first principles and defining the robust optimisation framework (uncertainty models, objectives, complexity terminology).
-A fixed micro-graph is introduced for illustrative examples throughout.
 
-\Cref{ch:minmax} analyses the Min-Max objective, characterising worst-case costs for interval uncertainty and establishing computational complexity for discrete scenarios across different values of the scenario count parameter.
+\Cref{ch:minmax} analyses the min-max objective, characterising worst-case costs for interval uncertainty and establishing computational complexity for discrete scenarios across different values of the scenario count parameter.
 
-\Cref{ch:regret} examines the Min-Max Regret objective, which measures relative performance rather than absolute cost.
-Interval regret is shown to be harder than interval Min-Max despite sharing extremal properties, while discrete regret mirrors the complexity hierarchy of discrete Min-Max.
+\Cref{ch:regret} examines the min-max regret objective, which measures relative performance rather than absolute cost.
+Interval regret is shown to be harder than interval min-max despite sharing extremal properties, while discrete regret mirrors the complexity hierarchy of discrete min-max.
 
 \Cref{ch:conclusion} consolidates the results from \Cref{ch:minmax,ch:regret} into a comprehensive classification table, displays the running micro-graph under each robust objective in an example gallery, acknowledges the deliberate scope limitations of this work, and points to related robust optimisation models (polyhedral uncertainty, two-stage formulations, recoverable robustness) along with open questions from the literature.
 
