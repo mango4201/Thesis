@@ -537,12 +537,12 @@ This objective minimises \emph{opportunity cost}: the loss from not knowing the 
 
 Computing regret requires knowing $\MSTcost{c}$, which depends on the scenario $c$.
 For discrete scenarios, we can precompute the MST for each scenario separately.
-For interval uncertainty, the adversary's choice of $c$ affects both $c(T)$ and $\MSTcost{c}$ simultaneously, and the worst-case scenario is generally not simply all upper bounds; identifying it requires the extremal arguments developed in \Cref{ch:minmax,ch:regret}.
+For interval and budgeted uncertainty, the adversary's choice of $c$ affects both $c(T)$ and $\MSTcost{c}$ simultaneously, and the worst-case scenario is generally not simply all upper bounds; identifying it requires the extremal arguments developed in \Cref{ch:minmax,ch:regret}.
 
 \paragraph{Worked Example: Discrete Scenarios on the Micro-graph.}
 
 We illustrate the robust objectives using the discrete scenario model on the micro-graph from \Cref{sec:graph-notation}.
-(A worked example for interval uncertainty requires the extremal analysis developed in \Cref{ch:minmax,ch:regret}.)
+(Worked examples for interval and budgeted uncertainty require the extremal analysis developed in \Cref{ch:minmax,ch:regret}; the budgeted case is treated in \Cref{sec:mm-budgeted}.)
 
 The micro-graph has vertices $V = \{1,2,3,4\}$, edges $\{e_1, \ldots, e_5\}$, and interval costs as specified in \Cref{fig:micro-graph}.
 We derive three discrete scenarios:
