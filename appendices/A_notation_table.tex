@@ -6,6 +6,7 @@
 % Labels created: app:notation
 % Page budget: 1-2 pages (longtable handles page breaks)
 % Status: COMPLETE through Chapter 2 (sections 2.1-2.5)
+%          + Ch3 worst-case operator wc(T) added
 %
 % REQUIRES: \usepackage{longtable} in main.tex preamble
 %           Add after \usepackage{booktabs}
@@ -65,6 +66,7 @@ $\hat{c}_e$ & Maximum deviation of edge $e$ (budgeted model) & \S\ref{sec:uncert
 
 \multicolumn{3}{l}{\textit{Robust Objectives}} \\
 $\Regret{T}{c}$ & Regret of $T$ under $c$: $c(T) - \MSTcost{c}$ & \S\ref{sec:uncertainty} \\
+$\wc{T}$ & Worst-case cost of tree $T$: $\max_{c \in \Scenarios} c(T)$ & \S\ref{sec:mm-formulation} \\
 \midrule
 
 \multicolumn{3}{l}{\textit{Complexity}} \\
