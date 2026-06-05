@@ -21,7 +21,6 @@
 \DeclareMathOperator{\regret}{Regret}
 
 \newcommand{\Regret}[2]{\regret(#1,#2)} % usage: \Regret{T}{c} gives Regret(T,c)
-\newcommand{\wc}[1]{\mathrm{wc}(#1)}   % worst-case cost; usage: \wc{T} gives wc(T)
 
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 \newcommand{\abs}[1]{\left\lvert #1 \right\rvert}
@@ -30,10 +29,11 @@
 \newcommand{\MST}{\mathrm{MST}}
 \newcommand{\MSTcost}[1]{\mathrm{MST}(#1)}
 \newcommand{\cs}[1]{c^{(#1)}}
+\newcommand{\wc}[1]{\mathrm{wc}(#1)} % worst-case cost: usage \wc{T} gives wc(T) = max_{c in U} c(T)
 
 % Graph notation
 \newcommand{\cut}[1]{\delta(#1)} % cut notation, usage: \cut{X}
 
 % Complexity helpers
-\DeclareMathOperator{\poly}{poly} % polynomial, usage: O(\poly(n))``````
+\DeclareMathOperator{\poly}{poly} % polynomial, usage: O(\poly(n))```
 

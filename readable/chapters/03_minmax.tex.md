@@ -4,13 +4,14 @@
 %═══════════════════════════════════════════════════════════
 % CHAPTER 3: MIN-MAX SPANNING TREE
 %
-% Prerequisites: Ch2 (MST criteria, uncertainty definitions)
+% Prerequisites: Ch2 (MST criteria, uncertainty definitions,
+%                complexity primer)
 % Provides:
 %   - Min-Max formulation (discrete + interval + budgeted)
-%   - Interval extremal lemma + proof
+%   - Interval extremal lemma + proof  (§3.2)
 %   - K=2 weakly NP-hard + FULL proof (partition reduction)
 %   - K=const pseudo-poly + FPTAS (cited)
-%   - K unbounded strongly NP-hard + inapproximability (cited)
+%   - K unbounded strongly NP-hard + O(log K) approximation (cited)
 %   - Budgeted uncertainty: polynomial via Bertsimas-Sim
 %     enumeration (placeholder for Set 2)
 % Labels created in Ch3-A:
@@ -23,97 +24,164 @@
 % Labels declared but filled by Ch3-B:
 %   - sec:mm-budgeted, thm:mm-budgeted-poly,
 %     tab:budgeted-micrograph, sec:mm-discussion
+% PREAMBLE DEPENDENCY: §3.2 uses a corollary environment.
+%   Add to main.tex, sharing the theorem counter:
+%     \newtheorem{corollary}[theorem]{Corollary}
+% CONVENTION: equations referenced with \eqref ("(2.1)");
+%   named objects (sec/lem/thm/cor/fig/tab) with \Cref.
 % Page budget: 12.1 pages (Ch3-A: 7.0 pp, Ch3-B: 5.1 pp)
-% Status: Ch3 opening FINAL; §3.1 FINAL; §3.2, §3.3 DRAFT
+% Status: Ch3 opening FINAL; §3.1 FINAL; §3.2 DRAFT; §3.3 next
 %═══════════════════════════════════════════════════════════
 
 \chapter{Min-Max Spanning Tree}\label{ch:minmax}
 
-The deterministic minimum spanning tree problem, analysed in \Cref{ch:foundations}, is tractable: greedy algorithms solve it in near-linear time.
-This chapter asks what changes when costs are uncertain and a decision-maker must commit to a spanning tree before the scenario is revealed, optimising against the worst-case outcome.
-\Cref{sec:mm-formulation} formalises this min-max spanning tree problem for each of the three uncertainty models introduced in \Cref{sec:uncertainty}.
-\Cref{sec:mm-extremal} shows that interval uncertainty yields a polynomial-time algorithm via an exact characterisation of the worst-case cost.
-\Cref{sec:mm-complexity} establishes the discrete case: weakly $\mathsf{NP}$-hard even for $K = 2$, yet admitting an FPTAS for constant $K$, and strongly $\mathsf{NP}$-hard for unbounded~$K$.
-\Cref{sec:mm-budgeted} treats budgeted uncertainty, and \Cref{sec:mm-discussion} synthesises the three models.
+\Cref{ch:foundations} established that the deterministic minimum spanning tree problem, in which all edge costs are known in advance, is solvable in $O(m \log n)$ time.
+This chapter studies the min-max version~\eqref{eq:minmax-objective}, where the costs are not known when the tree is chosen: a single spanning tree must be committed to in advance, an adversary then selects the least favourable cost realisation from a prescribed uncertainty set, and the tree is judged by its cost under that worst case.
+
+\Cref{sec:mm-formulation} writes this objective out at the edge level and examines its structure under each of the three uncertainty models from \Cref{sec:uncertainty}, isolating the inner worst-case evaluator that drives the subsequent analysis.
+\Cref{sec:mm-extremal} treats interval uncertainty, where the problem reduces to a minimum spanning tree under the upper-bound cost vector and is therefore polynomial.
+\Cref{sec:mm-complexity} treats discrete uncertainty: weakly $\mathsf{NP}$-hard already at $K = 2$, admitting an FPTAS for any constant $K$, and strongly $\mathsf{NP}$-hard when $K$ grows with the input, though still approximable within a logarithmic factor in $K$.
+\Cref{sec:mm-budgeted} treats budgeted uncertainty, polynomial via a richer reformulation, and \Cref{sec:mm-discussion} synthesises the three models.
 
 %─────────────────────────────────────────────────────────
-% SECTION 3.1: PROBLEM FORMULATION (~1.5 pages)
+% SECTION 3.1: PROBLEM FORMULATION (~1.5-1.7 pages)
 %─────────────────────────────────────────────────────────
 \section{Problem Formulation}\label{sec:mm-formulation}
 
-Instantiating the min-max objective~\eqref{eq:minmax-objective} for spanning trees, where $c(T) = \sum_{e \in E(T)} c_e$, gives
+The min-max objective~\eqref{eq:minmax-objective} introduced in \Cref{sec:uncertainty} is stated with the cost function $c(T)$ left unexpanded.
+We now write it out at the edge level using $c(T) = \sum_{e \in E(T)} c_e$.
+The resulting \emph{\textcolor{RWTHBlue}{min-max spanning tree problem}} is
 \begin{equation}\label{eq:mm-objective}
 \min_{T \in \cT}\; \max_{c \in \Scenarios}\; \sum_{e \in E(T)} c_e.
 \end{equation}
-A spanning tree $T^* \in \cT$ achieving the minimum in~\eqref{eq:mm-objective} is called a \emph{\textcolor{RWTHBlue}{min-max spanning tree}}.
-The computational difficulty of~\eqref{eq:mm-objective} depends entirely on the choice of uncertainty set $\Scenarios$; the three standard models yield three qualitatively different outcomes.
+The uncertainty set $\Scenarios$ takes one of three forms in this thesis (\Cref{def:discrete-uncertainty,def:interval-uncertainty,def:budgeted-uncertainty}), and the algorithmic character of the problem varies sharply with the choice.
 
-\paragraph{Discrete Scenarios.}
+\paragraph{Decision Version and Complexity Classification.}
 
-When $\Scenarios = \{\cs{1}, \ldots, \cs{K}\}$ as in \Cref{def:discrete-uncertainty}, the min-max problem becomes
-\[
-\min_{T \in \cT}\; \max_{k \in \{1, \ldots, K\}}\; \cs{k}(T).
-\]
-Each tree is evaluated by computing its cost under every scenario and taking the maximum.
-The problem is weakly $\mathsf{NP}$-hard even for $K = 2$, yet admits a pseudo-polynomial algorithm and an FPTAS when $K$ is constant; it is strongly $\mathsf{NP}$-hard when $K$ grows with the input.
-\Cref{sec:mm-complexity} develops these results.
-
-\paragraph{Interval Uncertainty.}
-
-When $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$ as in \Cref{def:interval-uncertainty}, the adversary may choose any cost vector within the prescribed bounds.
-Although the uncertainty set is infinite, the worst-case cost of any fixed tree is attained at a single, explicit extreme point of $\Scenarios$, and the min-max problem reduces to a nominal MST on the upper-bound costs~$u$.
-\Cref{sec:mm-extremal} proves this and concludes that~\eqref{eq:mm-objective} is solvable in $O(m \log n)$ time.
-
-\paragraph{Budgeted Uncertainty.}
-
-When the uncertainty set is the budgeted set $\Scenarios^\Gamma$ of \Cref{def:budgeted-uncertainty}, edge costs may deviate from their nominal values~$\bar{c}$ subject to the total deviation not exceeding~$\Gamma$.
-The problem remains polynomial-time solvable, though the argument is more involved than in the interval case: \Cref{sec:mm-budgeted} reduces it to a finite family of nominal MST instances via a duality-based reformulation.
-
-\paragraph{Decision and Optimisation Versions.}
-
-The optimisation problem~\eqref{eq:mm-objective} asks for the min-max value and a tree achieving it.
-The associated \emph{decision version} asks: given a bound $B$, does there exist $T \in \cT$ with $\max_{c \in \Scenarios} c(T) \leq B$?
-Under discrete uncertainty, the decision version lies in $\mathsf{NP}$: a certificate is a spanning tree $T$, and verification consists of computing $\cs{k}(T)$ for each $k \in \{1, \ldots, K\}$ and checking $\max_k \cs{k}(T) \leq B$, which takes $O(Kn)$ time.
-All complexity and approximation terminology is as defined in \Cref{sec:complexity}.
+The optimisation problem~\eqref{eq:mm-objective} asks for both the optimal value and a tree achieving it.
+The associated \emph{decision version} asks, given a budget $B \in \R$, whether there exists a spanning tree $T \in \cT$ with $\max_{c \in \Scenarios} c(T) \leq B$.
+This decision version lies in $\mathsf{NP}$ whenever the inner maximisation $\max_{c \in \Scenarios} c(T)$ is polynomial-time computable for a fixed tree: the certificate is the tree $T$, and verification requires confirming $T \in \cT$ (an $O(n)$ breadth-first search, as in the deterministic MST decision problem of \Cref{sec:complexity}) and then evaluating the inner maximum.
+Under discrete uncertainty this evaluation is the explicit maximum $\max_{k \in \{1, \ldots, K\}} \cs{k}(T)$ over the $K$ scenarios and takes $O(Kn)$ time; under interval and budgeted uncertainty, polynomial inner evaluation follows from the extremal characterisations developed in \Cref{sec:mm-extremal,sec:mm-budgeted}.
+The complexity terminology used in the remainder of the chapter (polynomial time, weak and strong $\mathsf{NP}$-hardness, FPTAS) is the one fixed in \Cref{sec:complexity}.
 
 \paragraph{Worst-Case Evaluator.}
 
-A central sub-problem is computing, for a fixed tree $T \in \cT$, its \emph{\textcolor{RWTHBlue}{worst-case cost}}:
+A central object throughout the chapter is the \emph{\textcolor{RWTHBlue}{worst-case cost}} of a fixed spanning tree~$T \in \cT$:
 \begin{equation}\label{eq:mm-evaluator}
 \wc{T} \;:=\; \max_{c \in \Scenarios}\; \sum_{e \in E(T)} c_e.
 \end{equation}
-When $\wc{T}$ can be expressed as a linear function of the edge-indicator of $T$, the outer minimisation $\min_{T \in \cT} \wc{T}$ becomes a nominal MST problem with modified edge costs, solvable by Kruskal's algorithm.
-The interval and budgeted cases achieve exactly this: \Cref{sec:mm-extremal,sec:mm-budgeted} derive the required closed forms.
-Under discrete uncertainty, by contrast, $\wc{T} = \max_k \cs{k}(T)$ is not linear in the edge-indicator of $T$, and the outer minimisation is harder.
+With this notation the min-max problem~\eqref{eq:mm-objective} reads simply $\min_{T \in \cT} \wc{T}$: among all spanning trees, choose the one whose worst-case cost is smallest.
+How difficult this outer minimisation is depends on the form that $\wc{T}$ takes as a function of the tree~$T$.
 
-To illustrate, \Cref{tab:micro-graph-costs} already evaluated $\wc{T}$ for the micro-graph under the three discrete scenarios: $\wc{T_1} = 20$, $\wc{T_2} = 19$, and $\wc{T_3} = 21$.
-The tree $T_2 = \{e_1, e_2, e_4\}$ achieves the minimum and is the min-max spanning tree for that instance.
+The most favourable situation is when $\wc{T}$ is a sum of fixed per-edge weights, that is,
+\[
+\wc{T} = \sum_{e \in E(T)} w_e
+\]
+for some weight vector $w$ that does not itself depend on the choice of~$T$.
+An objective of this form is called \emph{linear}, and minimising a linear objective over all spanning trees is nothing other than a deterministic minimum spanning tree problem under the weights~$w$, solvable by Kruskal's algorithm in $O(m \log n)$ time.
+The three uncertainty models differ precisely in whether $\wc{T}$ is linear in this sense.
+
+Under \emph{interval} uncertainty it is.
+\Cref{lem:interval-extremal-cost} will show that the adversary does best by setting every edge of~$T$ to its upper bound, so that $\wc{T} = \sum_{e \in E(T)} u_e$.
+This is a sum of fixed per-edge weights with $w = u$, and the min-max problem is therefore a minimum spanning tree problem under the upper-bound cost vector~$u$.
+
+Under \emph{discrete} uncertainty it is not.
+Here $\wc{T} = \max_{k \in \{1, \ldots, K\}} \cs{k}(T)$ is the largest of the $K$ scenario costs of~$T$, that is, the pointwise maximum of the $K$ linear functions $\cs{1}(T), \ldots, \cs{K}(T)$.
+Whereas the interval adversary chooses each $c_e$ independently and is captured once and for all by the fixed vector $w = u$, the discrete adversary instead commits to one full scenario covering all edges, and which scenario is worst can depend on the tree~$T$.
+No fixed weight vector~$w$ can encode this tree-dependent choice as per-edge weights, so $\wc{T}$ does not collapse into a single sum $\sum_{e \in E(T)} w_e$ across all spanning trees.
+Consequently the problem does not reduce to one MST computation, and this obstruction is the source of the hardness established in \Cref{sec:mm-complexity}.
+
+Under \emph{budgeted} uncertainty $\wc{T}$ is again not linear, because the deviation budget couples the edges of~$T$ to one another.
+The problem therefore does not reduce to a single MST computation either, but \Cref{sec:mm-budgeted} shows that it nonetheless remains polynomial.
 
 %─────────────────────────────────────────────────────────
-% SECTION 3.2: EXTREMAL PROPERTIES FOR INTERVALS (1.5 pages)
+% SECTION 3.2: INTERVAL WORST-CASE CHARACTERISATION (~2.0-2.5 pages)
+%
+% Goal: wc(T) = sum of upper bounds (Lemma 3.1); min-max = MST on u
+%       (Corollary, = Goerigk Thm 4.8 specialised), hence in P.
+%       Worked example on micro-graph.
+% Prereqs: def:interval-uncertainty, eq:mm-evaluator, wc(T),
+%          eq:mst-definition, Kruskal O(m log n) (sec:kruskal-prim),
+%          tab:micro-graph-costs, fig:micro-graph, sec:complexity.
+% Source: Goerigk Theorem 4.8 (reduction to nominal), cited on the
+%         corollary; the per-tree separability is elementary.
+% Labels: sec:mm-extremal, lem:interval-extremal-cost,
+%         cor:mm-interval-polynomial.
+% Notation: no new macros.
 %─────────────────────────────────────────────────────────
 \section{Interval Worst-Case Characterisation}\label{sec:mm-extremal}
 
-% PROOF INVENTORY: 1 lemma + proof (0.8 pg)
+We begin with interval uncertainty, the model identified in \Cref{sec:mm-formulation} as the favourable case.
+There the worst-case cost $\wc{T}$ requires maximising over the interval set $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$, which contains a continuum of cost vectors.
+The following lemma shows that this maximisation has a transparent solution: confronted with a fixed tree, the adversary simply charges every edge its upper bound.
 
-% SOURCE: Implicit in Goerigk Theorem 4.8
 \begin{lemma}[Interval Extremal Cost]\label{lem:interval-extremal-cost}
-% TODO: Statement (0.3 pg)
-% For fixed T∈𝒯, max_{c∈𝒰} c(T) is attained at c* with:
-%   c*_e = u_e if e∈T, else arbitrary
+Let $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$ be an interval uncertainty set.
+For every spanning tree $T \in \cT$, the worst-case cost satisfies
+\[
+\wc{T} \;=\; \max_{c \in \Scenarios}\; \sum_{e \in E(T)} c_e \;=\; \sum_{e \in E(T)} u_e,
+\]
+and the maximum is attained at the cost vector $c^{*}$ defined by $c^{*}_e = u_e$ for every edge $e \in E$.
 \end{lemma}
+
 \begin{proof}
-% TODO: Proof (0.5 pg)
-% c(T) = Σ_{e∈T} c_e is linear in c
-% Maximum over product [ℓₑ,uₑ] attained at vertex (extreme point)
-% For chosen edges, maximize → set to u_e
+Fix a spanning tree $T \in \cT$.
+Only the edges of $T$ appear in the sum $\sum_{e \in E(T)} c_e$, so the costs assigned to edges outside $T$ do not affect the value of the maximisation.
+Because the uncertainty set $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$ is a Cartesian product, the cost of each edge can be chosen from its interval independently of the others.
+Since each variable $c_e$ appears in exactly one term of the sum, the maximum of the sum equals the sum of the per-edge maxima:
+\[
+\max_{c \in \Scenarios}\; \sum_{e \in E(T)} c_e
+\;=\; \sum_{e \in E(T)}\; \max_{c_e \in [\ell_e, u_e]} c_e .
+\]
+Each $c_e$ ranges over $[\ell_e, u_e]$ and is maximised at $u_e$.
+Substituting yields $\max_{c \in \Scenarios} \sum_{e \in E(T)} c_e = \sum_{e \in E(T)} u_e$.
+The cost vector $c^{*}$ with $c^{*}_e = u_e$ for all $e \in E$ lies in $\Scenarios$ and attains this value; its entries on edges outside $T$ are immaterial.
 \end{proof}
 
-% TODO: Implications (0.7 pg)
-%   - Can evaluate any tree by setting chosen edges to upper bounds
-%   - Min-Max with intervals = nominal MST on upper bounds → polynomial
-%   - Cite: Goerigk Theorem 4.8
-%   - Explain why: worst case explicit, use Kruskal/Prim on (u_e)
+\Cref{lem:interval-extremal-cost} reduces the worst-case cost of a tree to a single sum of upper bounds; this is the linear form anticipated in \Cref{sec:mm-formulation}, with weight vector $w = u$.
+The consequence for the min-max problem is immediate.
+
+\begin{corollary}[Polynomial Solvability under Interval Uncertainty]\label{cor:mm-interval-polynomial}
+Under interval uncertainty $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$, the min-max spanning tree problem satisfies
+\[
+\min_{T \in \cT}\, \wc{T} \;=\; \min_{T \in \cT}\, \sum_{e \in E(T)} u_e \;=\; \MSTcost{u},
+\]
+where $\MSTcost{u}$ is the minimum spanning tree cost under the upper-bound cost vector $u = (u_e)_{e \in E}$.
+The problem is solved by computing a minimum spanning tree under $u$, which Kruskal's algorithm performs in $O(m \log n)$ time; in particular, it lies in $\mathsf{P}$.
+\end{corollary}
+
+\begin{proof}
+By \Cref{lem:interval-extremal-cost}, $\wc{T} = \sum_{e \in E(T)} u_e$ for every $T \in \cT$.
+Minimising over $T$ gives $\min_{T \in \cT} \wc{T} = \min_{T \in \cT} \sum_{e \in E(T)} u_e$, which is the minimum spanning tree cost $\MSTcost{u}$ by~\eqref{eq:mst-definition}.
+Kruskal's algorithm computes a minimum spanning tree under any fixed cost vector in $O(m \log n)$ time (\Cref{sec:kruskal-prim}); applied to $u$, it returns an optimal min-max tree.
+\end{proof}
+
+The reduction in \Cref{cor:mm-interval-polynomial} is the spanning tree instance of \cite[Theorem~4.8]{Goerigk2021RCO}, which establishes it for interval min-max problems in general.
+
+\paragraph{Worked Example.}
+
+We apply \Cref{lem:interval-extremal-cost} to the micro-graph of \Cref{fig:micro-graph}, whose upper-bound cost vector is $u = (8, 5, 7, 6, 9)$.
+By the lemma, the worst-case cost of a tree is the sum of its edges' upper bounds, so for the three representative trees
+\[
+\wc{T_1} = 8 + 5 + 7 = 20, \qquad
+\wc{T_2} = 8 + 5 + 6 = 19, \qquad
+\wc{T_3} = 5 + 7 + 9 = 21 .
+\]
+These values coincide with the scenario-$\cs{2}$ column of \Cref{tab:micro-graph-costs}, as they must: the micro-graph's scenario $\cs{2}$ was defined as the all-upper-bounds vector, so $\cs{2} = u$.
+
+To find the min-max spanning tree, \Cref{cor:mm-interval-polynomial} directs us to a minimum spanning tree under $u$.
+Kruskal's algorithm processes the edges in non-decreasing order of $u$, namely $e_2\,(5),\, e_4\,(6),\, e_3\,(7),\, e_1\,(8),\, e_5\,(9)$.
+It adds $e_2 = \{2,3\}$ and $e_4 = \{3,4\}$, rejects $e_3 = \{2,4\}$ because its endpoints are already connected, and adds $e_1 = \{1,2\}$ to complete the tree.
+The result is $T_2 = \{e_1, e_2, e_4\}$ with cost $\MSTcost{u} = 19$.
+The three trees evaluated above are only three of the micro-graph's eight spanning trees; what certifies $T_2$ as the min-max tree over all of them is \Cref{cor:mm-interval-polynomial}, applied through this minimum spanning tree computation, rather than the three-way comparison alone.
+Since the entries of $u$ are distinct, this minimum spanning tree is unique (\Cref{rem:cost-ties}), so $T_2$ is the unique min-max spanning tree under interval uncertainty, and its cost matches the value $\wc{T_2} = 19$ found above.
+
+\paragraph{The Role of the Lower Bounds.}
+
+\Cref{lem:interval-extremal-cost} shows that the min-max objective depends on the interval data only through the upper bounds $u$; the lower bounds $\ell$ play no role, and the entire interval model compresses to the single cost vector $u$.
+Two points are worth drawing out.
+First, the separation step in the proof used only that $\Scenarios$ is a product of intervals; it is exactly this absence of coupling between edges that fails under budgeted uncertainty (\Cref{sec:mm-budgeted}), where a shared deviation budget links the edges and the worst case is no longer a fixed per-edge sum.
+Second, the insensitivity to the lower bounds is special to the min-max objective: the regret objective of \Cref{ch:regret} measures each tree against the scenario-optimal tree, a comparison that does depend on the lower bounds, and there the interval problem becomes substantially harder.
 
 %─────────────────────────────────────────────────────────
 % SECTION 3.3: COMPLEXITY RESULTS (3.5 pages)

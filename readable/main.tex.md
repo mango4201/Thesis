@@ -75,6 +75,7 @@
 \newtheorem{proposition}{Proposition}
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
 
 % --- Notation macros ---
 \input{notation}
