@@ -183,5 +183,47 @@
   number    = {1--3},
   pages     = {49--71},
   doi       = {10.1007/s10107-003-0396-4},
+}
+
+@article{BarahonaPulleyblank1987,
+  author       = {Francisco Barahona and William R. Pulleyblank},
+  title        = {Exact arborescences, matchings and cycles},
+  journaltitle = {Discrete Applied Mathematics},
+  year         = {1987},
+  volume       = {16},
+  number       = {2},
+  pages        = {91--99}
+}
+
+@inproceedings{PapadimitriouYannakakis2000,
+  author    = {Christos H. Papadimitriou and Mihalis Yannakakis},
+  title     = {On the approximability of trade-offs and optimal access of web sources},
+  booktitle = {Proceedings of the 41st Annual Symposium on Foundations of Computer Science (FOCS)},
+  year      = {2000},
+  publisher = {IEEE},
+  pages     = {86--92}
+}
+
+@article{Baak2025,
+  author       = {Werner Baak and Marc Goerigk and Adam Kasperski and Pawe{\l} Zieli{\'n}ski},
+  title        = {Robust min-max (regret) optimization using ordered weighted averaging},
+  journaltitle = {European Journal of Operational Research},
+  year         = {2025},
+  volume       = {322},
+  number       = {1},
+  pages        = {171--181},
+  doi          = {10.1016/j.ejor.2024.10.028}
+}
+
+@inproceedings{Bilo2017,
+  author    = {Vittorio Bil{\`o} and Ioannis Caragiannis and Angelo Fanelli and Michele Flammini and Gianpiero Monaco},
+  title     = {Simple Greedy Algorithms for Fundamental Multidimensional Graph Problems},
+  booktitle = {44th International Colloquium on Automata, Languages, and Programming (ICALP 2017)},
+  year      = {2017},
+  publisher = {Schloss Dagstuhl--Leibniz-Zentrum f{\"u}r Informatik},
+  series    = {Leibniz International Proceedings in Informatics (LIPIcs)},
+  volume    = {80},
+  pages     = {125:1--125:13},
+  doi       = {10.4230/LIPIcs.ICALP.2017.125}
 }```
 

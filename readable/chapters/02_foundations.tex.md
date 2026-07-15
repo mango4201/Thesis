@@ -97,6 +97,8 @@ For any subset $F \subseteq E$, we write $c(F) = \sum_{e \in F} c_e$ for the tot
 A \emph{\textcolor{RWTHBlue}{spanning tree}} of $G$ is a connected acyclic subgraph $T \subseteq G$ that includes all vertices of $G$, that is, $V(T) = V(G)$.
 We denote by $\cT$ the set of all spanning trees of $G$.
 Since spanning trees are both connected and acyclic, they satisfy precisely $|E(T)| = n - 1$ edges, where $E(T) \subseteq E$ denotes the edge set of $T$.
+These three properties, connectedness, acyclicity, and having exactly $n - 1$ edges, are not independent: for a subgraph spanning all $n$ vertices, any two of them imply the third \cite[Theorem~2.1]{KorteVygen2018}.
+We use this fact repeatedly when verifying that a constructed subgraph is a spanning tree.
 For a spanning tree $T \in \cT$, we write $c(T) = c(E(T)) = \sum_{e \in E(T)} c_e$ for the cost of $T$.
 
 The \emph{\textcolor{RWTHBlue}{minimum spanning tree problem}} (MST) seeks a spanning tree of minimum cost:
@@ -146,10 +148,10 @@ Vertex~2 serves as a central hub with edges to vertices 1, 3, and 4, while edges
 
 In anticipation of the robust optimisation framework of \Cref{sec:uncertainty}, we associate each edge $e_i$ with an \emph{interval cost} $[\ell_{e_i}, u_{e_i}]$ representing uncertainty in edge costs:
 \begin{align*}
-e_1 &\colon [2, 8], \quad e_2 \colon [1, 5], \quad e_3 \colon [3, 7], \\
-e_4 &\colon [2, 6], \quad e_5 \colon [4, 9].
+e_1 &\colon [2, 4], \quad e_2 \colon [3, 5], \quad e_3 \colon [1, 7], \\
+e_4 &\colon [4, 6], \quad e_5 \colon [5, 7].
 \end{align*}%
-From these intervals, we derive three \emph{discrete scenarios} that instantiate specific cost realisations: $\cs{1} = (2, 1, 3, 2, 4)$ (all lower bounds), $\cs{2} = (8, 5, 7, 6, 9)$ (all upper bounds), and $\cs{3} = (5, 1, 7, 2, 4)$ (mixed costs).
+From these intervals, we derive three \emph{discrete scenarios} that instantiate specific cost realisations: $\cs{1} = (2, 3, 1, 4, 5)$ (all lower bounds), $\cs{2} = (4, 5, 7, 6, 7)$ (all upper bounds), and $\cs{3} = (3, 4, 4, 5, 6)$ (interval midpoints).
 Graph $G$ admits eight spanning trees in total.
 We highlight three representative trees that exhibit different structural properties: $T_1 = \{e_1, e_2, e_3\}$ (star centred at vertex~2), $T_2 = \{e_1, e_2, e_4\}$ (path $1$--$2$--$3$--$4$), and $T_3 = \{e_2, e_3, e_5\}$ (path $1$--$3$--$2$--$4$).
 These trees and scenarios provide a consistent testbed for demonstrating how optimal solutions vary across objectives and uncertainty models in subsequent chapters.
@@ -169,19 +171,69 @@ These trees and scenarios provide a consistent testbed for demonstrating how opt
     \node[vertex] (v4) at (1.5, 0) {$4$};
     
     % Edges with labels showing intervals
-    \draw[edge] (v1) -- (v2) node[midway, above, font=\scriptsize] {$e_1$: $[2,8]$};
-    \draw[edge] (v2) -- (v3) node[midway, right, font=\scriptsize] {$e_2$: $[1,5]$};
-    \draw[edge] (v2) -- (v4) node[midway, right, font=\scriptsize] {$e_3$: $[3,7]$};
-    \draw[edge] (v3) -- (v4) node[midway, below, font=\scriptsize] {$e_4$: $[2,6]$};
-    \draw[edge] (v1) -- (v3) node[midway, left, font=\scriptsize] {$e_5$: $[4,9]$};
+    \draw[edge] (v1) -- (v2) node[midway, above, font=\scriptsize] {$e_1$: $[2,4]$};
+    \draw[edge] (v2) -- (v3) node[midway, right, font=\scriptsize] {$e_2$: $[3,5]$};
+    \draw[edge] (v2) -- (v4) node[midway, right, font=\scriptsize] {$e_3$: $[1,7]$};
+    \draw[edge] (v3) -- (v4) node[midway, below, font=\scriptsize] {$e_4$: $[4,6]$};
+    \draw[edge] (v1) -- (v3) node[midway, left, font=\scriptsize] {$e_5$: $[5,7]$};
     
     % Combined horizontal legend (no overlap)
     \node[anchor=north, align=center, font=\scriptsize] at (0.75, -0.7) {
-        \textcolor{RWTHBlue}{\textbf{Scenarios:}} $\cs{1} = (2,1,3,2,4)$, $\cs{2} = (8,5,7,6,9)$, $\cs{3} = (5,1,7,2,4)$ \\[1ex]
-        \textcolor{RWTHOrange}{\textbf{Representative trees:}} $T_1 = \{e_1, e_2, e_3\}$, $T_2 = \{e_1, e_2, e_4\}$, $T_3 = \{e_2, e_3, e_5\}$
+        \textcolor{RWTHBlue}{\textbf{Scenarios:}} $\cs{1} = (2,3,1,4,5)$, $\cs{2} = (4,5,7,6,7)$, $\cs{3} = (3,4,4,5,6)$
     };
 \end{tikzpicture}
-\caption{The micro-graph $G$ with interval costs $[\ell_e, u_e]$ on each edge, used throughout this thesis.}
+
+\vspace{1.5em}
+
+% Three representative trees as mini-diagrams with highlighted edges
+\begin{tikzpicture}[
+    scale=1.1,
+    minivertex/.style={circle, draw=RWTHBlue, thick, fill=RWTHBlue!20, minimum size=6mm, font=\scriptsize\bfseries, inner sep=0pt},
+    treeedge/.style={ultra thick, color=RWTHOrange},
+    nonedge/.style={thin, color=black!25, dotted},
+    every node/.style={font=\scriptsize}
+]
+    % ---- T1 = {e1, e2, e3} ----
+    \begin{scope}[shift={(0,0)}]
+        \node[minivertex] (a1) at (0, 1.2) {$1$};
+        \node[minivertex] (a2) at (1.2, 1.2) {$2$};
+        \node[minivertex] (a3) at (0, 0) {$3$};
+        \node[minivertex] (a4) at (1.2, 0) {$4$};
+        \draw[treeedge] (a1) -- (a2);   % e1
+        \draw[treeedge] (a2) -- (a3);   % e2
+        \draw[treeedge] (a2) -- (a4);   % e3
+        \draw[nonedge] (a3) -- (a4);    % e4
+        \draw[nonedge] (a1) -- (a3);    % e5
+        \node[anchor=north, font=\scriptsize] at (0.6, -0.5) {$T_1 = \{e_1, e_2, e_3\}$};
+    \end{scope}
+    % ---- T2 = {e1, e2, e4} ----
+    \begin{scope}[shift={(3.4,0)}]
+        \node[minivertex] (b1) at (0, 1.2) {$1$};
+        \node[minivertex] (b2) at (1.2, 1.2) {$2$};
+        \node[minivertex] (b3) at (0, 0) {$3$};
+        \node[minivertex] (b4) at (1.2, 0) {$4$};
+        \draw[treeedge] (b1) -- (b2);   % e1
+        \draw[treeedge] (b2) -- (b3);   % e2
+        \draw[nonedge] (b2) -- (b4);    % e3
+        \draw[treeedge] (b3) -- (b4);   % e4
+        \draw[nonedge] (b1) -- (b3);    % e5
+        \node[anchor=north, font=\scriptsize] at (0.6, -0.5) {$T_2 = \{e_1, e_2, e_4\}$};
+    \end{scope}
+    % ---- T3 = {e2, e3, e5} ----
+    \begin{scope}[shift={(6.8,0)}]
+        \node[minivertex] (c1) at (0, 1.2) {$1$};
+        \node[minivertex] (c2) at (1.2, 1.2) {$2$};
+        \node[minivertex] (c3) at (0, 0) {$3$};
+        \node[minivertex] (c4) at (1.2, 0) {$4$};
+        \draw[nonedge] (c1) -- (c2);    % e1
+        \draw[treeedge] (c2) -- (c3);   % e2
+        \draw[treeedge] (c2) -- (c4);   % e3
+        \draw[nonedge] (c3) -- (c4);    % e4
+        \draw[treeedge] (c1) -- (c3);   % e5
+        \node[anchor=north, font=\scriptsize] at (0.6, -0.5) {$T_3 = \{e_2, e_3, e_5\}$};
+    \end{scope}
+\end{tikzpicture}
+\caption{The micro-graph $G$ with interval costs $[\ell_e, u_e]$ on each edge (top), used throughout this thesis, together with the three representative spanning trees $T_1$, $T_2$, $T_3$ (bottom, highlighted edges).}
 \label{fig:micro-graph}
 \end{figure}
 
@@ -215,10 +267,10 @@ We construct an alternative spanning tree by exchanging $e$ for $f$.
 Removing $e$ from $T$ disconnects $T$ into two components; since $e$ lies on the path connecting the endpoints of $f$ in $T$, the edge $f$ bridges these components.
 Define $T'$ with edge set $E(T') = E(T) \setminus \{e\} \cup \{f\}$.
 
-To verify that $T'$ is a spanning tree, we check three properties.
+To verify that $T'$ is a spanning tree, it suffices to check two of the three defining properties.
 First, $|E(T')| = |E(T)| - 1 + 1 = n - 1$, as required for a tree on $n$ vertices.
 Second, $T'$ is connected: removing $e$ partitions $V$ into two components, but $f$ crosses this partition (as $f$ completes the cycle $C_f$ containing $e$), so adding $f$ reconnects the graph.
-Third, $T'$ is acyclic: adding $f$ to $T$ created exactly one cycle (namely $C_f$), and removing $e \in C_f \setminus \{f\}$ eliminates it.
+Having $n - 1$ edges and being connected, $T'$ is a spanning tree.
 
 The cost of $T'$ is
 \[
@@ -229,7 +281,7 @@ This contradicts the optimality of $T$.
 Therefore, $f$ must have maximum cost in $C_f$.
 \end{proof}
 
-The dual characterisation holds for tree edges via cuts.
+An analogous statement holds for tree edges, with the fundamental cut $\cut{X_e}$ (introduced in \Cref{sec:graph-notation}) playing the role that the fundamental cycle played for non-tree edges.
 
 \begin{lemma}[Fundamental Cut Lemma]\label{lem:fund-cut}
 Let $G = (V, E)$ be a connected graph with cost function $c \colon E \to \R$, and let $T$ be a minimum spanning tree of $G$ under $c$.
@@ -246,10 +298,10 @@ We construct an alternative spanning tree by exchanging $e$ for $f$.
 Removing $e$ from $T$ splits $V$ into components $X_e$ and $V \setminus X_e$, which $f$ bridges (since $f \in \cut{X_e}$).
 Define $T'$ with edge set $E(T') = E(T) \setminus \{e\} \cup \{f\}$.
 
-To verify that $T'$ is a spanning tree, we check three properties.
+To verify that $T'$ is a spanning tree, it suffices to check two of the three defining properties.
 First, $|E(T')| = |E(T)| - 1 + 1 = n - 1$, as required for a tree on $n$ vertices.
 Second, $T'$ is connected: $f$ has one endpoint in each component (by definition of $\cut{X_e}$), so adding $f$ restores connectivity.
-Third, $T'$ is acyclic: $T \setminus \{e\}$ is a forest of two trees, and adding a single edge between two trees produces a tree without cycles.
+Having $n - 1$ edges and being connected, $T'$ is a spanning tree.
 
 The cost of $T'$ is
 \[
@@ -302,10 +354,8 @@ Then $f$ has one endpoint in $X_e$ and the other in $V \setminus X_e$, hence $f 
 Moreover, $f \in E(T')$ (since $f$ lies on the path $P$) and $f \notin E(T)$ (since $e$ is the unique tree edge in $\cut{X_e}$ by construction of the fundamental cut; see \Cref{sec:graph-notation}).
 
 We construct a new spanning tree $T'' = (V, E(T') \setminus \{f\} \cup \{e\})$ by removing $f$ and adding $e$.
-To verify that $T''$ is a spanning tree, note that $f$ lies on the path $P$ from $s$ to $t$ in $T'$, so removing $f$ disconnects $s$ from $t$, while adding $e = \{s, t\}$ reconnects them.
-Thus $T''$ is connected.
-Furthermore, the fundamental cycle of $e$ in $T'$ is precisely $P \cup \{e\}$, and since $f \in P$, removing $f$ eliminates this unique cycle, ensuring $T''$ is acyclic.
-With $|E(T'')| = n - 1$ edges, $T''$ is a spanning tree.
+To verify that $T''$ is a spanning tree, note that $f$ lies on the path $P$ from $s$ to $t$ in $T'$, so removing $f$ disconnects $s$ from $t$, while adding $e = \{s, t\}$ reconnects them; thus $T''$ is connected.
+Since $|E(T'')| = |E(T')| - 1 + 1 = n - 1$, being connected with $n - 1$ edges makes $T''$ a spanning tree.
 
 We now verify that $c(T'') \leq c(T')$.
 Since $f \notin E(T)$, the edge $f$ creates a fundamental cycle $C_f$ in $T$.
@@ -328,7 +378,7 @@ c(T) = c(T_k) \leq c(T_{k-1}) \leq \cdots \leq c(T_1) \leq c(T_0) = c(T').
 Therefore $c(T) \leq c(T')$ for every spanning tree $T'$, which means $T$ is a minimum spanning tree.
 \end{proof}
 
-The dual characterisation via cuts is analogous.
+The cut-based criterion is analogous.
 
 \begin{theorem}[Cut Criterion]\label{thm:cut-criterion}
 Let $G = (V, E)$ be a connected graph with cost function $c \colon E \to \R$, and let $T$ be a spanning tree of $G$.
@@ -477,7 +527,7 @@ where each \emph{\textcolor{RWTHBlue}{scenario}} $\cs{k}$, for $k \in \{1, \ldot
 
 The parameter $K$ denotes the number of scenarios.
 When $K$ is a fixed constant (such as $K = 2$), we speak of a \emph{constant number of scenarios}; when $K$ is part of the input and may grow with the problem size, we speak of \emph{unbounded} $K$.
-This distinction is crucial for computational complexity: several robust spanning tree problems are polynomial-time solvable for constant $K$ but become $\mathsf{NP}$-hard when $K$ is unbounded \cite{AissiBazganVanderpooten2009Survey}.
+This distinction is crucial for computational complexity: several robust spanning tree problems are weakly $\mathsf{NP}$-hard already for a constant number of scenarios, admitting pseudo-polynomial algorithms and approximation schemes, but become strongly $\mathsf{NP}$-hard when $K$ is unbounded \cite{AissiBazganVanderpooten2009Survey}.
 
 \paragraph{Interval Uncertainty.}
 
@@ -549,16 +599,16 @@ We illustrate the robust objectives using the discrete scenario model on the mic
 
 The micro-graph has vertices $V = \{1,2,3,4\}$, edges $\{e_1, \ldots, e_5\}$, and interval costs as specified in \Cref{fig:micro-graph}.
 We derive three discrete scenarios:
-$\cs{1} = (2, 1, 3, 2, 4)$ (all lower bounds),
-$\cs{2} = (8, 5, 7, 6, 9)$ (all upper bounds), and
-$\cs{3} = (5, 1, 7, 2, 4)$ (mixed).
+$\cs{1} = (2, 3, 1, 4, 5)$ (all lower bounds),
+$\cs{2} = (4, 5, 7, 6, 7)$ (all upper bounds), and
+$\cs{3} = (3, 4, 4, 5, 6)$ (interval midpoints).
 We evaluate three spanning trees:
 $T_1 = \{e_1, e_2, e_3\}$,
 $T_2 = \{e_1, e_2, e_4\}$, and
 $T_3 = \{e_2, e_3, e_5\}$.
 
 \Cref{tab:micro-graph-costs} records the cost and regret for each tree--scenario pair.
-The bottom row shows the MST cost for each scenario; note that the MST varies: $T_2$ is optimal under $\cs{1}$ and $\cs{2}$, but under $\cs{3}$ a different tree $T^* = \{e_2, e_4, e_5\}$ achieves the minimum cost~7.
+The bottom row shows the MST cost for each scenario; note that the MST varies: $T_1$ is optimal under $\cs{1}$ and $\cs{3}$, whereas under $\cs{2}$ the tree $T_2$ achieves the minimum cost~15.
 
 \begin{table}[htbp]
 \centering
@@ -570,21 +620,22 @@ The bottom row shows the MST cost for each scenario; note that the MST varies: $
 \cmidrule(lr){2-4} \cmidrule(lr){6-8}
 Tree & $k{=}1$ & $k{=}2$ & $k{=}3$ & & $k{=}1$ & $k{=}2$ & $k{=}3$ & Regret \\
 \midrule
-$T_1 = \{e_1, e_2, e_3\}$ & 6 & 20 & 13 & & 1 & 1 & 6 & 6 \\
-$T_2 = \{e_1, e_2, e_4\}$ & 5 & 19 & 8 & & 0 & 0 & 1 & 1 \\
-$T_3 = \{e_2, e_3, e_5\}$ & 8 & 21 & 12 & & 3 & 2 & 5 & 5 \\
+$T_1 = \{e_1, e_2, e_3\}$ & 6 & 16 & 11 & & 0 & 1 & 0 & 1 \\
+$T_2 = \{e_1, e_2, e_4\}$ & 9 & 15 & 12 & & 3 & 0 & 1 & 3 \\
+$T_3 = \{e_2, e_3, e_5\}$ & 9 & 19 & 14 & & 3 & 4 & 3 & 4 \\
 \midrule
-$\MSTcost{\cs{k}}$ & 5 & 19 & 7 \\
+$\MSTcost{\cs{k}}$ & 6 & 15 & 11 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 To find the min-max regret tree, we proceed in two steps: compute each tree's maximum regret across scenarios (rightmost column), then select the tree with the smallest maximum.
-Tree $T_2$ has max regret~1, compared to~6 for $T_1$ and~5 for $T_3$, making $T_2$ the min-max regret spanning tree.
+Tree $T_1$ has max regret~1, compared to~3 for $T_2$ and~4 for $T_3$, making $T_1$ the min-max regret spanning tree.
 
-For the min-max objective, we compare worst-case costs: $T_2$ achieves~19 (under $\cs{2}$), versus~20 for $T_1$ and~21 for $T_3$.
-Thus $T_2$ is also the min-max spanning tree.
-In this example, both objectives select the same tree, though this coincidence does not hold in general.
+For the min-max objective, we compare worst-case costs: $T_2$ achieves~15 (under $\cs{2}$), versus~16 for $T_1$ and~19 for $T_3$.
+Thus $T_2$ is the min-max spanning tree.
+Here the two objectives select \emph{different} trees: $T_2$ minimises worst-case cost, while $T_1$ minimises worst-case regret.
+This divergence illustrates that the choice of robust objective genuinely matters, a theme developed throughout \Cref{ch:minmax,ch:regret}.
 
 % END OF SECTION 2.4
 

@@ -72,10 +72,10 @@
 \newtheorem{definition}{Definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
 \newtheorem{proposition}{Proposition}
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
-\newtheorem{corollary}{Corollary}
 
 % --- Notation macros ---
 \input{notation}
@@ -116,6 +116,10 @@
 % ===== BIBLIOGRAPHY =====
 \cleardoublepage
 \printbibliography
+
+% ===== DECLARATION ON THE USE OF AI TOOLS =====
+\cleardoublepage
+\input{frontmatter/ai_declaration}
 
 % ===== AFFIDAVIT =====
 \cleardoublepage

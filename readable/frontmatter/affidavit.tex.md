@@ -9,6 +9,5 @@ the same or a substantially similar form to any other examination board.
 
 \vspace{2cm}
 \noindent Place, Date \hfill Signature
-\addcontentsline{toc}{chapter}{Affidavit / Eidesstattliche Versicherung}
-```
+\addcontentsline{toc}{chapter}{Affidavit / Eidesstattliche Versicherung}```
 
