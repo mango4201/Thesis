@@ -1,0 +1,339 @@
+%═══════════════════════════════════════════════════════════
+% DEFENCE PRESENTATION (Final Presentation, 30 min -2/+0)
+% Robust Spanning Trees under Discrete and Interval Uncertainty:
+% Min-Max and Min-Max Regret Models
+% Archit Dhama, RWTH Aachen University
+%
+% Authority: Büsing guidelines FIRST, example deck for orientation,
+% thesis palette for identity. Full rules: RULES.md (same folder).
+% Timing budget (28 min main deck): title+hook 2 | S1 7 | S2 12 |
+% S3 6 | summary 1. Appendix absorbs overflow risk.
+% Status: SKELETON v3 (Metropolis, guidelines-first restyle)
+%═══════════════════════════════════════════════════════════
+\documentclass[aspectratio=169,11pt]{beamer}
+% D2 (RULES.md): switch to aspectratio=43 if the seminar room needs it
+
+% ── Theme: Metropolis (suggested by the guidelines), thesis colours ──
+\usetheme[numbering=counter,   % frame number WITHOUT total (guidelines)
+          progressbar=none     % a bar leaks x/n position (guidelines)
+         ]{metropolis}
+\metroset{block=fill, sectionpage=simple, subsectionpage=none,
+          titleformat frame=regular}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,decorations.pathreplacing}
+
+% Thesis colour palette (values identical to thesis main.tex)
+\usepackage{xcolor}
+\definecolor{RWTHBlue}{RGB}{0,84,159}
+\definecolor{RWTHBlue20}{RGB}{46,124,196}
+\definecolor{TextGray}{RGB}{51,51,51}
+\definecolor{TOCGray}{RGB}{85,85,85}
+\definecolor{RWTHOrange}{RGB}{246,168,0}
+\definecolor{RWTHRed}{RGB}{204,7,30}
+\definecolor{RWTHLightBlue}{RGB}{142,186,229}
+\definecolor{RWTHPetrol}{RGB}{0,97,101}
+\definecolor{RWTHGreen}{RGB}{87,171,39}
+
+% Restyle Metropolis with the thesis identity
+\setbeamercolor{normal text}{fg=TextGray, bg=white}
+\setbeamercolor{frametitle}{bg=RWTHBlue, fg=white}
+\setbeamercolor{title separator}{fg=RWTHBlue}
+\setbeamercolor{progress bar in section page}{fg=RWTHBlue, bg=RWTHLightBlue}
+\setbeamercolor{alerted text}{fg=RWTHRed}
+\setbeamercolor{example text}{fg=RWTHGreen}
+\setbeamercolor{block title}{bg=RWTHBlue, fg=white}
+\setbeamercolor{block body}{bg=RWTHLightBlue!15, fg=TextGray}
+\setbeamercolor{footline}{fg=TOCGray}
+
+% Name small in the footer (guidelines); number set by Metropolis
+\setbeamertemplate{frame footer}{\scriptsize Archit Dhama}
+
+% Title-page font sizes: long two-line title + occasion block overflow
+% Metropolis defaults vertically at 11pt/16:9; compact them slightly
+\setbeamerfont{title}{size=\Large, series=\bfseries}
+\setbeamerfont{subtitle}{size=\normalsize}
+\setbeamerfont{institute}{size=\footnotesize}
+
+% ── Thesis notation macros: MIRRORED copy, never edited here ──
+\input{notation}
+% Presentation-only macros go below this line, nowhere else:
+% (none yet)
+
+\title{Robust Spanning Trees under Discrete and Interval Uncertainty}
+\subtitle{Min-Max and Min-Max Regret Models}
+\author{Archit Dhama}
+\institute{Final Presentation of the Bachelor Thesis in Computer Science\\
+Combinatorial Optimization, Prof.\ Dr.\ Christina B\"using, RWTH Aachen University}
+\date{[Date of defence]}   % D3: confirm occasion wording + date
+
+\begin{document}
+
+% ── TITLE: title, author, occasion (guidelines); no outline slide ──
+% KNOWN-BENIGN WARNING: \maketitle emits "Overfull \vbox (15.6pt)".
+% Upstream Metropolis quirk (title minipage is \paperheight-tall
+% inside a frame). Verified geometrically: nothing is clipped.
+\maketitle
+
+%═══════════════════════════════════════════════════════════
+% SECTION 1 — SPANNING TREES UNDER UNCERTAINTY   [7 min + 2 hook]
+%═══════════════════════════════════════════════════════════
+\section{Spanning Trees under Uncertainty}
+
+% ── FRAME: hook + problem ── [2 min]
+% Takeaway: we must commit to a tree before costs are known.
+% Source: thesis Ch1 motivation; Ch2 eq:mst-definition, sec:kruskal-prim
+\begin{frame}{Committing to a Tree before Costs Are Known}
+  \begin{itemize}
+    \item Minimum spanning tree: connect all vertices at minimum total cost
+    \item Classical setting: costs known, solved greedily in $O(m \log n)$
+    \item<2-> \alert{This talk}: the tree is fixed first, the costs arrive later
+  \end{itemize}
+  \medskip
+  % TODO: TikZ hook (small network, cost tags replaced by "?")
+  \begin{center}\textcolor{RWTHOrange}{[TikZ: network with uncertain costs]}\end{center}
+  % Transition: "To talk about 'later', we need a model of what the
+  % costs can do. Everything in this talk happens on one small graph."
+\end{frame}
+
+% ── FRAME: running micro-graph ── [2 min]
+% Takeaway: one fixed instance carries every concept of the talk.
+% Source: chapters/02_foundations.tex fig:micro-graph (data VERBATIM)
+\begin{frame}{One Example for the Whole Talk}
+  \begin{columns}[c]
+    \column{0.52\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[
+        scale=1.55,
+        vertex/.style={circle, draw=RWTHBlue, very thick, fill=RWTHBlue!20, minimum size=7mm, font=\bfseries},
+        edge/.style={very thick, color=black!70},
+        every node/.style={font=\small}
+    ]
+        \node[vertex] (v1) at (0, 1.8) {$1$};
+        \node[vertex] (v2) at (1.5, 1.8) {$2$};
+        \node[vertex] (v3) at (0, 0) {$3$};
+        \node[vertex] (v4) at (1.5, 0) {$4$};
+        \draw[edge] (v1) -- (v2) node[midway, above, font=\scriptsize] {$e_1$: $[2,8]$};
+        \draw[edge] (v2) -- (v3) node[midway, right, font=\scriptsize] {$e_2$: $[1,5]$};
+        \draw[edge] (v2) -- (v4) node[midway, right, font=\scriptsize] {$e_3$: $[3,7]$};
+        \draw[edge] (v3) -- (v4) node[midway, below, font=\scriptsize] {$e_4$: $[2,6]$};
+        \draw[edge] (v1) -- (v3) node[midway, left, font=\scriptsize] {$e_5$: $[4,9]$};
+    \end{tikzpicture}
+    \end{center}
+    \column{0.44\textwidth}
+    \begin{itemize}
+      \item<2-> Interval costs $[\ell_e, u_e]$ per edge
+      \item<3-> Scenarios: $\cs{1} = (2,1,3,2,4)$,\\ $\cs{2} = (8,5,7,6,9)$,\\ $\cs{3} = (5,1,7,2,4)$
+      \item<4-> Trees to watch:\\ $T_1 = \{e_1,e_2,e_3\}$,\\ $T_2 = \{e_1,e_2,e_4\}$,\\ $T_3 = \{e_2,e_3,e_5\}$
+    \end{itemize}
+  \end{columns}
+  % Transition: "The intervals and the scenarios are two different
+  % answers to the same question: what may the adversary do?"
+\end{frame}
+
+% ── FRAME: uncertainty models ── [1.5 min]
+% Takeaway: three adversaries of increasing subtlety.
+% Source: Ch2 def:discrete-uncertainty, def:interval-uncertainty,
+%         def:budgeted-uncertainty
+\begin{frame}{Three Adversaries}
+  \begin{block}{Definition (uncertainty sets)}
+    \begin{itemize}
+      \item Discrete: $\Scenarios = \{\cs{1}, \ldots, \cs{K}\}$, one full scenario is chosen
+      \item Interval: $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$, every edge varies independently
+      \item Budgeted: intervals, but at most $\Gamma$ edges may deviate upwards
+    \end{itemize}
+  \end{block}
+  % TODO: click-through TikZ, one micro-graph edge under each model
+  % Transition: "Fix the adversary; what should 'best tree' mean?"
+\end{frame}
+
+% ── FRAME: robust objectives ── [1.5 min]
+% Takeaway: two notions of protection, genuinely different optima.
+% Source: Ch2 eq:minmax-objective, eq:regret-def,
+%         eq:minmax-regret-objective, tab:micro-graph-costs
+\begin{frame}{Two Robust Objectives}
+  \begin{block}{Min-max}
+    \[ \min_{T \in \cT}\; \max_{c \in \Scenarios}\; c(T) \]
+  \end{block}
+  \begin{block}{Min-max regret}
+    \[ \min_{T \in \cT}\; \max_{c \in \Scenarios}\; \bigl( c(T) - \MSTcost{c} \bigr) \]
+  \end{block}
+  \begin{itemize}
+    \item<2-> Absolute worst case vs.\ worst case measured against hindsight
+    \item<3-> On the micro-graph the two objectives pick \alert{different} trees
+    % TODO: concrete trees per objective ONLY after re-verification
+    %       against tab:micro-graph-costs + fresh Python enumeration
+  \end{itemize}
+  % Transition: "We take the two objectives in turn, min-max first,
+  % from the easiest adversary to the hardest."
+\end{frame}
+
+%═══════════════════════════════════════════════════════════
+% SECTION 2 — MIN-MAX SPANNING TREES              [12 min]
+%═══════════════════════════════════════════════════════════
+\section{Min-Max Spanning Trees}
+
+% ── FRAME: interval extremal lemma, proved on-slide ── [3 min]
+% Takeaway: against the interval adversary, one MST call suffices.
+% Source: Ch3 lem:interval-extremal-cost, cor:mm-interval-polynomial;
+%         Goerigk Thm 4.8
+\begin{frame}{Intervals: the Adversary Has No Real Choice}
+  \begin{block}{Lemma}
+    For every spanning tree $T$ it holds that $\wc{T} = \sum_{e \in E(T)} u_e$.
+  \end{block}
+  \begin{itemize}
+    \item<2-> Edges vary independently, the cost is increasing in every $c_e$
+    \item<3-> So the worst case sets each tree edge to its upper bound
+    \item<4-> Hence: min-max tree $=$ MST under $u$ \textcolor{RWTHGreen}{$\Rightarrow$ polynomial}
+  \end{itemize}
+  \medskip
+  \onslide<5->{{\scriptsize Source: thesis Lemma 3.1; cf.\ Goerigk, Theorem 4.8.}}
+  % TODO: click-through on the micro-graph (tree edges pushed to u_e,
+  %       non-tree edges greyed out)
+  % Transition: "One scenario per edge was harmless. What if the
+  % adversary holds complete scenarios instead? Two already suffice."
+\end{frame}
+
+% ── FRAME: K=2 hardness statement ── [1 min]
+% Takeaway: two scenarios flip the problem to NP-hard.
+% Source: Ch3 thm:mm-k2-hard; Goerigk Thm 8.4
+\begin{frame}{Discrete Scenarios: Two Are Already Hard}
+  \begin{block}{Theorem}
+    The min-max spanning tree problem with $K = 2$ discrete scenarios is $\mathsf{NP}$-hard.
+  \end{block}
+  \begin{itemize}
+    \item<2-> Reduction from the \emph{Partition} problem
+  \end{itemize}
+  \medskip
+  \onslide<3->{{\scriptsize Source: thesis Theorem 3.2; cf.\ Goerigk, Theorem 8.4.}}
+\end{frame}
+
+% ── FRAMES (2): the reduction as pictures ── [5 min total]
+% Takeaway: balanced spanning trees encode balanced partitions.
+% Source: Ch3 thm:mm-k2-hard proof, fig:partition-grid
+\begin{frame}{The Reduction, Drawn (I)}
+  % TODO: port fig:partition-grid TikZ from Ch3 as an adapted copy in
+  % figures/, plan clicks: gadget graph -> scenario 1 costs ->
+  % scenario 2 costs (target 4-5 clicks)
+  \begin{center}\textcolor{RWTHOrange}{[TikZ: partition gadget, construction clicks]}\end{center}
+\end{frame}
+
+\begin{frame}{The Reduction, Drawn (II)}
+  % TODO: clicks: pick a tree -> read off the partition -> balanced
+  % tree iff balanced partition (target 3-4 clicks)
+  \begin{center}\textcolor{RWTHOrange}{[TikZ: tree choice $\leftrightarrow$ partition, equivalence clicks]}\end{center}
+  % Transition: "Two scenarios are hard, but not hopeless, and the
+  % whole discrete story fits in one table."
+\end{frame}
+
+% ── FRAME: complexity landscape ── [2 min]
+% Takeaway: difficulty is a property of the uncertainty model.
+% Source: Ch3 thm:mm-kconst-pseudo, thm:mm-kconst-fptas,
+%         thm:mm-kunbdd-hard, thm:mm-budgeted-poly
+\begin{frame}{The Complete Min-Max Picture}
+  \begin{center}
+  \begin{tabular}{lll}
+    \toprule
+    Uncertainty & Complexity & Algorithmic answer \\
+    \midrule
+    Interval & \textcolor{RWTHGreen}{polynomial} & MST under $u$ \\
+    \visible<2->{Discrete, $K$ constant} & \visible<2->{weakly $\mathsf{NP}$-hard} & \visible<2->{pseudo-polynomial, FPTAS} \\
+    \visible<3->{Discrete, $K$ unbounded} & \visible<3->{strongly $\mathsf{NP}$-hard} & \visible<3->{$O(\log K)$-approximation} \\
+    \visible<4->{Budgeted} & \visible<4->{\textcolor{RWTHGreen}{polynomial}} & \visible<4->{$O(m)$ MST computations} \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  % TODO: verify every row's phrasing against final Ch3 before freeze
+  % NOTE: budgeted row provisional, thesis §3.4 being regenerated
+\end{frame}
+
+% ── FRAME: budgeted intuition ── [1 min; D4: may move to appendix]
+% Takeaway: a budget on deviations restores tractability via pricing.
+% Source: Ch3 thm:mm-budgeted-poly; Goerigk Thm 4.21, Lemma 4.20
+\begin{frame}{Why the Budget Helps: Pricing the Adversary}
+  \begin{itemize}
+    \item Guess a price $\pi$ per unit of deviation budget
+    \item<2-> Solve one \alert{ordinary} MST under costs $\bar{c}_e + [\hat{c}_e - \pi]^{+}$, pay $\Gamma\pi$
+    \item<3-> Only $m + 1$ candidate prices matter \textcolor{RWTHGreen}{$\Rightarrow$ polynomial}
+  \end{itemize}
+  \medskip
+  \onslide<4->{{\scriptsize Source: thesis \S3.4 (in progress); cf.\ Goerigk, Theorem 4.21.}}
+  % Worked micro-graph table lives in the appendix.
+  % Transition: "That settles the absolute worst case. Regret asks a
+  % subtler question: how much do we lose against hindsight?"
+\end{frame}
+
+%═══════════════════════════════════════════════════════════
+% SECTION 3 — MIN-MAX REGRET SPANNING TREES       [6 min]
+% BLOCKED on thesis Ch4; will mirror S2 (one clean interval result,
+% one hardness picture, one landscape row set)
+%═══════════════════════════════════════════════════════════
+\section{Min-Max Regret Spanning Trees}
+
+\begin{frame}{Regret: Competing with Hindsight}
+  % TODO (blocked on Ch4): regret worked on the micro-graph
+  \begin{center}\textcolor{RWTHOrange}{[Blocked: mirrors thesis Chapter 4]}\end{center}
+\end{frame}
+
+\begin{frame}{Regret under Interval Uncertainty}
+  % TODO (blocked on Ch4): extremal scenario for regret + complexity
+  \begin{center}\textcolor{RWTHOrange}{[Blocked: mirrors thesis Chapter 4]}\end{center}
+\end{frame}
+
+%═══════════════════════════════════════════════════════════
+% CLOSE                                            [1 min]
+%═══════════════════════════════════════════════════════════
+
+% ── FRAME: summary + open questions + thank-you click ──
+% Guidelines: last main frame; visible during questions; final click
+% adds the thank-you ON THIS frame; references follow after.
+\begin{frame}{Summary}
+  \begin{itemize}
+    \item One tree, adversarial costs: difficulty is set by the uncertainty model
+    \item Intervals polynomial, two scenarios already $\mathsf{NP}$-hard, a deviation budget restores tractability
+    \item Regret: \textcolor{RWTHOrange}{[finalise with Ch4]}
+  \end{itemize}
+  \medskip
+  \textcolor{RWTHBlue}{\textbf{Open questions}}
+  \begin{itemize}
+    \item % TODO: from thesis Ch5/Ch6 outlook once written
+  \end{itemize}
+  \bigskip
+  \onslide<2->{\begin{center}\Large\textcolor{RWTHBlue}{\textbf{Thank you for your attention!}}\end{center}}
+\end{frame}
+
+% ── REFERENCES (after the summary; guidelines: cite sources) ──
+\begin{frame}{References}
+  \footnotesize
+  % D1 (RULES.md): biblatex vs manual list, pending thesis-side
+  % citation-style resolution. Entries mirror references.bib only.
+  \textcolor{RWTHOrange}{[Bibliography of slide-cited sources: Goerigk, Korte-Vygen, \ldots]}
+\end{frame}
+
+%═══════════════════════════════════════════════════════════
+% APPENDIX — question fodder, reachable via hyperref if time remains
+%═══════════════════════════════════════════════════════════
+\appendix
+
+\begin{frame}{Backup: Fundamental Cut Lemma}
+  % TODO: Ch2 lem:fund-cut statement + picture
+\end{frame}
+
+\begin{frame}{Backup: FPTAS for Constant $K$}
+  % TODO: Ch3 thm:mm-kconst-fptas sketch
+\end{frame}
+
+\begin{frame}{Backup: Budgeted Worked Example on the Micro-Graph}
+  % TODO: from thesis §3.4 once regenerated and checked in
+\end{frame}
+
+\begin{frame}{Backup: Full Micro-Graph Cost Table}
+  % TODO: Ch2 tab:micro-graph-costs, all eight trees
+\end{frame}
+
+\end{document}
