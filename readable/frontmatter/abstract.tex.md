@@ -1,7 +1,7 @@
 ## frontmatter/abstract.tex
 
 ```tex
-\selectlanguage{english}
+\selectlanguage{british}
 \chapter*{Abstract}
 
 The minimum spanning tree (MST) connects all network nodes at minimum cost, but edge costs are often uncertain due to market fluctuations, estimation errors, or operational changes. This thesis studies robust spanning trees primarily under two uncertainty models (discrete scenarios and interval ranges) and two objectives (min-max, min-max regret), classifying computational complexity and approximability across this design space; a third model, budgeted uncertainty, receives a focused complementary treatment.

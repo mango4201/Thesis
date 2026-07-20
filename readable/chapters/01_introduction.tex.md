@@ -114,7 +114,7 @@ Together with cited results for larger scenario counts, these establish a comple
 Fourth, we prove a 2-approximation algorithm for interval regret spanning trees (\Cref{ch:regret}).
 \Cref{thm:regret-2approx} demonstrates that solving the MST problem at midpoint costs yields a solution whose worst-case regret is at most twice optimal.
 The proof is developed rigorously through two supporting lemmas (\Cref{lem:regret-lower-bound,lem:regret-upper-bound}) bounding the midpoint solution's regret from below and above.
-This result is noteworthy as the best known constant-factor approximation for any robust combinatorial optimisation problem under interval uncertainty, though the tightness of the factor 2 remains an open question in the literature.
+This factor of 2 is the best approximation guarantee known for the interval regret spanning tree problem, and whether it can be improved remains an open question in the literature.
 
 Fifth, we synthesise results into a comprehensive classification table (\Cref{ch:conclusion}).
 \Cref{tab:complexity-landscape} organises problem variants by objective and uncertainty model with their complexity classes and approximation guarantees.

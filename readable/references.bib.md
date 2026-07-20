@@ -192,7 +192,8 @@
   year         = {1987},
   volume       = {16},
   number       = {2},
-  pages        = {91--99}
+  pages        = {91--99},
+  doi          = {10.1016/0166-218X(87)90067-9}
 }
 
 @inproceedings{PapadimitriouYannakakis2000,

@@ -19,7 +19,8 @@
 %     eq:mm-evaluator, sec:mm-extremal,
 %     lem:interval-extremal-cost, cor:mm-interval-polynomial,
 %     sec:mm-complexity, thm:mm-k2-hard,
-%     thm:mm-kconst-pseudo, thm:mm-kunbdd-hard,
+%     thm:mm-kconst-pseudo, thm:mm-kconst-fptas,
+%     thm:mm-kunbdd-hard, thm:mm-kunbdd-approx,
 %     fig:partition-grid
 % Labels declared but filled by Ch3-B:
 %   - sec:mm-budgeted, thm:mm-budgeted-poly,
@@ -685,7 +686,7 @@ We do not pursue this variant in detail; \cite[\S4.5.3]{Goerigk2021RCO} provides
 
 % TODO: Discrete vs Interval vs Budgeted comparison table (0.7 pg)
 %   | Model    | K=const | K unbounded | Interval | Budgeted |
-%   | Min-Max  | Weak NP-hard, FPTAS | Strong NP-hard, O(K)-approx | Polynomial | Polynomial |
+%   | Min-Max  | Weak NP-hard, FPTAS | Strong NP-hard, O(log K)-approx | Polynomial | Polynomial |
 
 % TODO: Why intervals are easy (0.5 pg)
 %   - Extremal lemma makes worst case explicit (Lemma 3.1)
@@ -707,12 +708,14 @@ We do not pursue this variant in detail; \cite[\S4.5.3]{Goerigk2021RCO} provides
 
 % TODO: Summary paragraph (0.3 pg)
 % Min-Max ST complexity depends critically on uncertainty structure.
-% Intervals are polynomial (Lemma 3.1 + Goerigk Thm 4.8) via extremal
-% evaluation. Discrete scenarios harder: weakly NP-hard even K=2
-% (Theorem 3.2, partition reduction), with FPTAS for constant K
-% (Theorem 3.3). For unbounded K: strongly NP-hard (Theorem 3.4),
-% O(K) approximation, no constant-factor possible (Theorem 3.5).
-% Budgeted uncertainty is polynomial (Theorem 3.X, Bertsimas-Sim
+% Intervals are polynomial (lem:interval-extremal-cost + Goerigk Thm 4.8)
+% via extremal evaluation. Discrete scenarios harder: weakly NP-hard even
+% K=2 (thm:mm-k2-hard, partition reduction), with pseudo-poly + FPTAS for
+% constant K (thm:mm-kconst-pseudo, thm:mm-kconst-fptas). For unbounded K:
+% strongly NP-hard, not (2-eps)-approximable (thm:mm-kunbdd-hard); O(log K)
+% approximation (thm:mm-kunbdd-approx, Baak2025); not approximable within
+% O(log^{1-eps} n) unless NP has quasi-poly algorithms (KasperskiZielinski2011).
+% Budgeted uncertainty is polynomial (thm:mm-budgeted-poly, Bertsimas-Sim
 % framework via Goerigk Theorem 4.21) by reduction to O(m) nominal
 % MST instances.
 % Chapter 5 synthesis table compares with Min-Max Regret results.

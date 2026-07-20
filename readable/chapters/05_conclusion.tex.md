@@ -45,23 +45,40 @@
 %
 % | Objective | Uncertainty | K=constant | K unbounded | Key Observations |
 % |-----------|------------|------------|-------------|------------------|
-% | Min-Max | Discrete | Weakly NP-hard (K=2, Thm 3.2) | Strongly NP-hard (Thm 3.4) | Extremal: max at scenarios |
-% |         |          | Pseudo-poly, FPTAS (Thm 3.3) | O(K)-approx (midpoint)     | Complexity grows with K |
-% |         |          |                              | Not (2-ε)-approx (Thm 3.5) | |
-% | Min-Max | Interval | POLYNOMIAL (Lemma 3.1)       | POLYNOMIAL                 | Extremal: chosen edges → upper |
+% | Min-Max | Discrete | Weakly NP-hard (K=2, thm:mm-k2-hard) | Strongly NP-hard (thm:mm-kunbdd-hard) | Extremal: max at scenarios |
+% |         |          | Pseudo-poly, FPTAS (thm:mm-kconst-pseudo, thm:mm-kconst-fptas) | O(log K)-approx (thm:mm-kunbdd-approx, Baak2025) | Complexity grows with K |
+% |         |          |                              | Not (2-eps)-approx; not within O(log^{1-eps} n) (thm:mm-kunbdd-hard, KasperskiZielinski2011) | |
+% | Min-Max | Interval | POLYNOMIAL (lem:interval-extremal-cost, cor:mm-interval-polynomial) | POLYNOMIAL | Extremal: chosen edges -> upper |
 % |         |          | MST on upper bounds          |                            | Reduces to nominal MST |
-% | Min-Max | Budgeted | POLYNOMIAL (Thm 3.X)         | POLYNOMIAL                 | Bertsimas-Sim enumeration: O(m) nominal MSTs |
+% | Min-Max | Budgeted | POLYNOMIAL (thm:mm-budgeted-poly) | POLYNOMIAL            | Bertsimas-Sim enumeration: O(m) nominal MSTs |
 % |         |          | O(m^2 log n) total           |                            | Interpolates between deterministic and interval |
-% | Regret  | Discrete | Weakly NP-hard (K=2, Thm 4.2)| Strongly NP-hard (Thm 4.4) | Reuses Min-Max constructions |
-% |         |          | Pseudo-poly, FPTAS (Thm 4.3) | O(K)-approx (midpoint)     | MST(c^k) complicates but |
-% |         |          |                              |                            | doesn't change complexity |
-% | Regret  | Interval | NP-hard (Thm 4.8, AL04)      | NP-hard                    | Extremal: strategic boundaries |
-% |         |          | 2-approximation (Thm 4.5)    | 2-approximation            | MST(c) varies → harder than Min-Max |
-% |         |          | via midpoint                 | via midpoint               | Best known approx for any problem |
+% | Regret  | Discrete | Weakly NP-hard (K=2, thm:regret-k2-hard) | Strongly NP-hard (thm:regret-kunbdd-hard) | Reuses Min-Max constructions |
+% |         |          | Pseudo-poly (thm:regret-kconst-pseudo; FPTAS thm at Ch4 drafting) | O(K)-approx (midpoint; Goerigk Open Problems 10, 12) | MST(c^k) complicates but |
+% |         |          |                              | not within O(log^{1-eps} n) (KasperskiZielinski2011) | doesn't change complexity |
+% | Regret  | Interval | NP-hard (thm:regret-interval-hard, AverbakhLebedev2004) | NP-hard | Extremal: strategic boundaries |
+% |         |          | 2-approximation (thm:regret-2approx) | 2-approximation       | MST(c) varies -> harder than Min-Max |
+% |         |          | via midpoint                 | via midpoint               | Best known guarantee for interval regret ST; tightness of 2 open |
 % | Regret  | Budgeted | NP-hard (cited, §3.4)        | NP-hard                    | Inherits interval-case hardness |
 % |         |          | (out of scope)               |                            | (Goerigk §4.5.3) |
 %
-% \label{tab:complexity-landscape}
+% Plan above uses LABELS, not hard-coded numbers (numbers shift under the
+% [chapter] theorem numbering). The live skeleton below keeps Ch1's
+% \Cref{tab:complexity-landscape} resolvable until the final pass.
+\begin{table}[htbp]
+\centering
+\caption{Complexity and approximability of robust spanning tree problems. Skeleton; the entries are compiled from \Cref{ch:minmax,ch:regret} in the final pass of this chapter.}
+\label{tab:complexity-landscape}
+\begin{tabular}{lcc}
+\toprule
+Uncertainty model & Min-max & Min-max regret \\
+\midrule
+Discrete, constant $K$ & & \\
+Discrete, unbounded $K$ & & \\
+Interval & & \\
+Budgeted & & \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \paragraph{Key Patterns.}
 
@@ -89,7 +106,12 @@
 
 % PATTERN 5: Midpoint heuristic universality
 %   - Works for both objectives (Min-Max and Regret)
-%   - Performance: O(K) for discrete, 2-exact for Regret intervals
+%   - Discrete: midpoint (mean scenario) is a K-approximation (regret:
+%     Goerigk Open Problems 10, 12; min-max: elementary, max <= K * mean).
+%     For min-max the stronger O(log K) (thm:mm-kunbdd-approx, Baak2025)
+%     uses a different technique (p-norm/OWA), not the midpoint.
+%   - Interval regret: midpoint gives the factor-2 guarantee
+%     (thm:regret-2approx).
 
 %─────────────────────────────────────────────────────────
 % SECTION 5.2: EXAMPLE GALLERY (2.5 pages)
@@ -183,8 +205,13 @@
 %
 %   - Tightness of 2-approximation for interval regret: no better algorithm
 %     known, no inapproximability bound (Goerigk Open Problem 2).
-%   - Gap between O(K) upper and Ω(log^{1-ε} n) lower bounds for discrete
-%     Min-Max (Goerigk Open Problems 10, 12).
+%   - Discrete Min-Max: gap between the O(log K) upper bound
+%     (thm:mm-kunbdd-approx, Baak2025) and the lower bound: not approximable
+%     within O(log^{1-eps} n) unless NP has quasi-polynomial time algorithms
+%     (KasperskiZielinski2011; abstract verified, covers both objectives).
+%   - Discrete Regret: gap between the O(K) midpoint upper bound (Goerigk
+%     Open Problems 10, 12) and the same O(log^{1-eps} n) lower bound
+%     (KasperskiZielinski2011).
 %   - Algorithm-specific improvements for discrete Min-Max Regret beyond
 %     midpoint heuristic.
 
