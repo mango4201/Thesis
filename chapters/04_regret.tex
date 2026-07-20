@@ -141,9 +141,16 @@
 %   - Regret optimal ⟺ 3-PARTITION solvable
 %   - SOURCE: Kouvelis-Yu (1997), Goerigk Theorem 8.8
 
-% TODO: Midpoint O(K)-approximation (0.6 pg):
-%   - Same midpoint heuristic as Min-Max
-%   - Open gap (cite Goerigk Open Problem 10)
+% TODO: Approximation for unbounded K (0.6 pg):
+%   - Midpoint heuristic gives O(K); best known for regret
+%     (Goerigk Open Problems 10, 12).
+%   - Lower bound: not approximable within O(log^{1-eps} n) unless NP has
+%     quasi-polynomial time algorithms (KasperskiZielinski2011; the abstract
+%     states this for BOTH min-max and regret ST -- re-verify in the paper
+%     body at Ch4 drafting).
+%   - NOTE: the O(log K) upper bound (thm:mm-kunbdd-approx, Baak2025) is
+%     verified for MIN-MAX only; do not carry it to regret unchecked.
+%   - Open gap (cite Goerigk Open Problems 10, 12)
 
 %─────────────────────────────────────────────────────────
 % SECTION 4.4: APPROXIMATION FOR INTERVALS (3.3 pages)
@@ -256,7 +263,7 @@
 % TODO: Complexity landscape table (0.6 pg)
 %   | | Min-Max Discrete | Regret Discrete | Min-Max Interval | Regret Interval |
 %   | K=const | Weak NP-hard, FPTAS | Weak NP-hard, FPTAS | P | NP-hard, 2-approx |
-%   | K unbdd | Strong NP-hard, O(K) | Strong NP-hard, O(K) | P | NP-hard, 2-approx |
+%   | K unbdd | Strong NP-hard, O(log K) | Strong NP-hard, O(K) midpoint | P | NP-hard, 2-approx |
 
 % TODO: Why Regret harder for intervals (0.5 pg)
 %   - Min-Max: extremal lemma + worst case explicit → polynomial

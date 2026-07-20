@@ -2,7 +2,7 @@
 
 % --- Layout & language ---
 \usepackage[margin=3cm]{geometry}
-\usepackage[english]{babel}
+\usepackage[ngerman,british]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 
@@ -62,17 +62,17 @@
 \addbibresource{references.bib}
 
 % --- Hyperlinks & clever references ---
-\usepackage[hidelinks,colorlinks=true,linkcolor=RWTHBlue,citecolor=RWTHBlue20,urlcolor=RWTHBlue]{hyperref}
+\usepackage[colorlinks=true,linkcolor=RWTHBlue,citecolor=RWTHBlue20,urlcolor=RWTHBlue]{hyperref}
 \usepackage[nameinlink,capitalise,noabbrev]{cleveref} % <-- add this after hyperref
 
 % --- Theorems ---
-\newtheorem{definition}{Definition}
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}{Lemma}
-\newtheorem{corollary}{Corollary}
-\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
 \theoremstyle{remark}
-\newtheorem{remark}{Remark}
+\newtheorem{remark}{Remark}[chapter]
 
 % --- Notation macros ---
 \input{notation}

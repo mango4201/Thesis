@@ -447,6 +447,7 @@ The correctness of classical greedy algorithms such as Kruskal's and Prim's foll
 
 The optimality criteria developed in \Cref{sec:mst-criteria} directly yield the correctness of the two most classical MST algorithms: Kruskal's algorithm (1956) and Prim's algorithm (1957).
 Both are \emph{greedy} methods that build a spanning tree incrementally, maintaining optimality conditions throughout \cite[§2.3]{BuesingOptiB2023}.
+A comprehensive account of minimum spanning tree algorithms is given by \textcite[Chapter~13]{AhujaMagnantiOrlin1993}.
 We describe each algorithm briefly, emphasising its connection to the criteria rather than implementation details.
 
 \paragraph{Kruskal's Algorithm.}
@@ -712,7 +713,7 @@ However, strongly $\mathsf{NP}$-hard problems cannot have an FPTAS unless $\math
 The complexity of robust spanning tree problems hinges on two factors:
 
 \begin{enumerate}[nosep]
-\item \textbf{Number of scenarios $K$}: For discrete uncertainty, many problems are in $\mathsf{P}$ when $K$ is constant but become $\mathsf{NP}$-hard when $K$ is part of the input.
+\item \textbf{Number of scenarios $K$}: For discrete uncertainty, several problems are already weakly $\mathsf{NP}$-hard for a constant number of scenarios, admitting pseudo-polynomial algorithms and approximation schemes, and become strongly $\mathsf{NP}$-hard when $K$ is part of the input.
 \item \textbf{Uncertainty model}: For interval uncertainty, the continuum of scenarios prevents enumeration. Some variants remain in $\mathsf{P}$ by exploiting MST structure (\Cref{sec:mst-criteria}); others are $\mathsf{NP}$-hard.
 \end{enumerate}
 
