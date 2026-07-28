@@ -523,7 +523,7 @@ A \emph{\textcolor{RWTHBlue}{discrete uncertainty set}} consists of $K$ explicit
 \[
 \Scenarios = \{\cs{1}, \cs{2}, \ldots, \cs{K}\},
 \]
-where each \emph{\textcolor{RWTHBlue}{scenario}} $\cs{k}$, for $k \in \{1, \ldots, K\}$, is a cost vector in $\R^{|E|}$ assigning cost $\cs{k}_e$ to every edge $e \in E$.
+where each \emph{\textcolor{RWTHBlue}{scenario}} $\cs{k}$, for $k \in \{1, \ldots, K\}$, is a cost vector in $\R^{|E|}_{\geq 0}$ assigning cost $\cs{k}_e$ to every edge $e \in E$.
 \end{definition}
 
 The parameter $K$ denotes the number of scenarios.
