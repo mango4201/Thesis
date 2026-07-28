@@ -156,23 +156,47 @@ Kruskal's algorithm computes a minimum spanning tree under any fixed cost vector
 
 The reduction in \Cref{cor:mm-interval-polynomial} is the spanning tree instance of \cite[Theorem~4.8]{Goerigk2021RCO}, which establishes it for interval min-max problems in general.
 
+%─────────────────────────────────────────────────────────
+% §3.2 WORKED EXAMPLE -- CORRECTED FOR THE NEW MICRO-GRAPH
+%
+% Replaces the "\paragraph{Worked Example.}" block of §3.2 (the
+% stale block still using u = (8,5,7,6,9) from the old example;
+% currently 03_minmax lines ~162-178). Everything else in §3.2
+% (Lemma, Corollary, Role of the Lower Bounds) is number-free and
+% needs no change.
+%
+% All numbers verified by full spanning-tree enumeration against
+% the NEW micro-graph (e1[2,4], e2[3,5], e3[1,7], e4[4,6],
+% e5[5,7]; e5 = {1,3}):
+%   u = (4,5,7,6,7); wc(T1)=16, wc(T2)=15, wc(T3)=19; these equal
+%   the cs{2} column of tab:micro-graph-costs (cs{2} = u holds);
+%   8 spanning trees; MST(u) = T2 = {e1,e2,e4} at 15, UNIQUE
+%   (remaining seven u-costs: 16,17,17,18,18,19,20); Kruskal order
+%   e1(4), e2(5), e4(6), then e3,e5 (tie at 7, never examined).
+% Uniqueness note: u is NOT all-distinct (e3, e5 share 7), so
+%   rem:cost-ties no longer applies as a justification; the new
+%   final sentence states this and certifies uniqueness by the
+%   enumerated cost gap instead (sufficient-not-necessary teaching
+%   point).
+%─────────────────────────────────────────────────────────
+
 \paragraph{Worked Example.}
 
-We apply \Cref{lem:interval-extremal-cost} to the micro-graph of \Cref{fig:micro-graph}, whose upper-bound cost vector is $u = (8, 5, 7, 6, 9)$.
+We apply \Cref{lem:interval-extremal-cost} to the micro-graph of \Cref{fig:micro-graph}, whose upper-bound cost vector is $u = (4, 5, 7, 6, 7)$.
 By the lemma, the worst-case cost of a tree is the sum of its edges' upper bounds, so for the three representative trees
 \[
-\wc{T_1} = 8 + 5 + 7 = 20, \qquad
-\wc{T_2} = 8 + 5 + 6 = 19, \qquad
-\wc{T_3} = 5 + 7 + 9 = 21 .
+\wc{T_1} = 4 + 5 + 7 = 16, \qquad
+\wc{T_2} = 4 + 5 + 6 = 15, \qquad
+\wc{T_3} = 5 + 7 + 7 = 19 .
 \]
 These values coincide with the scenario-$\cs{2}$ column of \Cref{tab:micro-graph-costs}, as they must: the micro-graph's scenario $\cs{2}$ was defined as the all-upper-bounds vector, so $\cs{2} = u$.
 
 To find the min-max spanning tree, \Cref{cor:mm-interval-polynomial} directs us to a minimum spanning tree under $u$.
-Kruskal's algorithm processes the edges in non-decreasing order of $u$, namely $e_2\,(5),\, e_4\,(6),\, e_3\,(7),\, e_1\,(8),\, e_5\,(9)$.
-It adds $e_2 = \{2,3\}$ and $e_4 = \{3,4\}$, rejects $e_3 = \{2,4\}$ because its endpoints are already connected, and adds $e_1 = \{1,2\}$ to complete the tree.
-The result is $T_2 = \{e_1, e_2, e_4\}$ with cost $\MSTcost{u} = 19$.
+Kruskal's algorithm processes the edges in non-decreasing order of $u$, namely $e_1\,(4),\, e_2\,(5),\, e_4\,(6)$, followed by $e_3$ and $e_5$ (both $7$).
+It adds $e_1 = \{1,2\}$, $e_2 = \{2,3\}$ and $e_4 = \{3,4\}$; the tree is then complete, and the two remaining edges are not examined.
+The result is $T_2 = \{e_1, e_2, e_4\}$ with cost $\MSTcost{u} = 15$.
 The three trees evaluated above are only three of the micro-graph's eight spanning trees; what certifies $T_2$ as the min-max tree over all of them is \Cref{cor:mm-interval-polynomial}, applied through this minimum spanning tree computation, rather than the three-way comparison alone.
-Since the entries of $u$ are distinct, this minimum spanning tree is unique (\Cref{rem:cost-ties}), so $T_2$ is the unique min-max spanning tree under interval uncertainty, and its cost matches the value $\wc{T_2} = 19$ found above.
+The entries of $u$ are not all distinct, $e_3$ and $e_5$ sharing the upper bound $7$, so the sufficient condition of \Cref{rem:cost-ties} does not apply here; nevertheless the minimum is attained by $T_2$ alone, the seven remaining spanning trees having $u$-costs between $16$ and $20$, so $T_2$ is the unique min-max spanning tree, its cost matching the value $\wc{T_2} = 15$ found above.
 
 \paragraph{The Role of the Lower Bounds.}
 
@@ -182,74 +206,89 @@ First, the separation step in the proof used only that $\Scenarios$ is a product
 Second, the insensitivity to the lower bounds is special to the min-max objective: the regret objective of \Cref{ch:regret} measures each tree against the scenario-optimal tree, a comparison that does depend on the lower bounds, and there the interval problem becomes substantially harder.
 
 %─────────────────────────────────────────────────────────
-% SECTION 3.3: COMPLEXITY AND APPROXIMATION -- UNIT 1, v7
-%   (§3.3 opening, §3.3.1 opening, Theorem 3.2 + full proof,
-%    fig:partition-grid, small instance)
+% SECTION 3.3: COMPLEXITY AND APPROXIMATION -- LOCKED
 %
-% Replaces the placeholder from this banner down to and including the
-% old "Figure 3.1" TODO block. The thm:mm-kconst-pseudo stub and all
-% of §3.3.2 remain untouched for Unit 2.
+% Scope of this block: the whole of §3.3, that is the section
+% opening, §3.3.1 (constant K: hardness proof, fig:partition-grid,
+% small instance, positive results) and §3.3.2 (unbounded K:
+% hardness, fig:sat-gadget, O(log K) approximation).
+% Replaces everything from this banner down to (not including) the
+% banner of §3.4. The §3.4 block is untouched.
 %
-% v7 (author choice + checker, small): author selected the PROSE form
-%   of Step 3 (symbolic alternative and its comment wrapper removed).
-%   One correctness-of-notation fix: in Step 2's converse the running
-%   index in V_{<j} is now bound explicitly, ell in {0,1,...,j-1},
-%   matching the construction's own vertex-set definition (both
-%   indices bound); previously only the constraint ell < j was given
-%   and the domain was implied.
-% v6: (1) Step 2 opening reworded -- T_P defined directly from a
-%   subset P. (2) Step 2 converse uses cut notation \cut{V_{<j}} =
-%   {a_j, b_j}. (3) Step 3 symbolic/prose alternatives (prose kept).
-% v5: theorem renamed -> "Hardness for Two Scenarios"; attribution via
-%   \textcite; Steps 2/3 reframed to lead with their destination.
+% Provenance: §3.3 opening + §3.3.1 = Unit 1 v7; §3.3.1 close =
+% Unit 2 v5; §3.3.2 = v6. This pass is the final review: grammar,
+% redundancy, coherence and prose only, plus the five decisions
+% recorded below. No result, label, citation or figure changed.
 %
-% Goal: weak NP-hardness of the min-max spanning tree problem already
-%   at K = 2 (partition reduction); the chapter's one full hardness
-%   proof.
-% Prereqs: eq:mm-evaluator, \wc{T}, \cs{k}, decision version in NP
-%   (sec:mm-formulation); sec:complexity (NP-hardness, weak/strong,
-%   pseudo-polynomial); prop:tree-add-cycle (referenced as
-%   "property~\ref" per Ch2 house style for list items);
-%   lem:interval-extremal-cost, cor:mm-interval-polynomial (opening
-%   recap only).
-% Source: Goerigk Thm 8.4, construction and proof reproduced;
-%   original Kouvelis-Yu 1997. Step 1 (iterated exchange) expands
-%   Goerigk's one-clause WLOG "E_c <= E_T as the costs of all
-%   vertical edges are zero". Step 2 (cut + four-cycle on the
-%   figure) is the declared gap-fill justifying his asserted
-%   tree-subset correspondence and Q1 + Q2 = 2Q. His Figure 8.1
-%   = our fig:partition-grid.
-% Notation vs source: a_j in E_1, b_j in E_2 with col = j; r_j in
-%   E_c. Bookkeeping change only; graph (incl. the adjacency
-%   formula, reproduced verbatim), scenarios, and threshold are
-%   identical.
-% Structure: theorem stated at K = 2 (Flow Card F3); the one-line
-%   generalisation to all constant K >= 2 stands as its own
-%   paragraph immediately after the proof.
-% Labels: fills thm:mm-k2-hard; new fig:partition-grid.
-% Notation file / Table A: checked, no updates needed; reduction-
-%   local symbols (v_{i,j}, a_j, b_j, r_j, V_{<j}, W, Q, w(P)) stay
-%   inline.
-% Citations: KouvelisYu1997; Goerigk2021RCO (Thm 8.4);
-%   KorteVygen2018 (Corollary 15.28, "PARTITION is NP-complete",
-%   verified verbatim in source text; KV's sum-equality form is
-%   equivalent to the half-total form used here).
-% Numerics: instances, bijection (all-vertical trees = the 2^n sets
-%   T_P with the stated costs), and min-min identity verified by
-%   spanning-tree enumeration.
+% FINAL-PASS CHANGES
+%  (a) Opening roadmap: "no approximation factor below two" ->
+%      "no constant-factor approximation exists at all", matching
+%      what §3.3.2 actually establishes; "these cited results" ->
+%      "these results", since the K=2-style reduction is presented
+%      in full there rather than merely cited.
+%  (b) §3.3.1 opening: dropped "We prove the hardness in full and
+%      record the matching positive results afterwards", which
+%      repeated the section roadmap verbatim in substance.
+%  (c) Step 2's label shortened to the length of Steps 1 and 3.
+%  (d) "the next section" -> "the next subsection" (§3.3.2 is one).
+%  (e) Cost-list entries are now bounded by the total cost of all
+%      edges "in its own scenario" (the old phrasing implied a
+%      single, scenario-independent sum).
+%  (f) §3.3.2 theorem: title now names both claims, and the
+%      inapproximability carries "unless P = NP", matching the
+%      convention already used at the close of §3.3.1.
+%  (g) Grammar: "three literals, each a variable or its negation".
+%  (h) The three-step approximation chain split into two sentences.
+%
+% DEPENDS ON (companion fix in chapters/02_foundations.tex):
+%   def:discrete-uncertainty must read \R^{|E|}_{\geq 0}. §3.3.2
+%   cites it for the non-negativity that eq:mm-aggregate-bracket
+%   needs, and §3.3.1's cost-list bound ("between zero and ...")
+%   rests on it too.
+%
+% SOURCES (all verified side by side; see the unit headers in the
+% repository history for the full records):
+%   §3.3.1  Goerigk Thm 8.4 (construction and proof reproduced),
+%           original KouvelisYu1997; KorteVygen2018 Cor 15.28
+%           ("PARTITION is NP-complete", verified verbatim);
+%           BarahonaPulleyblank1987 (exact spanning tree);
+%           Goerigk Thms 8.2, 8.3 (pseudo-polynomial, FPTAS),
+%           FPTAS originally AissiBazganVanderpooten2005ESA.
+%   §3.3.2  Goerigk Thm 8.5 with Fig 8.2 and the fuller
+%           construction of Thm 7.5 (gadget matches edge for edge),
+%           original KasperskiZielinski2009; KorteVygen2018
+%           Thm 15.22 ("3SAT is NP-complete", Cook 1971);
+%           KasperskiZielinski2011 (no constant factor, stated
+%           verbatim in Goerigk §8.1); Goerigk Thm 5.21 [Bil+17]
+%           and Cor 5.22 [Baa+24] for the O(log K) bound.
+%           At p = ln K the factor of Cor 5.22 is exactly e log_2 K,
+%           which is what the display derives.
+%
+% Labels defined here: thm:mm-k2-hard, fig:partition-grid,
+%   thm:mm-kconst-pseudo, thm:mm-kconst-fptas, thm:mm-kunbdd-hard,
+%   fig:sat-gadget, eq:mm-aggregate-bracket, thm:mm-kunbdd-approx.
+% Numbering in the current build: Theorems 3.1 to 3.5, Figures 3.1
+%   and 3.2, equation (3.3).
+% Local symbols: §3.3.1 v_{i,j}, a_j, b_j, r_j, V_{<j}, W, Q, w(P),
+%   T_P; §3.3.2 a_i, b_i, v_{i,j}, L_{i,j}, p. Checked against the
+%   thesis-wide symbols (n, m, K, u, \ell_e): no collisions.
+% Deliberate choices left standing: no matroid or p-norm machinery
+%   ("p-norm" appears once, as a literature signpost); §3.3.2's
+%   argument runs as prose rather than a proof environment, marking
+%   it as an exposition of a cited proof.
 %─────────────────────────────────────────────────────────
+
 \section{Complexity and Approximation}\label{sec:mm-complexity}
 
 Under interval uncertainty the entire model compressed into the single cost vector $u$, and the min-max problem collapsed to one minimum spanning tree computation (\Cref{lem:interval-extremal-cost,cor:mm-interval-polynomial}).
 Discrete uncertainty admits no such compression: by~\eqref{eq:mm-evaluator}, the worst-case cost is the largest of the $K$ scenario costs of the tree, and the maximising scenario may change from tree to tree (\Cref{sec:mm-formulation}).
 This section turns that obstruction into complexity results, and the price depends on whether the number of scenarios is a fixed constant or part of the input.
 For every constant $K$ the problem is weakly $\mathsf{NP}$-hard, already for $K = 2$; this is \Cref{thm:mm-k2-hard}, the hardness result of this chapter that we prove in full, complemented by a pseudo-polynomial algorithm and an FPTAS (\Cref{thm:mm-kconst-pseudo,thm:mm-kconst-fptas}).
-When $K$ is part of the input, the hardness becomes strong and no approximation factor below two is achievable, although an $O(\log K)$-approximation remains available; these cited results close the section.
+When $K$ is part of the input, the hardness becomes strong and no constant-factor approximation exists at all, the best guarantee being an $O(\log K)$-approximation; these results close the section.
 
 \subsection{Discrete Scenarios: Constant \texorpdfstring{$K$}{K}}
 
 Throughout this subsection the number of scenarios $K$ is a constant, fixed independently of the instance.
-We prove the hardness in full and record the matching positive results afterwards.
 
 \begin{theorem}[Hardness for Two Scenarios]\label{thm:mm-k2-hard}
 Under discrete uncertainty, the min-max spanning tree problem is weakly $\mathsf{NP}$-hard, even when restricted to $K = 2$ scenarios.
@@ -340,7 +379,7 @@ The exchange $T' = (T \setminus \{h\}) \cup \{r_j\}$ is again a spanning tree: d
 Since $\cs{k}_{r_j} = 0 \leq \cs{k}_{h}$ for $k \in \{1, 2\}$, neither scenario cost increases, and $\wc{T'} \leq \wc{T}$.
 Each exchange raises the number of vertical edges by one, so iterating turns any spanning tree into one that contains all vertical edges at no larger worst-case cost; in particular, the minimum worst-case cost is attained by such a tree.
 
-\emph{Step 2: once the vertical edges are fixed, a spanning tree is just a choice of one row per column; the trees are therefore the sets $T_P$ for $P \subseteq \{1, \ldots, n\}$, and the worst-case cost is a function of $P$ alone.}
+\emph{Step 2: with the vertical edges fixed, a spanning tree is just a choice of one row per column, and its worst-case cost depends on that choice alone.}
 With every vertical edge present, the two vertices of each column are already joined, and a spanning tree's only remaining decision is, for each column $j$, whether it crosses from column $j - 1$ through the first-row edge $a_j$ or the second-row edge $b_j$.
 For a subset $P \subseteq \{1, \ldots, n\}$, let $T_P$ consist of every vertical edge together with the first-row edge $a_j$ in the columns $j \in P$ and the second-row edge $b_j$ in the rest:
 \[
@@ -441,7 +480,7 @@ This is solvable in pseudo-polynomial time. Its running time grows with the magn
 
 The subroutine turns the min-max problem into a search.
 Under $K$ scenarios a tree carries a list of $K$ costs, one per scenario, and its worst-case cost is the largest entry of that list. The min-max optimum is the tree whose largest entry is smallest.
-Each of the $K$ entries is an integer between zero and the sum of all edge costs, so when $K$ is fixed only pseudo-polynomially many lists can occur. Searching these few lists replaces the search over the exponentially many spanning trees.
+Each of the $K$ entries is an integer between zero and the total cost of all edges in its own scenario, so when $K$ is fixed only pseudo-polynomially many lists can occur. Searching these few lists replaces the search over the exponentially many spanning trees.
 Bundling each edge's $K$ costs into a single number, in a base wide enough that the scenarios cannot interfere, lets the subroutine test whether a prescribed list is realised by some tree. Iterating it over the candidate lists and keeping the realised one of smallest maximum returns the min-max optimum in pseudo-polynomial time \cite[Theorem~8.2]{Goerigk2021RCO}.
 
 The approximation scheme runs the same search on scaled costs.
@@ -449,81 +488,121 @@ Dividing every cost by a common factor, chosen from $\varepsilon$ and a bound on
 The returned tree therefore has worst-case cost within $1 + \varepsilon$ of the optimum, in time polynomial in the input and in $1/\varepsilon$ \cite[Theorem~8.3]{Goerigk2021RCO}. This scheme is due to \textcite{AissiBazganVanderpooten2005ESA}.
 
 These results supply the pseudo-polynomial algorithm that \Cref{thm:mm-k2-hard}'s proof invoked to classify its hardness as weak. With an FPTAS available as well, the problem cannot be strongly hard unless $\mathsf{P} = \mathsf{NP}$, since a strongly hard problem would admit neither.
-Both guarantees hold only because $K$ is fixed, which keeps the number of cost lists small. This is exactly what the next section removes: once $K$ grows with the input, the lists are no longer few, and both the algorithm and the approximation scheme fall away.
+Both guarantees hold only because $K$ is fixed, which keeps the number of cost lists small. This is exactly what the next subsection removes: once $K$ grows with the input, the lists are no longer few, and both the algorithm and the approximation scheme fall away.
 
 %─────────────────────────────────────────────────────────
-% SECTION 3.3.2: DISCRETE SCENARIOS, UNBOUNDED K  (v1)
-%
-% Replaces the §3.3.2 placeholder (mirror lines 256-283), i.e. the
-% \subsection heading through the stale "Midpoint O(K)-approximation"
-% TODO. The corrected approximation result is O(log K) (Cor 5.22),
-% NOT the placeholder's wrong O(K) midpoint. §3.4 (line 285+) untouched.
-%
-% GOALS (Flow Card, approved with 4 decisions):
-%   G1 establish unbounded-K hardness (strong NP-hard + (2-eps)),
-%      delivering §3.3.1's "both fall away" close.
-%   G2 give the matching O(log K) upper bound + no-constant-factor
-%      lower bound (the approximation gap).
-%   G3 coherence: the chapter's discrete spine -- numerical hardness
-%      (weak, FPTAS) for fixed K vs structural hardness (strong, no
-%      constant factor) for unbounded K; the scenario count is the line.
-%   G4 accessible, minimal in-text citation.
-% Decisions implemented: (1) light O(log K) intuition built on existing
-%   info (max hard vs sum easy, §3.2); (2) no-constant-factor as a
-%   strengthening SENTENCE, not its own theorem; (3) short 3-SAT sketch,
-%   minimal problem description (3-SAT is classical), cite the rest;
-%   (4) both O(log K) primaries verified and cited (Baak2025, Bilo2017).
-% Prereqs: sec:complexity (strong NP-hard = NP-hard with poly-bounded
-%   numbers; approximation ratio); cor:mm-interval-polynomial (the
-%   linear interval case, for the O(log K) contrast); thm:mm-k2-hard
-%   and the constant-K results (the partition/weak contrast).
-% Source (verified side-by-side this session): Goerigk Thm 8.5 [KZ09]
-%   (strong NP-hard + (2-eps); 3-SAT reduction, gadget per clause,
-%   scenario per complementary literal pair, opt = 1 iff satisfiable);
-%   [KZ11] no constant factor; Goerigk Cor 5.22 [Baa+24] O(log K), via
-%   Thm 5.21 [Bil+17] (p-norm; approximate max by softer aggregate,
-%   p = ln K gives O(log K)).
-% New terms vs Ch2: 3-SAT (minimal gloss, classical); "matroid"/
-%   "p-norm" deliberately AVOIDED (undefined in Ch2) -- O(log K)
-%   intuition uses "smoother aggregate" instead.
-% New labels: thm:mm-kunbdd-hard (exists in placeholder),
-%   thm:mm-kunbdd-approx (NEW).
-% NEW bib entries required (verified, supplied in chat): Baak2025,
-%   Bilo2017. (KasperskiZielinski2009/2011 already in bib.)
+% §3.3.2  DISCRETE SCENARIOS, UNBOUNDED K
 %─────────────────────────────────────────────────────────
+
 \subsection{Discrete Scenarios: Unbounded \texorpdfstring{$K$}{K}}
 
 With $K$ part of the input, the hardness of the problem changes in kind.
 For a fixed number of scenarios the difficulty was numerical, the partition problem in disguise, and that is why it was weak and yielded to scaling.
-With arbitrarily many scenarios available, a purely logical problem can be encoded instead, one that involves no large numbers, and the problem becomes strongly hard and far harder to approximate.
+With arbitrarily many scenarios available, a purely logical problem can be encoded instead, one that involves no large numbers at all, and the problem becomes strongly hard and far harder to approximate.
 
-\begin{theorem}[Strong NP-Hardness]\label{thm:mm-kunbdd-hard}
-If $K$ is part of the input, the min-max spanning tree problem under discrete uncertainty is strongly $\mathsf{NP}$-hard, and for no $\varepsilon > 0$ can it be approximated within a factor of $2 - \varepsilon$.
+\begin{theorem}[Strong NP-Hardness and Inapproximability]\label{thm:mm-kunbdd-hard}
+If $K$ is part of the input, the min-max spanning tree problem under discrete uncertainty is strongly $\mathsf{NP}$-hard, and unless $\mathsf{P} = \mathsf{NP}$ it cannot be approximated within a factor of $2 - \varepsilon$ for any $\varepsilon > 0$.
 \end{theorem}
 
-The result is due to \textcite{KasperskiZielinski2009}; the reduction sketched here follows \cite[Theorem~8.5]{Goerigk2021RCO}.
-It starts from 3-SAT, the classical $\mathsf{NP}$-complete satisfiability problem, and writes its logic into the scenarios.
-Each clause becomes a small gadget carrying one edge per literal, and a spanning tree must take exactly one of these edges per clause, which reads as choosing a literal that satisfies the clause.
-For every pair of contradictory literals, one asserting a variable and the other negating it, a scenario is added that charges cost $1$ to the two corresponding edges and $0$ to all others.
-A consistent choice of literals never takes both edges of such a pair, so its worst-case cost is $1$; an inconsistent choice takes both edges of some pair, raising the worst-case cost to $2$.
-Since a consistent choice is exactly a satisfying assignment, the optimal worst-case cost is $1$ when the formula is satisfiable and $2$ otherwise.
+The result is due to \textcite{KasperskiZielinski2009}; the presentation here follows \textcite[Theorem~8.5]{Goerigk2021RCO}.
+The reduction starts from 3-SAT, which is $\mathsf{NP}$-complete \cite[Theorem~15.22]{KorteVygen2018}: given a Boolean formula whose clauses each contain three literals, each a variable or its negation, decide whether some truth assignment satisfies every clause.
 
-Deciding which of these holds therefore decides satisfiability, so the problem is $\mathsf{NP}$-hard.
-Every cost is $0$ or $1$, so the numbers stay polynomially bounded and the hardness is strong, unlike the partition reduction where large weights were essential.
-The gap between $1$ and $2$ also means that an approximation within any factor below $2$ would separate the two cases and hence solve 3-SAT.
-The inapproximability is in fact far stronger: no constant factor is achievable at all \cite{KasperskiZielinski2011}.
+The graph receives a small gadget for each clause, shown in \Cref{fig:sat-gadget}, and the gadgets are chained one after another, so that every route from one end of the graph to the other must pass through each gadget in turn.
+Inside the gadget of clause $i$ lie three parallel two-edge routes from $a_i$ to $b_i$; the first edge $\{a_i, v_{i,j}\}$ of the $j$-th route represents the $j$-th literal $L_{i,j}$ of the clause, while the second edge, like the edges linking consecutive gadgets, costs zero in every scenario.
+Crossing the gadget requires at least one of its literal edges, so every spanning tree selects at least one literal in every clause, and the only costs a tree can ever incur sit on the literal edges it selects.
+The scenarios then encode the logic: for every complementary pair of occurrences, $L_{i,j} = \neg L_{i',j'}$, a scenario is added that charges cost $1$ to the two edges $\{a_i, v_{i,j}\}$ and $\{a_{i'}, v_{i',j'}\}$ and $0$ to every other edge.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    vertex/.style={circle, draw=RWTHBlue, very thick, fill=RWTHBlue!20, minimum size=8mm, font=\scriptsize\bfseries, inner sep=0pt},
+    edge/.style={black, thick},
+    elabel/.style={font=\scriptsize}
+]
+    % chain: ... b_{i-1} -- a_i -- {v_{i,1}, v_{i,2}, v_{i,3}} -- b_i -- a_{i+1} ...
+    \node          (dl)    at (-1.4, 0)   {$\cdots$};
+    \node[vertex] (bprev) at (0, 0)      {$b_{i-1}$};
+    \node[vertex] (ai)    at (2.2, 0)    {$a_i$};
+    \node[vertex] (v1)    at (4.6, 1.5)  {$v_{i,1}$};
+    \node[vertex] (v2)    at (4.6, 0)    {$v_{i,2}$};
+    \node[vertex] (v3)    at (4.6, -1.5) {$v_{i,3}$};
+    \node[vertex] (bi)    at (7.0, 0)    {$b_i$};
+    \node[vertex] (anext) at (9.2, 0)    {$a_{i+1}$};
+    \node          (dr)    at (10.6, 0)  {$\cdots$};
+    % connectors between gadgets (free)
+    \draw[edge] (dl) -- (bprev);
+    \draw[edge] (bprev) -- (ai)  node[midway, above, elabel] {$0$};
+    \draw[edge] (bi) -- (anext)  node[midway, above, elabel] {$0$};
+    \draw[edge] (anext) -- (dr);
+    % literal edges
+    \draw[edge] (ai) -- (v1) node[midway, above left, elabel]  {$L_{i,1}$};
+    \draw[edge] (ai) -- (v2) node[midway, above, elabel]       {$L_{i,2}$};
+    \draw[edge] (ai) -- (v3) node[midway, below left, elabel]  {$L_{i,3}$};
+    % free second halves of the routes
+    \draw[edge] (v1) -- (bi) node[midway, above right, elabel] {$0$};
+    \draw[edge] (v2) -- (bi) node[midway, above, elabel]       {$0$};
+    \draw[edge] (v3) -- (bi) node[midway, below right, elabel] {$0$};
+\end{tikzpicture}
+\caption{The gadget of clause $i$ in the reduction from 3-SAT, chained to its neighbouring gadgets through $b_{i-1}$ and $a_{i+1}$. The edge $\{a_i, v_{i,j}\}$ carries the $j$-th literal $L_{i,j}$ of the clause; a scenario charges cost $1$ to the two literal edges of a complementary pair of occurrences and $0$ everywhere else. All edges labelled $0$ are free in every scenario, so a tree's cost arises only on the literal edges it selects, and crossing the gadget from $a_i$ to $b_i$ forces at least one of them.}
+\label{fig:sat-gadget}
+\end{figure}
+
+The correspondence is exact in both directions.
+If the formula is satisfiable, fix a satisfying assignment and build the tree that takes, in each clause, one literal edge whose literal the assignment makes true, together with all the cost-free edges.
+Each gadget contributes five vertices and four selected edges, with one connector joining each consecutive pair, so the selection has one edge fewer than the graph has vertices; being connected as well, it is a spanning tree.
+No two selected literals are complementary, both being true under one assignment, so every scenario charges at most one selected edge, and the worst-case cost is at most $1$.
+Conversely, suppose some spanning tree avoids both edges of every complementary pair.
+Setting each of its selected literals to true is then consistent, and since every clause contributes a selected literal, the formula is satisfied.
+For an unsatisfiable formula every spanning tree therefore contains both edges of some pair, and the scenario of that pair costs it $2$; since no scenario has more than two unit-cost edges, no tree costs more than $2$ in any scenario, and the optimal worst-case cost is exactly $2$.
+
+The optimal worst-case cost is thus at most $1$ for a satisfiable formula and exactly $2$ for an unsatisfiable one, so deciding which of the two occurs decides 3-SAT, and the problem is $\mathsf{NP}$-hard.
+Every cost in the construction is $0$ or $1$, so the numbers remain polynomially bounded and the hardness is strong, in contrast to the partition reduction, where large weights were essential.
+
+The same gap yields the inapproximability bound.
+Suppose that, for some $\varepsilon > 0$, a polynomial-time algorithm always returned a spanning tree of worst-case cost at most $2 - \varepsilon$ times the optimum.
+On a satisfiable instance the optimum is at most $1$, so the returned tree would cost at most $2 - \varepsilon < 2$; on an unsatisfiable instance every tree costs exactly $2$, the returned one included.
+Reading off whether the returned tree costs less than $2$ would therefore decide 3-SAT in polynomial time, which is impossible unless $\mathsf{P} = \mathsf{NP}$.
+The inapproximability is in fact far stronger, no constant factor being achievable at all \cite{KasperskiZielinski2011}; the self-contained $2 - \varepsilon$ bound above is its modest form.
 
 \begin{theorem}[Logarithmic Approximation]\label{thm:mm-kunbdd-approx}
 The min-max spanning tree problem under discrete uncertainty can be approximated within a factor of $O(\log K)$.
 \end{theorem}
 
-This closes the gap from above, leaving only a logarithmic factor between what is achievable and the no-constant-factor barrier.
-The obstacle is the worst-case objective itself, a maximum over the $K$ scenarios, which is much harder to optimise than the plain sum that reduced the interval problem to a single spanning tree computation (\Cref{cor:mm-interval-polynomial}).
-Replacing that maximum by a smoother aggregate of the $K$ costs, one the spanning tree problem can still optimise efficiently, restores tractability, and the aggregate can be tuned so that it never underestimates the true maximum by more than a logarithmic factor.
-The resulting bound is \cite[Corollary~5.22]{Goerigk2021RCO}, established by \textcite{Baak2025} on the foundation of \textcite{Bilo2017}.
+This closes the gap from above, leaving only a logarithmic distance to the no-constant-factor barrier.
+The obstacle is the worst-case objective itself: a maximum over the $K$ scenario costs is far harder to minimise than the plain sum that reduced the interval problem to a single spanning tree computation (\Cref{cor:mm-interval-polynomial}).
+The remedy is to minimise a sum after all, one built to imitate the maximum.
+For a parameter $p \geq 1$, aggregate the $K$ entries of a tree's cost list into the $p$-th root of the sum of their $p$-th powers, in the literature the $p$-norm of the list.
+Since the scenario costs are non-negative (\Cref{def:discrete-uncertainty}), the aggregate brackets the worst case,
+\begin{equation}\label{eq:mm-aggregate-bracket}
+\wc{T}
+\;\leq\;
+\Bigl(\, \sum_{k=1}^{K} \bigl(\cs{k}(T)\bigr)^{p} \Bigr)^{\!1/p}
+\;\leq\;
+K^{1/p}\, \wc{T},
+\end{equation}
+the first inequality because the sum contains the $p$-th power of its largest entry, the second because it consists of $K$ terms, none larger.
+The larger $p$ is, the closer the factor $K^{1/p}$ draws to one and the more faithfully the aggregate tracks the maximum.
+
+Unlike the maximum, the aggregate is an objective a greedy method can handle.
+Growing the tree edge by edge in the manner of Kruskal's algorithm, but adding at each step, among the edges creating no cycle, one that increases the aggregate the least, returns a spanning tree whose aggregate is at most $p / \ln 2$ times the smallest possible \cite[Theorem~5.21]{Goerigk2021RCO}.
+The two error sources now pull against each other: raising $p$ tightens the right-hand inequality of~\eqref{eq:mm-aggregate-bracket} but loosens the greedy guarantee.
+Both are paid in succession.
+By the left inequality of~\eqref{eq:mm-aggregate-bracket} the greedy tree's worst-case cost is at most its aggregate, and that aggregate is at most $p / \ln 2$ times the smallest aggregate any spanning tree attains, in particular at most $p / \ln 2$ times the aggregate of a min-max optimal tree.
+By the right inequality, that last aggregate is at most $K^{1/p}$ times the min-max optimum.
+The greedy tree therefore lies within a factor $(p / \ln 2) \cdot K^{1/p}$ of that optimum.
+Choosing $p = \ln K$ makes both factors explicit: writing $K = e^{\ln K}$ gives $K^{1/p} = K^{1 / \ln K} = e$, while $p / \ln 2 = \ln K / \ln 2 = \log_2 K$, so that
+\[
+\frac{p}{\ln 2} \cdot K^{1/p}
+\;=\;
+e \log_2 K
+\;=\;
+O(\log K),
+\]
+which is the guarantee of \Cref{thm:mm-kunbdd-approx} \cite[Corollary~5.22]{Goerigk2021RCO}.
+The bound is due to \textcite{Baak2025}, building on the greedy analysis of \textcite{Bilo2017}.
 
 The discrete-uncertainty picture is now complete, and the number of scenarios is its dividing line.
-For a fixed number of scenarios the problem is only weakly hard and admits an FPTAS; once that number is unbounded it becomes strongly hard, inapproximable within any constant factor, and approximable only within $O(\log K)$.
+For a fixed number of scenarios the problem is only weakly hard and admits an FPTAS; once that number is part of the input, it becomes strongly hard, approximable within $O(\log K)$ but within no constant factor.
 One problem thus carries two kinds of hardness: a numerical one that scaling defeats, and a structural one that it cannot touch.
 
 %─────────────────────────────────────────────────────────
