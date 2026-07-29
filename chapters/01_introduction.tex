@@ -6,9 +6,12 @@
 %   - Concrete motivation (fibre network scenario)
 %   - Research scope (2 objectives, 2 models)
 %   - Contributions summary (5 key deliverables)
-%   - Thesis roadmap (Ch2-6 overview)
+%   - Thesis roadmap (Ch2-5 overview; Ch5 merges synthesis and conclusion)
 % Page budget: 3.5 pages
-% Status: COMPLETE FIX - numeric citations with correct keys
+% Status: LOCKED. Citation style numeric-comp; narrative attributions
+%   use \textcite. Claims here are matched to the locked Ch2 and Ch3:
+%   five proved MST foundations, thm:mm-k2-hard, lem:interval-extremal-cost,
+%   and the factor-2 guarantee scoped to interval regret spanning trees.
 %═══════════════════════════════════════════════════════════
 
 \chapter{Introduction}\label{ch:intro}
@@ -21,7 +24,7 @@
 Consider the challenge of designing a fibre-optic telecommunications network connecting major cities across a region.
 The network must link all locations while minimising total cable installation cost.
 However, actual deployment costs depend on numerous factors: terrain characteristics (installing cables through mountainous regions costs substantially more than across plains), regulatory approvals that vary by jurisdiction, and material prices that fluctuate with global supply chains.
-Such cost uncertainty is pervasive in infrastructure planning; as Kouvelis and Yu \cite{KouvelisYu1997} observe, forecasted parameter values rarely match realised costs in practice, motivating robust decision-making approaches.
+Such cost uncertainty is pervasive in infrastructure planning; as \textcite{KouvelisYu1997} observe, forecasted parameter values rarely match realised costs in practice, motivating robust decision-making approaches.
 Consequently, a network design that appears optimal under today's cost estimates may become substantially more expensive if realised costs differ significantly.
 This uncertainty raises a fundamental question: how should one design infrastructure networks that remain near-optimal despite cost variations?
 
@@ -41,7 +44,7 @@ Regret quantifies the difference between a chosen solution's cost and the optima
 The min-max regret objective minimises the worst-case performance gap, hedging against the possibility of missing the truly optimal solution.
 Unlike min-max, which guards against high absolute costs, regret focuses on relative performance: ensuring that no matter which cost scenario materialises, the chosen tree is competitive with the scenario-optimal solution.
 
-To model uncertainty, we consider two standard representations that arise naturally in applications.
+To model uncertainty, we consider two standard representations that arise naturally in applications, complemented later by a third that interpolates between them.
 The first is \emph{discrete scenario uncertainty}, where a planner enumerates a finite set of plausible cost vectors, each representing a different potential future state.
 For instance, in the telecommunications example, scenarios might correspond to different combinations of regulatory outcomes and material price levels.
 The second is \emph{interval uncertainty}, where each edge cost is known to lie within a specified range, bounded by lower and upper estimates.
@@ -103,7 +106,7 @@ For the regret objective, \Cref{lem:interval-extremal-regret} proves that worst-
 Both lemmas are proved in full, and their implications for algorithm design are developed carefully.
 
 Third, we provide two representative complexity proofs (\Cref{ch:minmax,ch:regret}).
-\Cref{thm:mm-k2-hard} establishes weak $\mathsf{NP}$-hardness of min-max spanning trees with two discrete scenarios via a reduction from the \textsc{Partition} problem, constructing a grid graph where scenario costs encode target subset sums.
+\Cref{thm:mm-k2-hard} establishes weak $\mathsf{NP}$-hardness of min-max spanning trees with two discrete scenarios via a reduction from the partition problem, constructing a grid graph where scenario costs encode target subset sums.
 The proof includes the reduction construction, correctness argument, and encoding analysis.
 \Cref{thm:regret-k2-hard} extends this to min-max regret by reusing the construction with adjusted analysis, demonstrating that regret complexity mirrors absolute cost complexity for discrete scenarios.
 Together with cited results for larger scenario counts, these establish a complete complexity hierarchy.
@@ -136,4 +139,4 @@ Interval regret is shown to be harder than interval min-max despite sharing extr
 
 \Cref{ch:conclusion} consolidates the results from \Cref{ch:minmax,ch:regret} into a comprehensive classification table, displays the running micro-graph under each robust objective in an example gallery, acknowledges the deliberate scope limitations of this work, and points to related robust optimisation models (polyhedral uncertainty, two-stage formulations, recoverable robustness) along with open questions from the literature.
 
-\Cref{app:notation} provides an alphabetised notation table for quick reference.
+\Cref{app:notation} collects the notation of the thesis in a single table, grouped by category, with the section of first use given for each symbol.
