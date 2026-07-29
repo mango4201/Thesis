@@ -49,8 +49,8 @@
 % |         |          | Pseudo-poly, FPTAS (thm:mm-kconst-pseudo, thm:mm-kconst-fptas) | O(log K)-approx (thm:mm-kunbdd-approx, Baak2025) | Complexity grows with K |
 % |         |          |                              | Not (2-eps)-approx; not within O(log^{1-eps} n) (thm:mm-kunbdd-hard, KasperskiZielinski2011) | |
 % | Min-Max | Interval | POLYNOMIAL (lem:interval-extremal-cost, cor:mm-interval-polynomial) | POLYNOMIAL | Extremal: chosen edges -> upper |
-% |         |          | MST on upper bounds          |                            | Reduces to nominal MST |
-% | Min-Max | Budgeted | POLYNOMIAL (thm:mm-budgeted-poly) | POLYNOMIAL            | Bertsimas-Sim enumeration: O(m) nominal MSTs |
+% |         |          | MST on upper bounds          |                            | Reduces to one MST under u |
+% | Min-Max | Budgeted | POLYNOMIAL (thm:mm-budgeted-poly) | POLYNOMIAL            | Bertsimas-Sim enumeration: O(m) deterministic MSTs |
 % |         |          | O(m^2 log n) total           |                            | Interpolates between deterministic and interval |
 % | Regret  | Discrete | Weakly NP-hard (K=2, thm:regret-k2-hard) | Strongly NP-hard (thm:regret-kunbdd-hard) | Reuses Min-Max constructions |
 % |         |          | Pseudo-poly (thm:regret-kconst-pseudo; FPTAS thm at Ch4 drafting) | O(K)-approx (midpoint; Goerigk Open Problems 10, 12) | MST(c^k) complicates but |
@@ -85,7 +85,8 @@ Budgeted & & \\
 % TODO: Pattern synthesis (1.0 pg) — folded from old Ch5 "Key Patterns" and Ch6 "Core Findings"
 
 % PATTERN 1: Extremal behaviour
-%   - All interval objectives have worst cases at boundaries (Lemmas 3.1, 4.1)
+%   - All interval objectives have worst cases at boundaries
+%     (lem:interval-extremal-cost, lem:interval-extremal-regret)
 %   - Min-Max: simple rule (chosen → upper)
 %   - Regret: strategic mix (more complex but still extremal)
 
@@ -102,7 +103,7 @@ Budgeted & & \\
 % PATTERN 4: Budgeted as interpolation
 %   - Sits between deterministic (Γ=0) and interval (Γ=|E|)
 %   - Min-Max remains polynomial across the whole range
-%   - Reduces to O(m) nominal MST instances
+%   - Reduces to O(m) deterministic MST instances
 
 % PATTERN 5: Midpoint heuristic universality
 %   - Works for both objectives (Min-Max and Regret)
@@ -120,27 +121,34 @@ Budgeted & & \\
 
 \paragraph{Micro-Graph Solutions Across Objectives.}
 
-% TODO: Figure 5.1 — TikZ gallery with 4-5 subfigures (1.5 pg)
+% TODO: TikZ gallery with five panels (1.5 pg), label fig:micro-graph-gallery
 %
-% Figure 5.1: Micro-graph solutions under different objectives
+% Micro-graph solutions under the objectives studied, ALL VERIFIED by
+% full enumeration over the eight spanning trees:
 %
-% (a) Nominal MST(c_mid)
-% (b) Min-Max discrete (K=3 scenarios)
-% (c) Min-Max interval
-% (d) Min-Max budgeted (Γ=2)   ← NEW PANEL
-% (e) Regret interval
+%   (a) MST under the midpoint costs      -> T1 = {e1,e2,e3}, cost 11
+%   (b) min-max, discrete (K = 3)         -> T2 = {e1,e2,e4}, wc 15
+%   (c) min-max, interval                 -> T2 = {e1,e2,e4}, wc 15
+%   (d) min-max, budgeted (Gamma = 2)     -> T2 = {e1,e2,e4}, wc 14
+%   (e) min-max regret, interval          -> T1 = {e1,e2,e3}, max regret 3
+%       (discrete regret also gives T1, max regret 1; see
+%        tab:micro-graph-costs)
 %
-% Below figure: summary table comparing T_1, T_2, T_3 across all objectives.
-%
-% \label{fig:micro-graph-gallery}
+% The story the gallery should tell: optimising for the midpoint or for
+% regret selects T1, optimising for worst-case cost selects T2, and the
+% budgeted dial moves between them (Gamma = 0 gives T1 at 11, Gamma >= 2
+% gives T2). Below the figure, a summary table across T1, T2, T3.
 
 \paragraph{Extremal Behaviour Visualisation.}
 
 % TODO: Figure 5.2 — geometric interpretation of extremal lemmas (0.7 pg)
 %
-% Illustrate interval box [ℓ,u]^|E| with vertices (extremal points) highlighted.
-% Min-Max vertex: all chosen edges at upper bounds.
-% Regret vertex: strategic mix.
+% Illustrate the interval box with its vertices (extremal points) marked.
+% Min-max vertex: every chosen edge at its upper bound
+%   (lem:interval-extremal-cost).
+% Regret vertex: chosen edges at upper bounds, unchosen at lower bounds
+%   (lem:interval-extremal-regret; this is the scenario used for the
+%   verified regret numbers in the gallery above).
 %
 % \label{fig:extremal-visualisation}
 

@@ -19,7 +19,39 @@
 %     thm:regret-interval-hard, thm:regret-2approx,
 %     lem:regret-lower-bound, lem:regret-upper-bound
 % Page budget: 11.3 pages
-% Status: PLACEHOLDER
+% Status: PLACEHOLDER. Nothing here is drafted; Flow Card first.
+%
+% HOUSE CONVENTIONS INHERITED FROM THE LOCKED Ch2 AND Ch3 (follow when
+% drafting, so this chapter speaks the same language):
+%   - Numbering is per chapter with one counter per environment, so
+%     ALWAYS reference by label, never by number.
+%   - \textcite for narrative attribution ("the result is due to X"),
+%     \cite for parenthetical facts; \Cref for named objects, \eqref
+%     for equations.
+%   - Costs are non-negative in all three uncertainty models
+%     (def:discrete-uncertainty and the convention stated in
+%     sec:uncertainty).
+%   - "partition problem" in lower case; "weakly / strongly NP-hard";
+%     "cost list" for the K-vector of a tree's scenario costs;
+%     avoid "nominal MST", write "MST under <cost vector>".
+%   - British English, no em dashes, no -ize spellings.
+%   - Verify a constructed subgraph is a spanning tree through the
+%     two-of-three characterisation established in sec:graph-notation.
+%
+% MICRO-GRAPH FACTS FOR THIS CHAPTER (verified by full enumeration
+% over all eight spanning trees of the current micro-graph):
+%   discrete scenarios c^(1) lower, c^(2) upper, c^(3) midpoints:
+%     min-max regret optimum is T1 = {e1,e2,e3} with max regret 1
+%     (T2 has 3, T3 has 4); tab:micro-graph-costs already carries the
+%     full cost/regret table.
+%   interval uncertainty, worst case for a fixed T at c_e = u_e on T
+%   and c_e = l_e off T:
+%     max regret T1 = 3, T2 = 5, T3 = 8; optimum is T1 at 3.
+%     (Full ranking over the eight trees: 3, 4, 5, 7, 8, 9, 9, 10.)
+%   CONTRAST TO Ch3: the min-max optimum is T2 under both discrete and
+%   interval uncertainty, while the regret optimum is T1 under both.
+%   The two objectives therefore genuinely disagree on this instance,
+%   which is the point tab:micro-graph-costs already makes in Ch2.
 %═══════════════════════════════════════════════════════════
 
 \chapter{Min-Max Regret Spanning Tree}\label{ch:regret}
@@ -79,7 +111,8 @@
 %   - Cite: Averbakh-Lebedev (2004) for NP-hardness
 
 % TODO: Comparison with Min-Max extremal (0.5 pg)
-%   - Min-Max: all chosen edges → upper (Lemma 3.1, simple)
+%   - Min-max: all chosen edges go to their upper bounds
+%     (lem:interval-extremal-cost, simple)
 %   - Regret: strategic mix depending on competing trees (complex)
 %   - More complex but still extremal
 
@@ -98,8 +131,8 @@
 % Min-Max Regret ST with K=2 discrete scenarios is weakly NP-hard.
 \end{theorem}
 \begin{proof}
-% TODO: Proof (0.6 pg) — REUSE partition reduction from Theorem 3.2
-% Same grid graph construction as Theorem 3.2 (Chapter 3)
+% TODO: Proof (0.6 pg) -- REUSE the partition reduction of thm:mm-k2-hard
+% Same grid graph construction as thm:mm-k2-hard (fig:partition-grid)
 % 
 % KEY OBSERVATION:
 % In that construction, MST(c^(k)) = 0 for all k=1,2
@@ -108,7 +141,7 @@
 % Therefore: Regret(T, c^(k)) = c^(k)(T) - 0 = c^(k)(T)
 % So Min-Max Regret ≡ Min-Max for this instance
 % 
-% By Theorem 3.2, Min-Max is weakly NP-hard
+% By thm:mm-k2-hard, min-max is weakly NP-hard
 % ∴ Min-Max Regret is weakly NP-hard
 % 
 % SOURCE: Goerigk Theorem 8.7 ("use same construction as Theorem 8.4")
@@ -221,7 +254,8 @@
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:regret-2approx}]
-% TODO: Main proof (1.1 pg) — FULL PROOF using Lemmas 4.6-4.7
+% TODO: Main proof (1.1 pg) -- FULL PROOF using lem:regret-lower-bound
+% and lem:regret-upper-bound
 % 
 % Let T_mid = MST(c_mid) where c_mid = (ℓ+u)/2
 % Let T* = optimal Min-Max Regret tree
@@ -232,10 +266,10 @@
 %   Rearranging: Σ_{e∈T_mid∖T*} ūₑ - Σ_{e∈T*∖T_mid} ℓₑ ≤ 
 %                Σ_{e∈T*∖T_mid} ūₑ - Σ_{e∈T_mid∖T*} ℓₑ
 % 
-% STEP 2: Apply Lemma 4.6 (lower bound) with T=T*, T'=T_mid:
+% STEP 2: Apply lem:regret-lower-bound with T=T*, T'=T_mid:
 %   max Regret(T*,c) ≥ Σ_{e: x*ₑ>x_mid,e} ūₑ - Σ_{e: x*ₑ<x_mid,e} ℓₑ
 % 
-% STEP 3: Apply Lemma 4.7 (upper bound) with T=T_mid, T'=T*:
+% STEP 3: Apply lem:regret-upper-bound with T=T_mid, T'=T*:
 %   max Regret(T_mid,c) ≤ max Regret(T*,c) + [Σ ūₑ - Σ ℓₑ]
 % 
 % STEP 4: Combine Step 1-3 via algebra:
@@ -283,14 +317,18 @@
 \section*{Summary}
 
 % TODO: Summary paragraph (0.3 pg)
-% Min-Max Regret complexity mirrors Min-Max for discrete scenarios
-% (Theorems 4.2-4.4) but diverges for intervals. While Min-Max intervals
-% are polynomial (Ch3), Regret intervals remain NP-hard (Theorem 4.8)
-% despite extremal properties (Lemma 4.1). Positive result: simple
-% 2-approximation via midpoint MST (Theorem 4.5, proved via Lemmas 4.6-4.7).
-% This approximation is best known for any robust combinatorial problem
-% with intervals, though tightness remains open. Chapter 5 synthesises
-% these findings alongside Min-Max results.
+% Min-max regret complexity mirrors min-max for discrete scenarios
+% (thm:regret-k2-hard, thm:regret-kconst-pseudo, thm:regret-kunbdd-hard)
+% but diverges for intervals. While interval min-max is polynomial
+% (cor:mm-interval-polynomial), interval regret remains NP-hard
+% (thm:regret-interval-hard) despite the extremal property
+% (lem:interval-extremal-regret). Positive result: a 2-approximation via
+% the midpoint MST (thm:regret-2approx, proved from lem:regret-lower-bound
+% and lem:regret-upper-bound). Factor 2 is the best guarantee known for
+% the interval regret spanning tree problem, and its tightness is open
+% (Goerigk Open Problem 2); Ch1 makes the same scoped claim, so keep the
+% two in step. Ch5 synthesises these findings alongside the min-max
+% results.
 
 % END OF CHAPTER 4```
 

@@ -513,6 +513,7 @@ In many practical applications, edge costs are not known precisely at decision t
 Construction expenses may fluctuate, travel times depend on traffic conditions, and communication link costs vary with demand.
 Robust optimisation addresses this challenge by seeking solutions that perform well across all possible cost realisations, rather than optimising for a single nominal scenario \cite{KouvelisYu1997}.
 This section formalises three uncertainty models and the corresponding robust objectives that we analyse in \Cref{ch:minmax,ch:regret}.
+All three require non-negative edge costs, reflecting the distances, construction expenses, and transmission delays that such costs typically represent, as is standard in the robust spanning tree literature \cite{Goerigk2021RCO,KouvelisYu1997}.
 
 \paragraph{Discrete Scenarios.}
 
@@ -541,8 +542,6 @@ An \emph{\textcolor{RWTHBlue}{interval uncertainty set}} is defined by lower and
 \]
 where $0 \leq \ell_e \leq u_e$ for each edge $e \in E$.
 \end{definition}
-
-This non-negativity reflects edge costs typically representing distances, construction expenses, or transmission delays, and is standard in the robust spanning tree literature \cite{Goerigk2021RCO,KouvelisYu1997}.
 
 Unlike the discrete model with finitely many scenarios, interval uncertainty encompasses a continuum of possible cost vectors.
 Despite this, many robust problems under interval uncertainty admit efficient solutions by exploiting the structure of the uncertainty set: worst-case costs are often attained at the boundary of the intervals.
@@ -631,10 +630,10 @@ $\MSTcost{\cs{k}}$ & 6 & 15 & 11 \\
 \end{table}
 
 To find the min-max regret tree, we proceed in two steps: compute each tree's maximum regret across scenarios (rightmost column), then select the tree with the smallest maximum.
-Tree $T_1$ has max regret~1, compared to~3 for $T_2$ and~4 for $T_3$, making $T_1$ the min-max regret spanning tree.
+Tree $T_1$ has max regret~1, compared to~3 for $T_2$ and~4 for $T_3$; no other spanning tree of the micro-graph does better, so $T_1$ is the min-max regret spanning tree.
 
 For the min-max objective, we compare worst-case costs: $T_2$ achieves~15 (under $\cs{2}$), versus~16 for $T_1$ and~19 for $T_3$.
-Thus $T_2$ is the min-max spanning tree.
+Again no other spanning tree improves on this, so $T_2$ is the min-max spanning tree.
 Here the two objectives select \emph{different} trees: $T_2$ minimises worst-case cost, while $T_1$ minimises worst-case regret.
 This divergence illustrates that the choice of robust objective genuinely matters, a theme developed throughout \Cref{ch:minmax,ch:regret}.
 
