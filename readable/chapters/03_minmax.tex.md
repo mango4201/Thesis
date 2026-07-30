@@ -51,7 +51,7 @@ This chapter studies the min-max version~\eqref{eq:minmax-objective}, where the 
 \Cref{sec:mm-formulation} writes this objective out at the edge level and examines its structure under each of the three uncertainty models from \Cref{sec:uncertainty}, isolating the inner worst-case evaluator that drives the subsequent analysis.
 \Cref{sec:mm-extremal} treats interval uncertainty, where the problem reduces to a minimum spanning tree under the upper-bound cost vector and is therefore polynomial.
 \Cref{sec:mm-complexity} treats discrete uncertainty: weakly $\mathsf{NP}$-hard already at $K = 2$, admitting an FPTAS for any constant $K$, and strongly $\mathsf{NP}$-hard when $K$ grows with the input, though still approximable within a logarithmic factor in $K$.
-\Cref{sec:mm-budgeted} treats budgeted uncertainty, polynomial via a richer reformulation, and \Cref{sec:mm-discussion} synthesises the three models.
+\Cref{sec:mm-budgeted} treats budgeted uncertainty, polynomial via a richer reformulation, and a closing summary draws the three models together.
 
 %─────────────────────────────────────────────────────────
 % SECTION 3.1: PROBLEM FORMULATION (~1.5-1.7 pages)
