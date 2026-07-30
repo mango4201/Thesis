@@ -535,7 +535,7 @@ In the \emph{\textcolor{RWTHBlue}{interval model}}, each edge cost may take any 
 \begin{definition}[Interval Uncertainty Set]\label{def:interval-uncertainty}
 An \emph{\textcolor{RWTHBlue}{interval uncertainty set}} is defined by lower and upper bounds on each edge:
 \[
-\Scenarios = \prod_{e \in E} [\ell_e, u_e] = \bigl\{c \in \R^{|E|} : \ell_e \leq c_e \leq u_e \text{ for all } e \in E\bigr\},
+\Scenarios = \prod_{e \in E} [\ell_e, u_e] = \bigl\{c \in \R^{|E|}_{\geq 0} : \ell_e \leq c_e \leq u_e \text{ for all } e \in E\bigr\},
 \]
 where $0 \leq \ell_e \leq u_e$ for each edge $e \in E$.
 \end{definition}
@@ -728,6 +728,7 @@ The complexity of robust spanning tree problems hinges on two factors:
 % Page budget: ~0.3 pages
 %─────────────────────────────────────────────────────────
 \section*{Summary}
+\addcontentsline{toc}{section}{Summary}
 
 Two technical pillars established in this chapter recur throughout the rest of the thesis.
 The first is the local characterisation of MST optimality through fundamental cycles and cuts (\Cref{thm:cycle-criterion,thm:cut-criterion}): the exchange arguments built on these criteria will reappear repeatedly in the robust setting.

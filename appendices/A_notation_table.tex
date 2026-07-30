@@ -5,8 +5,14 @@
 % Provides: Comprehensive symbol reference
 % Labels created: app:notation
 % Page budget: 1-2 pages (longtable handles page breaks)
-% Status: COMPLETE through Chapter 2 (sections 2.1-2.5)
-%          + Ch3 worst-case operator wc(T) added
+% Status: COMPLETE through Chapter 3 as locked (§3.1 to §3.3).
+%   Ch3 introduces no thesis-wide symbol beyond wc(T) and the
+%   upper-bound vector u: the reduction-local symbols (v_{i,j}, a_j,
+%   b_j, r_j, T_P, W, Q, w(P) in §3.3.1; a_i, b_i, v_{i,j}, L_{i,j},
+%   p in §3.3.2) are defined at the point of use and stay out of this
+%   table by design.
+%   Rows for §3.4 (Pi, pi, [x]^+) are prepared but commented out;
+%   uncomment them when §3.4 is drafted.
 %
 % REQUIRES: \usepackage{longtable} in main.tex preamble
 %           Add after \usepackage{booktabs}
@@ -62,6 +68,13 @@ $\Scenarios^{\Gamma}$ & Budgeted uncertainty set & \S\ref{sec:uncertainty} \\
 $\Gamma$ & Deviation budget (budgeted model) & \S\ref{sec:uncertainty} \\
 $\bar{c}_e$ & Nominal cost of edge $e$ (budgeted model) & \S\ref{sec:uncertainty} \\
 $\hat{c}_e$ & Maximum deviation of edge $e$ (budgeted model) & \S\ref{sec:uncertainty} \\
+$\delta_e$ & Fraction of its maximum deviation taken by edge $e$ & \S\ref{sec:uncertainty} \\
+$\R^{|E|}_{\geq 0}$ & Non-negative cost vectors, required by all three models & \S\ref{sec:uncertainty} \\
+$u = (u_e)_{e \in E}$ & Upper-bound cost vector, to which the interval model reduces & \S\ref{sec:mm-extremal} \\
+% Uncomment with §3.4:
+% $\pi$ & Price per unit of deviation budget (budgeted reformulation) & \S\ref{sec:mm-budgeted} \\
+% $\Pi$ & Candidate prices $\{0\} \cup \{\hat{c}_e : e \in E\}$ & \S\ref{sec:mm-budgeted} \\
+% $[x]^{+}$ & Positive part, $\max\{x, 0\}$ & \S\ref{sec:mm-budgeted} \\
 \midrule
 
 \multicolumn{3}{l}{\textit{Robust Objectives}} \\
