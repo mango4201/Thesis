@@ -157,7 +157,7 @@ Since each variable $c_e$ appears in exactly one term of the sum, the maximum of
 \max_{c \in \Scenarios}\; \sum_{e \in E(T)} c_e
 \;=\; \sum_{e \in E(T)}\; \max_{c_e \in [\ell_e, u_e]} c_e .
 \]
-Each $c_e$ ranges over $[\ell_e, u_e]$ and is maximised at $u_e$.
+Each cost $c_e$ ranges over the interval $[\ell_e, u_e]$ and is maximised at $u_e$.
 Substituting yields $\max_{c \in \Scenarios} \sum_{e \in E(T)} c_e = \sum_{e \in E(T)} u_e$.
 The cost vector $c^{*}$ with $c^{*}_e = u_e$ for all $e \in E$ lies in $\Scenarios$ and attains this value; its entries on edges outside $T$ are immaterial.
 \end{proof}
