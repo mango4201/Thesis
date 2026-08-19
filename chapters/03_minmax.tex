@@ -660,6 +660,7 @@ In the budgeted set $\Scenarios^{\Gamma}$ of \Cref{def:budgeted-uncertainty}, ea
 That shared budget couples the edges of the chosen tree, as \Cref{sec:mm-formulation} observed.
 The maximisation therefore no longer separates edge by edge as it did in \Cref{sec:mm-extremal}, because budget spent on one edge is budget another cannot have, and which edges the adversary drives upward depends on the tree.
 In general no fixed weight vector reproduces $\wc{T}$, and the collapse to a single minimum spanning tree that settled the interval case (\Cref{cor:mm-interval-polynomial}) is unavailable.
+
 What replaces it is a richer reformulation.
 The adversary's tree-dependent choice can be absorbed into a single parameter, though this means solving not one deterministic minimum spanning tree problem but a small family of them, one for each candidate value of that parameter.
 As in \Cref{sec:mm-extremal}, we begin with a fixed tree and turn to the minimisation over all trees afterwards.
@@ -992,7 +993,8 @@ The reason is that a single scalar removes the dependence: once a level is fixed
 
 The dividing line is therefore not linearity of the worst-case cost, which two of the three models lack in general.
 It is whether the dependence on the tree can be stripped away by a bounded amount of extra work: none is needed under intervals, one enumerated parameter suffices under a budget, and under discrete scenarios no such device can exist unless $\mathsf{P} = \mathsf{NP}$.
-The extremal characterisations, the two hardness reductions and the budgeted reformulation are worked through here; the pseudo-polynomial algorithm, the approximation scheme and the logarithmic approximation are surveyed from the literature and attributed where they are stated.
+
+The extremal characterisations, the two-scenario reduction and the budgeted reformulation are proved in full here; the strong-hardness construction and the logarithmic approximation are developed from their sources in the text; only the pseudo-polynomial algorithm and the approximation scheme for constant $K$ are stated on the authority of the literature.
 Two of the three models return in \Cref{ch:regret} under the regret objective, where the ordering changes: the interval case, the straightforward one here, becomes the hard one.
 
 % END OF CHAPTER 3
