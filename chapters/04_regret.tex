@@ -10,7 +10,6 @@
 % Labels created:
 %   - ch:regret, sec:regret-definition, sec:regret-extremal,
 %     sec:regret-complexity-discrete, sec:regret-approx-interval,
-%     sec:regret-discussion,
 %     lem:interval-extremal-regret, thm:regret-k2-hard,
 %     thm:regret-kconst-pseudo, thm:regret-kunbdd-hard,
 %     thm:regret-interval-hard, thm:regret-2approx,
@@ -284,34 +283,14 @@
 %   - No inapproximability bound either
 
 %─────────────────────────────────────────────────────────
-% SECTION 4.5: DISCUSSION AND COMPARISON (2.2 pages)
-%─────────────────────────────────────────────────────────
-\section{Discussion}\label{sec:regret-discussion}
-
-% TODO: Min-Max vs Regret (0.8 pg)
-%   - Conceptual: absolute cost vs relative performance
-%   - Complexity parallel: both hard for discrete
-%   - Intervals differ: Min-Max poly, Regret NP-hard + 2-approx
-%   - Micro-graph: Show T_MinMax ≠ T_Regret for same instance
-
-% TODO: Complexity landscape table (0.6 pg)
-%   | | Min-Max Discrete | Regret Discrete | Min-Max Interval | Regret Interval |
-%   | K=const | Weak NP-hard, FPTAS | Weak NP-hard, FPTAS | P | NP-hard, 2-approx |
-%   | K unbdd | Strong NP-hard, O(log K) | Strong NP-hard, O(K) midpoint | P | NP-hard, 2-approx |
-
-% TODO: Why Regret harder for intervals (0.5 pg)
-%   - Min-Max: extremal lemma + worst case explicit → polynomial
-%   - Regret: must compare against varying MST(c) → combinatorial search
-%   - 2-approximation uses midpoint as "neutral" scenario
-
-% TODO: Modelling remarks (0.3 pg)
-%   - Compact reformulations exist (dualization techniques)
-%   - Branch-and-bound algorithms (Montemanni-Gambardella 2005)
-
-%─────────────────────────────────────────────────────────
-% SECTION 4.6: CHAPTER SUMMARY (0.3 pages)
+% CHAPTER SUMMARY
+% Unnumbered, matching Ch2 and Ch3, and carrying
+% \addcontentsline. It owns mechanism for the regret objective plus
+% the one contrast with min-max, and is capped at about 0.75 pages.
+% No result list: tab:complexity-landscape in Ch5 owns the inventory.
 %─────────────────────────────────────────────────────────
 \section*{Summary}
+\addcontentsline{toc}{section}{Summary}
 
 % TODO: Summary paragraph (0.3 pg)
 % Min-max regret complexity mirrors min-max for discrete scenarios
