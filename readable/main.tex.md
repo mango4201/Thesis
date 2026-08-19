@@ -5,13 +5,21 @@
 
 % --- Layout & language ---
 \usepackage[margin=3cm]{geometry}
-\usepackage[ngerman,british]{babel}
+\usepackage[british]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\usepackage{microtype}
+
+% --- Page-breaking penalties (report sets \raggedbottom, so pages are never stretched) ---
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\brokenpenalty=10000
 
 % --- Math, graphics, tables ---
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{graphicx}
+\usepackage{array}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{enumitem}
@@ -77,6 +85,15 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}[chapter]
 
+% --- Thesis metadata (single source of truth: the title page and the PDF
+%     properties both read these, so a title change propagates to both) ---
+\newcommand{\thesisTitleMain}{Robust Spanning Trees}
+\newcommand{\thesisTitleSubA}{under Discrete and Interval Uncertainty}
+\newcommand{\thesisTitleSubB}{Min-Max and Min-Max Regret Models}
+\newcommand{\thesisAuthor}{Archit Dhama}
+\newcommand{\thesisTitleFull}{\thesisTitleMain\ \thesisTitleSubA: \thesisTitleSubB}
+\hypersetup{pdftitle={\thesisTitleFull},pdfauthor={\thesisAuthor}}
+
 % --- Notation macros ---
 \input{notation}
 
@@ -90,13 +107,9 @@
 \pagenumbering{roman}
 \setcounter{page}{1}
 
-\input{frontmatter/abstract}           % required (EN)
-% \input{frontmatter/kurzfassung}      % optional (DE)
-% \input{frontmatter/acknowledgements} % optional
+\input{frontmatter/abstract}
 
 \tableofcontents
-% \listoffigures                       % enable if many figures
-% \listoftables                        % enable if many tables
 
 % ===== MAIN MATTER =====
 \cleardoublepage
@@ -120,9 +133,5 @@
 % ===== DECLARATION ON THE USE OF AI TOOLS =====
 \cleardoublepage
 \input{frontmatter/ai_declaration}
-
-% ===== AFFIDAVIT =====
-\cleardoublepage
-\input{frontmatter/affidavit}
 \end{document}```
 

@@ -13,11 +13,8 @@
 %   §3.1             LOCKED
 %   §3.2             LOCKED
 %   §3.3             LOCKED (opening, §3.3.1, §3.3.2)
-%   §3.4             NOT DRAFTED. Scaffolding only. A superseded
-%                    draft is preserved in a disabled block below; its
-%                    numbers belong to the OLD micro-graph and must
-%                    not be reused. Flow Card required first.
-%   §3.5, §3.6       NOT DRAFTED. Scaffolding only.
+%   §3.4             LOCKED
+%   Summary          LOCKED (unnumbered, matching Ch2)
 %
 % Labels live in this chapter:
 %   ch:minmax, sec:mm-formulation, eq:mm-objective, eq:mm-evaluator,
@@ -25,22 +22,33 @@
 %   cor:mm-interval-polynomial, sec:mm-complexity, thm:mm-k2-hard,
 %   fig:partition-grid, thm:mm-kconst-pseudo, thm:mm-kconst-fptas,
 %   thm:mm-kunbdd-hard, fig:sat-gadget, eq:mm-aggregate-bracket,
-%   thm:mm-kunbdd-approx, sec:mm-budgeted, sec:mm-discussion.
-% Declared but not yet filled: thm:mm-budgeted-poly,
-%   tab:budgeted-micrograph (both inside the disabled §3.4 block).
+%   thm:mm-kunbdd-approx, sec:mm-budgeted, lem:budgeted-extremal-cost,
+%   eq:mm-budgeted-inner, lem:budgeted-threshold-form,
+%   thm:mm-budgeted-poly, tab:budgeted-micrograph, fig:budgeted-sweep.
 %
 % CONVENTIONS
 %   Equations referenced with \eqref, named objects with \Cref.
 %   Theorem-like environments are numbered per chapter, each on its
-%   own counter (main.tex): Theorems 3.1 to 3.5 live here, alongside
-%   Lemma 3.1 and Corollary 3.1.
-%   Comments reference LABELS, never numbers, so renumbering is safe.
+%   own counter (main.tex), so numbers repeat across environments:
+%   Theorems 3.1 to 3.6, Lemmas 3.1 to 3.3 and Corollary 3.1 coexist,
+%   with Figures 3.1 to 3.3 and Table 3.1. Those numbers are given
+%   for orientation only; comments reference LABELS, never numbers,
+%   so renumbering stays safe.
+%   The chapter closes with an unnumbered Summary carrying
+%   \addcontentsline. It owns mechanism and interpretation; the
+%   result inventory belongs to tab:complexity-landscape in Ch5.
 %
 % MICRO-GRAPH (every Ch3 number verified by full enumeration):
 %   e1[2,4] e2[3,5] e3[1,7] e4[4,6] e5[5,7]; u = (4,5,7,6,7) = c^(2);
 %   8 spanning trees; MST(u) = 15, uniquely T2 = {e1,e2,e4};
 %   wc(T1) = 16, wc(T2) = 15, wc(T3) = 19; the other seven u-costs
 %   run 16, 17, 17, 18, 18, 19, 20.
+%   Budgeted instantiation (§3.4): bar_c = (3,4,4,5,6) = c^(3),
+%   hat_c = (1,1,3,1,1), bar_c + hat_c = u, Pi = {0,1,3}.
+%   Optimum by budget, Gamma = 0..5: 11, 13, 14, 15, 15, 15, attained
+%   by T1 at Gamma = 0 and by T2 from Gamma = 1 on; attaining levels
+%   3, 1, 1, {0 or 1}, 0, 0. At Gamma = 2 the eight worst-case costs
+%   are 14, 15, 16, 16, 17, 17, 18, 19.
 %═══════════════════════════════════════════════════════════
 
 \chapter{Min-Max Spanning Tree}\label{ch:minmax}
@@ -225,7 +233,7 @@ Hence $T_2$ is the unique min-max spanning tree, its cost matching the value $\w
 
 \Cref{lem:interval-extremal-cost} shows that the min-max objective depends on the interval data only through the upper bounds $u$; the lower bounds $\ell$ play no role, and the entire interval model compresses to the single cost vector $u$.
 Two points are worth drawing out.
-First, the separation step in the proof used only that $\Scenarios$ is a product of intervals; it is exactly this absence of coupling between edges that fails under budgeted uncertainty (\Cref{sec:mm-budgeted}), where a shared deviation budget links the edges and the worst case is no longer a fixed per-edge sum.
+First, the separation step in the proof used only that $\Scenarios$ is a product of intervals; it is exactly this absence of coupling between edges that fails under budgeted uncertainty (\Cref{sec:mm-budgeted}), where a shared deviation budget links the edges and the worst case is in general no longer a fixed per-edge sum.
 Second, the insensitivity to the lower bounds is special to the min-max objective: the regret objective of \Cref{ch:regret} measures each tree against the scenario-optimal tree, a comparison that does depend on the lower bounds, and there the interval problem becomes substantially harder.
 
 %─────────────────────────────────────────────────────────
@@ -350,7 +358,7 @@ The intended mechanism is visible in \Cref{fig:partition-grid}.
 A spanning tree must pass from column $j - 1$ to column $j$ through $a_j$ or $b_j$, paying $w_j$ in scenario~1 or in scenario~2 respectively, so choosing a tree distributes the weights $w_1, \ldots, w_n$ between the two scenarios; the worst case is the larger of the two shares, smallest when the split is even.
 The proof makes this correspondence exact.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
     vertex/.style={circle, draw=RWTHBlue, very thick, fill=RWTHBlue!20, minimum size=8mm, font=\scriptsize\bfseries, inner sep=0pt},
@@ -536,7 +544,7 @@ Inside the gadget of clause $i$ lie three parallel two-edge routes from $a_i$ to
 Crossing the gadget requires at least one of its literal edges, so every spanning tree selects at least one literal in every clause, and the only costs a tree can ever incur sit on the literal edges it selects.
 The scenarios then encode the logic: for every complementary pair of occurrences, $L_{i,j} = \neg L_{i',j'}$, a scenario is added that charges cost $1$ to the two edges $\{a_i, v_{i,j}\}$ and $\{a_{i'}, v_{i',j'}\}$ and $0$ to every other edge.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
     vertex/.style={circle, draw=RWTHBlue, very thick, fill=RWTHBlue!20, minimum size=8mm, font=\scriptsize\bfseries, inner sep=0pt},
@@ -630,184 +638,365 @@ For a fixed number of scenarios the problem is only weakly hard and admits an FP
 One problem thus carries two kinds of hardness: a numerical one that scaling defeats, and a structural one that it cannot touch.
 
 %─────────────────────────────────────────────────────────
-% SECTION 3.4: BUDGETED UNCERTAINTY -- NOT DRAFTED
+% SECTION 3.4: BUDGETED UNCERTAINTY
 %
-% Result to establish: the min-max spanning tree problem under
-%   budgeted uncertainty is polynomial, through the Bertsimas-Sim
-%   reformulation (Goerigk Thm 4.21, candidate set from Lemma 4.20).
-% Planned shape: opening (bridge from def:budgeted-uncertainty, Gamma
-%   as a conservatism dial) -> per-tree worst-case evaluation ->
-%   thm:mm-budgeted-poly -> interpretation of pi -> worked example
-%   (tab:budgeted-micrograph) -> cross-model comparison -> regret
-%   pointer. NO DRAFTING BEFORE THE FLOW CARD IS APPROVED.
-%
-% VERIFIED NUMERICS for the CURRENT micro-graph (full enumeration,
-% cross-checked two independent ways). The preserved draft further
-% down was built on the OLD micro-graph, so every number in it is
-% now wrong; regenerate from these:
-%   bar_c = midpoints   = (3, 4, 4, 5, 6)
-%   hat_c = half-widths = (1, 1, 3, 1, 1)
+% VERIFIED NUMERICS (full enumeration, cross-checked two ways):
+%   bar_c = midpoints   = (3, 4, 4, 5, 6) = c^(3)
+%   hat_c = half-widths = (1, 1, 3, 1, 1); bar_c + hat_c = u
 %   Pi = {0} u {hat_c_e : e in E} = {0, 1, 3}
 %   Gamma = 2:
-%     pi = 0:  c' = (4,5,7,6,7) = u,     MST = 15 at T2,  +0 = 15
-%     pi = 1:  c' = (3,4,6,5,6),         MST = 12 at T2,  +2 = 14   <-- optimum
-%     pi = 3:  c' = (3,4,4,5,6) = bar_c, MST = 11 at T1,  +6 = 17
-%   Optimum 14, attained by T2 = {e1,e2,e4}.
-%   Direct cross-check: bar_c(T2) = 12 plus the two largest hat_c on
-%     T2 (1 + 1) gives 14. The two computations agree.
-%   Interpolation: Gamma = 0 is the MST under the nominal costs bar_c,
-%     11 at
-%     T1 = {e1,e2,e3}; Gamma = |E| is the interval problem, 15 at T2.
-%     The optimal TREE therefore moves with Gamma (T1 at Gamma = 0,
-%     T2 from Gamma = 2 onward), which the old example could not show.
+%     pi = 0:  c^pi = (4,5,7,6,7) = u,     MST = 15,  +0 = 15
+%     pi = 1:  c^pi = (3,4,6,5,6),         MST = 12,  +2 = 14   <-- optimum
+%     pi = 3:  c^pi = (3,4,4,5,6) = bar_c, MST = 11,  +6 = 17
+%   Optimum 14 at T2; direct cross-check bar_c(T2) = 12 plus 1 + 1.
+%   At Gamma = 2 the eight worst-case costs are 14, 15, 16, 16, 17,
+%     17, 18, 19.
+%   Sweep, Gamma = 0..5: 11, 13, 14, 15, 15, 15; attained by T1 at
+%     Gamma = 0 and by T2 from Gamma = 1 onward; attaining levels
+%     3, 1, 1, {0 or 1}, 0, 0. Saturation at Gamma = n-1 = 3.
 %─────────────────────────────────────────────────────────
+
 \section{Budgeted Uncertainty}\label{sec:mm-budgeted}
 
-%─────────────────────────────────────────────────────────
-% SUPERSEDED DRAFT, PRESERVED FOR ITS STRUCTURE ONLY
-%
-% WARNING: every number below belongs to the OLD micro-graph
-% (bar_c = (5,3,5,4,6.5), hat_c = (3,2,2,2,2.5), i.e. intervals
-% [2,8], [1,5], [3,7], [2,6], [4,9]). The thesis micro-graph is now
-% e1[2,4] e2[3,5] e3[1,7] e4[4,6] e5[5,7], so Pi, the table, the
-% optimum (17), and the comparison figures (12, 19) are ALL WRONG.
-% Use the verified numerics in the section header above instead.
-% The framework citations (Goerigk Thm 4.21, Lemma 4.20), the
-% theorem statement and the proof structure remain valid.
-%─────────────────────────────────────────────────────────
-\iffalse
-
-The budgeted uncertainty set $\Scenarios^{\Gamma}$ introduced in \Cref{def:budgeted-uncertainty} sits between the discrete and interval models: edge costs may deviate from their nominal values up to a maximum deviation each, but the total deviation across all edges is bounded by~$\Gamma$.
-This section shows that the resulting min-max spanning tree problem is solvable in polynomial time, by reduction to a finite family of nominal MST instances.
+The last of the three uncertainty models restores polynomial-time solvability, though by a longer route than interval uncertainty required.
+In the budgeted set $\Scenarios^{\Gamma}$ of \Cref{def:budgeted-uncertainty}, each edge may rise from its nominal cost $\bar{c}_e$ by at most its maximum deviation $\hat{c}_e$, but a single budget caps how much deviation the adversary may distribute in total, $\sum_{e \in E} \delta_e \leq \Gamma$.
+That shared budget couples the edges of the chosen tree, as \Cref{sec:mm-formulation} observed.
+The maximisation therefore no longer separates edge by edge as it did in \Cref{sec:mm-extremal}, because budget spent on one edge is budget another cannot have, and which edges the adversary drives upward depends on the tree.
+In general no fixed weight vector reproduces $\wc{T}$, and the collapse to a single minimum spanning tree that settled the interval case (\Cref{cor:mm-interval-polynomial}) is unavailable.
+What replaces it is a richer reformulation.
+The adversary's tree-dependent choice can be absorbed into a single parameter, though this means solving not one deterministic minimum spanning tree problem but a small family of them, one for each candidate value of that parameter.
+As in \Cref{sec:mm-extremal}, we begin with a fixed tree and turn to the minimisation over all trees afterwards.
 
 \paragraph{Worst-Case Cost of a Fixed Tree.}
 
-For a fixed spanning tree $T \in \cT$, the inner maximisation
-\[
-\max_{c \in \Scenarios^{\Gamma}} c(T) = \max_{\delta \in [0,1]^{|E|},\ \sum_e \delta_e \leq \Gamma} \sum_{e \in T}\bigl(\bar{c}_e + \hat{c}_e\, \delta_e\bigr)
-\]
-is a linear program over a bounded polytope, hence attains its maximum at an extreme point.
-At any extreme point of the deviation polytope, the adversary selects the $\Gamma$ edges of $T$ with the largest deviations $\hat{c}_e$ and sets $\delta_e = 1$ on those edges; the remaining deviations are zero.
-This evaluation is polynomial per tree, but enumerating all spanning trees is not: the algorithm below avoids enumeration via a duality-based reformulation.
+Fix a spanning tree $T \in \cT$.
+Evaluating~\eqref{eq:mm-evaluator} over $\Scenarios^{\Gamma}$ confronts the adversary with a choice its interval counterpart never faced: unless the budget covers the whole tree, it cannot raise every edge of $T$ at once and must decide where a limited allowance does the most damage.
+The choice is nevertheless an easy one, namely to spend the budget on the edges of $T$ carrying the largest deviations, raising each of them in full.
+The following lemma confirms that this greedy rule is optimal and evaluates the worst case in closed form.
 
-\paragraph{Polynomial-Time Algorithm.}
-
-\begin{theorem}[Min-Max Spanning Tree under Budgeted Uncertainty]\label{thm:mm-budgeted-poly}
-The min-max spanning tree problem under continuous budgeted uncertainty $\Scenarios^{\Gamma}$ can be solved in polynomial time.
-Specifically, the optimum is attained by
+\begin{lemma}[Budgeted Extremal Cost]\label{lem:budgeted-extremal-cost}
+Let $\Scenarios^{\Gamma}$ be a budgeted uncertainty set with nominal costs $\bar{c}$, maximum deviations $\hat{c}$, and an integer deviation budget $\Gamma \geq 0$.
+Let $T \in \cT$ be a spanning tree, order its edges as $E(T) = \{f_1, \ldots, f_{n-1}\}$ so that $\hat{c}_{f_1} \geq \hat{c}_{f_2} \geq \cdots \geq \hat{c}_{f_{n-1}}$, and set $g := \min\{\Gamma,\, n-1\}$.
+Then the worst-case cost of $T$ satisfies
 \[
-\min_{T \in \cT} \max_{c \in \Scenarios^{\Gamma}} c(T)
-\;=\; \min_{\pi \in \Pi}\, \Biggl( \min_{T \in \cT} \sum_{e \in E(T)} \bigl(\bar{c}_e + [\hat{c}_e - \pi]^{+}\bigr) \;+\; \Gamma\,\pi \Biggr),
+\wc{T} \;=\; \sum_{e \in E(T)} \bar{c}_e \;+\; \sum_{j=1}^{g} \hat{c}_{f_j},
 \]
-where $\Pi = \{0\} \cup \{\hat{c}_e : e \in E\}$ and $[x]^{+} = \max\{x, 0\}$.
-The inner minimum is a deterministic MST instance, solvable by Kruskal's algorithm in $O(m \log n)$ time; with $|\Pi| \leq m + 1$ candidates, the overall running time is $O(m^2 \log n)$.
-\end{theorem}
+and the maximum in~\eqref{eq:mm-evaluator} is attained at the cost vector $c^{*}$ given by $c^{*}_{f_j} = \bar{c}_{f_j} + \hat{c}_{f_j}$ for $j \leq g$ and $c^{*}_e = \bar{c}_e$ for every other edge $e \in E$.
+\end{lemma}
 
 \begin{proof}
-The result is a direct instantiation of \cite[Theorem~4.21]{Goerigk2021RCO}, which establishes the reformulation for any min-max combinatorial optimisation problem $\min_{x \in \mathcal{X}} \max_{c \in \Scenarios^{\Gamma}} c^{\top} x$ with $\mathcal{X} \subseteq \{0,1\}^n$.
-For min-max spanning trees, $\mathcal{X} = \{\mathbf{1}_T : T \in \cT\}$, and the inner minimisation over $\mathcal{X}$ at fixed~$\pi$ becomes a deterministic MST problem with modified edge costs $c'_e(\pi) = \bar{c}_e + [\hat{c}_e - \pi]^{+}$.
-Kruskal's algorithm solves each such instance in $O(m \log n)$.
-The candidate set $\Pi$ contains at most $m + 1$ values \cite[Lemma~4.20]{Goerigk2021RCO}, giving the stated bound.
+Every $c \in \Scenarios^{\Gamma}$ has the form $c_e = \bar{c}_e + \hat{c}_e \delta_e$ with $\delta \in [0,1]^{\abs{E}}$ and $\sum_{e \in E} \delta_e \leq \Gamma$ (\Cref{def:budgeted-uncertainty}).
+The nominal part of $c(T)$ is the same for every scenario, so only the deviations are at stake and~\eqref{eq:mm-evaluator} becomes
+\begin{equation}\label{eq:mm-budgeted-inner}
+\wc{T} \;=\; \sum_{e \in E(T)} \bar{c}_e \;+\; \max\Biggl\{ \sum_{e \in E(T)} \hat{c}_e \delta_e \;:\; \delta \in [0,1]^{\abs{E}},\ \sum_{e \in E} \delta_e \leq \Gamma \Biggr\}.
+\end{equation}
+It suffices to show that this maximum equals $\sum_{j=1}^{g} \hat{c}_{f_j}$ and is attained at the deviation vector realising $c^{*}$.
+
+The objective in~\eqref{eq:mm-budgeted-inner} involves only the edges of $T$.
+Setting $\delta_e := 0$ for every $e \notin E(T)$ therefore leaves the objective unchanged while freeing budget, so some maximiser vanishes outside $E(T)$, and for such $\delta$ the budget constraint reads $\sum_{j=1}^{n-1} \delta_{f_j} \leq \Gamma$.
+
+If $g = 0$, then either $\Gamma = 0$, so that the budget forces every $\delta_e$ to zero, or $T$ has no edges at all; in both cases the maximum is the empty sum, as claimed.
+Assume from now on that $g \geq 1$.
+
+The candidate maximiser is the vector $\delta^{*}$ with $\delta^{*}_{f_j} = 1$ for $j \leq g$ and $\delta^{*}_e = 0$ for every other edge, which realises exactly the cost vector $c^{*}$.
+Its total deviation is $g \leq \Gamma$, so $\delta^{*}$ is feasible, and its objective value is $\sum_{j=1}^{g} \hat{c}_{f_j}$.
+The maximum is therefore at least this value, and it remains to show that no feasible $\delta$ exceeds it.
+
+Let $\delta$ be feasible and vanishing outside $E(T)$.
+Comparing its value with that of $\delta^{*}$ and grouping the terms according to whether $j \leq g$,
+\[
+\sum_{j=1}^{n-1} \hat{c}_{f_j}\, \delta_{f_j} \;-\; \sum_{j=1}^{g} \hat{c}_{f_j}
+\;=\;
+\sum_{j=1}^{g} \hat{c}_{f_j} \bigl( \delta_{f_j} - 1 \bigr)
+\;+\;
+\sum_{j = g+1}^{n-1} \hat{c}_{f_j}\, \delta_{f_j}.
+\]
+We bound the right-hand side by replacing every coefficient $\hat{c}_{f_j}$ with the single value $\hat{c}_{f_g}$, the smallest deviation that $\delta^{*}$ pays for.
+By the chosen ordering this replacement can only increase the terms, in each sum for its own reason.
+For $j \leq g$ the factor $\delta_{f_j} - 1$ is non-positive while $\hat{c}_{f_j} \geq \hat{c}_{f_g}$, and scaling a non-positive quantity by a smaller coefficient increases it.
+For $j > g$ the factor $\delta_{f_j}$ is non-negative while $\hat{c}_{f_j} \leq \hat{c}_{f_g}$, and scaling a non-negative quantity by a larger coefficient increases it.
+Both sums then carry $\hat{c}_{f_g}$ as a common factor, so
+\[
+\sum_{j=1}^{n-1} \hat{c}_{f_j}\, \delta_{f_j} \;-\; \sum_{j=1}^{g} \hat{c}_{f_j}
+\;\leq\;
+\hat{c}_{f_g} \Biggl( \sum_{j=1}^{n-1} \delta_{f_j} \;-\; g \Biggr).
+\]
+The bracket is never positive.
+If $\Gamma \leq n-1$, then $g = \Gamma$ and the budget constraint gives $\sum_{j=1}^{n-1} \delta_{f_j} \leq \Gamma = g$; if $\Gamma > n-1$, then $g = n-1$ and the bounds $\delta_{f_j} \leq 1$ alone give $\sum_{j=1}^{n-1} \delta_{f_j} \leq n-1 = g$.
+Since $\hat{c}_{f_g} \geq 0$ by \Cref{def:budgeted-uncertainty}, the whole right-hand side is at most zero, so $\delta$ does not beat $\delta^{*}$.
+The maximum in~\eqref{eq:mm-budgeted-inner} is therefore $\sum_{j=1}^{g} \hat{c}_{f_j}$, attained at $\delta^{*}$.
 \end{proof}
 
-The reformulation has an intuitive interpretation: $\pi$ acts as a price the decision-maker pays per unit of deviation budget. The term $\Gamma\,\pi$ is the total payment to the adversary, while $[\hat{c}_e - \pi]^{+}$ is the residual marginal cost an edge contributes once its deviation has been priced at~$\pi$.
-Enumerating $\pi$ over $\Pi$ explores all break-points of this piecewise-linear function and identifies the optimal trade-off.
+The lemma assumes an integer budget, whereas \Cref{def:budgeted-uncertainty} allows any $\Gamma \in [0, \abs{E}]$.
+A fractional budget changes little: the adversary fills the largest deviations in the same order, and any budget left over once whole edges are exhausted is spent on the next largest deviation, which adds at most one fractional term to the closed form.
+Every budget appearing in what follows is an integer.
+
+Evaluating $\wc{T}$ is now a sorting task.
+Ordering the $n-1$ deviations of $E(T)$ and adding the $g$ largest to the nominal cost of $T$ takes $O(n \log n)$ time, which is the polynomial inner evaluation promised for the budgeted model in \Cref{sec:mm-formulation}.
+
+The formula also displays both ends of the budget range.
+At $\Gamma = 0$ it returns $\wc{T} = \sum_{e \in E(T)} \bar{c}_e$, so the min-max problem is the deterministic minimum spanning tree problem under the nominal costs $\bar{c}$.
+Once $\Gamma \geq n-1$ we have $g = n-1$, every edge of $T$ deviates fully, and $\wc{T} = \sum_{e \in E(T)} (\bar{c}_e + \hat{c}_e)$ is the interval worst case of \Cref{lem:interval-extremal-cost} on the box $\prod_{e \in E} [\bar{c}_e,\, \bar{c}_e + \hat{c}_e]$.
+\Cref{def:budgeted-uncertainty} reaches that box at $\Gamma = \abs{E}$, but against spanning trees the interval behaviour sets in earlier, at $\Gamma = n-1$: a tree offers the adversary only $n-1$ edges to spend on, and any further budget is wasted.
+Across the whole range $\wc{T}$ is non-decreasing in $\Gamma$, since enlarging the budget enlarges $\Scenarios^{\Gamma}$.
+At both ends it is once more a sum of fixed per-edge weights, with $w = \bar{c}$ and $w = \bar{c} + \hat{c}$ respectively.
+Only for budgets strictly between them can the coupling described above take effect.
+
+\paragraph{Minimisation over All Trees.}
+
+\Cref{lem:budgeted-extremal-cost} selects deviations by rank, and rank is what stands in the way of minimising over all trees.
+Whether an edge belongs to the $g$ largest is a question about the other edges of its tree as much as about the edge itself, so the selection moves with $T$ and cannot be written down edge by edge.
+
+Rank can be traded for a threshold.
+Fix a level $\pi \geq 0$ and charge each edge only the part of its deviation that exceeds it, namely $[\hat{c}_e - \pi]^{+}$ with $[z]^{+} := \max\{z, 0\}$, a quantity the edge settles on its own.
+An edge whose deviation reaches the level is charged exactly $\pi$ less than that deviation, so a flat payment of $\Gamma\pi$ can make good $\Gamma$ such shortfalls at once.
+Placing the level at the $\Gamma$-th largest deviation of $T$, for $1 \leq \Gamma \leq n-1$, balances the account: the $\Gamma$ largest deviations all reach that level and one copy of $\pi$ restores each of them in full, while the remaining edges do not exceed it and are charged nothing.
+The account then totals exactly the worst-case cost of \Cref{lem:budgeted-extremal-cost}, and the following lemma shows that no level does better.
+
+\begin{lemma}[Threshold Form of the Worst-Case Cost]\label{lem:budgeted-threshold-form}
+Let $\Scenarios^{\Gamma}$ be a budgeted uncertainty set with an integer deviation budget $\Gamma \geq 0$.
+Every spanning tree $T \in \cT$ then satisfies
+\[
+\wc{T} \;=\; \min_{\pi \geq 0} \Biggl[\, \Gamma\pi \;+\; \sum_{e \in E(T)} \bigl( \bar{c}_e + [\hat{c}_e - \pi]^{+} \bigr) \Biggr],
+\]
+and the minimum is attained at some $\pi \in \{0\} \cup \{\hat{c}_e : e \in E(T)\}$.
+\end{lemma}
+
+\begin{proof}
+Order $E(T) = \{f_1, \ldots, f_{n-1}\}$ by non-increasing deviations as in \Cref{lem:budgeted-extremal-cost}, and put $g := \min\{\Gamma,\, n-1\}$.
+The nominal costs do not involve $\pi$ and move outside the minimisation, so by \Cref{lem:budgeted-extremal-cost} the claim is equivalent to
+\[
+\min_{\pi \geq 0} \varphi_T(\pi) \;=\; \sum_{j=1}^{g} \hat{c}_{f_j}
+\qquad \text{for} \quad
+\varphi_T(\pi) \;:=\; \Gamma\pi + \sum_{j=1}^{n-1} \bigl[\hat{c}_{f_j} - \pi\bigr]^{+},
+\]
+with a minimiser among $0$ and the deviations of $T$.
+We treat three ranges of the budget; in each we exhibit a level of the required form that attains the claimed value, and then verify that no level falls below it.
+
+Suppose first that $\Gamma = 0$, so that $g = 0$ and the claimed value is the empty sum.
+If $T$ has no edges, then $\varphi_T$ vanishes identically; otherwise the level $\pi = \hat{c}_{f_1}$ makes every bracket vanish, giving $\varphi_T(\hat{c}_{f_1}) = 0$.
+No level falls below this, because every summand of $\varphi_T$ is non-negative.
+
+Suppose next that $1 \leq \Gamma \leq n-1$, so that $g = \Gamma$.
+At the level $\pi = \hat{c}_{f_g}$ the ordering gives $[\hat{c}_{f_j} - \hat{c}_{f_g}]^{+} = \hat{c}_{f_j} - \hat{c}_{f_g}$ for $j < g$ and $[\hat{c}_{f_j} - \hat{c}_{f_g}]^{+} = 0$ for $j \geq g$, so that
+\[
+\varphi_T\bigl(\hat{c}_{f_g}\bigr) \;=\; g\, \hat{c}_{f_g} \;+\; \sum_{j=1}^{g-1} \bigl( \hat{c}_{f_j} - \hat{c}_{f_g} \bigr) \;=\; \sum_{j=1}^{g} \hat{c}_{f_j},
+\]
+the flat payment restoring each of the $g$ largest deviations to its full value.
+No level falls below this value either, as two elementary bounds show.
+Let $\pi \geq 0$.
+The summands of $\varphi_T$ with $j > g$ are non-negative and may be dropped, and each remaining bracket satisfies $[z]^{+} \geq z$, so
+\[
+\varphi_T(\pi) \;\geq\; \Gamma\pi + \sum_{j=1}^{g} \bigl[\hat{c}_{f_j} - \pi\bigr]^{+}
+\;\geq\; \Gamma\pi + \sum_{j=1}^{g} \bigl(\hat{c}_{f_j} - \pi\bigr)
+\;=\; \sum_{j=1}^{g} \hat{c}_{f_j},
+\]
+the final equality because $\Gamma = g$, so that the $g$ subtracted copies of $\pi$ cancel the flat payment.
+
+Suppose finally that $\Gamma > n-1$, so that $g = n-1$.
+At the level $\pi = 0$ every bracket returns its deviation unchanged, giving $\varphi_T(0) = \sum_{j=1}^{n-1} \hat{c}_{f_j}$.
+For any $\pi \geq 0$, applying $[z]^{+} \geq z$ to all $n-1$ summands,
+\[
+\varphi_T(\pi) \;\geq\; \Gamma\pi + \sum_{j=1}^{n-1} \bigl(\hat{c}_{f_j} - \pi\bigr) \;=\; \sum_{j=1}^{n-1} \hat{c}_{f_j} + \bigl(\Gamma - (n-1)\bigr)\pi,
+\]
+and the final term is non-negative because $\Gamma > n-1$ and $\pi \geq 0$.
+
+The three ranges partition the integer budgets $\Gamma \geq 0$, and in each the exhibited level lies in $\{0\} \cup \{\hat{c}_e : e \in E(T)\}$, which proves the lemma.
+\end{proof}
+
+The attaining level need not be unique: at $\Gamma = n-1$ the minimum is attained both at $\pi = \hat{c}_{f_{n-1}}$ and at $\pi = 0$, where the brackets already return every deviation in full.
+For the minimisation over all trees this does not matter; what matters is that some minimiser lies in a set fixed in advance.
+The candidate set of \Cref{lem:budgeted-threshold-form} still depends on $T$, but enlarging it to the deviations of all edges makes it the same for every tree, and the two minimisations can then be interchanged.
+
+\begin{theorem}[Polynomial Solvability under Budgeted Uncertainty]\label{thm:mm-budgeted-poly}
+Let $\Scenarios^{\Gamma}$ be a budgeted uncertainty set with an integer deviation budget $\Gamma \geq 0$, put $\Pi := \{0\} \cup \{\hat{c}_e : e \in E\}$, and for $\pi \in \Pi$ let $c^{\pi}$ be the cost vector with $c^{\pi}_e := \bar{c}_e + [\hat{c}_e - \pi]^{+}$.
+Then the min-max spanning tree problem under budgeted uncertainty satisfies
+\[
+\min_{T \in \cT} \wc{T} \;=\; \min_{\pi \in \Pi} \Bigl[\, \Gamma\pi + \MSTcost{c^{\pi}} \Bigr],
+\]
+and if $\pi^{*}$ attains the right-hand minimum, then every minimum spanning tree under $c^{\pi^{*}}$ is min-max optimal.
+The problem is solvable in $O(m^{2} \log n)$ time; in particular, it lies in $\mathsf{P}$.
+\end{theorem}
+
+The result is due to \textcite{BertsimasSim2003}, who prove it for min-max problems over an arbitrary set of binary solutions; the presentation here follows \textcite[Theorem~4.21]{Goerigk2021RCO}, in whose derivation the threshold form of \Cref{lem:budgeted-threshold-form} appears as an intermediate reformulation.
+
+\begin{proof}
+For every $T \in \cT$ the set $\Pi$ contains $\{0\} \cup \{\hat{c}_e : e \in E(T)\}$ and therefore, by \Cref{lem:budgeted-threshold-form}, a minimiser of the threshold form; enlarging the candidate set in this way is what removes its dependence on $T$ \cite[Lemma~4.20]{Goerigk2021RCO}.
+Restricting a minimisation to a subset containing a minimiser leaves its value unchanged, so
+\[
+\wc{T} \;=\; \min_{\pi \in \Pi} \Biggl[\, \Gamma\pi + \sum_{e \in E(T)} c^{\pi}_e \Biggr]
+\qquad \text{for every } T \in \cT .
+\]
+Minimising over $\cT$ and interchanging the two minimisations, both of which run over finite sets, gives
+\[
+\min_{T \in \cT} \wc{T}
+\;=\; \min_{\pi \in \Pi} \, \min_{T \in \cT} \Biggl[\, \Gamma\pi + \sum_{e \in E(T)} c^{\pi}_e \Biggr]
+\;=\; \min_{\pi \in \Pi} \Biggl[\, \Gamma\pi + \min_{T \in \cT} \sum_{e \in E(T)} c^{\pi}_e \Biggr],
+\]
+the second step because $\Gamma\pi$ does not depend on the tree.
+At fixed $\pi$ the vector $c^{\pi}$ is one cost vector for all trees alike, so the inner problem is the deterministic minimum spanning tree problem~\eqref{eq:mst-definition} under $c^{\pi}$, of value $\MSTcost{c^{\pi}}$.
+This proves the identity.
+
+For the second claim, let $\pi^{*}$ attain the outer minimum and let $T^{*}$ be a minimum spanning tree under $c^{\pi^{*}}$.
+Then
+\[
+\min_{T \in \cT} \wc{T} \;=\; \Gamma\pi^{*} + \sum_{e \in E(T^{*})} c^{\pi^{*}}_e
+\;\geq\; \min_{\pi \in \Pi} \Biggl[\, \Gamma\pi + \sum_{e \in E(T^{*})} c^{\pi}_e \Biggr]
+\;=\; \wc{T^{*}}
+\;\geq\; \min_{T \in \cT} \wc{T},
+\]
+so equality holds throughout and $T^{*}$ is min-max optimal.
+
+It remains to bound the running time.
+The set $\Pi$ holds at most $m+1$ levels, one deviation per edge together with zero.
+A single level costs $O(m \log n)$ time: assembling $c^{\pi}$ needs one subtraction per edge, and Kruskal's algorithm then returns $\MSTcost{c^{\pi}}$ in $O(m \log n)$ time (\Cref{sec:kruskal-prim}).
+Sweeping the levels and retaining the smallest value therefore takes $O(m^{2} \log n)$ time in total.
+\end{proof}
+
+Under interval uncertainty a single minimum spanning tree computation settled the problem (\Cref{cor:mm-interval-polynomial}); under a budget, at most $m+1$ of them do.
+The adversary's choice of where to spend, which changes from tree to tree, has been reduced to a single level, and levels are few enough to enumerate.
+
 
 \paragraph{Worked Example.}
 
-We instantiate the budgeted model on the micro-graph (\Cref{fig:micro-graph}) by setting nominal costs $\bar{c}_e = (\ell_e + u_e)/2$ and maximum deviations $\hat{c}_e = (u_e - \ell_e)/2$; this aligns the budgeted model with the interval data from \Cref{tab:micro-graph-costs}. \Cref{tab:budgeted-micrograph} lists the resulting values.
+The micro-graph of \Cref{fig:micro-graph} shows both how the enumeration of \Cref{thm:mm-budgeted-poly} runs and what the budget buys as it grows.
+We take nominal costs at the interval midpoints and maximum deviations at the half-widths,
+\[
+\bar{c} = (3, 4, 4, 5, 6), \qquad \hat{c} = (1, 1, 3, 1, 1),
+\]
+so that $\bar{c}$ coincides entry by entry with the midpoint scenario $\cs{3}$ of \Cref{tab:micro-graph-costs}, while $\bar{c} + \hat{c} = (4, 5, 7, 6, 7)$ agrees with the upper-bound scenario $\cs{2}$, the vector $u$ of \Cref{sec:mm-extremal}.
+Neither coincidence belongs to the budgeted model, which is fixed by $\bar{c}$, $\hat{c}$ and $\Gamma$ alone; both follow from how we have instantiated it here.
+They are convenient nonetheless, because the two ends of the budget range will return values that \Cref{tab:micro-graph-costs} has already recorded.
+We first work through one budget completely and then let the budget vary.
 
-\begin{table}[h]
+Fix the budget $\Gamma = 2$.
+\Cref{lem:budgeted-extremal-cost} evaluates each tree directly: the worst-case cost of a tree is its nominal cost plus its two largest deviations, so for the three representative trees
+\[
+\wc{T_1} = 11 + 3 + 1 = 15, \quad
+\wc{T_2} = 12 + 1 + 1 = 14, \quad
+\wc{T_3} = 14 + 3 + 1 = 18 .
+\]
+The remaining five spanning trees have worst-case costs between 16 and 19, so $T_2$ is the unique min-max tree, at 14.
+
+\Cref{thm:mm-budgeted-poly} reaches the same tree without evaluating any tree individually.
+Its candidate levels are
+\[
+\Pi \;=\; \{0\} \cup \{\hat{c}_e : e \in E\} \;=\; \{0, 1, 3\},
+\]
+three rather than the six that $m + 1$ permits, since the repeated deviations collapse to one candidate.
+\Cref{tab:budgeted-micrograph} performs the three deterministic solves.
+Its outer rows hold two cost vectors the chapter has met before: at $\pi = 0$ nothing is discounted and $c^{0} = u$, while at $\pi = 3$ every deviation is absorbed and $c^{3} = \bar{c}$.
+The middle row wins: the level $\pi^{*} = 1$ gives the total $12 + 2 \cdot 1 = 14$, with minimum spanning tree $T_2$.
+The two routes agree, in the value and in the tree.
+
+\begin{table}[htbp]
 \centering
-\caption{Budgeted parameters for the micro-graph, derived from \Cref{tab:micro-graph-costs}.}\label{tab:budgeted-micrograph}
-\begin{tabular}{lccccc}
+\caption{The reformulation of \Cref{thm:mm-budgeted-poly} on the micro-graph at $\Gamma = 2$. Each row solves one deterministic minimum spanning tree problem under the modified costs $c^{\pi}$; the smallest total identifies the optimal value and an optimal tree.}
+\label{tab:budgeted-micrograph}
+\begin{tabular}{c c c c c}
 \toprule
-Edge & $e_1$ & $e_2$ & $e_3$ & $e_4$ & $e_5$ \\
+$\pi$ & $c^{\pi} = \bar{c} + [\hat{c} - \pi]^{+}$ & $\MSTcost{c^{\pi}}$ & $\Gamma\pi$ & Total \\
 \midrule
-$\bar{c}_e$ & $5$ & $3$ & $5$ & $4$ & $6.5$ \\
-$\hat{c}_e$ & $3$ & $2$ & $2$ & $2$ & $2.5$ \\
+$0$ & $(4, 5, 7, 6, 7)$ & $15$ & $0$ & $15$ \\
+$1$ & $(3, 4, 6, 5, 6)$ & $12$ & $2$ & $\mathbf{14}$ \\
+$3$ & $(3, 4, 4, 5, 6)$ & $11$ & $6$ & $17$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Setting $\Gamma = 2$, the candidate set is $\Pi = \{0, 2, 2.5, 3\}$.
-For each $\pi \in \Pi$ we form the modified cost vector $c'(\pi)$, solve the deterministic MST on $c'(\pi)$, and add $\Gamma\,\pi$:
-\[
-\begin{array}{c|cccc|c|c}
-\pi & c'_{e_1} & c'_{e_2} & c'_{e_3} & c'_{e_4} & c'_{e_5} & \min_T c'(T) + \Gamma\pi \\
-\midrule
-0   & 8   & 5 & 7 & 6 & 9   & 19 + 0 = 19 \\
-2   & 6   & 3 & 5 & 4 & 7   & 13 + 4 = 17 \\
-2.5 & 5.5 & 3 & 5 & 4 & 6.5 & 12.5 + 5 = 17.5 \\
-3   & 5   & 3 & 5 & 4 & 6.5 & 12 + 6 = 18 \\
-\end{array}
-\]
-The minimum is attained at $\pi = 2$ with objective value~$17$.
-The optimal tree, identified by Kruskal on $c'(2)$, is $T_2 = \{e_1, e_2, e_4\}$.
-Direct verification confirms this value: under $T_2$, the adversary selects the two edges with the largest deviations ($e_1$ with $\hat{c} = 3$ and $e_2$ or $e_4$ with $\hat{c} = 2$), yielding a worst-case cost of $\bar{c}(T_2) + 3 + 2 = 12 + 5 = 17$, matching the framework result.
+One budget exercises the machinery; the range of budgets shows the model.
+\Cref{fig:budgeted-sweep} records the optimal value at every integer budget, and we read it from left to right.
+\Cref{tab:budgeted-micrograph} keeps working throughout: only its flat-payment column depends on $\Gamma$, so the same three rows answer each budget that follows.
 
-\paragraph{Comparison with the Other Models.}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    axis/.style={TextGray, thick, -{Stealth[length=2mm]}},
+    guide/.style={RuleGray, dashed, thick},
+    ptTtwo/.style={circle, fill=RWTHBlue, inner sep=1.8pt},
+    ptTone/.style={circle, fill=RWTHRed, inner sep=1.8pt},
+    lbl/.style={font=\scriptsize, TextGray},
+    xscale=1.55, yscale=0.92
+]
+    % saturated region Gamma >= n-1
+    \fill[RWTHLightBlue!25] (3, -0.45) rectangle (5.55, 4.55);
+    % reference optima
+    \draw[guide] (-0.15, 4) -- (5.55, 4) node[right, lbl] {$\MSTcost{u} = 15$};
+    \draw[guide] (-0.15, 0) -- (5.55, 0) node[right, lbl] {$\MSTcost{\bar{c}} = 11$};
+    % axes
+    \draw[axis] (-0.15, -0.45) -- (5.85, -0.45) node[right, lbl] {$\Gamma$};
+    \draw[axis] (-0.15, -0.45) -- (-0.15, 4.85) node[above, lbl] {$\min_{T \in \cT} \wc{T}$};
+    \foreach \x in {0,1,2,3,4,5} {
+        \draw[TextGray] (\x, -0.45) -- (\x, -0.6) node[below, lbl] {$\x$};
+    }
+    % optima: (0,11) (1,13) (2,14) (3,15) (4,15) (5,15), plotted as v - 11
+    \node[ptTone] at (0, 0) {};
+    \node[ptTtwo] at (1, 2) {};
+    \node[ptTtwo] at (2, 3) {};
+    \node[ptTtwo] at (3, 4) {};
+    \node[ptTtwo] at (4, 4) {};
+    \node[ptTtwo] at (5, 4) {};
+    % values at the points
+    \node[lbl] at (0, 0.34) {$11$};
+    \node[lbl] at (1, 2.34) {$13$};
+    \node[lbl] at (2, 3.34) {$14$};
+    \node[lbl] at (3, 4.32) {$15$};
+    \node[lbl] at (4, 4.32) {$15$};
+    \node[lbl] at (5, 4.32) {$15$};
+    % attaining trees and the switch
+    \node[lbl, RWTHRed]  at (0, 0.68) {$T_1$};
+    \node[lbl, RWTHBlue] at (1, 2.68) {$T_2$};
+    \draw[-{Stealth[length=1.6mm]}, TextGray, thick] (0.18, 0.35) to[bend left=25] (0.82, 1.75);
+\end{tikzpicture}
+\caption{Optimal budgeted min-max value on the micro-graph at each integer budget $\Gamma$. The dashed lines mark the deterministic optimum under $\bar{c}$ and the interval optimum under $u$; the shaded region is $\Gamma \geq n-1$, where every tree's worst case equals its interval worst case. The red point is the only budget at which $T_1$ is optimal; from $\Gamma = 1$ onwards the optimum is attained by $T_2$ (arrow: the switch).}
+\label{fig:budgeted-sweep}
+\end{figure}
 
-The micro-graph illustrates how the optimal min-max tree shifts with the uncertainty model.
-The same tree $T_2$ is optimal under all three models (discrete with the scenarios of \Cref{tab:micro-graph-costs}, interval with the bounds $[\ell_e, u_e]$, and budgeted with $\Gamma = 2$ as above), but the worst-case costs differ: $19$ for discrete and interval (full upper bounds attained), $17$ for budgeted with $\Gamma = 2$.
-As $\Gamma$ increases from~$0$ to~$|E|$, the budgeted objective interpolates smoothly between the deterministic problem on $\bar{c}$ (cost $12$) and the interval problem on $[\bar{c}_e, \bar{c}_e + \hat{c}_e]$ (cost~$19$).
+At the left end, $\Gamma = 0$, the optimum is 11, attained by $T_1$: the deterministic minimum spanning tree under $\bar{c}$, whose value appears in \Cref{tab:micro-graph-costs} as $\MSTcost{\cs{3}}$.
+At this budget the flat payments vanish, so the $\MSTcost{c^{\pi}}$ column alone decides: its smallest entry, 11 at the level $\pi = 3$, is the optimum.
+The level thus moves opposite to the budget here: with nothing to spend, the cheapest account is the one that absorbs every deviation.
+The level is not a budget in disguise, and reading it as one inverts its role.
 
-\paragraph{Regret Variant.}
+One unit of budget already moves the tree.
+At $\Gamma = 1$ the optimum is 13, attained by $T_2$, while $T_1$ falls to second place: $\wc{T_1} = 11 + 3 = 14$ against $\wc{T_2} = 12 + 1 = 13$.
+The reason is $e_3$, an edge of $T_1$ whose deviation 3 is the largest in the graph.
+$T_1$ is therefore the cheapest tree when no deviation can occur, and among the most exposed as soon as one can; the optimum switches to $T_2$ at $\Gamma = 1$ and stays there.
 
-The min-max \emph{regret} spanning tree problem under budgeted uncertainty is $\mathsf{NP}$-hard: since the interval model is the special case $\Gamma = |E|$ of the budgeted model, the $\mathsf{NP}$-hardness of min-max regret under interval uncertainty (\Cref{ch:regret}; see \cite{AverbakhLebedev2004}) carries over.
-We do not pursue this variant in detail; \cite[\S4.5.3]{Goerigk2021RCO} provides general reformulation results for min-max regret under budgeted uncertainty.
+At the right end the value saturates.
+From $\Gamma = 3$ onwards the optimum is 15, which is $\MSTcost{u}$ from \Cref{sec:mm-extremal}: every tree's worst case now equals its interval worst case.
+Saturation arrives at $\Gamma = n-1 = 3$, well before the $\Gamma = \abs{E} = 5$ at which \Cref{def:budgeted-uncertainty} reaches the full box, because a spanning tree of this graph offers only three edges on which to spend.
+Exactly at the saturation budget the attaining level is no longer unique, $\pi = 0$ and $\pi = 1$ both yielding 15, the tie anticipated after \Cref{lem:budgeted-threshold-form}; beyond it, nothing changes.
 
-\fi
+Taken together, the three readings show the budget acting as a dial between the deterministic problem and the interval model.
+Its ends reproduce two optima already on record, in \Cref{tab:micro-graph-costs} and \Cref{sec:mm-extremal}, while in between the value climbs and, more tellingly, the optimal tree changes: a single parameter carries the problem from one model to the other and alters the decision on the way.
 
 % END OF SECTION 3.4
 
 %─────────────────────────────────────────────────────────
-% SECTION 3.5: DISCUSSION AND CONTRAST -- NOT DRAFTED
-%
-% Planned content:
-%  - Comparison table across the models:
-%      discrete, K constant  : weakly NP-hard, pseudo-polynomial + FPTAS
-%                              (thm:mm-k2-hard, thm:mm-kconst-pseudo,
-%                               thm:mm-kconst-fptas)
-%      discrete, K unbounded : strongly NP-hard, no constant factor,
-%                              O(log K) (thm:mm-kunbdd-hard,
-%                              thm:mm-kunbdd-approx)
-%      interval              : polynomial, one MST on u
-%                              (cor:mm-interval-polynomial)
-%      budgeted              : polynomial, O(m) deterministic MST
-%                              instances
-%                              (thm:mm-budgeted-poly, once drafted)
-%  - Why intervals are easy: lem:interval-extremal-cost makes the
-%    worst case explicit; the product structure couples no two edges;
-%    discrete needs K evaluations and the maximiser moves with the tree.
-%  - Min-max versus the midpoint MST on the micro-graph (VERIFIED by
-%    enumeration): the MST under the midpoint scenario c^(3) costs 11
-%    and is T1 = {e1,e2,e3}; the interval min-max tree is
-%    T2 = {e1,e2,e4} with wc = 15, whereas T1 has wc = 16. Optimising
-%    for the midpoint therefore costs one unit in the worst case.
-%  - Modelling remarks: compact LP reformulations exist; out of scope
-%    here, the emphasis being structural and complexity-theoretic.
+% CHAPTER SUMMARY
+% Unnumbered, matching Ch2. Mechanism and interpretation only:
+% the result inventory belongs to tab:complexity-landscape in Ch5,
+% and restating it here would duplicate that table.
 %─────────────────────────────────────────────────────────
-\section{Discussion}\label{sec:mm-discussion}
 
-%─────────────────────────────────────────────────────────
-% SECTION 3.6: CHAPTER SUMMARY (0.3 pages)
-%─────────────────────────────────────────────────────────
 \section*{Summary}
+\addcontentsline{toc}{section}{Summary}
 
-% TODO: Summary paragraph (0.3 pg)
-% Min-Max ST complexity depends critically on uncertainty structure.
-% Intervals are polynomial (lem:interval-extremal-cost + Goerigk Thm 4.8)
-% via extremal evaluation. Discrete scenarios harder: weakly NP-hard even
-% K=2 (thm:mm-k2-hard, partition reduction), with pseudo-poly + FPTAS for
-% constant K (thm:mm-kconst-pseudo, thm:mm-kconst-fptas). For unbounded K:
-% strongly NP-hard, not (2-eps)-approximable (thm:mm-kunbdd-hard); O(log K)
-% approximation (thm:mm-kunbdd-approx, Baak2025); not approximable within
-% O(log^{1-eps} n) unless NP has quasi-poly algorithms (KasperskiZielinski2011).
-% Budgeted uncertainty is polynomial (thm:mm-budgeted-poly, Bertsimas-Sim
-% framework via Goerigk Theorem 4.21) by reduction to O(m)
-% deterministic MST instances.
-% Chapter 5 synthesis table compares with Min-Max Regret results.
+The three uncertainty models of this chapter are separated by a single question: how far the adversary's best answer depends on the tree it faces.
+Under interval uncertainty it does not depend on the tree at all.
+\Cref{lem:interval-extremal-cost} identifies one cost vector, the upper bounds, that is simultaneously worst for every tree, so the worst-case cost is a sum of fixed per-edge weights and the outer minimisation is a single deterministic minimum spanning tree computation (\Cref{cor:mm-interval-polynomial}).
+
+Under discrete uncertainty the dependence is genuine.
+A tree that is safe in one scenario may be exposed in another, so which scenario witnesses the worst case is a property of the tree, and in general no fixed vector can stand in for the scenario set.
+The trade-off this forces is what the reductions of \Cref{sec:mm-complexity} exploit, and two scenarios already suffice to make the problem weakly $\mathsf{NP}$-hard.
+
+Under budgeted uncertainty the answer depends on the tree as well, since the budget is spent on the chosen tree's own largest deviations, and yet the problem remains polynomial.
+The reason is that a single scalar removes the dependence: once a level is fixed, every tree is costed edge by edge again, and at most $m + 1$ levels can matter (\Cref{thm:mm-budgeted-poly}).
+
+The dividing line is therefore not linearity of the worst-case cost, which two of the three models lack in general.
+It is whether the dependence on the tree can be stripped away by a bounded amount of extra work: none is needed under intervals, one enumerated parameter suffices under a budget, and under discrete scenarios no such device can exist unless $\mathsf{P} = \mathsf{NP}$.
+The extremal characterisations, the two hardness reductions and the budgeted reformulation are worked through here; the pseudo-polynomial algorithm, the approximation scheme and the logarithmic approximation are surveyed from the literature and attributed where they are stated.
+Two of the three models return in \Cref{ch:regret} under the regret objective, where the ordering changes: the interval case, the straightforward one here, becomes the hard one.
 
 % END OF CHAPTER 3```
 

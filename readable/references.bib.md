@@ -1,13 +1,16 @@
 ## references.bib
 
 ```tex
+% Key kept as Goerigk2021RCO for continuity; the work is Goerigk & Hartisch (2024).
 @book{Goerigk2021RCO,
-  author    = {Marc Goerigk},
+  author    = {Marc Goerigk and Michael Hartisch},
   title     = {An Introduction to Robust Combinatorial Optimization: Concepts, Models and Algorithms for Decision Making under Uncertainty},
-  year      = {2021},
+  series    = {International Series in Operations Research \& Management Science},
+  volume    = {361},
+  year      = {2024},
   publisher = {Springer},
   address   = {Cham},
-  doi       = {10.1007/978-3-030-82392-5}
+  doi       = {10.1007/978-3-031-61261-9}
 }
 
 @book{AhujaMagnantiOrlin1993,
