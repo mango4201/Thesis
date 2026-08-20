@@ -144,6 +144,10 @@
 %   NOT yet in references.bib, and it is the more on-point title than
 %   AverbakhLebedev2004. Goerigk attributes Thm 8.16 to BOTH. Add it.
 %   Also: Goerigk says STRONGLY NP-hard. Do not drop the adverb.
+%   Verify the primary details before use; do NOT take author names or
+%   years from Goerigk's bracket keys. AverbakhLebedev2004 and
+%   KasperskiZielinski2006 are already present. Ch5 needs three more:
+%   [GH23], [GKZ20], [KKZ13]. Same rule applies to each.
 %
 % ── DRAFTING UNITS (one Flow Card each, in this order) ────
 %
@@ -203,6 +207,14 @@
 %          and MST(c) simultaneously"); build on that sentence.
 %      Point at tab:micro-graph-costs for the divergence of the two
 %      objectives; DO NOT recompute it. No worked example here.
+%      (e) THE OUT-OF-SCOPE SENTENCE BELONGS TO THE CHAPTER OPENING,
+%          not to S4.1. The roadmap is where a reader counts two model
+%          sections against Ch3's three, so the absence is noticed
+%          there. One sentence, no explanation attempted:
+%            "Budgeted uncertainty is treated in this thesis only for
+%             the min-max objective; \Cref{sec:synthesis} records by
+%             citation what is known for its regret counterpart."
+%          Ch3's roadmap is the model for tone and length.
 %
 %  R2  S4.2.1 Extremal Characterisation   ~1100 words + 2 floats
 %      Mirrors S3.2 beat for beat.
@@ -252,16 +264,16 @@
 %          vector u the regrets of T1 and T2 read 1 and 0, against
 %          true maxima of 3 and 5. The lower bounds are exactly the
 %          off-tree entries of c^T.
-%          THE MECHANISM SENTENCE IS OWNED HERE, in full, with the
-%          numbers to land it: min-max has one worst-case vector
-%          serving every tree (lem:interval-extremal-cost); regret's
-%          worst-case vector depends on the tree. Same boundary,
-%          different structure. Ch4's Summary compresses this to a
-%          clause; Ch5's pattern 1 states only the consequence and
-%          \Cref's back. Three statements of one fact was the
-%          redundancy this allocation exists to prevent.
-%      Avoid the words vertex, extreme point, polytope, convex: the
-%      thesis has zero occurrences of any of them.
+%          THE MECHANISM SENTENCE IS OWNED HERE, in full, because this
+%          is the only place with the numbers to land it: min-max has
+%          one worst-case vector serving every tree
+%          (lem:interval-extremal-cost); regret's worst-case vector
+%          depends on the tree. Same boundary, different structure.
+%          ALLOCATION, so the fact is not stated three times:
+%            S4.2.1(e)  full statement, with the numbers   <-- here
+%            Ch4 Summary  compressed to a clause
+%            Ch5 pattern 1  consequence only, then \Cref back
+%          The old plan had all three stating it in full.
 %
 %  R3  S4.2.2 Hardness and Approximation      ~500 words, NO PROOFS
 %      thm:regret-interval-hard STATED (Goerigk 8.16, [AV04; AL04]),
