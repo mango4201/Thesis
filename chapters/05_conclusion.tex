@@ -62,13 +62,34 @@
 %       guarantees: factor 2 for interval regret, factor K for discrete
 %
 % THE SIXTH CELL, regret x budgeted, is out of scope: Ch4 covers only
-% discrete and interval. Keep the cell and carry it by citation plus a
-% footnote, which is cleaner than a body section:
-%     reformulation: Goerigk S4.5.3, Theorem 4.25 ([GH23])
-%     hardness: interval regret is strongly NP-hard (Goerigk 8.16,
-%     [AV04; AL04]) and the interval set is the budgeted set at
-%     Gamma = |E|, so with Gamma part of the input the budgeted regret
-%     problem inherits it.
+% discrete and interval. Keep the cell and carry it by footnote, as
+% decided: the intent is to fill the cell honestly without paraphrasing
+% a development the thesis does not give. Do NOT attempt an explanatory
+% sentence; one sentence would raise more questions than it settles.
+% TWO CLAUSES, and they say different things:
+%
+%   EVALUATION.  The ADVERSARIAL problem for a FIXED solution admits a
+%     reformulation, \cite[Theorem~4.25]{Goerigk2021RCO}.
+%     READ IT BEFORE WRITING THE CELL. Verbatim it opens "Let U be a
+%     budgeted uncertainty set. Then we have FOR ALL x in X", and the
+%     right-hand side is still a maximisation over y in X. It is the
+%     counterpart of lem:budgeted-threshold-form, NOT of
+%     thm:mm-budgeted-poly, and it asserts NO polynomial bound. The
+%     cell must not read as though a solution method exists.
+%     Its preamble leans on "extreme points of a polytope"; the thesis
+%     has zero occurrences of that vocabulary, so paraphrase around it.
+%
+%   OPTIMISATION.  Strongly NP-hard, and this clause is OURS, not
+%     borrowed. Setting bar_c = l, hat_c = u - l and Gamma = |E| turns
+%     any interval regret instance into a budgeted one, because at
+%     Gamma = |E| the budget constraint is vacuous and the budgeted set
+%     IS the interval box (Ch2 def:budgeted-uncertainty already states
+%     this endpoint). So the strong NP-hardness of interval regret
+%     (Goerigk 8.16, [AV04; AL04]) transfers directly.
+%     NOTE THE STRENGTH: hardness holds at the single fixed budget
+%     Gamma = |E|. It is NOT conditional on Gamma being part of the
+%     input, which is how an earlier draft of this plan put it.
+%
 % Ch1 poses the research question over all six combinations, so state
 % once, plainly, that the sixth is carried by citation rather than
 % developed. Do not let a reader discover it by counting cells.
@@ -78,8 +99,9 @@
 %   1. Extremal behaviour at the interval boundary: state the
 %      CONSEQUENCE only, that both objectives are settled at the box
 %      boundary while only min-max is settled by a single vector, and
-%      \Cref back to S4.2.1 for the mechanism. Do not restate it and
-%      do not re-derive it.
+%      \Cref back to S4.2.1, which OWNS the mechanism sentence in full.
+%      Do not restate it and do not re-derive it. (Allocation: S4.2.1
+%      full, Ch4 Summary a clause, here the consequence.)
 %   3. The interval dichotomy: min-max easy, regret hard.
 %   5. The midpoint heuristic recurring across both objectives.
 %   2. K as the complexity parameter: ONE SENTENCE only. Ch3's Summary
@@ -87,6 +109,18 @@
 %   4. Budgeted as interpolation: NOT HERE. Ch3 S3.4 already makes it
 %      concretely and Ch3's Summary generalises it. A table cell is
 %      the most Ch5 should spend.
+%
+% CLOSE S5.1 WITH THE THESIS'S ANSWER TO Ch1's RESEARCH QUESTION.
+% The synthesis currently records patterns but never answers the
+% question Ch1 asks over all six combinations. One sentence, no new
+% machinery, placed AFTER the patterns and BEFORE the gallery so it
+% lands on top of the table the reader has just read:
+%   "Across all six combinations the same criterion decides: a model
+%    is tractable exactly when the adversary's best response can be
+%    made independent of the chosen tree at bounded cost, and
+%    intractable when it cannot."
+% Ch3's Summary already establishes this for min-max and Ch4's extends
+% it, so state it here as a finding, do not re-derive it.
 %
 % ── S5.2 EXAMPLE GALLERY ──────────────────────────────────
 %
@@ -150,8 +184,18 @@
 %   - recoverable robustness: a limited modification budget after the
 %     scenario is observed. NP-hard for constant K (Goerigk Thm 8.19,
 %     [KKZ13]).
-%   - polyhedral uncertainty: the natural next step, and approachable
-%     precisely BECAUSE S3.4 already optimises over a polytope.
+%   - polyhedral uncertainty: keep, but JUSTIFY IT BY THE BUDGET, not
+%     by geometry. An earlier draft justified it "because S3.4 already
+%     optimises over a polytope"; that is exactly the vocabulary this
+%     header cuts fig 5.2 for needing, so the two decisions
+%     contradicted each other. Write it in the thesis's own terms:
+%       "Budgeted uncertainty caps a single total deviation. A natural
+%        generalisation allows several such caps at once, for instance
+%        one budget per region of a network rather than one for the
+%        whole of it. The reformulation of \Cref{sec:mm-budgeted} turns
+%        on there being exactly one budget, since it is one budget that
+%        a single level prices, so the extension is not immediate."
+%     Every term is already in the thesis; no new machinery.
 %   - the two open problems, which need no new vocabulary at all:
 %     whether the factor 2 for interval regret is tight (Goerigk Open
 %     Problem 2), and the gap between the O(log K) upper bound
@@ -161,6 +205,20 @@
 %   ellipsoidal uncertainty, distributional robustness and ambiguity
 %   sets (probability and convex geometry), min-max-min (niche).
 %   Ch1 already names the first two as excluded; that is enough.
+%
+% CITATIONS FOR THIS SECTION, all four opened and read verbatim:
+%   Goerigk Thm 8.17 ([GKZ20])  two-stage spanning tree, discrete,
+%                               "NP-hard for constant K, even if K = 2"
+%   Goerigk Thm 8.19 ([KKZ13])  recoverable spanning tree, discrete,
+%                               "NP-hard for constant K, even if K = 2"
+%   Goerigk Thm 8.16 ([AV04; AL04])  interval regret STRONGLY NP-hard
+%   Goerigk Thm 4.25 ([GH23])   budgeted regret, adversarial problem
+%   ADVERB WARNING: 8.17 and 8.19 say NP-hard, NOT strongly NP-hard.
+%   Do not add an adverb the source does not carry. 8.16 does.
+%   BIBLIOGRAPHY GAP: [GH23], [GKZ20], [KKZ13] are NOT in
+%   references.bib, nor is [AV04] (see the Ch4 header). Verify the
+%   primary details of each before use; never take author names or
+%   years from Goerigk's bracket keys.
 %
 % ── HOUSE CONVENTIONS ─────────────────────────────────────
 % As in Ch2, Ch3 and Ch4. Reference by label, never by number.
