@@ -3,67 +3,184 @@
 ```tex
 %═══════════════════════════════════════════════════════════
 % CHAPTER 5: CONCLUSION
+% Status: SKELETON.
+%═══════════════════════════════════════════════════════════
 %
-% Merged from old Ch5 (Synthesis & Gallery) and old Ch6 (Conclusion).
-% Flat structure: \section + \paragraph, no \subsection.
+% ── BUDGET: A CONTENT COUNT, NOT A PAGE COUNT ─────────────
 %
-% Prerequisites: Ch1-4 (complete thesis)
-% Provides:
-%   - Synthesis of all complexity/approximation results (table + patterns)
-%   - Example gallery: micro-graph under all studied objectives
-%   - Honest scope limitations
-%   - Outlook: extensions in uncertainty modelling and solution concepts
-% Labels created (NEW):
-%   - ch:conclusion, sec:synthesis, sec:gallery, sec:limitations, sec:outlook
-%   - tab:complexity-landscape, fig:micro-graph-gallery, fig:extremal-visualisation
-% Labels retired:
-%   - ch:synthesis (replaced by ch:conclusion)
-%   - sec:results-table, sec:example-gallery, sec:takeaways (replaced)
-%   - sec:summary (old Ch6 §6.1 subsumed into sec:synthesis)
-% Page budget: 7.5 pages
-% Status: PLACEHOLDER
+% See the header of 04_regret.tex for the measured cost model. The
+% same discipline applies here, but Ch5 has NO proved results, so its
+% cost is driven almost entirely by floats and by how many distinct
+% topics the prose touches.
+%
+%     CHAPTER 5 CONTAINS ZERO PROVED RESULTS, TWO FLOATS, AND
+%     THREE SECTIONS. Target 5 printed pages.
+%
+%   opening                                   0.25
+%   S5.1  tab:complexity-landscape  ~300w  +  1.0  float
+%   S5.1  pattern synthesis         ~450w     0.8
+%   S5.2  gallery                   ~350w  +  1.5  float
+%   S5.3  scope and outlook         ~550w     1.0
+%   chapter boundary waste                    0.5
+%                                          = ~5.0 pages
+%
+% PRIORITY, stated by the author: an extra page of EXAMPLE here is
+% cheaper than an extra page of PROOF in Ch4. The table and the
+% gallery are NOT to be shortened. If Ch5 runs to 5.5 pages because
+% the gallery earns it, that is the right trade.
+%
+% ── TWO STRUCTURAL DECISIONS, WITH THEIR EVIDENCE ─────────
+%
+% (1) THE OLD S5.3 "LIMITATIONS" IS DELETED. Its content already
+%     exists, written and live, in Ch1:
+%       "This thesis does not cover polyhedral uncertainty sets,
+%        ellipsoidal uncertainty, or distributional robustness ..."
+%       "It also excludes two-stage and recoverable optimisation
+%        models, where decisions can be partially adjusted ..."
+%     The old plan then repeated that same list in S5.3 AND AGAIN in
+%     S5.4, giving the same exclusion list three times in one thesis.
+%     Ch1 keeps the job. The label sec:limitations is dropped; it is
+%     referenced nowhere. The label sec:outlook is KEPT because Ch1
+%     has a live \Cref to it ("briefly discussed in the outlook").
+%
+% (2) THE PLANNED FIGURE 5.2 IS CUT. It was to be a "geometric
+%     interpretation of the extremal lemmas", which needs the words
+%     vertex, extreme point, polytope or convex. Grep across Ch1-Ch4:
+%     ZERO occurrences of any of them. The figure would have to build
+%     that vocabulary from nothing, which makes it groundwork rather
+%     than an example, and the standing rule is to skip a topic
+%     entirely rather than introduce it and then try to shorten it.
+%
+% ── S5.1 SYNTHESIS OF RESULTS ─────────────────────────────
+%
+% tab:complexity-landscape is the thesis's result inventory and Ch1
+% has a live \Cref to it. Six cells: two objectives x three models.
+% Every cell cites by \Cref to a label in Ch3 or Ch4, or by \cite to
+% the literature. Qualifiers that a table cell will silently drop and
+% that MUST survive:
+%     "weakly" NP-hard at K=2 vs "strongly" NP-hard once K is input
+%     "not approximable within 2-eps UNLESS P = NP"
+%     O(log K) is a MIN-MAX guarantee only; the regret side has K
+%     the midpoint heuristic recurs in both objectives with DIFFERENT
+%       guarantees: factor 2 for interval regret, factor K for discrete
+%
+% THE SIXTH CELL, regret x budgeted, is out of scope: Ch4 covers only
+% discrete and interval. Keep the cell and carry it by citation plus a
+% footnote, which is cleaner than a body section:
+%     reformulation: Goerigk S4.5.3, Theorem 4.25 ([GH23])
+%     hardness: interval regret is strongly NP-hard (Goerigk 8.16,
+%     [AV04; AL04]) and the interval set is the budgeted set at
+%     Gamma = |E|, so with Gamma part of the input the budgeted regret
+%     problem inherits it.
+% Ch1 poses the research question over all six combinations, so state
+% once, plainly, that the sixth is carried by citation rather than
+% developed. Do not let a reader discover it by counting cells.
+%
+% PATTERN SYNTHESIS, ~450 words. The five-pattern block was
+% reallocated; only these belong here:
+%   1. Extremal behaviour at the interval boundary: visible only with
+%      both objectives side by side. Min-max has ONE worst-case vector
+%      serving every tree; regret's worst-case vector depends on the
+%      tree. Ch4's Summary supplies the mechanism, Ch5 records the
+%      contrast. Do not re-derive.
+%   3. The interval dichotomy: min-max easy, regret hard.
+%   5. The midpoint heuristic recurring across both objectives.
+%   2. K as the complexity parameter: ONE SENTENCE only. Ch3's Summary
+%      already explains it for min-max.
+%   4. Budgeted as interpolation: NOT HERE. Ch3 S3.4 already makes it
+%      concretely and Ch3's Summary generalises it. A table cell is
+%      the most Ch5 should spend.
+%
+% ── S5.2 EXAMPLE GALLERY ──────────────────────────────────
+%
+% fig:micro-graph-gallery. Ch1 promises it: "displays the running
+% micro-graph under each robust objective". PROTECTED: do not shorten.
+% Does not exist yet; the whole figure is to be built.
+%
+% LAYOUT, and this is the cookie: ARRANGE THE PANELS IN THE SAME 2x3
+% SHAPE AS tab:complexity-landscape, objectives down, models across.
+% The table and the figure then have identical geometry, and a reader
+% can move between the inventory and the pictures without re-orienting.
+% The empty sixth cell marks the out-of-scope case in exactly the place
+% the table footnotes it, so the scope decision is visible rather than
+% discovered by counting.
+%
+%                    discrete      interval      budgeted
+%      min-max        (a) T2        (b) T2      (c) T2, Gamma=2
+%      regret         (d) T1        (e) T1      (f) out of scope
+%
+% Plus one small reference panel, placed above or beside the grid:
+%      (0) deterministic MST under the midpoints c^(3)  ->  T1, cost 11
+%
+% ALL VALUES VERIFIED BY EXHAUSTIVE ENUMERATION over the eight trees.
+% Do not re-derive them from prose:
+%   (0) deterministic, midpoints            T1   cost 11
+%   (a) min-max, discrete c^(1),c^(2),c^(3) T2   worst case 15
+%   (b) min-max, interval                   T2   worst case 15
+%   (c) min-max, budgeted, Gamma = 2        T2   worst case 14
+%   (d) min-max regret, discrete            T1   max regret 1
+%   (e) min-max regret, interval            T1   max regret 3
+%
+% THE POINT OF THE PANEL SET, and why it earns a page and a half: the
+% same five-edge graph yields DIFFERENT optimal trees depending only on
+% which robustness concept is applied. Say it once, in the prose after
+% the figure: across all six variants only two of the eight spanning
+% trees are ever selected. Min-max chooses T2 under every uncertainty
+% model; regret chooses T1 under both it is defined for; and the
+% deterministic baseline agrees with regret, not with min-max. That
+% last observation is the one a reader will remember.
+%
+% TikZ: reuse the styles of fig:micro-graph in Ch2, where RWTHOrange
+% already marks tree edges. Keep that convention rather than inventing
+% a second one.
+% PRINT WARNING: RWTHBlue and RWTHRed have almost identical greyscale
+% luminance (67.4 vs 68.5 out of 255). Never let colour alone carry a
+% distinction; label every panel in text as well.
+%
+% ── S5.3 SCOPE AND OUTLOOK (label sec:outlook) ────────────
+%
+% ~550 words, two paragraphs. Ch1 already lists what is excluded, so
+% this section must ADD something rather than repeat the list.
+% The author's test for what belongs: topics that are integral or
+% interesting for a full understanding AND at least vaguely
+% approachable to this thesis's reader, without new machinery.
+%
+% KEEP, because each is one sentence and each has a spanning-tree
+% specific result to point at:
+%   - two-stage optimisation: decide now, adjust after the scenario is
+%     revealed. Already known to be NP-hard for the spanning tree
+%     problem even at K = 2 (Goerigk Thm 8.17, [GKZ20]).
+%   - recoverable robustness: a limited modification budget after the
+%     scenario is observed. NP-hard for constant K (Goerigk Thm 8.19,
+%     [KKZ13]).
+%   - polyhedral uncertainty: the natural next step, and approachable
+%     precisely BECAUSE S3.4 already optimises over a polytope.
+%   - the two open problems, which need no new vocabulary at all:
+%     whether the factor 2 for interval regret is tight (Goerigk Open
+%     Problem 2), and the gap between the O(log K) upper bound
+%     (thm:mm-kunbdd-approx) and the inapproximability lower bound.
+%
+% DROP, because each needs machinery the thesis never builds:
+%   ellipsoidal uncertainty, distributional robustness and ambiguity
+%   sets (probability and convex geometry), min-max-min (niche).
+%   Ch1 already names the first two as excluded; that is enough.
+%
+% ── HOUSE CONVENTIONS ─────────────────────────────────────
+% As in Ch2, Ch3 and Ch4. Reference by label, never by number.
+% British English, no em dashes, no -ize, no contractions, no
+% hand-wave markers. Qualifiers survive compression.
 %═══════════════════════════════════════════════════════════
 
 \chapter{Conclusion}\label{ch:conclusion}
 
-% CHAPTER OVERVIEW:
-% Consolidates all complexity and approximation results from Chapters 3-4
-% into a unified synthesis, displays the micro-graph under all studied
-% objectives, acknowledges scope limitations, and points to active
-% research directions in robust combinatorial optimisation.
-
 %─────────────────────────────────────────────────────────
-% SECTION 5.1: SYNTHESIS OF RESULTS (2.5 pages)
 %─────────────────────────────────────────────────────────
 \section{Synthesis of Results}\label{sec:synthesis}
+% tab:complexity-landscape (~300w + float) then pattern synthesis
+% (~450w, patterns 1, 3, 5 and one sentence of 2). See header.
 
 \paragraph{Complexity Landscape.}
 
-% TODO: Comprehensive table (1.5 pg) — Table 5.1
-%
-% Table 5.1: Complexity and approximation landscape for robust spanning trees
-%
-% | Objective | Uncertainty | K=constant | K unbounded | Key Observations |
-% |-----------|------------|------------|-------------|------------------|
-% | Min-Max | Discrete | Weakly NP-hard (K=2, thm:mm-k2-hard) | Strongly NP-hard (thm:mm-kunbdd-hard) | Extremal: max at scenarios |
-% |         |          | Pseudo-poly, FPTAS (thm:mm-kconst-pseudo, thm:mm-kconst-fptas) | O(log K)-approx (thm:mm-kunbdd-approx, Baak2025) | Complexity grows with K |
-% |         |          |                              | Not (2-eps)-approx; not within O(log^{1-eps} n) (thm:mm-kunbdd-hard, KasperskiZielinski2011) | |
-% | Min-Max | Interval | POLYNOMIAL (lem:interval-extremal-cost, cor:mm-interval-polynomial) | POLYNOMIAL | Extremal: chosen edges -> upper |
-% |         |          | MST on upper bounds          |                            | Reduces to one MST under u |
-% | Min-Max | Budgeted | POLYNOMIAL (thm:mm-budgeted-poly) | POLYNOMIAL            | Bertsimas-Sim enumeration: O(m) deterministic MSTs |
-% |         |          | O(m^2 log n) total           |                            | Interpolates between deterministic and interval |
-% | Regret  | Discrete | Weakly NP-hard (K=2, thm:regret-k2-hard) | Strongly NP-hard (thm:regret-kunbdd-hard) | Reuses Min-Max constructions |
-% |         |          | Pseudo-poly (thm:regret-kconst-pseudo; FPTAS thm at Ch4 drafting) | O(K)-approx (midpoint; Goerigk Open Problems 10, 12) | MST(c^k) complicates but |
-% |         |          |                              | not within O(log^{1-eps} n) (KasperskiZielinski2011) | doesn't change complexity |
-% | Regret  | Interval | NP-hard (thm:regret-interval-hard, AverbakhLebedev2004) | NP-hard | Extremal: strategic boundaries |
-% |         |          | 2-approximation (thm:regret-2approx) | 2-approximation       | MST(c) varies -> harder than Min-Max |
-% |         |          | via midpoint                 | via midpoint               | Best known guarantee for interval regret ST; tightness of 2 open |
-% | Regret  | Budgeted | NP-hard (cited, §3.4)        | NP-hard                    | Inherits interval-case hardness |
-% |         |          | (out of scope)               |                            | (Goerigk §4.5.3) |
-%
-% Plan above uses LABELS, not hard-coded numbers (numbers shift under the
-% [chapter] theorem numbering). The live skeleton below keeps Ch1's
-% \Cref{tab:complexity-landscape} resolvable until the final pass.
 \begin{table}[htbp]
 \centering
 \caption{Complexity and approximability of robust spanning tree problems. Skeleton; the entries are compiled from \Cref{ch:minmax,ch:regret} in the final pass of this chapter.}
@@ -82,145 +199,37 @@ Budgeted & & \\
 
 \paragraph{Key Patterns.}
 
-% TODO: Pattern synthesis (1.0 pg) — folded from old Ch5 "Key Patterns" and Ch6 "Core Findings"
-
-% PATTERN 1: Extremal behaviour
-%   - All interval objectives have worst cases at boundaries
-%     (lem:interval-extremal-cost, lem:interval-extremal-regret)
-%   - Min-Max: simple rule (chosen → upper)
-%   - Regret: strategic mix (more complex but still extremal)
-
-% PATTERN 2: K matters for discrete
-%   - Constant K → pseudo-poly + FPTAS (multicriteria method)
-%   - Unbounded K → strongly NP-hard, no constant-factor approx
-%   - Threshold at K=2: already weakly NP-hard
-
-% PATTERN 3: Interval dichotomy: Min-Max vs Regret
-%   - Min-Max: polynomial via extremal evaluation
-%   - Regret: NP-hard, but clean 2-approximation
-%   - Fundamental difference: fixed MST vs varying MST(c)
-
-% PATTERN 4: Budgeted as interpolation
-%   - Sits between deterministic (Γ=0) and interval (Γ=|E|)
-%   - Min-Max remains polynomial across the whole range
-%   - Reduces to O(m) deterministic MST instances
-
-% PATTERN 5: Midpoint heuristic universality
-%   - Works for both objectives (Min-Max and Regret)
-%   - Discrete: midpoint (mean scenario) is a K-approximation (regret:
-%     Goerigk Open Problems 10, 12; min-max: elementary, max <= K * mean).
-%     For min-max the stronger O(log K) (thm:mm-kunbdd-approx, Baak2025)
-%     uses a different technique (p-norm/OWA), not the midpoint.
-%   - Interval regret: midpoint gives the factor-2 guarantee
-%     (thm:regret-2approx).
-
 %─────────────────────────────────────────────────────────
-% SECTION 5.2: EXAMPLE GALLERY (2.5 pages)
 %─────────────────────────────────────────────────────────
 \section{Example Gallery}\label{sec:gallery}
+% fig:micro-graph-gallery (~350w + float). PROTECTED. Six panels in the
+% SAME 2x3 shape as tab:complexity-landscape, plus one reference panel.
+% Values verified by enumeration; see header. Close with the observation
+% that only two of the eight trees are ever selected.
 
 \paragraph{Micro-Graph Solutions Across Objectives.}
 
-% TODO: TikZ gallery with five panels (1.5 pg), label fig:micro-graph-gallery
-%
-% Micro-graph solutions under the objectives studied, ALL VERIFIED by
-% full enumeration over the eight spanning trees:
-%
-%   (a) MST under the midpoint costs      -> T1 = {e1,e2,e3}, cost 11
-%   (b) min-max, discrete (K = 3)         -> T2 = {e1,e2,e4}, wc 15
-%   (c) min-max, interval                 -> T2 = {e1,e2,e4}, wc 15
-%   (d) min-max, budgeted (Gamma = 2)     -> T2 = {e1,e2,e4}, wc 14
-%   (e) min-max regret, interval          -> T1 = {e1,e2,e3}, max regret 3
-%       (discrete regret also gives T1, max regret 1; see
-%        tab:micro-graph-costs)
-%
-% The story the gallery should tell: optimising for the midpoint or for
-% regret selects T1, optimising for worst-case cost selects T2, and the
-% budgeted dial moves between them (Gamma = 0 gives T1 at 11, Gamma >= 1 gives T2). Below the figure, a summary table across T1, T2, T3.
-
 \paragraph{Extremal Behaviour Visualisation.}
 
-% TODO: Figure 5.2 — geometric interpretation of extremal lemmas (0.7 pg)
-%
-% Illustrate the interval box with its vertices (extremal points) marked.
-% Min-max vertex: every chosen edge at its upper bound
-%   (lem:interval-extremal-cost).
-% Regret vertex: chosen edges at upper bounds, unchosen at lower bounds
-%   (lem:interval-extremal-regret; this is the scenario used for the
-%   verified regret numbers in the gallery above).
-%
-% \label{fig:extremal-visualisation}
-
 %─────────────────────────────────────────────────────────
-% SECTION 5.3: LIMITATIONS (1.0 page)
 %─────────────────────────────────────────────────────────
-\section{Limitations}\label{sec:limitations}
 
 \paragraph{Scope of Uncertainty Models.}
 
-% TODO: 0.4 pg
-%   - Three models: discrete, interval, budgeted (§3.4).
-%   - Excluded: polyhedral, ellipsoidal, distributional, ambiguity sets.
-%   - Choice reflects pedagogical focus on foundational cases.
-
 \paragraph{Scope of Solution Concepts.}
-
-% TODO: 0.3 pg
-%   - Two static objectives: Min-Max, Min-Max Regret.
-%   - Excluded: two-stage (recourse), recoverable (limited recovery), min-max-min.
-%   - Single-stage robustness only.
 
 \paragraph{Proof Selection.}
 
-% TODO: 0.3 pg
-%   - Representative proofs (K=2 hardness; 2-approximation) over exhaustive coverage.
-%   - Stronger K-unbounded results cited with sketches.
-%   - Empirical/computational evaluation outside thesis scope.
-
 %─────────────────────────────────────────────────────────
-% SECTION 5.4: OUTLOOK (1.5 pages)
 %─────────────────────────────────────────────────────────
-\section{Outlook}\label{sec:outlook}
+\section{Scope and Outlook}\label{sec:outlook}
+% ~550w, two paragraphs. Must ADD to Ch1's exclusion list, not repeat
+% it. Keep two-stage, recoverable, polyhedral, two open problems.
+% Drop ellipsoidal, distributional, min-max-min. See header.
 
 \paragraph{Extensions in Uncertainty Modelling.}
 
-% TODO: 0.5 pg
-%
-% Beyond the three models studied here, several richer uncertainty
-% structures appear in the robust optimisation literature:
-%
-%   - Polyhedral uncertainty: general polytopes, inner/outer descriptions.
-%     Complexity depends on description type (Goerigk §4.6).
-%   - Ellipsoidal uncertainty: continuous models from robust LP, less
-%     common in combinatorial settings.
-%   - Distributional robustness: ambiguity sets over distributions,
-%     bridging robust and stochastic optimisation.
-
 \paragraph{Extensions in Solution Concepts.}
 
-% TODO: 0.5 pg
-%
-%   - Two-stage optimisation: first-stage decision + recourse after
-%     scenario revelation (NP-hard even for K=2; Goerigk §8.3).
-%   - Recoverable robustness: first-stage + limited modification budget Δ
-%     after scenario observed (Goerigk §8.4).
-%   - Min-max-min and related nested objectives (Goerigk §10.6).
-
-\paragraph{Open Problems.}
-
-% TODO: 0.5 pg
-%
-%   - Tightness of 2-approximation for interval regret: no better algorithm
-%     known, no inapproximability bound (Goerigk Open Problem 2).
-%   - Discrete Min-Max: gap between the O(log K) upper bound
-%     (thm:mm-kunbdd-approx, Baak2025) and the lower bound: not approximable
-%     within O(log^{1-eps} n) unless NP has quasi-polynomial time algorithms
-%     (KasperskiZielinski2011; abstract verified, covers both objectives).
-%   - Discrete Regret: gap between the O(K) midpoint upper bound (Goerigk
-%     Open Problems 10, 12) and the same O(log^{1-eps} n) lower bound
-%     (KasperskiZielinski2011).
-%   - Algorithm-specific improvements for discrete Min-Max Regret beyond
-%     midpoint heuristic.
-
-% END OF CHAPTER 5```
+\paragraph{Open Problems.}```
 

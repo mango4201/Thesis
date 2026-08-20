@@ -3,42 +3,325 @@
 ```tex
 %═══════════════════════════════════════════════════════════
 % CHAPTER 4: MIN-MAX REGRET SPANNING TREE
-% 
-% Prerequisites: Ch2 (MST), Ch3 (Min-Max for contrast)
-% Provides:
-%   - Regret definition and formulation
-%   - Interval extremal regret lemma + proof
-%   - K=2 weakly NP-hard (reuse Ch3 construction)
-%   - 2-approximation for interval regret + FULL proof
-% Labels created:
-%   - ch:regret, sec:regret-definition, sec:regret-extremal,
-%     sec:regret-complexity-discrete, sec:regret-approx-interval,
-%     lem:interval-extremal-regret, thm:regret-k2-hard,
-%     thm:regret-kconst-pseudo, thm:regret-kunbdd-hard,
-%     thm:regret-interval-hard, thm:regret-2approx,
-%     lem:regret-lower-bound, lem:regret-upper-bound
-% Page budget: 11.3 pages
-% Status: PLACEHOLDER. Nothing here is drafted; Flow Card first.
 %
-% HOUSE CONVENTIONS INHERITED FROM THE LOCKED Ch2 AND Ch3 (follow when
-% drafting, so this chapter speaks the same language):
-%   - Numbering is per chapter with one counter per environment, so
-%     ALWAYS reference by label, never by number.
-%   - \textcite for narrative attribution ("the result is due to X"),
-%     \cite for parenthetical facts; \Cref for named objects, \eqref
-%     for equations.
-%   - Costs are non-negative in all three uncertainty models
-%     (def:discrete-uncertainty and the convention stated in
-%     sec:uncertainty).
-%   - "partition problem" in lower case; "weakly / strongly NP-hard";
-%     "cost list" for the K-vector of a tree's scenario costs;
-%     avoid "nominal MST", write "MST under <cost vector>".
-%   - British English, no em dashes, no -ize spellings.
+% Prerequisites: Ch2 (MST, regret definition), Ch3 (min-max, for contrast)
+% Status: SKELETON. Theorem shells carry titles and labels; bodies empty.
+%═══════════════════════════════════════════════════════════
+%
+% ── WHY THIS PLAN LOOKS DIFFERENT FROM THE OLD ONE ────────
+%
+% The old plan said "11.3 pages" and allocated 1.8/2.2/2.5/3.3 to the
+% four sections. That method has now failed three times:
+%
+%     Ch2   planned <=10  ->  actual 14   (1.4x)
+%     Ch3   planned  12   ->  actual 18   (1.5x)
+%     S3.4  planned 4.25  ->  actual  8   (1.9x)
+%
+% The overrun GROWS as the estimate gets finer, which is the tell: the
+% thing that swells is not inside any single unit. Decomposing Ch3's
+% 18 printed pages by word count shows where the pages actually went:
+%
+%     6 proof environments   2119 words   3.8 pages
+%    10 result statements     532 words   0.9 pages
+%     4 floats + captions     829 words   ~2  pages
+%     RUNNING PROSE          5613 words  10.0 pages   <-- 62 percent
+%
+% Proofs are NOT what made Ch3 long. The connective prose is: the
+% motivation before each result, the interpretation after it, the
+% reconciliation with sealed text, and the discussion around each
+% example. Section 3.4 is the clean case. The plan sized Lemma 3.2 at
+% "a four-line proof"; the delivered proof is 450 words, because the
+% house rules forbid "the greedy assignment is optimal" as a sentence.
+% Lemma 3.3 was not in the plan at all: it appeared because
+% instantiating a cited theorem as a black box was unsatisfying. Then
+% the integer-vs-real Gamma remark, the n-1 vs |E| distinction and
+% three hedges each cost sentences that no plan could have foreseen,
+% because they only surfaced on contact with the sealed text.
+%
+% CONCLUSION: the cost driver is the NUMBER OF DISTINCT RESULTS the
+% chapter touches, not their difficulty. Every result, however cheap
+% its proof, drags a motivating paragraph, an interpreting paragraph
+% and a consistency obligation behind it. Introducing a topic is
+% expensive in a way that shortening it afterwards cannot undo.
+%
+% ── THE BUDGET IS A RESULT COUNT, NOT A PAGE COUNT ────────
+%
+% Realised per-item costs, calibrated on Ch3 (546 words/printed page):
+%     a PROVED result, all-in          ~1.6 pages
+%     a STATED result, grouped         ~0.4 pages
+%     a float with its discussion      ~0.9 pages
+%     chapter boundary waste           ~0.5 pages
+% Check: S3.4 = 3 proved + 2 floats + summary + opening
+%            = 4.8 + 1.8 + 1.4 = 8.0.  Actual: 8.  Model holds.
+%
+% Ch4 as originally scaffolded was 5 proved + 3 stated + 2 floats,
+% which projects to 13.7 pages. THE BINDING CONSTRAINT IS THEREFORE:
+%
+%     CHAPTER 4 CONTAINS EXACTLY TWO PROVED RESULTS.
+%     Everything else is stated, cited, and grouped.
+%     Two worked examples. One Summary. Target 8 pages, 9 acceptable.
+%
+% This is checkable BEFORE a word is written. A page number can only
+% be checked afterwards, when the cost of cutting is highest.
+%
+% ── WHICH TWO PROOFS, AND WHY THOSE ───────────────────────
+%
+% Not a preference. Both are demanded by live \Cref from sealed text:
+%
+%  1. lem:interval-extremal-regret. Ch1: "For the regret objective,
+%     \Cref{lem:interval-extremal-regret} PROVES that worst-case
+%     regret occurs at boundary vertices of the interval box."
+%     The abstract also lists "the interval extremal characterisations"
+%     (plural, so both Lemma 3.1 and this one) among results proved in
+%     full. Everything in S4.4 refers back to it.
+%
+%  2. thm:regret-k2-hard. The abstract lists "two representative
+%     hardness reductions (min-max and min-max regret at K = 2)" among
+%     results proved in full. Ch1: "extends this to min-max regret by
+%     REUSING THE CONSTRUCTION with adjusted analysis" -- the sealed
+%     text itself sanctions reuse rather than restatement, and so does
+%     the source (Goerigk Thm 8.7 proves it with the single sentence
+%     "We use the same construction as in the proof of Theorem 8.4").
+%
+% Everything else is stated with a citation. This is consistent with
+% the thesis proof stance ("prove every lemma/theorem actually used in
+% later derivations"): none of the remaining results feeds a later
+% derivation; they feed tab:complexity-landscape, an inventory.
+%
+% ── WHAT WAS CUT, AND THE COUPLED EDITS IT FORCED ─────────
+%
+% thm:regret-2approx is now STATED AND CITED, not proved. Its two
+% supporting lemmas are deleted. This alone saves ~4 pages, and it is
+% the single decision that makes 8 pages reachable.
+% It is kept as a statement rather than dropped entirely because Ch4
+% would otherwise contain no positive algorithmic result at all while
+% Ch3 has two, and because Ch5's midpoint pattern would dangle.
+%
+% Three coupled edits were required and HAVE BEEN APPLIED (rule C5,
+% propagate fully or not at all). Do not revert one without the others:
+%   - Ch1: "we prove a 2-approximation" -> "we present the ...".
+%   - Ch1: the sentence "The proof is developed rigorously through two
+%     supporting lemmas (\Cref{lem:regret-lower-bound,...})" deleted;
+%     it was a LIVE \Cref and would have become an undefined reference.
+%   - abstract: "and the 2-approximation with its two supporting
+%     lemmas" removed from the proved-in-full list.
+% Build after all three: 0 errors, 0 undefined, 0 multiply defined.
+%
+% ── EVERY PROMISE Ch4 MUST KEEP (live \Cref, checked) ─────
+%
+%  Ch1  lem:interval-extremal-regret  proved; worst case at the box boundary
+%  Ch1  thm:regret-k2-hard            proved, by reusing the Ch3 construction
+%  Ch1  thm:regret-2approx            exists and states the factor 2
+%  Ch1  "Interval regret is harder than interval min-max despite
+%        sharing extremal properties, while discrete regret mirrors
+%        the complexity hierarchy of discrete min-max."
+%  Ch2  "(Worked examples for interval ... require the extremal
+%        analysis developed in \Cref{ch:minmax,ch:regret})"  -> S4.2
+%        OWES the interval regret worked example.
+%  Ch2  eq:regret-def and eq:minmax-regret-objective ALREADY define
+%        regret and the objective. S4.1 MUST NOT redefine them.
+%        This was a real trap: the old plan budgeted 0.6 pg to
+%        "Definition: Regret(T,c) = c(T) - MST(c)", which exists.
+%
+% ── SOURCES, ALL OPENED AND READ VERBATIM ─────────────────
+%
+%   Goerigk Thm 8.6  ([ABV05])      pseudo-poly AND FPTAS, regret,
+%                                   discrete, constant K
+%   Goerigk Thm 8.7  (Goerigk's own) weakly NP-hard at K=2; proof is
+%                                   "the same construction as Thm 8.4"
+%   Goerigk Thm 8.8  ([KY97])       strongly NP-hard, K in the input
+%   Goerigk Thm 8.9  ([KZ09])       regret not approximable within 2-eps
+%   Goerigk Thm 8.16 ([AV04; AL04]) interval regret STRONGLY NP-hard
+%   Goerigk Thm 5.26 ([KZ06])       midpoint is a 2-approximation for
+%                                   min-max regret under intervals
+%                                   <-- the anchor for thm:regret-2approx
+%   Goerigk Thm 5.4  ([ABV09])      midpoint is a K-approximation for
+%                                   BOTH objectives, discrete; tight
+%
+%   BIBLIOGRAPHY GAP: [AV04] = Ionut D. Aron and Pascal Van Hentenryck,
+%   "On the complexity of the robust spanning tree problem with
+%   interval data", Operations Research Letters 32(1), 2004, 36-40.
+%   NOT yet in references.bib, and it is the more on-point title than
+%   AverbakhLebedev2004. Goerigk attributes Thm 8.16 to BOTH. Add it.
+%   Also: Goerigk says STRONGLY NP-hard. Do not drop the adverb.
+%
+% ── DRAFTING UNITS (one Flow Card each, in this order) ────
+%
+%  Ch4 MIRRORS Ch3 SECTION FOR SECTION. Ch3 treats the models in the
+%  order interval, discrete, budgeted, and inside each model section
+%  it uses one fixed rhythm:
+%
+%      extremal characterisation -> algorithmic consequence
+%          -> worked example -> mechanism note
+%
+%  Ch4 treats the same models in the same order, minus budgeted, with
+%  the same rhythm. The absence of a third model section is what
+%  visibly marks the out-of-scope cell. The section tree is therefore:
+%
+%      S4.1 Regret Formulation            <-> S3.1 Problem Formulation
+%      S4.2 Interval Regret               <-> S3.2 Interval Worst-Case
+%        S4.2.1 Extremal Characterisation
+%        S4.2.2 Hardness and Approximation
+%      S4.3 Discrete Scenarios            <-> S3.3 Complexity and Approx.
+%        S4.3.1 Constant K                <-> S3.3.1 (same subsection split)
+%        S4.3.2 Unbounded K               <-> S3.3.2
+%      Summary                            <-> Ch3 Summary
+%
+%  PROOF BUDGET, restated precisely so it cannot drift:
+%      TWO SUBSTANTIAL PROOFS (R2 lemma, R3 theorem-by-reuse)
+%      plus ONE THREE-LINE COROLLARY (R2), the analogue of Cor 3.1
+%      whose own proof is 81 words. NO FOURTH PROOF.
+%
+%  R1  S4.1 Formulation                       ~650 words
+%      Counterpart of S3.1, which is 608 words over 2 printed pages.
+%      Only 67 of those words (11 percent) restate Ch2's definition;
+%      the rest is new. S4.1 mirrors the NEW part, paragraph for
+%      paragraph:
+%      (a) One short paragraph restating eq:minmax-regret-objective in
+%          the chapter's terms, opening the way S3.1 does ("the
+%          min-max objective introduced in \Cref{sec:uncertainty}").
+%          DO NOT redefine regret: Ch2 eq:regret-def already gives
+%          Regret(T,c) = c(T) - MST(c), names it, and calls it
+%          opportunity cost. This is the one genuine saving against
+%          the old plan, worth about 0.4 pages.
+%      (b) \paragraph{Decision Version and Complexity Classification.}
+%          ONE OR TWO SENTENCES ONLY. S3.1 spends 152 words setting
+%          the pattern up; Ch4 refers to it and says the regret
+%          version is defined analogously.
+%      (c) \paragraph{Maximum-Regret Evaluator.}  THIS OBJECT DOES NOT
+%          EXIST YET. notation.tex has \Regret{T}{c} for the regret in
+%          a single scenario and NOTHING for the maximum over the
+%          uncertainty set. Introduce it with its own equation label,
+%          exactly as eq:mm-evaluator introduces \wc{T}. Propose the
+%          macro in the Flow Card, never a silent local alias, and
+%          add the Appendix A row in the SAME delivery (rule C4).
+%      (d) The organising question, the counterpart of S3.1's
+%          linearity framing: what form does the maximum regret take
+%          as a function of T? S4.1 asks it, S4.2.1 answers it. Ch2
+%          already supplies the one-sentence reason it is harder than
+%          for cost ("the adversary's choice of c affects both c(T)
+%          and MST(c) simultaneously"); build on that sentence.
+%      Point at tab:micro-graph-costs for the divergence of the two
+%      objectives; DO NOT recompute it. No worked example here.
+%
+%  R2  S4.2.1 Extremal Characterisation   ~1100 words + 2 floats
+%      Mirrors S3.2 beat for beat.
+%      (a) lem:interval-extremal-regret + FULL PROOF. Statement: the
+%          maximum regret of a fixed T is attained at the scenario
+%          c^T with c_e = u_e for e in E(T) and c_e = l_e otherwise.
+%          Proof, two elementary monotonicity moves: raising c_e for
+%          e in E(T) raises c(T) by delta and MST(c) by at most delta;
+%          lowering c_e for e not in E(T) leaves c(T) fixed and can
+%          only lower MST(c). Regret is non-decreasing under both.
+%      (b) cor:regret-interval-evaluation + THREE-LINE PROOF. The
+%          analogue of cor:mm-interval-polynomial, and the slot Ch3
+%          puts an algorithmic consequence in. Evaluating the maximum
+%          regret of a FIXED tree is one MST computation, hence
+%          polynomial. Worth stating because it sets up the sharpest
+%          contrast in the chapter: evaluation is easy while
+%          optimisation is strongly NP-hard (S4.2.2).
+%      (c) \paragraph{Worked Example.}  tab:regret-micrograph, columns
+%          exactly analogous to tab:budgeted-micrograph: tree, c^T,
+%          c^T(T), MST(c^T), regret. Discharges the Ch2 promise that
+%          the interval worked example waits for this chapter.
+%          VERIFIED BY ENUMERATION, do not re-derive from prose:
+%            T1  c^T=(4,5,7,4,5)  16  13  regret 3
+%            T2  c^T=(4,5,1,6,5)  15  10  regret 5
+%            T3  c^T=(2,5,7,4,7)  19  11  regret 8
+%          Full ranking over all eight trees: 3,4,5,7,8,9,9,10.
+%          Optimum 3, uniquely at T1.
+%          STRICTNESS TRAP: the witnessing MST is NOT unique. At c^T1
+%          both T2 and {e1,e4,e5} attain 13; at c^T2 both T1 and
+%          {e1,e3,e5} attain 10. Claim no uniqueness there.
+%      (d) fig:regret-extremal-scenarios. TWO small panels of the
+%          micro-graph side by side, the worst-case scenario for T1
+%          and for T2, tree edges drawn at upper bounds and the rest
+%          at lower bounds. This is the chapter's mechanism made
+%          visual in one picture: different tree, different scenario.
+%          Reuse the styles of fig:micro-graph in Ch2. Cheap, and it
+%          answers the standing request for figures where genuinely
+%          new topics appear.
+%      (e) \paragraph{The Role of the Lower Bounds.}  DELIBERATE ECHO
+%          of the paragraph of the same name closing S3.2, which
+%          reaches the OPPOSITE conclusion and explicitly promises
+%          this one: "the insensitivity to the lower bounds is
+%          special to the min-max objective: the regret objective of
+%          \Cref{ch:regret} measures each tree against the
+%          scenario-optimal tree, a comparison that does depend on
+%          the lower bounds". Land it concretely: under the all-upper
+%          vector u the regrets of T1 and T2 read 1 and 0, against
+%          true maxima of 3 and 5. The lower bounds are exactly the
+%          off-tree entries of c^T.
+%          THE MECHANISM SENTENCE, stated once, here: min-max has one
+%          worst-case vector serving every tree
+%          (lem:interval-extremal-cost); regret's worst-case vector
+%          depends on the tree. Same boundary, different structure.
+%      Avoid the words vertex, extreme point, polytope, convex: the
+%      thesis has zero occurrences of any of them.
+%
+%  R3  S4.2.2 Hardness and Approximation      ~500 words, NO PROOFS
+%      thm:regret-interval-hard STATED (Goerigk 8.16, [AV04; AL04]),
+%      STRONGLY NP-hard, adverb included.
+%      thm:regret-2approx STATED (Goerigk 5.26, [KZ06]).
+%      One paragraph on the contrast the thesis turns on: interval
+%      min-max is polynomial (cor:mm-interval-polynomial), interval
+%      regret is strongly NP-hard, and yet regret admits a factor 2
+%      here where discrete regret admits only K.
+%      Tightness of the factor 2 belongs to Ch5, not here.
+%
+%  R4  S4.3 Discrete Scenarios                ~1000 words
+%      Same subsection split as S3.3, same titles pattern.
+%      S4.3.1 Constant K:
+%        thm:regret-k2-hard + PROOF BY REUSE. Do not restate the
+%        construction of thm:mm-k2-hard; refer to it and give only
+%        the adjusted analysis (in every scenario a spanning tree of
+%        cost zero exists, so regret coincides with cost). REFER to
+%        fig:partition-grid rather than redrawing it.
+%        \paragraph{A Small Instance.} Echo of the paragraph of the
+%        same name in S3.3.1: reuse the instance already worked there
+%        and show regret and cost coincide on it. Cheap, and it makes
+%        the word "reuse" concrete instead of asserted.
+%        thm:regret-kconst-pseudo STATED (Goerigk 8.6, which covers
+%        the pseudo-polynomial algorithm AND the FPTAS together).
+%      S4.3.2 Unbounded K:
+%        thm:regret-kunbdd-hard STATED (Goerigk 8.8) and the 2-eps
+%        inapproximability STATED (Goerigk 8.9). No 3-partition
+%        sketch. Note the symmetry with Ch3: both objectives carry a
+%        2-eps bound.
+%
+%  R5  Summary                                ~280 words
+%      Unnumbered, \addcontentsline, matching Ch2 and Ch3. THREE OR
+%      FOUR PARAGRAPHS, not one block: Ch3's Summary had to be broken
+%      up because 286 words in one paragraph was the second-longest
+%      paragraph in the thesis against a median of 56.
+%      Mechanism for regret across the two models, ONE contrast with
+%      min-max, and a provenance sentence in the shape Ch3 uses,
+%      naming what is proved here and what is quoted. The RWTH
+%      guidelines grade this explicitly. No result list;
+%      tab:complexity-landscape owns the inventory. Cap 0.75 pages.
+%
+%  Projected: R1 650 + R2 1100 + R3 500 + R4 1000 + R5 280 = 3530
+%  words = 6.5 pages, + 2 floats (1.8) + opening and boundary waste
+%  (0.7) = 8.5 to 9.0 printed pages. At the top of the band, so if
+%  something must give it is R3's prose, never a float.
+%
+% ── HOUSE CONVENTIONS INHERITED FROM LOCKED Ch2 AND Ch3 ───
+%   - Numbering is per chapter, one counter per environment. ALWAYS
+%     reference by label, never by number.
+%   - \textcite for narrative attribution, \cite for parenthetical;
+%     \Cref for named objects, \eqref for equations. No bare \ref.
+%   - Costs are non-negative in all three models.
+%   - "partition problem" lower case; "weakly"/"strongly" NP-hard
+%     always with the adverb; "cost list" for the K-vector;
+%     never "nominal MST", write "MST under <cost vector>".
+%   - British English, no em dashes, no -ize spellings, no
+%     contractions, no hand-wave markers.
 %   - Verify a constructed subgraph is a spanning tree through the
-%     two-of-three characterisation established in sec:graph-notation.
+%     two-of-three characterisation in sec:graph-notation.
+%   - Universally quantified claims about hardness or non-linearity
+%     need "in general". This failure mode fired four times in Ch3.
 %
-% MICRO-GRAPH FACTS FOR THIS CHAPTER (verified by full enumeration
-% over all eight spanning trees of the current micro-graph):
+% ── MICRO-GRAPH FACTS (verified by full enumeration) ──────
 %   discrete scenarios c^(1) lower, c^(2) upper, c^(3) midpoints:
 %     min-max regret optimum is T1 = {e1,e2,e3} with max regret 1
 %     (T2 has 3, T3 has 4); tab:micro-graph-costs already carries the
@@ -55,259 +338,77 @@
 
 \chapter{Min-Max Regret Spanning Tree}\label{ch:regret}
 
-% CHAPTER OVERVIEW:
-% This chapter formalises Min-Max Regret objective, which measures
-% performance gap vs scenario-optimal solutions. Structure mirrors Ch3
-% (discrete + interval), but intervals are NP-hard (unlike Min-Max).
-% Positive result: clean 2-approximation via midpoint heuristic (full proof).
-
-%─────────────────────────────────────────────────────────
-% SECTION 4.1: REGRET DEFINITION AND OBJECTIVE (1.8 pages)
-%─────────────────────────────────────────────────────────
 \section{Regret Formulation}\label{sec:regret-definition}
+% UNIT R1  ~650 words.  Counterpart of S3.1 (608w, of which only 67 restate
+% Ch2). Do NOT redefine regret (Ch2 eq:regret-def).
+% \paragraph{Decision Version and Complexity Classification.} 1-2 sentences.
+% \paragraph{Maximum-Regret Evaluator.} NEW OBJECT: no macro exists. Give it
+% an equation label as eq:mm-evaluator does for \wc{T}; propose the macro in
+% the Flow Card and add the Appendix A row in the same delivery (rule C4).
+% Close by posing the organising question that S4.2.1 answers.
 
-% TODO: Regret concept (0.6 pg)
-%   - Definition: Regret(T,c) = c(T) - MST(c)
-%   - Interpretation: performance gap vs scenario-optimal
-%   - Why it matters: relative vs absolute robustness
+\section{Interval Regret}\label{sec:regret-interval}
+% Counterpart of S3.2. Same rhythm: extremal characterisation, algorithmic
+% consequence, worked example, mechanism note.
 
-% TODO: Discrete scenarios (0.6 pg)
-%   - Formal objective: min_{T∈𝒯} max_{k∈[K]} Regret(T, c^(k))
-%   - Requires computing MST(c^(k)) for each scenario k
-%   - Worked example (micro-graph): Show T_Regret ≠ T_MinMax
+\subsection{Extremal Characterisation}\label{sec:regret-extremal}
+% UNIT R2  ~1100 words + tab:regret-micrograph + fig:regret-extremal-scenarios.
+% PROVED RESULT 1 of 2, plus the three-line corollary.
 
-% TODO: Interval uncertainty (0.6 pg)
-%   - Formal objective: min_{T∈𝒯} max_{c∈𝒰} Regret(T, c)
-%   - Challenge: MST(c) varies with c in 𝒰
-%   - Worked example (micro-graph): Compute regret for T₁, T₂, T₃
-
-%─────────────────────────────────────────────────────────
-% SECTION 4.2: EXTREMAL PROPERTIES FOR INTERVALS (2.2 pages)
-%─────────────────────────────────────────────────────────
-\section{Interval Regret Extremal Behaviour}\label{sec:regret-extremal}
-
-% PROOF INVENTORY: 1 lemma + proof (1.0 pg)
-
-% SOURCE: Implicit in interval regret analysis (Goerigk Ch5)
 \begin{lemma}[Interval Extremal Regret]\label{lem:interval-extremal-regret}
-% TODO: Statement (0.3 pg)
-% For fixed T∈𝒯, max_{c∈𝒰} Regret(T,c) is attained at a
-% vertex (extremal point) of the interval box ∏[ℓₑ,uₑ].
 \end{lemma}
-\begin{proof}
-% TODO: Proof (0.7 pg)
-% Regret(T,c) = c(T) - MST(c)
-% c(T) is linear in c
-% MST(c) is piecewise linear concave function of c
-% Max of (linear - concave) over box attained at vertex
-% Construction: worst case sets c_e to upper/lower strategically
-% depending on which edges compete for MST
-\end{proof}
 
-% TODO: Implications (0.7 pg)
-%   - Can evaluate regret of any T in polynomial time (check 2^|E| vertices)
-%   - BUT: finding optimal T still NP-hard (unlike Min-Max!)
-%   - Cite: Averbakh-Lebedev (2004) for NP-hardness
+% cor:regret-interval-evaluation, analogue of cor:mm-interval-polynomial:
+% evaluating the maximum regret of a FIXED tree is one MST computation.
+% Three-line proof. Sets up the contrast with S4.2.2: evaluation easy,
+% optimisation strongly NP-hard.
 
-% TODO: Comparison with Min-Max extremal (0.5 pg)
-%   - Min-max: all chosen edges go to their upper bounds
-%     (lem:interval-extremal-cost, simple)
-%   - Regret: strategic mix depending on competing trees (complex)
-%   - More complex but still extremal
+% \paragraph{Worked Example.}  tab:regret-micrograph, columns as in
+% tab:budgeted-micrograph. Verified: T1 -> 3, T2 -> 5, T3 -> 8; full ranking
+% 3,4,5,7,8,9,9,10; optimum 3 uniquely at T1. The witnessing MST is NOT
+% unique (ties at c^T1 and c^T2); claim no uniqueness there.
+% fig:regret-extremal-scenarios: two panels, worst-case scenario for T1 and
+% for T2 side by side. Reuse fig:micro-graph styles.
 
-%─────────────────────────────────────────────────────────
-% SECTION 4.3: COMPLEXITY: DISCRETE SCENARIOS (2.5 pages)
-%─────────────────────────────────────────────────────────
-\section{Complexity for Discrete Scenarios}\label{sec:regret-complexity-discrete}
+% \paragraph{The Role of the Lower Bounds.}  Deliberate echo of the paragraph
+% of the same name closing S3.2, which promises this one and reaches the
+% opposite conclusion. Land it concretely: under u alone the regrets read
+% 1 and 0 against true maxima 3 and 5.
 
-\subsection{Constant K}
+\subsection{Hardness and Approximation}\label{sec:regret-approx-interval}
+% UNIT R3  ~500 words.  NO PROOFS.
 
-% PROOF INVENTORY: 1 adapted proof (0.6 pg) + 1 cited theorem (0.4 pg)
-
-% SOURCE: Goerigk Theorem 8.7
-\begin{theorem}[K=2 Weak NP-Hardness]\label{thm:regret-k2-hard}
-% TODO: Statement
-% Min-Max Regret ST with K=2 discrete scenarios is weakly NP-hard.
-\end{theorem}
-\begin{proof}
-% TODO: Proof (0.6 pg) -- REUSE the partition reduction of thm:mm-k2-hard
-% Same grid graph construction as thm:mm-k2-hard (fig:partition-grid)
-% 
-% KEY OBSERVATION:
-% In that construction, MST(c^(k)) = 0 for all k=1,2
-% (All vertical edges + one row's edges = zero cost tree in each scenario)
-% 
-% Therefore: Regret(T, c^(k)) = c^(k)(T) - 0 = c^(k)(T)
-% So Min-Max Regret ≡ Min-Max for this instance
-% 
-% By thm:mm-k2-hard, min-max is weakly NP-hard
-% ∴ Min-Max Regret is weakly NP-hard
-% 
-% SOURCE: Goerigk Theorem 8.7 ("use same construction as Theorem 8.4")
-\end{proof}
-
-% SOURCE: Goerigk Theorem 8.6 (Aissi-Bazgan-Vanderpooten 2005)
-\begin{theorem}[Pseudo-Polynomial for Constant K]\label{thm:regret-kconst-pseudo}
-% TODO: Statement + explanation (0.4 pg)
-% For constant K, Min-Max Regret ST admits:
-%   (i) Pseudo-polynomial algorithm
-%   (ii) FPTAS
-\end{theorem}
-
-% TODO: Explanation (cite + intuition, NO proof):
-%   - Same multicriteria technique as Min-Max (Goerigk Thm 8.6)
-%   - SOURCE: Aissi-Bazgan-Vanderpooten (2005)
-
-\subsection{Unbounded K}
-
-% PROOF INVENTORY: 1 cited theorem (sketch, 0.9 pg) + 1 approx (0.6 pg)
-
-% SOURCE: Goerigk Theorem 8.8 (Kouvelis-Yu 1997)
-\begin{theorem}[Strong NP-Hardness]\label{thm:regret-kunbdd-hard}
-% TODO: Statement
-% Min-Max Regret ST with K part of input is strongly NP-hard.
-\end{theorem}
-
-% TODO: Sketch + citation (0.9 pg, NO full proof):
-%   - Reduction from 3-PARTITION problem
-%   - Grid graph with K=m scenarios
-%   - Construction: MST(c^(k)) = 0 in every scenario
-%   - So regret reduces to cost minimisation
-%   - Regret optimal ⟺ 3-PARTITION solvable
-%   - SOURCE: Kouvelis-Yu (1997), Goerigk Theorem 8.8
-
-% TODO: Approximation for unbounded K (0.6 pg):
-%   - Midpoint heuristic gives O(K); best known for regret
-%     (Goerigk Open Problems 10, 12).
-%   - Lower bound: not approximable within O(log^{1-eps} n) unless NP has
-%     quasi-polynomial time algorithms (KasperskiZielinski2011; the abstract
-%     states this for BOTH min-max and regret ST -- re-verify in the paper
-%     body at Ch4 drafting).
-%   - NOTE: the O(log K) upper bound (thm:mm-kunbdd-approx, Baak2025) is
-%     verified for MIN-MAX only; do not carry it to regret unchecked.
-%   - Open gap (cite Goerigk Open Problems 10, 12)
-
-%─────────────────────────────────────────────────────────
-% SECTION 4.4: APPROXIMATION FOR INTERVALS (3.3 pages)
-%─────────────────────────────────────────────────────────
-\section{Interval Regret Approximation}\label{sec:regret-approx-interval}
-
-% PROOF INVENTORY: 3 theorems/lemmas with FULL proofs (2.5 pg total)
-
-% SOURCE: Averbakh-Lebedev (2004)
 \begin{theorem}[Interval NP-Hardness]\label{thm:regret-interval-hard}
-% TODO: Statement + citation (0.3 pg)
-% Min-Max Regret ST with interval uncertainty is NP-hard.
-% SOURCE: Averbakh-Lebedev (2004)
-% (Cite only, no proof — established result from network optimisation)
 \end{theorem}
 
-% SOURCE: Kasperski-Zielinski (2006), Goerigk Theorem 5.26
 \begin{theorem}[2-Approximation via Midpoint]\label{thm:regret-2approx}
-% TODO: Statement (0.3 pg)
-% Let T_mid = MST((ℓ+u)/2). Then T_mid is a 2-approximation
-% for Min-Max Regret ST with interval uncertainty.
 \end{theorem}
 
-% TODO: Supporting lemmas (prove in full before main theorem)
+\section{Discrete Scenarios}\label{sec:regret-complexity-discrete}
+% UNIT R4  ~1000 words.  Same subsection split as S3.3.
 
-% SOURCE: Kasperski-Zielinski (2006), Goerigk Lemma 5.24
-\begin{lemma}[Lower Bound on Regret]\label{lem:regret-lower-bound}
-% TODO: Statement
-% For any trees T, T' ∈ 𝒯:
-%   max_{c∈𝒰} Regret(T,c) ≥ Σ_{e: xₑ>x'ₑ} ūₑ - Σ_{e: xₑ<x'ₑ} ℓₑ
-% where xₑ=1 if e∈T, else 0 (similarly for T')
-\end{lemma}
-\begin{proof}
-% TODO: Proof (0.7 pg) — FULL PROOF
-% Construct adversarial scenario:
-%   - For edges in T but not T': set to upper bound ū_e
-%   - For edges in T' but not T: set to lower bound ℓ_e
-%   - For remaining edges: set to favour T' as MST
-% Then c(T) ≥ Σ_{e∈T∖T'} ū_e and MST(c) ≤ Σ_{e∈T'∖T} ℓ_e
-% Regret(T,c) = c(T) - MST(c) ≥ ... (algebra)
-% 
-% SOURCE: Kasperski-Zielinski (2006), Goerigk Lemma 5.24
-\end{proof}
+\subsection{Constant \texorpdfstring{$K$}{K}}\label{sec:regret-const-k}
+% PROVED RESULT 2 of 2, by REUSE of thm:mm-k2-hard. Refer to
+% fig:partition-grid, do not redraw it.
 
-% SOURCE: Kasperski-Zielinski (2006), Goerigk Lemma 5.25
-\begin{lemma}[Upper Bound Relating Solutions]\label{lem:regret-upper-bound}
-% TODO: Statement
-% For any trees T, T' ∈ 𝒯:
-%   max_{c∈𝒰} Regret(T,c) ≤ max_{c∈𝒰} Regret(T',c) + 
-%                             Σ_{e: xₑ>x'ₑ} ūₑ - Σ_{e: xₑ<x'ₑ} ℓₑ
-\end{lemma}
-\begin{proof}
-% TODO: Proof (0.7 pg) — FULL PROOF
-% For any c∈𝒰:
-%   Regret(T,c) = c(T) - MST(c)
-%              ≤ c(T) - c(T')         (MST(c) ≥ c(T') always)
-%              = Σ_{e∈T} cₑ - Σ_{e∈T'} cₑ
-%              = Σ_{e∈T∖T'} cₑ - Σ_{e∈T'∖T} cₑ
-% 
-% Now take max over c:
-%   max Regret(T,c) ≤ max [Σ_{e∈T∖T'} cₑ - Σ_{e∈T'∖T} cₑ + (Regret(T',c) - ...)]
-%   ... (algebra combining worst-case scenarios)
-% 
-% SOURCE: Kasperski-Zielinski (2006), Goerigk Lemma 5.25
-\end{proof}
+\begin{theorem}[K=2 Weak NP-Hardness]\label{thm:regret-k2-hard}
+\end{theorem}
 
-\begin{proof}[Proof of Theorem~\ref{thm:regret-2approx}]
-% TODO: Main proof (1.1 pg) -- FULL PROOF using lem:regret-lower-bound
-% and lem:regret-upper-bound
-% 
-% Let T_mid = MST(c_mid) where c_mid = (ℓ+u)/2
-% Let T* = optimal Min-Max Regret tree
-% 
-% STEP 1: Use optimality of T_mid for midpoint costs:
-%   Σ_{e∈T_mid} c_mid,e ≤ Σ_{e∈T*} c_mid,e
-%   ⟹ Σ_{e∈T_mid} (ℓₑ+ūₑ)/2 ≤ Σ_{e∈T*} (ℓₑ+ūₑ)/2
-%   Rearranging: Σ_{e∈T_mid∖T*} ūₑ - Σ_{e∈T*∖T_mid} ℓₑ ≤ 
-%                Σ_{e∈T*∖T_mid} ūₑ - Σ_{e∈T_mid∖T*} ℓₑ
-% 
-% STEP 2: Apply lem:regret-lower-bound with T=T*, T'=T_mid:
-%   max Regret(T*,c) ≥ Σ_{e: x*ₑ>x_mid,e} ūₑ - Σ_{e: x*ₑ<x_mid,e} ℓₑ
-% 
-% STEP 3: Apply lem:regret-upper-bound with T=T_mid, T'=T*:
-%   max Regret(T_mid,c) ≤ max Regret(T*,c) + [Σ ūₑ - Σ ℓₑ]
-% 
-% STEP 4: Combine Step 1-3 via algebra:
-%   From Step 1: symmetric difference terms relate
-%   From Step 2: OPT ≥ RHS
-%   From Step 3: ALG ≤ OPT + RHS
-%   ⟹ ALG ≤ 2·OPT
-% 
-% SOURCE: Kasperski-Zielinski (2006), Goerigk Theorem 5.26
-\end{proof}
+% \paragraph{A Small Instance.} Echo of the paragraph of the same name in
+% S3.3.1: reuse the instance worked there, show regret and cost coincide.
 
-% TODO: Tightness discussion (0.5 pg):
-%   - Open Problem: Is 2 tight? (Goerigk Open Problem 2)
-%   - No better algorithm known for any combinatorial problem
-%   - No inapproximability bound either
+\begin{theorem}[Pseudo-Polynomial for Constant K]\label{thm:regret-kconst-pseudo}
+\end{theorem}
 
-%─────────────────────────────────────────────────────────
-% CHAPTER SUMMARY
-% Unnumbered, matching Ch2 and Ch3, and carrying
-% \addcontentsline. It owns mechanism for the regret objective plus
-% the one contrast with min-max, and is capped at about 0.75 pages.
-% No result list: tab:complexity-landscape in Ch5 owns the inventory.
-%─────────────────────────────────────────────────────────
+\subsection{Unbounded \texorpdfstring{$K$}{K}}\label{sec:regret-unbdd-k}
+% Stated and cited only. Note the 2-eps symmetry with Ch3.
+
+\begin{theorem}[Strong NP-Hardness]\label{thm:regret-kunbdd-hard}
+\end{theorem}
+
+% UNIT R5  ~280 words, several paragraphs, cap 0.75 pages.
+% Mechanism + ONE contrast with min-max + a provenance sentence naming
+% what is proved here and what is quoted. No result list.
 \section*{Summary}
-\addcontentsline{toc}{section}{Summary}
-
-% TODO: Summary paragraph (0.3 pg)
-% Min-max regret complexity mirrors min-max for discrete scenarios
-% (thm:regret-k2-hard, thm:regret-kconst-pseudo, thm:regret-kunbdd-hard)
-% but diverges for intervals. While interval min-max is polynomial
-% (cor:mm-interval-polynomial), interval regret remains NP-hard
-% (thm:regret-interval-hard) despite the extremal property
-% (lem:interval-extremal-regret). Positive result: a 2-approximation via
-% the midpoint MST (thm:regret-2approx, proved from lem:regret-lower-bound
-% and lem:regret-upper-bound). Factor 2 is the best guarantee known for
-% the interval regret spanning tree problem, and its tightness is open
-% (Goerigk Open Problem 2); Ch1 makes the same scoped claim, so keep the
-% two in step. Ch5 synthesises these findings alongside the min-max
-% results.
-
-% END OF CHAPTER 4```
+\addcontentsline{toc}{section}{Summary}```
 
