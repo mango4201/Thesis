@@ -76,7 +76,7 @@
 % ────────────────────────────────────────────────────────
 % SUBMISSION DATE
 % ────────────────────────────────────────────────────────
-{\large Aachen, \today}
+{\large Aachen, \thesisDate}
 
 \end{titlepage}
 

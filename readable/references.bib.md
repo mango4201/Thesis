@@ -66,7 +66,7 @@
   volume       = {109},
   number       = {5},
   pages        = {262--266},
-  doi          = {10.1016/j.ipl.2008.11.001}
+  doi          = {10.1016/j.ipl.2008.10.008}
 }
 
 @article{KasperskiZielinski2011,
@@ -121,6 +121,7 @@
   journaltitle = {Optimization Letters},
   year         = {2017},
   volume       = {11},
+  number       = {1},
   pages        = {17--30},
   doi          = {10.1007/s11590-016-1057-x}
 }
@@ -141,20 +142,6 @@
   address = {RWTH Aachen}
 }
 
-@misc{RWTHGuidelinesThesis,
-  title   = {Guidelines for Bachelor Theses},
-  author  = {{Faculty of Business and Economics, RWTH Aachen University}},
-  year    = {2025},
-  note    = {Institutional guidelines PDF}
-}
-
-@misc{RWTHBAExample,
-  title   = {Bachelor Thesis -- Example Document},
-  author  = {{RWTH Aachen University}},
-  year    = {2025},
-  note    = {Institutional example PDF}
-}
-
 @article{KasperskiZielinski2006,
   author       = {Adam Kasperski and Pawe{\l} Zieli{\'n}ski},
   title        = {An approximation algorithm for interval data minmax regret combinatorial optimization problems},
@@ -163,7 +150,7 @@
   volume       = {97},
   number       = {5},
   pages        = {177--180},
-  doi          = {10.1016/j.ipl.2005.11.003}
+  doi          = {10.1016/j.ipl.2005.11.001}
 }
 
 @article{AverbakhLebedev2004,
@@ -180,12 +167,12 @@
 @article{BertsimasSim2003,
   author    = {Bertsimas, Dimitris and Sim, Melvyn},
   title     = {Robust discrete optimization and network flows},
-  journal   = {Mathematical Programming},
+  journaltitle = {Mathematical Programming},
   year      = {2003},
   volume    = {98},
   number    = {1--3},
   pages     = {49--71},
-  doi       = {10.1007/s10107-003-0396-4},
+  doi       = {10.1007/s10107-003-0396-4}
 }
 
 @article{BarahonaPulleyblank1987,
@@ -201,11 +188,12 @@
 
 @inproceedings{PapadimitriouYannakakis2000,
   author    = {Christos H. Papadimitriou and Mihalis Yannakakis},
-  title     = {On the approximability of trade-offs and optimal access of web sources},
+  title     = {On the approximability of trade-offs and optimal access of {W}eb sources},
   booktitle = {Proceedings of the 41st Annual Symposium on Foundations of Computer Science (FOCS)},
   year      = {2000},
   publisher = {IEEE},
-  pages     = {86--92}
+  pages     = {86--92},
+  doi       = {10.1109/SFCS.2000.892068}
 }
 
 @article{Baak2025,

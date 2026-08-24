@@ -30,6 +30,7 @@
 \newcommand{\MSTcost}[1]{\mathrm{MST}(#1)}
 \newcommand{\cs}[1]{c^{(#1)}}
 \newcommand{\wc}[1]{\mathrm{wc}(#1)} % worst-case cost: usage \wc{T} gives wc(T) = max_{c in U} c(T)
+\newcommand{\wcr}[1]{\mathrm{wcr}(#1)} % maximum regret: usage \wcr{T} gives wcr(T) = max_{c in U} Regret(T,c). NB \wr is LaTeX's wreath product and cannot be used.
 
 % Graph notation
 \newcommand{\cut}[1]{\delta(#1)} % cut notation, usage: \cut{X}

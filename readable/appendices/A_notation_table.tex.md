@@ -8,9 +8,9 @@
 % Provides: Comprehensive symbol reference
 % Labels created: app:notation
 % Page budget: 1-2 pages (longtable handles page breaks)
-% Status: COMPLETE through Chapter 3 (§3.1 to §3.4 and the Summary).
-%   Ch3 contributes wc(T), the upper-bound vector u, and the three
-%   §3.4 symbols pi, Pi and [z]^+. Proof-local symbols are defined at
+% Status: COMPLETE through Chapter 3, plus S4.1. Ch3 contributes wc(T),
+%   the upper-bound vector u, and the three S3.4 symbols pi, Pi and
+%   [z]^+. S4.1 contributes wcr(T). Proof-local symbols are defined at
 %   the point of use and stay out of this table by design: v_{i,j},
 %   a_j, b_j, r_j, T_P, W, Q, w(P) in §3.3.1; a_i, b_i, v_{i,j},
 %   L_{i,j}, p in §3.3.2; f_j, g, c^*, c^pi and phi_T in §3.4.
@@ -80,6 +80,7 @@ $[z]^{+}$ & Positive part, $\max\{z, 0\}$ & \S\ref{sec:mm-budgeted} \\
 \multicolumn{3}{l}{\textit{Robust Objectives}} \\
 $\Regret{T}{c}$ & Regret of $T$ under $c$: $c(T) - \MSTcost{c}$ & \S\ref{sec:uncertainty} \\
 $\wc{T}$ & Worst-case cost of tree $T$: $\max_{c \in \Scenarios} c(T)$ & \S\ref{sec:mm-formulation} \\
+$\wcr{T}$ & Maximum regret of tree $T$: $\max_{c \in \Scenarios} \Regret{T}{c}$ & \S\ref{sec:regret-definition} \\
 \midrule
 
 \multicolumn{3}{l}{\textit{Complexity}} \\

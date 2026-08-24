@@ -54,6 +54,20 @@
 % Check: S3.4 = 3 proved + 2 floats + summary + opening
 %            = 4.8 + 1.8 + 1.4 = 8.0.  Actual: 8.  Model holds.
 %
+% [Writer A, 2026-08-21] THE 546 IS NOT IN CONFLICT WITH THE Ch3
+% HANDOFF'S 412. They are the same measurement under two accountings.
+% Measured from text-block coordinates on a clean build of Ch3:
+%     all-in rate, floats folded into the pages       418 w/pg
+%     non-float prose only, floats charged at 0.9 pg  579 w/pg
+% The 546 above is the SECOND accounting, and the model only works if
+% applied that way: words / 546, PLUS 0.9 per float, PLUS 0.7 boundary
+% waste. Applied to R1..R5 this projects 8.6 to 9.0 printed pages, so
+% the word budgets below stand and need no cutting. Do not relitigate.
+% ONE EXCEPTION, R5: Ch3's Summary ran at 236 w/pg, not 546, because
+% short paragraphs cost more than words. R5 at 280 words is therefore
+% about 1.19 pages, not the 0.75 the cap assumes. Open, deferred.
+%
+%
 % Ch4 as originally scaffolded was 5 proved + 3 stated + 2 floats,
 % which projects to 13.7 pages. THE BINDING CONSTRAINT IS THEREFORE:
 %
@@ -125,6 +139,18 @@
 %
 % ── SOURCES, ALL OPENED AND READ VERBATIM ─────────────────
 %
+%   Goerigk Def 4.11 + Thm 4.12 ([ABV09])  the regret worst-case
+%                                   scenario c^x (upper on x, lower
+%                                   off x) and the proof that it
+%                                   attains the maximum regret.
+%                                   <-- THE ANCHOR FOR R2's PROOF.
+%                                   Was missing from this list, which
+%                                   is why R2(a) originally specified
+%                                   a reconstructed proof. [ABV09] =
+%                                   Aissi/Bazgan/Vanderpooten 2009,
+%                                   ALREADY in references.bib as
+%                                   AissiBazganVanderpooten2009Survey.
+%                                   No bibliography gap for R1 or R2.
 %   Goerigk Thm 8.6  ([ABV05])      pseudo-poly AND FPTAS, regret,
 %                                   discrete, constant K
 %   Goerigk Thm 8.7  (Goerigk's own) weakly NP-hard at K=2; proof is
@@ -221,10 +247,35 @@
 %      (a) lem:interval-extremal-regret + FULL PROOF. Statement: the
 %          maximum regret of a fixed T is attained at the scenario
 %          c^T with c_e = u_e for e in E(T) and c_e = l_e otherwise.
-%          Proof, two elementary monotonicity moves: raising c_e for
-%          e in E(T) raises c(T) by delta and MST(c) by at most delta;
-%          lowering c_e for e not in E(T) leaves c(T) fixed and can
-%          only lower MST(c). Regret is non-decreasing under both.
+%          [Writer A, 2026-08-21] PROOF ROUTE CHANGED. The old route
+%          (two monotonicity moves) is CORRECT but is a reconstructed
+%          proof, and the proof policy does not admit one unless the
+%          author has worked it on paper. The source exists and was
+%          simply absent from this header's source list: Goerigk
+%          Def 4.11 + Thm 4.12 are this lemma for a general 0/1
+%          problem, with a four-line proof.
+%          ROUTE NOW USED: fix c in U, let S be an MST under c. Then
+%          c(T) - c(S) telescopes over E(T)\E(S) and E(S)\E(T); bound
+%          the first sum above by u and the second below by l; what
+%          results is exactly c^T(T) - c^T(S), which is at most
+%          c^T(T) - MST(c^T). No compactness argument is needed, since
+%          c^T lies in U and dominates every c, so the supremum is
+%          attained. Verified line by line against the source and
+%          numerically on all eight trees of the micro-graph.
+%          The old route's intuition is NOT lost: it becomes the
+%          motivating paragraph BEFORE the statement, which the house
+%          rhythm requires anyway. Goerigk gives it in words: "if
+%          x_i = 1, make the item as expensive as possible; if
+%          x_i = 0, make the item as cheap as possible."
+%          ATTRIBUTION mirrors S3.2, which cites Goerigk Thm 4.8 for
+%          the min-max analogue; S4.2.1 cites Thm 4.12 for the regret
+%          analogue. Same book, same chapter. Use \cite[Theorem~4.12].
+%          DO NOT CLAIM THE MAXIMISER IS UNIQUE. c^T attains the
+%          maximum but is not the only scenario that does. Goerigk
+%          states this after Thm 4.12, and enumeration confirms it:
+%          for T1 the value 3 is attained both at (4,5,7,4,5) and at
+%          (2,3,7,4,5). This is a SECOND strictness trap, distinct
+%          from the MST-witness trap recorded in (c).
 %      (b) cor:regret-interval-evaluation + THREE-LINE PROOF. The
 %          analogue of cor:mm-interval-polynomial, and the slot Ch3
 %          puts an algorithmic consequence in. Evaluating the maximum
@@ -352,16 +403,125 @@
 %   which is the point tab:micro-graph-costs already makes in Ch2.
 %═══════════════════════════════════════════════════════════
 
+%─────────────────────────────────────────────────────────
+% CHAPTER OPENING + SECTION 4.1: REGRET FORMULATION
+%
+% Provenance: Unit R1 v2 (final), Writer A, 2026-08-21. Built and
+%   measured on a clean tree: 0 errors, 0 undefined, 0 multiply-defined,
+%   overfull unchanged at the Ch2 baseline of 3. Opening 201 raw words /
+%   0.42 pg; S4.1 534 raw words / 1.19 pg; R1 total 1.61 printed pages.
+%   S4.1 is -18 percent against the planned 650, outside tolerance, and
+%   the delta is explained: v1 (-14 percent, in tolerance) was revamped
+%   on the author's direction to cut backward scaffolding. Four S3.1
+%   references inside S4.1 became one; the decision paragraph sits at
+%   the two sentences the plan itself prescribes. Content inventory
+%   (a)-(e) is complete; nothing was cut; the saved pages fall to R2.
+%
+% Goal: state the min-max regret spanning tree problem at the edge level
+%   and isolate the evaluator the chapter minimises, WITHOUT redefining
+%   regret (Ch2 owns eq:regret-def).
+% Prereqs, all confirmed present: eq:regret-def, eq:minmax-regret-objective,
+%   eq:mm-objective, eq:mm-evaluator, sec:uncertainty, sec:complexity,
+%   sec:mm-formulation, tab:micro-graph-costs, lem:interval-extremal-cost,
+%   sec:synthesis. Macros \Regret, \MSTcost, \cT, \Scenarios, \cs, \wc.
+% Results proved: none. Results stated: none. No theorem environment
+%   appears in S4.1, which is what holds the chapter's proof budget at two.
+% Sources: none. S3.1, its counterpart, also cites nothing.
+%
+% NEW LABELS  eq:regret-objective (4.1), eq:regret-evaluator (4.2).
+% NEW MACRO   \wcr{T} -> wcr(T), added to notation.tex AND to Appendix A
+%   in this same delivery (rule C4). \wr was NOT available: it is LaTeX's
+%   wreath product. \wcr, \maxreg, \mreg, \wreg were all free; \wcr was
+%   chosen for the exact parallel with \wc.
+%
+% ORGANISING DEVICES OF THIS UNIT, so later units stay consistent:
+%  - THE FLOOR. MST(c) is introduced as "a floor set by the scenario
+%    alone, beneath which no spanning tree can be driven", and the image
+%    is reused exactly twice more ("the floor also shifts every tree
+%    equally", "the floor closes that route"). If R2-R5 want the image,
+%    keep the word "floor"; do not introduce a synonym.
+%  - THE TWO QUESTIONS. S4.1 ends by splitting the chapter's work into
+%    (1) what form does wcr(T) take, (2) can that form be minimised over
+%    all trees at once, and states that under discrete uncertainty (1)
+%    is immediate while under intervals (1) already requires proof.
+%    S4.2.1 answers (1) for intervals; S4.2.2 and S4.3 answer (2).
+%    The Summary can close over this pair.
+%
+% DECISIONS TAKEN HERE, so a later thread does not undo them:
+%  - NO FORWARD REFERENCE to cor:regret-interval-evaluation, which does
+%    not exist until R2. The decision-version paragraph points at
+%    \Cref{sec:regret-extremal} instead, exactly as S3.1 points at
+%    \Cref{sec:mm-extremal} rather than at cor:mm-interval-polynomial.
+%    R1 therefore compiles clean when delivered on its own.
+%  - THE MECHANISM SENTENCE IS NOT STATED HERE. S4.1 poses the questions
+%    and stops; S4.2.1(e) owns the answer in full. The roadmap gives the
+%    RESULT for S4.2 (characterisation exists, strongly NP-hard
+%    nonetheless, factor 2 survives), not the mechanism.
+%  - The directional argument (raise on T, lower off T) is R2's
+%    motivating paragraph and is deliberately not spent here. S4.1 says
+%    only WHY separation fails: the floor couples all m coordinates, and
+%    per Ch2 the all-upper-bounds vector is in general not the regret
+%    worst case. "In general" is load-bearing there; on some instances
+%    u IS the worst case.
+%  - O(Km log n) versus S3.1's O(Kn) is correct and deliberate: regret
+%    evaluation needs one MST per scenario, min-max evaluation needs none.
+%─────────────────────────────────────────────────────────
+
 \chapter{Min-Max Regret Spanning Tree}\label{ch:regret}
 
+\Cref{ch:minmax} judged a spanning tree by an absolute standard, the cost it incurs in the worst case, with no other tree entering the verdict.
+This chapter keeps the setting: a tree is still committed before the costs are revealed, and an adversary still selects from a prescribed uncertainty set.
+What changes is the standard.
+The min-max regret objective~\eqref{eq:minmax-regret-objective} charges the tree only the gap between its cost and the best cost available in the same scenario, so the adversary now works to widen a gap rather than to inflate a total.
+
+\Cref{sec:regret-definition} writes this objective out at the edge level and isolates the evaluator the chapter minimises.
+\Cref{sec:regret-interval} treats interval uncertainty: an extremal characterisation as explicit as the min-max one exists, the problem is strongly $\mathsf{NP}$-hard nonetheless, and a $2$-approximation is available.
+\Cref{sec:regret-complexity-discrete} treats discrete uncertainty, where the hierarchy of \Cref{sec:mm-complexity} returns: weakly $\mathsf{NP}$-hard already at $K = 2$, pseudo-polynomial and approximable for any constant $K$, and strongly $\mathsf{NP}$-hard once $K$ is part of the input.
+Budgeted uncertainty is treated in this thesis only for the min-max objective; \Cref{sec:synthesis} records by citation what is known for its regret counterpart.
+A closing summary draws the two models together.
+
 \section{Regret Formulation}\label{sec:regret-definition}
-% UNIT R1  ~650 words.  Counterpart of S3.1 (608w, of which only 67 restate
-% Ch2). Do NOT redefine regret (Ch2 eq:regret-def).
-% \paragraph{Decision Version and Complexity Classification.} 1-2 sentences.
-% \paragraph{Maximum-Regret Evaluator.} NEW OBJECT: no macro exists. Give it
-% an equation label as eq:mm-evaluator does for \wc{T}; propose the macro in
-% the Flow Card and add the Appendix A row in the same delivery (rule C4).
-% Close by posing the organising question that S4.2.1 answers.
+
+The regret~\eqref{eq:regret-def} introduced in \Cref{sec:uncertainty} measures a spanning tree $T \in \cT$ under a realised cost vector $c$ by the difference $\Regret{T}{c} = c(T) - \MSTcost{c}$.
+Expanding the tree cost edge by edge turns the min-max regret objective~\eqref{eq:minmax-regret-objective} into the \emph{\textcolor{RWTHBlue}{min-max regret spanning tree problem}}
+\begin{equation}\label{eq:regret-objective}
+\min_{T \in \cT}\; \max_{c \in \Scenarios}\; \biggl[\, \sum_{e \in E(T)} c_e \;-\; \MSTcost{c} \biggr].
+\end{equation}
+The bracket subtracts an optimal value from a tree cost.
+Only its first term depends on the tree; the second, $\MSTcost{c}$, is a floor set by the scenario alone, and no spanning tree costs less.
+A scenario that is expensive for $T$ therefore gains the adversary nothing if it raises the floor by just as much.
+
+The floor also shifts every tree equally.
+Under a single fixed scenario, regret and cost differ by the constant $\MSTcost{c}$ and therefore rank the spanning trees identically, so the two objectives can differ only through the maximisation.
+On the micro-graph they do differ: across the three scenarios recorded in \Cref{tab:micro-graph-costs}, the min-max tree is $T_2$ and the min-max regret tree is $T_1$.
+
+\paragraph{Decision Version and Complexity Classification.}
+
+The decision version asks, for a bound $B \in \R$, whether some spanning tree has maximum regret at most $B$; the tree itself is the certificate, as in \Cref{sec:mm-formulation}, so membership in $\mathsf{NP}$ turns on evaluating the inner maximum in polynomial time.
+That evaluation is costlier than its min-max counterpart, because every scenario is now costed against its own optimum.
+Under discrete uncertainty the maximum regret of $T$ is the largest of the $K$ differences $\cs{k}(T) - \MSTcost{\cs{k}}$, which takes $O(Km \log n)$ time against $O(Kn)$ for the worst-case cost.
+The $K$ minimum spanning trees do not depend on $T$, so computing them once serves every tree.
+Under interval uncertainty the evaluation rests on the extremal characterisation of \Cref{sec:regret-extremal}.
+
+\paragraph{Maximum-Regret Evaluator.}
+
+The quantity the chapter minimises is the \emph{\textcolor{RWTHBlue}{maximum regret}} of a fixed spanning tree $T \in \cT$,
+\begin{equation}\label{eq:regret-evaluator}
+\wcr{T} \;:=\; \max_{c \in \Scenarios}\; \Regret{T}{c} \;=\; \max_{c \in \Scenarios}\; \biggl[\, \sum_{e \in E(T)} c_e \;-\; \MSTcost{c} \biggr],
+\end{equation}
+the counterpart of the worst-case cost~\eqref{eq:mm-evaluator}.
+The problem in~\eqref{eq:regret-objective} collapses to $\min_{T \in \cT} \wcr{T}$, and the chapter turns on two questions about $\wcr{T}$: what form does it take as a function of the tree, and can that form be minimised over all spanning trees at once?
+
+For the worst-case cost, one answer settles both questions.
+Over the interval set, \Cref{lem:interval-extremal-cost} lets every cost climb to its upper bound independently of the rest, so the evaluator becomes a sum of fixed per-edge weights, and minimising such a sum is a single deterministic minimum spanning tree computation.
+No such reduction is available for the maximum regret.
+The floor is the reason: $\MSTcost{c}$ depends on all $m$ coordinates of $c$ at once, so the bracket in~\eqref{eq:regret-evaluator} is not a sum of independent per-edge terms, and its maximum cannot be found by maximising one coordinate at a time.
+\Cref{sec:uncertainty} already records the consequence: the all-upper-bounds vector, which is the worst case under the min-max objective, is in general not the worst case for regret.
+Locating the maximum requires an argument that treats both terms of the bracket together.
+
+These two questions organise the two sections that follow.
+Under discrete uncertainty the first is immediate, the maximum in~\eqref{eq:regret-evaluator} running over the $K$ scenarios of a finite uncertainty set, and \Cref{sec:regret-complexity-discrete} is occupied entirely by the second.
+Under interval uncertainty even the first requires proof, and \Cref{sec:regret-extremal} begins there.
 
 \section{Interval Regret}\label{sec:regret-interval}
 % Counterpart of S3.2. Same rhythm: extremal characterisation, algorithmic
