@@ -25,7 +25,7 @@ After fixing graph-theoretic notation and introducing the running micro-graph (\
 \section{Graphs, Trees, and Notation}\label{sec:graph-notation}
 
 We work exclusively with undirected graphs throughout this thesis.
-A \emph{\textcolor{RWTHBlue}{graph}} is a pair $G = (V, E)$, where $V$ is a finite non-empty set of \emph{vertices} (or \emph{nodes}) and $E \subseteq \{\{u, v\} \mid u, v \in V, u \neq v\}$ is a set of \emph{edges}.
+A \emph{\textcolor{RWTHBlue}{graph}} is a pair $G = (V, E)$, where $V$ is a finite non-empty set of \emph{vertices} (or \emph{nodes}) and $E \subseteq \{\, \{u, v\} : u, v \in V,\ u \neq v \,\}$ is a set of \emph{edges}.
 Each edge connects exactly two distinct vertices; we write $\{u, v\} \in E$ or equivalently $uv \in E$ to denote an edge between $u$ and $v$.
 A graph is called \emph{\textcolor{RWTHBlue}{simple}} if it contains no multiple edges (at most one edge between any pair of vertices) and no loops (edges connecting a vertex to itself).
 All graphs considered in this thesis are simple.
@@ -42,7 +42,7 @@ A spanning tree can only exist if $G$ is connected, since the tree must reach ev
 
 For a non-empty proper subset $X \subseteq V$ (that is, $\emptyset \neq X \subsetneq V$), the \emph{\textcolor{RWTHBlue}{cut}} induced by $X$ is the set of edges crossing the partition $(X, V \setminus X)$:
 \[
-\cut{X} = \{\{u, v\} \in E \mid u \in X,\, v \in V \setminus X\}.
+\cut{X} = \bigl\{ \{u, v\} \in E : u \in X,\, v \in V \setminus X \bigr\}.
 \]
 Intuitively, $\cut{X}$ comprises all edges with exactly one endpoint in $X$.
 See \Cref{fig:cut-illustration} for a visual representation.

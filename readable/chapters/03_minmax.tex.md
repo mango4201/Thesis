@@ -158,7 +158,7 @@ Because the uncertainty set $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$ is a Ca
 Since each variable $c_e$ appears in exactly one term of the sum, the maximum of the sum equals the sum of the per-edge maxima:
 \[
 \max_{c \in \Scenarios}\; \sum_{e \in E(T)} c_e
-\;=\; \sum_{e \in E(T)}\; \max_{c_e \in [\ell_e, u_e]} c_e .
+\;=\; \sum_{e \in E(T)}\; \max_{c_e \in [\ell_e, u_e]} c_e.
 \]
 Each cost $c_e$ ranges over the interval $[\ell_e, u_e]$ and is maximised at $u_e$.
 Substituting yields $\max_{c \in \Scenarios} \sum_{e \in E(T)} c_e = \sum_{e \in E(T)} u_e$.
@@ -216,7 +216,7 @@ By the lemma, the worst-case cost of a tree is the sum of its edges' upper bound
 \[
 \wc{T_1} = 4 + 5 + 7 = 16, \qquad
 \wc{T_2} = 4 + 5 + 6 = 15, \qquad
-\wc{T_3} = 5 + 7 + 7 = 19 .
+\wc{T_3} = 5 + 7 + 7 = 19.
 \]
 These values coincide with the scenario-$\cs{2}$ column of \Cref{tab:micro-graph-costs}, as they must: the micro-graph's scenario $\cs{2}$ was defined as the all-upper-bounds vector, so $\cs{2} = u$.
 
@@ -339,7 +339,7 @@ and two vertices are adjacent exactly when they agree in one index and differ by
 \{v_{i,j},\, v_{k,\ell}\} \in E
 \quad\Longleftrightarrow\quad
 \bigl(i = k \text{ and } |j - \ell| = 1\bigr)
-\ \text{ or }\
+\text{ or }
 \bigl(|i - k| = 1 \text{ and } j = \ell\bigr).
 \]
 For $j \in \{1, \ldots, n\}$ we write $a_j = \{v_{1,j-1}, v_{1,j}\}$ for the \emph{first-row edge of column $j$} and $b_j = \{v_{2,j-1}, v_{2,j}\}$ for the \emph{second-row edge of column $j$}; together these $2n$ edges are the \emph{horizontal edges}, each named after the column of its right endpoint.
@@ -608,7 +608,7 @@ Since the scenario costs are non-negative (\Cref{def:discrete-uncertainty}), the
 \begin{equation}\label{eq:mm-aggregate-bracket}
 \wc{T}
 \;\leq\;
-\Bigl(\, \sum_{k=1}^{K} \bigl(\cs{k}(T)\bigr)^{p} \Bigr)^{\!1/p}
+\Biggl(\, \sum_{k=1}^{K} \bigl(\cs{k}(T)\bigr)^{p} \Biggr)^{\!1/p}
 \;\leq\;
 K^{1/p}\, \wc{T},
 \end{equation}
@@ -826,7 +826,7 @@ For every $T \in \cT$ the set $\Pi$ contains $\{0\} \cup \{\hat{c}_e : e \in E(T
 Restricting a minimisation to a subset containing a minimiser leaves its value unchanged, so
 \[
 \wc{T} \;=\; \min_{\pi \in \Pi} \Biggl[\, \Gamma\pi + \sum_{e \in E(T)} c^{\pi}_e \Biggr]
-\qquad \text{for every } T \in \cT .
+\qquad \text{for every } T \in \cT.
 \]
 Minimising over $\cT$ and interchanging the two minimisations, both of which run over finite sets, gives
 \[
@@ -875,7 +875,7 @@ Fix the budget $\Gamma = 2$.
 \[
 \wc{T_1} = 11 + 3 + 1 = 15, \quad
 \wc{T_2} = 12 + 1 + 1 = 14, \quad
-\wc{T_3} = 14 + 3 + 1 = 18 .
+\wc{T_3} = 14 + 3 + 1 = 18.
 \]
 The remaining five spanning trees have worst-case costs between 16 and 19, so $T_2$ is the unique min-max tree, at 14.
 
