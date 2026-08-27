@@ -51,19 +51,37 @@
 % Check: S3.4 = 3 proved + 2 floats + summary + opening
 %            = 4.8 + 1.8 + 1.4 = 8.0.  Actual: 8.  Model holds.
 %
-% [Writer A, 2026-08-21] THE 546 IS NOT IN CONFLICT WITH THE Ch3
-% HANDOFF'S 412. They are the same measurement under two accountings.
-% Measured from text-block coordinates on a clean build of Ch3:
-%     all-in rate, floats folded into the pages       418 w/pg
-%     non-float prose only, floats charged at 0.9 pg  579 w/pg
-% The 546 above is the SECOND accounting, and the model only works if
-% applied that way: words / 546, PLUS 0.9 per float, PLUS 0.7 boundary
-% waste. Applied to R1..R5 this projects 8.6 to 9.0 printed pages, so
-% the word budgets below stand and need no cutting. Do not relitigate.
-% ONE EXCEPTION, R5: Ch3's Summary ran at 236 w/pg, not 546, because
-% short paragraphs cost more than words. R5 at 280 words is therefore
-% about 1.19 pages, not the 0.75 the cap assumes. Open, deferred.
+% [Writer A, 2026-08-21, and this note supersedes any earlier version.
+%  My first attempt claimed 546 and the Ch3 handoff's 412 were "the
+%  same measurement". Checker A downgraded that and was right: 412
+%  reproduces (7486/18.18 in CH3_WRITER_HANDOFF against my 7340/17.56,
+%  differing by the 0.40 pg chapter opening), but 546 never did.
+%  Ignore both figures and use the measurements below.]
 %
+% MEASURED RATES, raw words per printed page, from text-block coordinates:
+%     float-free prose with displays        455-465   (S3.1 447, S4.1 465)
+%     lemma + proof + corollary + example   ~465      (S3.2 504, S4.2.1 465)
+%     summary of short paragraphs           236       (Ch3 Summary)
+%     a float, above its caption words      0.45 pg   (Ch3 handoff, measured)
+%     chapter boundary waste                0.7 pg
+% NOTE the 0.9 pg per float above is DOUBLE the measured 0.45. That
+% error and the inflated 546 pushed in opposite directions, which is
+% why the original 8-to-9 projection survived roughly intact.
+%
+% PROJECTION, R1 and R2 delivered and MEASURED after the checker pass
+% and the prose-lens pass of 2026-08-27:
+%     R1 1.68 + R2 2.95 measured, + R3 1.1 + R4 2.1 + R5 1.2 projected
+%     =  9.03 pages, and S4.2.2 opens 81 percent down printed p.41.
+% This sits ON the 9-page ceiling, so R3 and R5 have no slack: if
+% something must give it is R3's prose, never a float.
+% Word counts must EXCLUDE tikzpicture and tabular bodies to be
+% comparable with the R1..R5 targets; including them reads ~15 percent
+% high and will look like an overrun that is not there.
+% Do not re-derive this from either handoff. Build and measure instead.
+%
+% ONE EXCEPTION, R5: Ch3's Summary ran at 236 w/pg. R5 at 280 words is
+% therefore about 1.19 pages, not the 0.75 the cap assumes. Open,
+% deferred by the author on 2026-08-21.
 %
 % Ch4 as originally scaffolded was 5 proved + 3 stated + 2 floats,
 % which projects to 13.7 pages. THE BINDING CONSTRAINT IS THEREFORE:
@@ -273,13 +291,31 @@
 %          for T1 the value 3 is attained both at (4,5,7,4,5) and at
 %          (2,3,7,4,5). This is a SECOND strictness trap, distinct
 %          from the MST-witness trap recorded in (c).
-%      (b) cor:regret-interval-evaluation + THREE-LINE PROOF. The
+%          [2026-08-27] THE OLD ROUTE IS TRUE AND MUST NEVER BE
+%          DENIED. Regret(T,.) is monotone in each coordinate
+%          separately: non-decreasing in c_e for e in E(T),
+%          non-increasing for e outside it. So coordinatewise
+%          maximisation DOES find the maximum. Verified: 16000
+%          exact-rational samples, 0 violations; one-sweep greedy from
+%          300 random starts per tree, shortfall 0. S4.1 originally
+%          said the maximum "cannot be found by maximising one
+%          coordinate at a time", which is FALSE and also contradicted
+%          S4.2.1's "resolves edge by edge". What IS true is that the
+%          VALUE does not separate: the maximum is not the sum of
+%          separate per-edge maxima. Use that formulation only.
+%      (b) cor:regret-interval-evaluation + SHORT PROOF. The
 %          analogue of cor:mm-interval-polynomial, and the slot Ch3
 %          puts an algorithmic consequence in. Evaluating the maximum
 %          regret of a FIXED tree is one MST computation, hence
 %          polynomial. Worth stating because it sets up the sharpest
 %          contrast in the chapter: evaluation is easy while
 %          optimisation is strongly NP-hard (S4.2.2).
+%          [Writer A] DELIVERED WITH a 58-word proof environment,
+%          mirroring cor:mm-interval-polynomial, whose own proof is 81
+%          words. Writer A first shipped it WITHOUT a proof block and
+%          asserted Cor 3.1 has none; that was false and Checker A
+%          caught it. The short corollary proof is budgeted at the top
+%          of this file and is NOT a third substantial proof.
 %      (c) \paragraph{Worked Example.}  tab:regret-micrograph, columns
 %          exactly analogous to tab:budgeted-micrograph: tree, c^T,
 %          c^T(T), MST(c^T), regret. Discharges the Ch2 promise that
@@ -343,76 +379,14 @@
 %        fig:partition-grid rather than redrawing it.
 %        \paragraph{A Small Instance.} Echo of the paragraph of the
 %        same name in S3.3.1: reuse the instance already worked there
-%        and show regret and cost coincide on it. Cheap, and it makes
-%        the word "reuse" concrete instead of asserted.
-%        thm:regret-kconst-pseudo STATED (Goerigk 8.6, which covers
-%        the pseudo-polynomial algorithm AND the FPTAS together).
-%      S4.3.2 Unbounded K:
-%        thm:regret-kunbdd-hard STATED (Goerigk 8.8) and the 2-eps
-%        inapproximability STATED (Goerigk 8.9). No 3-partition
-%        sketch. Note the symmetry with Ch3: both objectives carry a
-%        2-eps bound.
-%
-%  R5  Summary                                ~280 words
-%      Unnumbered, \addcontentsline, matching Ch2 and Ch3. THREE OR
-%      FOUR PARAGRAPHS, not one block: Ch3's Summary had to be broken
-%      up because 286 words in one paragraph was the second-longest
-%      paragraph in the thesis against a median of 56.
-%      Mechanism for regret across the two models, ONE contrast with
-%      min-max, and a provenance sentence in the shape Ch3 uses,
-%      naming what is proved here and what is quoted. The RWTH
-%      guidelines grade this explicitly. No result list;
-%      tab:complexity-landscape owns the inventory. Cap 0.75 pages.
-%
-%  Projected: R1 650 + R2 1100 + R3 500 + R4 1000 + R5 280 = 3530
-%  words = 6.5 pages, + 2 floats (1.8) + opening and boundary waste
-%  (0.7) = 8.5 to 9.0 printed pages. At the top of the band, so if
-%  something must give it is R3's prose, never a float.
-%
-% ── HOUSE CONVENTIONS INHERITED FROM LOCKED Ch2 AND Ch3 ───
-%   - Numbering is per chapter, one counter per environment. ALWAYS
-%     reference by label, never by number.
-%   - \textcite for narrative attribution, \cite for parenthetical;
-%     \Cref for named objects, \eqref for equations. No bare \ref.
-%   - Costs are non-negative in all three models.
-%   - "partition problem" lower case; "weakly"/"strongly" NP-hard
-%     always with the adverb; "cost list" for the K-vector;
-%     never "nominal MST", write "MST under <cost vector>".
-%   - British English, no em dashes, no -ize spellings, no
-%     contractions, no hand-wave markers.
-%   - Verify a constructed subgraph is a spanning tree through the
-%     two-of-three characterisation in sec:graph-notation.
-%   - Universally quantified claims about hardness or non-linearity
-%     need "in general". This failure mode fired four times in Ch3.
-%
-% ── MICRO-GRAPH FACTS (verified by full enumeration) ──────
-%   discrete scenarios c^(1) lower, c^(2) upper, c^(3) midpoints:
-%     min-max regret optimum is T1 = {e1,e2,e3} with max regret 1
-%     (T2 has 3, T3 has 4); tab:micro-graph-costs already carries the
-%     full cost/regret table.
-%   interval uncertainty, worst case for a fixed T at c_e = u_e on T
-%   and c_e = l_e off T:
-%     max regret T1 = 3, T2 = 5, T3 = 8; optimum is T1 at 3.
-%     (Full ranking over the eight trees: 3, 4, 5, 7, 8, 9, 9, 10.)
-%   CONTRAST TO Ch3: the min-max optimum is T2 under both discrete and
-%   interval uncertainty, while the regret optimum is T1 under both.
-%   The two objectives therefore genuinely disagree on this instance,
-%   which is the point tab:micro-graph-costs already makes in Ch2.
-%═══════════════════════════════════════════════════════════
-
 %─────────────────────────────────────────────────────────
 % CHAPTER OPENING + SECTION 4.1: REGRET FORMULATION
 %
-% Provenance: Unit R1 v2 (final), Writer A, 2026-08-21. Built and
-%   measured on a clean tree: 0 errors, 0 undefined, 0 multiply-defined,
-%   overfull unchanged at the Ch2 baseline of 3. Opening 201 raw words /
-%   0.42 pg; S4.1 534 raw words / 1.19 pg; R1 total 1.61 printed pages.
-%   S4.1 is -18 percent against the planned 650, outside tolerance, and
-%   the delta is explained: v1 (-14 percent, in tolerance) was revamped
-%   on the author's direction to cut backward scaffolding. Four S3.1
-%   references inside S4.1 became one; the decision paragraph sits at
-%   the two sentences the plan itself prescribes. Content inventory
-%   (a)-(e) is complete; nothing was cut; the saved pages fall to R2.
+% Provenance: Unit R1, Writer A, drafted 2026-08-21, revamped on the
+%   author's direction, approved by Checker A, corrected again by the
+%   prose-lens pass of 2026-08-27. Clean build: 0 errors, 0 undefined,
+%   0 multiply-defined, overfull unchanged at the Ch2 baseline of 3.
+%   MEASURED, current: R1 1.68 printed pages.
 %
 % Goal: state the min-max regret spanning tree problem at the edge level
 %   and isolate the evaluator the chapter minimises, WITHOUT redefining
@@ -427,16 +401,19 @@
 %
 % NEW LABELS  eq:regret-objective (4.1), eq:regret-evaluator (4.2).
 % NEW MACRO   \wcr{T} -> wcr(T), added to notation.tex AND to Appendix A
-%   in this same delivery (rule C4). \wr was NOT available: it is LaTeX's
+%   in the same delivery (rule C4). \wr was NOT available: it is LaTeX's
 %   wreath product. \wcr, \maxreg, \mreg, \wreg were all free; \wcr was
 %   chosen for the exact parallel with \wc.
 %
 % ORGANISING DEVICES OF THIS UNIT, so later units stay consistent:
 %  - THE FLOOR. MST(c) is introduced as "a floor set by the scenario
-%    alone, beneath which no spanning tree can be driven", and the image
-%    is reused exactly twice more ("the floor also shifts every tree
-%    equally", "the floor closes that route"). If R2-R5 want the image,
-%    keep the word "floor"; do not introduce a synonym.
+%    alone, and no spanning tree costs less", and the image recurs six
+%    times across R1 and R2, always as a reference and never as a second
+%    definition. If R3-R5 want it, keep the word "floor"; do not
+%    introduce a synonym. (An earlier version of this bullet quoted two
+%    phrasings that revision had already removed. Quote sparingly in
+%    comments: quoted prose goes stale and the claim then reads as a
+%    defect that is not there.)
 %  - THE TWO QUESTIONS. S4.1 ends by splitting the chapter's work into
 %    (1) what form does wcr(T) take, (2) can that form be minimised over
 %    all trees at once, and states that under discrete uncertainty (1)
@@ -453,15 +430,23 @@
 %  - THE MECHANISM SENTENCE IS NOT STATED HERE. S4.1 poses the questions
 %    and stops; S4.2.1(e) owns the answer in full. The roadmap gives the
 %    RESULT for S4.2 (characterisation exists, strongly NP-hard
-%    nonetheless, factor 2 survives), not the mechanism.
+%    nonetheless, factor 2 is available), not the mechanism. Use "is
+%    available", never "survives", which was removed chapter-wide.
 %  - The directional argument (raise on T, lower off T) is R2's
 %    motivating paragraph and is deliberately not spent here. S4.1 says
-%    only WHY separation fails: the floor couples all m coordinates, and
-%    per Ch2 the all-upper-bounds vector is in general not the regret
-%    worst case. "In general" is load-bearing there; on some instances
-%    u IS the worst case.
-%  - O(Km log n) versus S3.1's O(Kn) is correct and deliberate: regret
-%    evaluation needs one MST per scenario, min-max evaluation needs none.
+%    only WHY the value does not separate: the floor couples all m
+%    coordinates, and per Ch2 the all-upper-bounds vector is in general
+%    not the regret worst case. "In general" is load-bearing there; on
+%    some instances u IS the worst case.
+%  - [2026-08-27] S4.1 formerly said the maximum "cannot be found by
+%    maximising one coordinate at a time". That was FALSE, and it
+%    contradicted S4.2.1. See the R2(a) note above. The sentence now
+%    reads "its maximum is not the sum of separate per-edge maxima",
+%    which is the true non-separability statement.
+%  - [2026-08-27] The decision-version paragraph formerly asserted a
+%    surcharge for regret evaluation and then appeared to retract it.
+%    It now names the surcharge as ONE-OFF preprocessing: O(Km log n)
+%    from scratch, then O(Kn) per further tree, as under min-max.
 %─────────────────────────────────────────────────────────
 
 \chapter{Min-Max Regret Spanning Tree}\label{ch:regret}
@@ -496,8 +481,8 @@ On the micro-graph they do differ: across the three scenarios recorded in \Cref{
 
 The decision version asks, for a bound $B \in \R$, whether some spanning tree has maximum regret at most $B$; the tree itself is the certificate, as in \Cref{sec:mm-formulation}, so membership in $\mathsf{NP}$ turns on evaluating the inner maximum in polynomial time.
 That evaluation is costlier than its min-max counterpart, because every scenario is now costed against its own optimum.
-Under discrete uncertainty the maximum regret of $T$ is the largest of the $K$ differences $\cs{k}(T) - \MSTcost{\cs{k}}$, which takes $O(Km \log n)$ time against $O(Kn)$ for the worst-case cost.
-The $K$ minimum spanning trees do not depend on $T$, so computing them once serves every tree.
+Under discrete uncertainty the maximum regret of $T$ is the largest of the $K$ differences $\cs{k}(T) - \MSTcost{\cs{k}}$, and evaluating it from scratch takes $O(Km \log n)$ time against $O(Kn)$ for the worst-case cost.
+The surcharge is paid once rather than per tree: the $K$ minimum spanning trees do not depend on $T$, so after computing them a single time each further tree costs $O(Kn)$, as under the min-max objective.
 Under interval uncertainty the evaluation rests on the extremal characterisation of \Cref{sec:regret-extremal}.
 
 \paragraph{Maximum-Regret Evaluator.}
@@ -512,41 +497,264 @@ The problem in~\eqref{eq:regret-objective} collapses to $\min_{T \in \cT} \wcr{T
 For the worst-case cost, one answer settles both questions.
 Over the interval set, \Cref{lem:interval-extremal-cost} lets every cost climb to its upper bound independently of the rest, so the evaluator becomes a sum of fixed per-edge weights, and minimising such a sum is a single deterministic minimum spanning tree computation.
 No such reduction is available for the maximum regret.
-The floor is the reason: $\MSTcost{c}$ depends on all $m$ coordinates of $c$ at once, so the bracket in~\eqref{eq:regret-evaluator} is not a sum of independent per-edge terms, and its maximum cannot be found by maximising one coordinate at a time.
+The floor is the reason: $\MSTcost{c}$ depends on all $m$ coordinates of $c$ at once, so the bracket in~\eqref{eq:regret-evaluator} is not a sum of independent per-edge terms, and its maximum is not the sum of separate per-edge maxima.
 \Cref{sec:uncertainty} already records the consequence: the all-upper-bounds vector, which is the worst case under the min-max objective, is in general not the worst case for regret.
 Locating the maximum requires an argument that treats both terms of the bracket together.
 
 These two questions organise the two sections that follow.
-Under discrete uncertainty the first is immediate, the maximum in~\eqref{eq:regret-evaluator} running over the $K$ scenarios of a finite uncertainty set, and \Cref{sec:regret-complexity-discrete} is occupied entirely by the second.
-Under interval uncertainty even the first requires proof, and \Cref{sec:regret-extremal} begins there.
+Under discrete uncertainty the first is immediate, the maximum in~\eqref{eq:regret-evaluator} running over the $K$ scenarios of a finite uncertainty set, so \Cref{sec:regret-complexity-discrete} is occupied entirely by the second.
+Under interval uncertainty even the first requires proof.
+
+%─────────────────────────────────────────────────────────
+% SECTION 4.2 OPENING + SECTION 4.2.1: EXTREMAL CHARACTERISATION
+%
+% Provenance: Unit R2, Writer A, drafted 2026-08-25, revised by
+%   Checker A, then corrected again by the prose-lens pass of
+%   2026-08-27. Clean build: 0 errors, 0 undefined, 0 multiply-defined,
+%   overfull unchanged at the Ch2 baseline of 3.
+%   MEASURED, current: R1 1.68 pg, R2 2.95 pg, together 4.63 pg.
+%   History, so nobody re-derives it: Writer A's v2 was 3.19 pg and
+%   +18 percent on words, OUTSIDE tolerance; the checker pass took it
+%   to 2.97 with a net -95 words INCLUDING the +58 restored corollary
+%   proof; the prose-lens pass took it to 2.95.
+%
+% PROOF ROUTE: Goerigk & Hartisch Def 4.11 + Thm 4.12 ([ABV09]),
+%   specialised to spanning trees; see the R2(a) note higher in this
+%   file for why the two-monotonicity-moves route was replaced, and
+%   for why that route is nonetheless TRUE and must never be denied.
+%   Chain checked line by line against the source and numerically on
+%   all eight trees and all 32 box vertices. ONE align* chain (align
+%   is used twice in Ch2), five lines, five parallel justification
+%   sentences, one per line. Writer A's five-step plan sentence before
+%   the chain was CUT in the checker pass: the justifications after
+%   the chain already carry it and the plan restated them in advance.
+%
+% CONVENTIONS ALIGNED TO "Review 25.08": terminal punctuation attached
+%   inside displays (a comma on the lemma display, a full stop at the
+%   chain end); no set-builder needed in this unit.
+%
+% VOCABULARY, unified with R1 and the sealed text:
+%   - "interval set" / $\Scenarios$, never "interval box" (Ch1's one
+%     "box" is a deferred-edits item, not a licence).
+%   - "scenario-optimal tree", the sealed S3.2 coinage, used twice.
+%   - "minimum spanning tree", never "cheapest spanning tree".
+%   - "the floor" used twice in R2 and never redefined; R1 owns the
+%     image and defines it. Six uses across the chapter, four in R1.
+%   - back-reference pattern "promised in \Cref{...}" per Ch3 line 733,
+%     not "discharges the promise".
+%   - "is available" for the factor 2, never "survives".
+%
+% NUMBERS, all from enumeration, none copied:
+%   c^{T1}=(4,5,7,4,5), 16-13=3, witnesses {e1,e2,e4} AND {e1,e4,e5}
+%   c^{T2}=(4,5,1,6,5), 15-10=5, witnesses {e1,e2,e3} AND {e1,e3,e5}
+%   c^{T3}=(2,5,7,4,7), 19-11=8, witness unique (not stated)
+%   ranking 3,4,5,7,8,9,9,10; unique optimum T1 at 3
+%   at u: T1,T2 read 1,0 against 3,5; u understates ALL EIGHT trees
+%
+% TRAPS, all live, all guarded in the delivered text:
+%   1. Witnessing MST not unique at c^{T1} or c^{T2}; text says so and
+%      the lemma does not need it.
+%   2. c^T is not the only maximising scenario (T1: 8 of 32 box
+%      vertices attain 3). Lemma states attainment, never uniqueness;
+%      the figure caption says "the scenarios of Lemma 4.1", never
+%      "the worst-case scenario".
+%   3. THE WEIGHT-VECTOR TRAP: w = (2/3,5/3,2/3,8/3,17/3) reproduces
+%      wcr(T) for all eight trees and argmin w(T) = T1. The micro-graph
+%      must NEVER be used to argue non-linearity. Paragraph (e) argues
+%      only that c^T moves with T, closing the ROUTE of
+%      cor:mm-interval-polynomial; the general question goes to S4.2.2.
+%   4. GUARDED NEAR-MISS, not written: "no single scenario ranks all
+%      eight trees" is UNVERIFIED on this instance and adjacent to
+%      trap 3. Do not add it, in Ch5 either.
+%
+% FIGURE RULES established here: edge value labels sit beside edges
+%   (above / right / below / left), never on a line; the diagonal's
+%   label sits on the PERPENDICULAR side (above left); values are
+%   role-coloured, RWTHOrange on tree edges at upper bounds, black!60
+%   on dotted edges at lower bounds; sub-caption lines carry c^T and
+%   the wcr computation. Rendered and inspected before delivery.
+%
+% MECHANISM OWNERSHIP: paragraph (e) states the contrast in FULL (one
+%   scenario served every tree; each tree brings its own). The Summary
+%   compresses it to a clause, Ch5 keeps only the consequence.
+% PROMISE: S3.2's close is answered, first half here in (e), second
+%   half named and handed to S4.2.2 with the register "substantially
+%   harder" matched.
+% PROOF BUDGET intact: TWO SUBSTANTIAL proofs, this lemma and R4's
+%   theorem-by-reuse. Cor 4.1 carries a 58-word proof environment,
+%   mirroring cor:mm-interval-polynomial, whose own proof is 81 words.
+%   The short corollary proof is budgeted at the top of this file and
+%   is NOT a third substantial proof.
+% NEW LABELS: cor:regret-interval-evaluation, tab:regret-micrograph,
+%   fig:regret-extremal-scenarios. NEW MACROS: none; c^T is a plain
+%   superscript with an Appendix A row shipped in the same delivery.
+%
+% CROSS-UNIT WATCH ITEMS for R3 to R5:
+%   - Ch3's interval result is already referenced four times across
+%     R1 and R2. R3 may add at most one more.
+%   - The chapter roadmap says the discrete hierarchy "returns" and
+%     lists three items; S3.3 has four, and the fourth inverts for
+%     regret (S3.3 has a positive approximation for unbounded K,
+%     regret has an inapproximability). R4 must not imply otherwise.
+%─────────────────────────────────────────────────────────
 
 \section{Interval Regret}\label{sec:regret-interval}
-% Counterpart of S3.2. Same rhythm: extremal characterisation, algorithmic
-% consequence, worked example, mechanism note.
+
+\Cref{sec:regret-extremal} answers the first of the two questions and \Cref{sec:regret-approx-interval} the second.
+The answers point in opposite directions: the maximum regret of a fixed tree is as easy to write down as the worst-case cost was in \Cref{sec:mm-extremal}, and far harder to minimise.
 
 \subsection{Extremal Characterisation}\label{sec:regret-extremal}
-% UNIT R2  ~1100 words + tab:regret-micrograph + fig:regret-extremal-scenarios.
-% PROVED RESULT 1 of 2, plus the three-line corollary.
+
+The scenario that answers the first question can be written down before anything is proved.
+The difficulty identified in \Cref{sec:regret-definition} is that raising the cost of $T$ gains the adversary nothing if the floor rises with it.
+On an interval set it resolves edge by edge.
+An edge of $T$ should cost the most its interval allows: $T$ pays for it, and the scenario-optimal tree need not.
+An edge outside $T$ should cost the least its interval allows: $T$ never pays for it, and the scenario-optimal tree may.
+The two rules touch disjoint sets of edges, so they can be followed together, and following both yields one scenario per tree.
+What the rules do not settle is that nothing better exists, precisely because the first can lift the floor as it raises the cost of $T$; settling that is the proof's work.
 
 \begin{lemma}[Interval Extremal Regret]\label{lem:interval-extremal-regret}
+Let $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$ be an interval uncertainty set.
+For every spanning tree $T \in \cT$, the maximum regret satisfies
+\[
+\wcr{T} \;=\; \max_{c \in \Scenarios}\; \Regret{T}{c} \;=\; \Regret{T}{c^{T}} \;=\; \sum_{e \in E(T)} u_e \;-\; \MSTcost{c^{T}},
+\]
+where the maximum is attained at the cost vector $c^{T} \in \Scenarios$ defined by $c^{T}_e = u_e$ for $e \in E(T)$ and $c^{T}_e = \ell_e$ for $e \in E \setminus E(T)$.
 \end{lemma}
 
-% cor:regret-interval-evaluation, analogue of cor:mm-interval-polynomial:
-% evaluating the maximum regret of a FIXED tree is one MST computation.
-% Three-line proof. Sets up the contrast with S4.2.2: evaluation easy,
-% optimisation strongly NP-hard.
+\begin{proof}
+We show that no scenario in $\Scenarios$ gives $T$ a larger regret than $c^{T}$ does, comparing $T$ inside each scenario with a minimum spanning tree of that scenario.
 
-% \paragraph{Worked Example.}  tab:regret-micrograph, columns as in
-% tab:budgeted-micrograph. Verified: T1 -> 3, T2 -> 5, T3 -> 8; full ranking
-% 3,4,5,7,8,9,9,10; optimum 3 uniquely at T1. The witnessing MST is NOT
-% unique (ties at c^T1 and c^T2); claim no uniqueness there.
-% fig:regret-extremal-scenarios: two panels, worst-case scenario for T1 and
-% for T2 side by side. Reuse fig:micro-graph styles.
+Let $c \in \Scenarios$ and let $S \in \cT$ be a minimum spanning tree under $c$, so that $\MSTcost{c} = c(S)$ and $\Regret{T}{c} = c(T) - c(S)$.
+Then
+\begin{align*}
+\Regret{T}{c} \;=\; c(T) - c(S)
+&\;=\; \sum_{e \in E(T) \setminus E(S)} c_e \;-\; \sum_{e \in E(S) \setminus E(T)} c_e\\
+&\;\leq\; \sum_{e \in E(T) \setminus E(S)} u_e \;-\; \sum_{e \in E(S) \setminus E(T)} \ell_e\\
+&\;=\; \sum_{e \in E(T) \setminus E(S)} c^{T}_e \;-\; \sum_{e \in E(S) \setminus E(T)} c^{T}_e\\
+&\;=\; c^{T}(T) - c^{T}(S)\\
+&\;\leq\; c^{T}(T) - \MSTcost{c^{T}} \;=\; \Regret{T}{c^{T}}.
+\end{align*}
+The first equality holds because every edge of $E(T) \cap E(S)$ contributes the same amount to $c(T)$ and to $c(S)$.
+The inequality replaces each cost of the first sum by its upper bound and each cost of the second, subtracted, sum by its lower bound; both moves are available because $c \in \Scenarios$ confines every $c_e$ to $[\ell_e, u_e]$.
+The second equality is the definition of $c^{T}$: the first index set lies inside $E(T)$, where $c^{T}$ takes upper bounds, and the second inside $E \setminus E(T)$, where it takes lower bounds.
+The third equality returns the shared edges, again at identical cost to both trees.
+The final inequality holds because $S$ is a spanning tree, so its cost under $c^{T}$ is at least $\MSTcost{c^{T}}$, and the resulting expression is $\Regret{T}{c^{T}}$ by definition of the regret.
 
-% \paragraph{The Role of the Lower Bounds.}  Deliberate echo of the paragraph
-% of the same name closing S3.2, which promises this one and reaches the
-% opposite conclusion. Land it concretely: under u alone the regrets read
-% 1 and 0 against true maxima 3 and 5.
+The chain holds for every $c \in \Scenarios$, and $c^{T}$ itself lies in $\Scenarios$, since each of its entries is an endpoint of the corresponding interval, so the bound is attained.
+The maximum regret of $T$ is therefore $\Regret{T}{c^{T}}$, and it equals $\sum_{e \in E(T)} u_e - \MSTcost{c^{T}}$ because $c^{T}$ sets every edge of $T$ to its upper bound.
+\end{proof}
+
+\Cref{lem:interval-extremal-regret} answers the first of \Cref{sec:regret-definition}'s two questions: as a function of the tree, the maximum regret is a sum of upper bounds less a minimum spanning tree cost, both taken at a scenario read off the tree itself.
+The characterisation is the spanning tree instance of \cite[Theorem~4.12]{Goerigk2021RCO}, which establishes it for interval min-max regret problems in general, following \textcite{AissiBazganVanderpooten2009Survey}.
+The evaluative consequence is immediate.
+
+\begin{corollary}[Polynomial Evaluation under Interval Uncertainty]\label{cor:regret-interval-evaluation}
+Under interval uncertainty, the maximum regret $\wcr{T}$ of a given spanning tree $T \in \cT$ is computed by a single minimum spanning tree computation under $c^{T}$, in $O(m \log n)$ time.
+In particular the inner maximisation of~\eqref{eq:regret-objective} is polynomial, and the decision version of \Cref{sec:regret-definition} lies in $\mathsf{NP}$.
+\end{corollary}
+
+\begin{proof}
+By \Cref{lem:interval-extremal-regret}, $\wcr{T} = \sum_{e \in E(T)} u_e - \MSTcost{c^{T}}$.
+Assembling $c^{T}$ costs $O(m)$ and the sum $O(n)$, while $\MSTcost{c^{T}}$ is one run of Kruskal's algorithm, which computes a minimum spanning tree under any fixed cost vector in $O(m \log n)$ time (\Cref{sec:kruskal-prim}); this term dominates.
+Membership in $\mathsf{NP}$ then follows as in \Cref{sec:regret-definition}, with $T$ itself as the certificate.
+\end{proof}
+
+What \Cref{cor:regret-interval-evaluation} does not deliver is the second answer.
+\Cref{cor:mm-interval-polynomial} solved its problem outright; here every tree can be evaluated, but none is singled out.
+
+\paragraph{Worked Example.}
+
+We apply \Cref{lem:interval-extremal-regret} to the micro-graph of \Cref{fig:micro-graph}, taking the trees one at a time, as the lemma prescribes a scenario for each.
+
+For $T_1 = \{e_1, e_2, e_3\}$ the scenario sets $e_1$, $e_2$ and $e_3$ to their upper bounds and $e_4$, $e_5$ to their lower bounds, so $c^{T_1} = (4, 5, 7, 4, 5)$.
+Under it $T_1$ costs $16$ and a minimum spanning tree costs $13$, attained both by $\{e_1, e_2, e_4\}$ and by $\{e_1, e_4, e_5\}$, so $\wcr{T_1} = 16 - 13 = 3$.
+The tie does no harm: the lemma fixes the scenario, not the tree the scenario is measured against.
+
+For $T_2 = \{e_1, e_2, e_4\}$ the roles of $e_3$ and $e_4$ swap, giving $c^{T_2} = (4, 5, 1, 6, 5)$, and the same computation yields $\wcr{T_2} = 15 - 10 = 5$, the minimum again attained twice.
+\Cref{fig:regret-extremal-scenarios} sets the two scenarios side by side: $e_3$ swings furthest, from $7$, charged to $T_1$, which uses it, to $1$, offered to any tree that can undercut $T_2$; both trees attaining the minimum of $10$ take it.
+
+\Cref{tab:regret-micrograph} adds $T_3$ and collects the three computations.
+Read together, the three scenarios obey one rule: any two of them differ exactly on the edges that lie in one of the two trees but not the other, and agree elsewhere, at an upper bound on a shared edge and at a lower bound on one both trees avoid.
+
+Enumerating all eight spanning trees gives maximum regrets $3$, $4$, $5$, $7$, $8$, $9$, $9$ and $10$; the optimum is $3$, attained by $T_1$ alone.
+How that optimum was found bears noting.
+In \Cref{sec:mm-extremal} one minimum spanning tree computation under $u$ produced the min-max optimum and certified it in the same stroke.
+Here \Cref{cor:regret-interval-evaluation} evaluates any tree presented to it, but nothing points to the tree worth evaluating, and the optimum above was found by evaluating all eight.
+On eight trees that is an option; on a graph with exponentially many spanning trees it is not, and \Cref{sec:regret-approx-interval} shows that no efficient substitute is to be expected.
+
+\begin{table}[htbp]
+\centering
+\caption{\Cref{lem:interval-extremal-regret} on the three representative spanning trees of \Cref{fig:micro-graph}. Each row solves one deterministic minimum spanning tree problem under its own scenario $c^{T}$; the smallest maximum regret is set in bold.}
+\label{tab:regret-micrograph}
+\begin{tabular}{c c c c c}
+\toprule
+$T$ & $c^{T}$ & $c^{T}(T)$ & $\MSTcost{c^{T}}$ & $\wcr{T}$ \\
+\midrule
+$T_1$ & $(4, 5, 7, 4, 5)$ & $16$ & $13$ & $\mathbf{3}$ \\
+$T_2$ & $(4, 5, 1, 6, 5)$ & $15$ & $10$ & $5$ \\
+$T_3$ & $(2, 5, 7, 4, 7)$ & $19$ & $11$ & $8$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    scale=1.35,
+    minivertex/.style={circle, draw=RWTHBlue, thick, fill=RWTHBlue!20, minimum size=6mm, font=\scriptsize\bfseries, inner sep=0pt},
+    treeedge/.style={ultra thick, color=RWTHOrange},
+    nonedge/.style={thin, color=black!35, dotted},
+    uplabel/.style={font=\scriptsize, text=RWTHOrange},
+    lowlabel/.style={font=\scriptsize, text=black!60},
+    every node/.style={font=\scriptsize}
+]
+    % panel 1: the scenario for T1 = {e1,e2,e3}
+    \begin{scope}[shift={(0,0)}]
+        \node[minivertex] (a1) at (0, 1.2) {$1$};
+        \node[minivertex] (a2) at (1.2, 1.2) {$2$};
+        \node[minivertex] (a3) at (0, 0) {$3$};
+        \node[minivertex] (a4) at (1.2, 0) {$4$};
+        \draw[treeedge] (a1) -- (a2) node[midway, above, uplabel] {$4$};
+        \draw[treeedge] (a2) -- (a3) node[midway, above left, inner sep=2pt, uplabel] {$5$};
+        \draw[treeedge] (a2) -- (a4) node[midway, right, uplabel] {$7$};
+        \draw[nonedge] (a3) -- (a4) node[midway, below, lowlabel] {$4$};
+        \draw[nonedge] (a1) -- (a3) node[midway, left, lowlabel] {$5$};
+        \node[anchor=north, align=center, font=\scriptsize] at (0.6, -0.55)
+            {$c^{T_1} = (4,5,7,4,5)$ \\ $\wcr{T_1} = 16 - 13 = 3$};
+    \end{scope}
+    % panel 2: the scenario for T2 = {e1,e2,e4}
+    \begin{scope}[shift={(4.0,0)}]
+        \node[minivertex] (b1) at (0, 1.2) {$1$};
+        \node[minivertex] (b2) at (1.2, 1.2) {$2$};
+        \node[minivertex] (b3) at (0, 0) {$3$};
+        \node[minivertex] (b4) at (1.2, 0) {$4$};
+        \draw[treeedge] (b1) -- (b2) node[midway, above, uplabel] {$4$};
+        \draw[treeedge] (b2) -- (b3) node[midway, above left, inner sep=2pt, uplabel] {$5$};
+        \draw[nonedge] (b2) -- (b4) node[midway, right, lowlabel] {$1$};
+        \draw[treeedge] (b3) -- (b4) node[midway, below, uplabel] {$6$};
+        \draw[nonedge] (b1) -- (b3) node[midway, left, lowlabel] {$5$};
+        \node[anchor=north, align=center, font=\scriptsize] at (0.6, -0.55)
+            {$c^{T_2} = (4,5,1,6,5)$ \\ $\wcr{T_2} = 15 - 10 = 5$};
+    \end{scope}
+\end{tikzpicture}
+\caption{The scenarios of \Cref{lem:interval-extremal-regret} for $T_1$ (left) and $T_2$ (right). Thick orange edges belong to the tree and carry their upper bounds; thin dotted edges lie outside it and carry their lower bounds. Between the panels only $e_3$ and $e_4$ change roles, and $e_3$ swings from $7$ to $1$.}
+\label{fig:regret-extremal-scenarios}
+\end{figure}
+
+\paragraph{The Role of the Lower Bounds.}
+
+\Cref{lem:interval-extremal-cost} never consulted the lower bounds; \Cref{lem:interval-extremal-regret} consults both endpoints of every interval.
+Two points are worth drawing out.
+
+First, the lower bounds enter through the second of the two rules alone, on the edges outside $T$, and that placement carries the chapter's central contrast.
+Because the two rules split $E$ into $E(T)$ and $E \setminus E(T)$, the scenario $c^{T}$ moves as $T$ moves: under the min-max objective the single scenario $u$ served every tree, while under the regret objective each tree brings its own worst case.
+
+Second, the tree-dependence is what closes the route of \Cref{cor:mm-interval-polynomial}, which minimised over all trees at one fixed cost vector.
+The failure is not marginal.
+Evaluated at $u$, the regrets of $T_1$ and $T_2$ read $1$ and $0$ against the true maxima $3$ and $5$ of \Cref{tab:regret-micrograph}; indeed $u$ understates the maximum regret of every spanning tree of the micro-graph.
+This is the first half of what the close of \Cref{sec:mm-extremal} promised: the regret comparison does depend on the lower bounds.
+The second half, that the interval problem becomes substantially harder, is the subject of \Cref{sec:regret-approx-interval}.
 
 \subsection{Hardness and Approximation}\label{sec:regret-approx-interval}
 % UNIT R3  ~500 words.  NO PROOFS.

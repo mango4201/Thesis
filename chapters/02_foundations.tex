@@ -42,7 +42,7 @@ For a non-empty proper subset $X \subseteq V$ (that is, $\emptyset \neq X \subse
 \cut{X} = \bigl\{ \{u, v\} \in E : u \in X,\, v \in V \setminus X \bigr\}.
 \]
 Intuitively, $\cut{X}$ comprises all edges with exactly one endpoint in $X$.
-See \Cref{fig:cut-illustration} for a visual representation.
+\Cref{fig:cut-illustration} shows the case $X = \{1, 2\}$: the three red edges each have exactly one endpoint in $X$ and therefore belong to $\cut{X}$. The edge $\{1, 2\}$ lies wholly inside $X$ and the edge $\{3, 4\}$ wholly outside, so neither of those two crosses the partition.
 
 \begin{figure}[htbp]
 \centering
@@ -85,7 +85,7 @@ See \Cref{fig:cut-illustration} for a visual representation.
 \end{figure}
 
 Each edge $e \in E$ has an associated \emph{cost} $c_e \in \R$.
-We represent the cost structure either as a \emph{\textcolor{RWTHBlue}{cost function}} $c \colon E \to \R$ or equivalently as a \emph{cost vector} $c \in \R^{|E|}$ indexed by the edges.
+We represent the cost structure either as a \emph{\textcolor{RWTHBlue}{cost function}} $c \colon E \to \R$ or equivalently as a \emph{\textcolor{RWTHBlue}{cost vector}} $c \in \R^{|E|}$ indexed by the edges.
 Costs may be positive, negative, or zero in the deterministic setting; the robust models in \Cref{sec:uncertainty} will additionally impose non-negative costs.
 For any subset $F \subseteq E$, we write $c(F) = \sum_{e \in F} c_e$ for the total cost of the edge set $F$.
 
@@ -134,7 +134,7 @@ These fundamental structures underpin the MST optimality criteria developed in \
 
 \paragraph{Running Example: The Micro-graph.}
 
-To anchor the concepts of this thesis, we fix a four-vertex graph that recurs throughout as a running example.
+To anchor the concepts of this thesis, we fix a four-vertex graph that recurs throughout as a running example; it is the graph already drawn in \Cref{fig:cut-illustration}.
 Let $G = (V, E)$ with vertex set $V = \{1, 2, 3, 4\}$ and five edges:
 \begin{align*}
 e_1 &= \{1, 2\}, \quad e_2 = \{2, 3\}, \quad e_3 = \{2, 4\}, \\
@@ -446,7 +446,7 @@ The correctness of classical greedy algorithms such as Kruskal's and Prim's foll
 \section{Kruskal and Prim: Algorithmic Remarks}\label{sec:kruskal-prim}
 
 The optimality criteria developed in \Cref{sec:mst-criteria} directly yield the correctness of the two most classical MST algorithms: Kruskal's algorithm (1956) and Prim's algorithm (1957).
-Both are \emph{greedy} methods that build a spanning tree incrementally, maintaining optimality conditions throughout \cite[§2.3]{BuesingOptiB2023}.
+Both are \emph{greedy} methods that build a spanning tree incrementally, maintaining optimality conditions throughout \cite[Section~2.3]{BuesingOptiB2023}.
 A comprehensive account of minimum spanning tree algorithms is given by \textcite[Chapter~13]{AhujaMagnantiOrlin1993}.
 We describe each algorithm briefly, emphasising its connection to the criteria rather than implementation details.
 
@@ -508,7 +508,7 @@ The robust spanning tree problems studied in \Cref{ch:minmax,ch:regret} address 
 
 In many practical applications, edge costs are not known precisely at decision time.
 Construction expenses may fluctuate, travel times depend on traffic conditions, and communication link costs vary with demand.
-Robust optimisation addresses this challenge by seeking solutions that perform well across all possible cost realisations, rather than optimising for a single nominal scenario \cite{KouvelisYu1997}.
+Robust optimisation addresses this challenge by seeking solutions that perform well across all possible cost realisations, rather than optimising for a single realisation fixed in advance \cite{KouvelisYu1997}.
 This section formalises three uncertainty models and the corresponding robust objectives that we analyse in \Cref{ch:minmax,ch:regret}.
 All three require non-negative edge costs, reflecting the distances, construction expenses, and transmission delays that such costs typically represent, as is standard in the robust spanning tree literature \cite{Goerigk2021RCO,KouvelisYu1997}.
 
@@ -609,7 +609,7 @@ The bottom row shows the MST cost for each scenario; note that the MST varies: $
 
 \begin{table}[htbp]
 \centering
-\caption{Costs and regrets for representative spanning trees under three discrete scenarios.}
+\caption{Costs and regrets of three of the eight spanning trees of the micro-graph, under the three discrete scenarios $\cs{1}$, $\cs{2}$ and $\cs{3}$ of \Cref{fig:micro-graph}: the all-lower-bound, all-upper-bound and midpoint cost vectors. The final row gives the minimum spanning tree cost in each scenario, against which the regrets in the right-hand block are measured.}
 \label{tab:micro-graph-costs}
 \begin{tabular}{l ccc c ccc c}
 \toprule
