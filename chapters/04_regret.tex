@@ -68,12 +68,14 @@
 % error and the inflated 546 pushed in opposite directions, which is
 % why the original 8-to-9 projection survived roughly intact.
 %
-% PROJECTION, R1 and R2 delivered and MEASURED after the checker pass
-% and the prose-lens pass of 2026-08-27:
-%     R1 1.68 + R2 2.95 measured, + R3 1.1 + R4 2.1 + R5 1.2 projected
-%     =  9.03 pages, and S4.2.2 opens 81 percent down printed p.41.
-% This sits ON the 9-page ceiling, so R3 and R5 have no slack: if
-% something must give it is R3's prose, never a float.
+% PROJECTION. R1, R2 and R3 delivered and MEASURED after the checker
+% pass and the final coherence pass of 2026-08-27:
+%     R1 1.68 + R2 2.95 + R3 2.05 measured = 6.68 pg for Ch4 so far,
+%     + R4 2.1 + R5 1.2 projected  =  9.98 pages.
+% [2026-08-27] The 9-page ceiling is EXCEEDED by author direction: R3
+% was redrafted from ~0.8 pg to a complete-without-proofs treatment
+% (see its provenance header). Body projects ~51, inside the 40-60
+% rule. The remaining lever is R5 near 200 words.
 % Word counts must EXCLUDE tikzpicture and tabular bodies to be
 % comparable with the R1..R5 targets; including them reads ~15 percent
 % high and will look like an overrun that is not there.
@@ -360,6 +362,16 @@
 %          The old plan had all three stating it in full.
 %
 %  R3  S4.2.2 Hardness and Approximation      ~500 words, NO PROOFS
+%      [2026-08-27 SUPERSEDED BY AUTHOR DIRECTION. R3 was redrafted as
+%      a complete-without-proofs treatment (~970 words, 1.93 pg): every
+%      concept explained with prose, notation and the micro-graph, every
+%      load-bearing step cited at the exact point of use, NO proof
+%      environments. The central tree is now named and defined (author
+%      decision, terminology rule satisfied at 3 uses). The closing
+%      discrete/interval contrast was REMOVED on author instruction, so
+%      R3 no longer creates the 2-eps dependency on R4; Goerigk 8.9
+%      stays in R4's plan on its own merits. Details and verified facts
+%      in the R3 provenance header below.]
 %      thm:regret-interval-hard STATED (Goerigk 8.16, [AV04; AL04]),
 %      STRONGLY NP-hard, adverb included.
 %      thm:regret-2approx STATED (Goerigk 5.26, [KZ06]).
@@ -590,8 +602,12 @@ Under interval uncertainty even the first requires proof.
 %   superscript with an Appendix A row shipped in the same delivery.
 %
 % CROSS-UNIT WATCH ITEMS for R3 to R5:
-%   - Ch3's interval result is already referenced four times across
-%     R1 and R2. R3 may add at most one more.
+%   - Ch3's interval result is referenced EIGHT times across R1, R2 and
+%     R3 (lem:interval-extremal-cost 2, cor:mm-interval-polynomial 3,
+%     sec:mm-extremal 3), counted on the built text 2026-08-27. Earlier
+%     tallies of four and of six were both low. Every one does distinct
+%     work and none was cut, but R4 and R5 should add none: budget
+%     against eight, not against four.
 %   - The chapter roadmap says the discrete hierarchy "returns" and
 %     lists three items; S3.3 has four, and the fourth inverts for
 %     regret (S3.3 has a positive approximation for unbounded K,
@@ -661,7 +677,7 @@ Membership in $\mathsf{NP}$ then follows as in \Cref{sec:regret-definition}, wit
 \end{proof}
 
 What \Cref{cor:regret-interval-evaluation} does not deliver is the second answer.
-\Cref{cor:mm-interval-polynomial} solved its problem outright; here every tree can be evaluated, but none is singled out.
+\Cref{cor:mm-interval-polynomial} settled both questions at once; here every tree can be evaluated, but none is singled out.
 
 \paragraph{Worked Example.}
 
@@ -756,14 +772,193 @@ Evaluated at $u$, the regrets of $T_1$ and $T_2$ read $1$ and $0$ against the tr
 This is the first half of what the close of \Cref{sec:mm-extremal} promised: the regret comparison does depend on the lower bounds.
 The second half, that the interval problem becomes substantially harder, is the subject of \Cref{sec:regret-approx-interval}.
 
-\subsection{Hardness and Approximation}\label{sec:regret-approx-interval}
-% UNIT R3  ~500 words.  NO PROOFS.
+%─────────────────────────────────────────────────────────
+% SECTION 4.2.2: HARDNESS AND APPROXIMATION
+%
+% Provenance: Unit R3 v3, Writer A, 2026-08-27, a FULL REDRAFT on the
+%   author's six observations; v1/v2 discarded on author instruction.
+%   Clean build: 0 errors, 0 undefined, 0 multiply-defined, overfull at
+%   the Ch2 baseline of 3. MEASURED after the final coherence pass:
+%   R3 2.05 printed pages; Ch4 so far 6.68 pg over 3286 prose words;
+%   chapter projects 9.98 with R4 and R5. The plan's 500 words / 1.1 pg
+%   is SUPERSEDED by explicit author authorisation of a
+%   complete-without-proofs treatment. Body ~51 (rule: 40-60).
+%
+% DESIGN CONTRACT (author observation 3): everything explained, nothing
+%   proved. No proof environments; the two-substantial-proofs budget is
+%   intact. Every load-bearing step carries its locator AT THE POINT OF
+%   USE: Thm 8.16 (hardness), Thm 8.15 (central tree hardness), S8.2.2
+%   (history), Thm 5.26 (factor two), Lemmas 5.24 and 5.25 (its two
+%   ingredients). An informed reader can walk straight to each source.
+%
+% CENTRAL TREE (author observation 1, adopted): defined in two lines,
+%   colour-emphasised, used three times. The rank machinery around
+%   Goerigk Thm 8.13 is deliberately NOT imported: one new notion
+%   closes the question, a second would open one. PRIMARIES ADDED:
+%   BezrukovKaderaliPoguntke1996 (DOI 10.1007/3-540-61576-8_73) and
+%   Deo1966 (DOI 10.1109/TCT.1966.1082617), both Crossref-verified.
+%   TRAP CAUGHT: the first Deo DOI written was recalled from memory and
+%   WRONG (...1082648 for ...1082617); Crossref caught it before
+%   delivery. Never write a DOI that was not read off a record.
+%
+% THEOREM 4.1 carries the [0,1] rider in its statement. Licence: the
+%   AV04 abstract states the problem remains NP-complete for all-[0,1]
+%   intervals (verified in the master context), and Goerigk's proof is
+%   exactly that special case.
+%
+% VERIFIED BY ENUMERATION THIS SESSION, none copied:
+%   - unit-interval identity wcr(T) = max_S |E(T)\E(S)|, all 8 trees;
+%   - every micro-graph tree is central, maximum distance 2 throughout;
+%     reason as printed: 2x3 > 5 edges, so trees cannot be disjoint;
+%   - Lemma 5.24 and Lemma 5.25 in tree form on ALL 64 ordered pairs;
+%   - the interchange step u(A)-l(B) <= u(B)-l(A) is equivalent to
+%     midpoint optimality (l+u)(A) <= (l+u)(B), checked symbolically;
+%   - c^av = (3,4,4,5,6), MST unique at T1, cost 11, wcr(T1)=3 = OPT.
+%
+% MIDPOINT INTUITION, v5 as delivered (author direction: the average
+%   reader outranks the proof preview; v3's chain walk and v4's
+%   half-widths "stake" story are both SUPERSEDED). v5 explains WHY
+%   MIDPOINTS and stops there, rather than deriving the factor two.
+%   It runs on an EXACT DECOMPOSITION, verified on all 64 ordered
+%   pairs with 0 failures:
+%       c^T(T) - c^T(S) = [c^av(T) - c^av(S)] + sum of half-widths
+%                          over the symmetric difference
+%                       = "the midpoint gap"  +  "the room".
+%   A midpoint MST is the UNIQUE tree on the micro-graph whose gap is
+%   never positive, which licenses "never starts behind"; the gap is
+%   settled before the adversary moves, the room is not.
+%   IMAGE: "the room", 7 uses, defined at first use, in the manner of
+%   "the floor". "the stake" of v4 is RETIRED; do not reintroduce it.
+%   The factor two is NOT derived. It is attributed to Thm 5.26 with
+%   Lemmas 5.24 and 5.25 named as the two estimates behind it. Do not
+%   "complete" this: every attempt in this thread to derive the factor
+%   in prose either breached the chapter's standard for uncited
+%   material or bent a step and produced a false factor of one.
+%
+% AUTHOR-FLAGGED DEFECTS FIXED IN THE FINAL COHERENCE PASS, 2026-08-27:
+%   1. "Against its worst rival T2" claimed a uniqueness the instance
+%      does not have: T2 AND {e1,e4,e5} both attain T1's maximum, which
+%      S4.2.1 already tells the reader. Now "one of the two rivals at
+%      which its maximum is attained".
+%   2. "Room varies little ... so it is the gap that separates the good
+%      trees from the bad ones" was FALSE ON THIS INSTANCE. Measured at
+%      each tree's worst rival: room 4 gives wcr 3,4,5 and room 6 gives
+%      wcr 7,8,9,9,10, so ROOM separates cleanly, while GAP does not
+%      (e1e2e4 and e1e3e5 share gap 1 at wcr 5 and 7). Replaced by the
+%      true and verified statement: T1 is the ONLY tree whose gap is
+%      never positive, and its maximum regret is the room less the
+%      margin it holds at the midpoints (4 - 1 = 3).
+%   3. The all-upper-bounds vector was said to be disqualified because
+%      its regrets "read far too low". Understating does not disqualify
+%      a scenario for SELECTION. What disqualifies u is that it
+%      MISRANKS: it reads 1 for T1 against 0 for T2 and so returns T2,
+%      whose maximum regret is 5 against T1's 3. Now stated that way.
+%
+% AUTHOR OBSERVATION 5, APPLIED: the discrete/interval closing contrast
+%   is gone. R3 therefore creates NO dependency on R4's 2-eps
+%   statement. STILL STANDING for R4: retitle thm:regret-kunbdd-hard
+%   (bare "Strong NP-Hardness" nearly collides with Thm 4.1's title).
+%
+% BUDGETS: the single permitted further reference to Ch3's interval
+%   result is spent in the closing symmetry paragraph
+%   (cor:mm-interval-polynomial). None remains for R4 or R5.
+%   "survives" avoided (chapter rule).
+%   CORRECTED 2026-08-27: an earlier version of this header called
+%   c^av's agreement with c^(3) an "instantiation artefact" and said the
+%   text does not raise it. BOTH HALVES WERE WRONG. Ch2 DEFINES c^(3)
+%   as the interval midpoints, so the identity holds by construction,
+%   and the worked example now points at it via tab:micro-graph-costs.
+%   S3.4's bar_c is the same vector for the same reason and S3.4 already
+%   flags its own coincidence. The half-widths (1,1,3,1,1) are likewise
+%   Ch3's hat_c. That reparameterisation is deliberately NOT drawn into
+%   "Why the Midpoints", since R1 declares budgeted regret out of scope.
+%
+% CONTAINER LIMITATION: \cite renders as [?] here, so citation
+%   resolution CANNOT be checked in this build. R3 introduces three
+%   keys: AronVanHentenryck2004, BezrukovKaderaliPoguntke1996, Deo1966.
+%   THE ONLY OPEN ACCEPTANCE ITEM FOR Ch4: Checker A found all three
+%   ABSENT from references.bib at repository HEAD. They ship with this
+%   delivery. Apply the references.bib from this drop and confirm 0
+%   undefined citations on a real biber build before locking Ch4.
+%─────────────────────────────────────────────────────────
 
-\begin{theorem}[Interval NP-Hardness]\label{thm:regret-interval-hard}
+\subsection{Hardness and Approximation}\label{sec:regret-approx-interval}
+
+The second question of \Cref{sec:regret-definition} divides in two, and the halves pull against each other.
+Minimising the maximum regret over all spanning trees is strongly $\mathsf{NP}$-hard, and yet a single minimum spanning tree computation at the right scenario comes within a factor of two of the optimum.
+Neither result is proved here; both are explained in enough detail that the mechanism, and not only the statement, is available.
+
+\paragraph{The Source of the Hardness.}
+
+A natural first hope is that the difficulty is numerical, and that instances with small or structured costs behave better.
+The opposite is true: the problem stays hard when all the intervals are identical.
+
+\begin{theorem}[Strong NP-Hardness under Interval Uncertainty]\label{thm:regret-interval-hard}
+Under interval uncertainty, the min-max regret spanning tree problem is strongly $\mathsf{NP}$-hard, and it remains so when every cost interval equals $[0,1]$.
 \end{theorem}
+
+The result is due to \textcite{AronVanHentenryck2004} and \textcite{AverbakhLebedev2004}, in work published simultaneously \cite[Theorem~8.16]{Goerigk2021RCO}.
+Its content becomes visible on the unit intervals.
+There the scenario of \Cref{lem:interval-extremal-regret} charges each edge of $T$ one and every other edge nothing, so any spanning tree $S$ costs exactly the number of edges it shares with $T$, and
+\[
+\wcr{T} \;=\; (n - 1) \;-\; \min_{S \in \cT}\, \abs{E(T) \cap E(S)} \;=\; \max_{S \in \cT}\, \abs{E(T) \setminus E(S)},
+\]
+the largest number of its own edges that some spanning tree avoids.
+A spanning tree for which this maximum is as small as possible is called a \emph{\textcolor{RWTHBlue}{central tree}} of the graph, a notion going back to \textcite{Deo1966}.
+Finding one is itself strongly $\mathsf{NP}$-hard \cite{BezrukovKaderaliPoguntke1996}; see \cite[Theorem~8.15]{Goerigk2021RCO}.
+The unit-interval case of the regret problem is therefore not merely reducible to the central tree problem; it is that problem.
+Both hardness proofs run through this object, one of them without naming it \cite[Section~8.2.2]{Goerigk2021RCO}.
+
+The passage to $[0,1]$ leaves no numerical magnitude to exploit, which is what makes the hardness strong in the sense of \Cref{sec:complexity}: no pseudo-polynomial algorithm exists unless $\mathsf{P} = \mathsf{NP}$.
+On the micro-graph the difficulty cannot be felt at all: five edges cannot hold two disjoint spanning trees, so every tree shares an edge with every other, and no maximum in the display above can exceed $2$.
+All eight in fact equal $2$, so every tree is central and nothing separates one candidate from another.
+The hardness has not closed the problem to exact computation: branch-and-bound algorithms have been developed for it \cite{MontemanniGambardella2005}.
+
+\paragraph{The Midpoint Guarantee.}
+
+With no efficient exact algorithm to be expected, the natural fallback is to trust one representative scenario and take a minimum spanning tree there.
+\Cref{sec:regret-extremal} has already disqualified the obvious candidate: at the all-upper-bounds vector the micro-graph's maximum regrets read $1$ for $T_1$ against $0$ for $T_2$, so that scenario would return $T_2$, whose maximum regret is the larger of the two.
+The midpoints are the even-handed choice, and for them the fallback carries a guarantee.
 
 \begin{theorem}[2-Approximation via Midpoint]\label{thm:regret-2approx}
+Let $\Scenarios = \prod_{e \in E} [\ell_e, u_e]$ be an interval uncertainty set and let $c^{\mathrm{av}}$ denote the midpoint cost vector, with $c^{\mathrm{av}}_e = \tfrac{1}{2}(\ell_e + u_e)$ for every edge $e \in E$.
+Every minimum spanning tree under $c^{\mathrm{av}}$ has maximum regret at most twice that of an optimal tree.
 \end{theorem}
+
+The result is due to \textcite{KasperskiZielinski2006}, and \cite[Theorem~5.26]{Goerigk2021RCO} states it for interval uncertainty over an arbitrary family of feasible solutions, spanning trees among them.
+The method is one line: assemble $c^{\mathrm{av}}$ and run Kruskal's algorithm, at a cost of $O(m \log n)$.
+
+\paragraph{Why the Midpoints.}
+
+Every interval has a midpoint and a half-width, and the half-width is exactly the adversary's freedom: from the midpoint it may push a cost that far up, or that far down, and no further.
+In those terms the maximum regret splits in two.
+Set a tree $T$ against a single rival $S$.
+The adversary's best answer raises the edges that only $T$ uses and drops those that only $S$ uses, and what it gains is the sum of two quantities.
+The first is the midpoint gap, the amount by which $T$ is already dearer than $S$ at the midpoints.
+The second is the room, the total half-width of the edges on which the two trees differ.
+The maximum regret of $T$ is the largest value that gap and room together take, as $S$ ranges over the spanning trees.
+
+The choice of tree affects the two very differently.
+It can do little about the room: whichever tree is chosen, some rival differs from it on edges that have width, and that width is fixed by the intervals.
+The midpoint gap is another matter, because it is settled before the adversary moves at all.
+Choosing a minimum spanning tree under $c^{\mathrm{av}}$ makes it zero or negative against every rival, since no rival is cheaper at the midpoints.
+Such a tree therefore never starts behind, and nothing in its maximum regret comes of being dearer at the midpoints.
+What is left is the room, which no tree escapes.
+That this alone buys a factor of two is the content of \Cref{thm:regret-2approx}; \cite[Lemmas~5.24 and~5.25]{Goerigk2021RCO} supply the two estimates behind it.
+
+\paragraph{Worked Example.}
+
+On the micro-graph the midpoint vector is $c^{\mathrm{av}} = (3, 4, 4, 5, 6)$, which is the midpoint scenario $\cs{3}$ of \Cref{tab:micro-graph-costs}, and the half-widths are $(1, 1, 3, 1, 1)$, so $e_3$, the one wide interval, is where most of the room sits.
+Kruskal's algorithm selects $T_1$ under $c^{\mathrm{av}}$, uniquely and at cost $11$, and \Cref{tab:regret-micrograph} has already evaluated it: $\wcr{T_1} = 3$, the optimum identified in \Cref{sec:regret-extremal}.
+The two pieces show in the numbers.
+Measured against $T_2$, one of the two rivals at which its maximum is attained, $T_1$ carries a midpoint gap of $-1$ and room $4$, and $-1 + 4$ is the $3$ just recalled.
+The poorest of the eight, $\{e_2, e_4, e_5\}$, carries a gap of $+4$ and room $6$, and its maximum regret is $10$.
+Across the eight trees $T_1$ is the only one whose gap is never positive, which is precisely what choosing at the midpoints secures; the room it cannot touch, and what its maximum regret comes to is that room less the margin it holds at the midpoints.
+The guarantee promised no more than a factor of two; that the midpoint tree lands on the optimum exactly is a property of this instance, not of the method.
+
+The interval case now closes in symmetry.
+Under the min-max objective, one minimum spanning tree computation at the upper bounds solved the problem outright (\Cref{cor:mm-interval-polynomial}); under the regret objective, one at the midpoints comes within a factor of two, and \Cref{thm:regret-interval-hard} is what rules the exact analogue out.
+Each objective ends at a single representative scenario; the difference is what one scenario can still deliver.
 
 \section{Discrete Scenarios}\label{sec:regret-complexity-discrete}
 % UNIT R4  ~1000 words.  Same subsection split as S3.3.
