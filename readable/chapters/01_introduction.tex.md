@@ -32,7 +32,7 @@ Consequently, a network design that appears optimal under today's cost estimates
 This uncertainty raises a fundamental question: how should one design infrastructure networks that remain near-optimal despite cost variations?
 
 When edge costs are known precisely, the \emph{minimum spanning tree} (MST) provides the classical solution.
-The MST connects all nodes at minimum total cost and can be computed efficiently using well-established algorithms such as Kruskal's greedy edge selection or Prim's incremental tree growing, both running in polynomial time.
+The MST connects all nodes at minimum total cost and can be computed efficiently using well-established algorithms such as Kruskal's greedy edge selection or Prim's incremental tree growing, both running in polynomial time \cite[Chapter~6]{KorteVygen2018}.
 However, in practice, costs are rarely known with certainty at design time.
 A tree that is optimal for one cost estimate may perform poorly when costs deviate, potentially incurring substantially higher expenses or missing better alternatives.
 Thus, while the MST problem is well understood in the deterministic setting, real-world applications demand solutions that are \emph{robust} to cost uncertainty.
@@ -115,8 +115,8 @@ The proof includes the reduction construction, correctness argument, and encodin
 Together with cited results for larger scenario counts, these establish a complete complexity hierarchy.
 
 Fourth, we present the 2-approximation algorithm for interval regret spanning trees (\Cref{ch:regret}).
-\Cref{thm:regret-2approx} demonstrates that solving the MST problem at midpoint costs yields a solution whose worst-case regret is at most twice optimal.
-This factor of 2 is the best approximation guarantee known for the interval regret spanning tree problem, and whether it can be improved remains an open question in the literature.
+\Cref{thm:regret-2approx} demonstrates that solving the MST problem at midpoint costs yields a solution whose worst-case regret is at most twice optimal; the midpoint algorithm is due to \textcite{KasperskiZielinski2006}.
+This factor of 2 is the best approximation guarantee known for the interval regret spanning tree problem, and whether it can be improved remains an open question in the literature \cite[Open Problem~2]{Goerigk2021RCO}.
 
 Fifth, we synthesise results into a comprehensive classification table (\Cref{ch:conclusion}).
 \Cref{tab:complexity-landscape} organises problem variants by objective and uncertainty model with their complexity classes and approximation guarantees.

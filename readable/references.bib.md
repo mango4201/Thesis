@@ -153,6 +153,38 @@
   doi          = {10.1016/j.ipl.2005.11.001}
 }
 
+@inproceedings{BezrukovKaderaliPoguntke1996,
+  author    = {Sergei Bezrukov and Firoz Kaderali and Werner Poguntke},
+  title     = {On central spanning trees of a graph},
+  booktitle = {Combinatorics and Computer Science},
+  publisher = {Springer},
+  year      = {1996},
+  pages     = {53--57},
+  doi       = {10.1007/3-540-61576-8_73}
+}
+
+@article{Deo1966,
+  author       = {Narsingh Deo},
+  title        = {A central tree},
+  journaltitle = {IEEE Transactions on Circuit Theory},
+  year         = {1966},
+  volume       = {13},
+  number       = {4},
+  pages        = {439--440},
+  doi          = {10.1109/TCT.1966.1082617}
+}
+
+@article{AronVanHentenryck2004,
+  author       = {Ionu{\c{t}} D. Aron and Pascal {Van Hentenryck}},
+  title        = {On the complexity of the robust spanning tree problem with interval data},
+  journaltitle = {Operations Research Letters},
+  year         = {2004},
+  volume       = {32},
+  number       = {1},
+  pages        = {36--40},
+  doi          = {10.1016/S0167-6377(03)00058-0}
+}
+
 @article{AverbakhLebedev2004,
   author       = {Igor Averbakh and Vasilij Lebedev},
   title        = {Interval data minmax regret network optimization problems},
