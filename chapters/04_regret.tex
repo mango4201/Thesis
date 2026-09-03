@@ -2,7 +2,9 @@
 % CHAPTER 4: MIN-MAX REGRET SPANNING TREE
 %
 % Prerequisites: Ch2 (MST, regret definition), Ch3 (min-max, for contrast)
-% Status: SKELETON. Theorem shells carry titles and labels; bodies empty.
+% Status: R1, R2, R3 and R4 delivered and LOCKED (S4.1, S4.2.1, S4.2.2,
+%   S4.3). R5 (Summary) remains; its shell carries the heading and the
+%   \addcontentsline only.
 %═══════════════════════════════════════════════════════════
 %
 % ── WHY THIS PLAN LOOKS DIFFERENT FROM THE OLD ONE ────────
@@ -68,17 +70,17 @@
 % error and the inflated 546 pushed in opposite directions, which is
 % why the original 8-to-9 projection survived roughly intact.
 %
-% PROJECTION. R1, R2 and R3 delivered and MEASURED after the checker
-% pass and the final coherence pass of 2026-08-27:
-%     R1 1.68 + R2 2.95 + R3 2.05 measured = 6.68 pg for Ch4 so far,
-%     + R4 2.1 + R5 1.2 projected  =  9.98 pages.
+% PROJECTION. R1 to R4 delivered and MEASURED after the Checker B lock
+% pass of 2026-09-02, on one consistent prose-only extraction:
+%     R1 1.68 + R2 2.95 + R3 2.05 + R4 2.44 = 9.12 pg measured,
+%     + R5 1.2 projected  =  10.3 pages.
 % [2026-08-27] The 9-page ceiling is EXCEEDED by author direction: R3
-% was redrafted from ~0.8 pg to a complete-without-proofs treatment
-% (see its provenance header). Body projects ~51, inside the 40-60
-% rule. The remaining lever is R5 near 200 words.
+% was redrafted from ~0.8 pg to a complete-without-proofs treatment.
+% [2026-09-02] R4 landed at 2.44 against the projected 2.1, on the
+% author-authorised 3-partition passage and the readability pass. Body
+% projects ~51, inside the 40-60 rule. The remaining lever is R5.
 % Word counts must EXCLUDE tikzpicture and tabular bodies to be
-% comparable with the R1..R5 targets; including them reads ~15 percent
-% high and will look like an overrun that is not there.
+% comparable with the R1..R5 targets.
 % Do not re-derive this from either handoff. Build and measure instead.
 %
 % ONE EXCEPTION, R5: Ch3's Summary ran at 236 w/pg. R5 at 280 words is
@@ -193,6 +195,14 @@
 %   [GH23], [GKZ20], [KKZ13]. Same rule applies to each.
 %
 % ── DRAFTING UNITS (one Flow Card each, in this order) ────
+%
+% [Writer B, 2026-09-01] THIS BLOCK WAS TRUNCATED AND IS RESTORED.
+%  Between 7f7c700 and 57fea05 the header was rewritten for the
+%  S4.2.1 lock and lost everything from the middle of R4's S4.3.1
+%  onward: the rest of S4.3.1, all of S4.3.2, the whole of R5, the
+%  word projection, the house conventions and the micro-graph facts.
+%  Recovered verbatim from 7f7c700, from "and show regret and cost
+%  coincide" to the closing rule. Later notes carry their own dates.
 %
 %  Ch4 MIRRORS Ch3 SECTION FOR SECTION. Ch3 treats the models in the
 %  order interval, discrete, budgeted, and inside each model section
@@ -391,6 +401,85 @@
 %        fig:partition-grid rather than redrawing it.
 %        \paragraph{A Small Instance.} Echo of the paragraph of the
 %        same name in S3.3.1: reuse the instance already worked there
+%        and show regret and cost coincide on it. Cheap, and it makes
+%        the word "reuse" concrete instead of asserted.
+%        thm:regret-kconst-pseudo STATED (Goerigk 8.6, which covers
+%        the pseudo-polynomial algorithm AND the FPTAS together).
+%      S4.3.2 Unbounded K:
+%        thm:regret-kunbdd-hard STATED (Goerigk 8.8) and the 2-eps
+%        inapproximability STATED (Goerigk 8.9). No 3-partition
+%        sketch. Note the symmetry with Ch3: both objectives carry a
+%        2-eps bound.
+%        [Writer B, 2026-09-01] This line and the CROSS-UNIT WATCH
+%        ITEM below do not conflict. S3.3.2 holds TWO results and
+%        they concern different ones. The symmetry is with
+%        thm:mm-kunbdd-hard, which carries the 2-eps bound in its
+%        own statement, and Goerigk 8.9 gives regret the same
+%        bound, so this line stands. What does NOT mirror is
+%        thm:mm-kunbdd-approx, the O(log K) guarantee: no regret
+%        counterpart is known, and whether the norm-based technique
+%        can supply one is Goerigk's Open Problem 1. R4 therefore
+%        states the symmetry AND marks the positive side as open,
+%        in one cited sentence, rather than passing it in silence.
+%        SCOPE, verified: Goerigk states 8.9 with no restriction on
+%        K, which read literally contradicts his own 8.6, since an
+%        FPTAS at constant K lands inside 2-eps. His proof reuses
+%        the Thm 8.5 reduction, where K grows with the input, so
+%        the intended scope is K part of the input and the thesis
+%        statement must carry that qualifier.
+%
+%  R5  Summary                                ~280 words
+%      Unnumbered, \addcontentsline, matching Ch2 and Ch3. THREE OR
+%      FOUR PARAGRAPHS, not one block: Ch3's Summary had to be broken
+%      up because 286 words in one paragraph was the second-longest
+%      paragraph in the thesis against a median of 56.
+%      Mechanism for regret across the two models, ONE contrast with
+%      min-max, and a provenance sentence in the shape Ch3 uses,
+%      naming what is proved here and what is quoted. The RWTH
+%      guidelines grade this explicitly. No result list;
+%      tab:complexity-landscape owns the inventory. Cap 0.75 pages.
+%
+%  Projected: R1 650 + R2 1100 + R3 500 + R4 1000 + R5 280 = 3530
+%  words = 6.5 pages, + 2 floats (1.8) + opening and boundary waste
+%  (0.7) = 8.5 to 9.0 printed pages. At the top of the band, so if
+%  something must give it is R3's prose, never a float.
+%  [Writer B, 2026-09-01] SUPERSEDED, kept only to show what the
+%  unit budgets were when they were set. R3 was redrafted on author
+%  direction and R1 to R3 are now measured rather than projected.
+%  Use the PROJECTION block near the top of this header.
+%
+% ── HOUSE CONVENTIONS INHERITED FROM LOCKED Ch2 AND Ch3 ───
+%   - Numbering is per chapter, one counter per environment. ALWAYS
+%     reference by label, never by number.
+%   - \textcite for narrative attribution, \cite for parenthetical;
+%     \Cref for named objects, \eqref for equations. No bare \ref.
+%   - Costs are non-negative in all three models.
+%   - "partition problem" lower case; "weakly"/"strongly" NP-hard
+%     always with the adverb; "cost list" for the K-vector;
+%     never "nominal MST", write "MST under <cost vector>".
+%   - British English, no em dashes, no -ize spellings, no
+%     contractions, no hand-wave markers.
+%   - Verify a constructed subgraph is a spanning tree through the
+%     two-of-three characterisation in sec:graph-notation.
+%   - Universally quantified claims about hardness or non-linearity
+%     need "in general". This failure mode fired four times in Ch3.
+%
+% ── MICRO-GRAPH FACTS (verified by full enumeration) ──────
+%   [Writer B, 2026-09-01] Every figure below re-derived by
+%   independent enumeration on a fresh clone. All reproduce.
+%   discrete scenarios c^(1) lower, c^(2) upper, c^(3) midpoints:
+%     min-max regret optimum is T1 = {e1,e2,e3} with max regret 1
+%     (T2 has 3, T3 has 4); tab:micro-graph-costs already carries the
+%     full cost/regret table.
+%   interval uncertainty, worst case for a fixed T at c_e = u_e on T
+%   and c_e = l_e off T:
+%     max regret T1 = 3, T2 = 5, T3 = 8; optimum is T1 at 3.
+%     (Full ranking over the eight trees: 3, 4, 5, 7, 8, 9, 9, 10.)
+%   CONTRAST TO Ch3: the min-max optimum is T2 under both discrete and
+%   interval uncertainty, while the regret optimum is T1 under both.
+%   The two objectives therefore genuinely disagree on this instance,
+%   which is the point tab:micro-graph-costs already makes in Ch2.
+%═══════════════════════════════════════════════════════════
 %─────────────────────────────────────────────────────────
 % CHAPTER OPENING + SECTION 4.1: REGRET FORMULATION
 %
@@ -960,30 +1049,361 @@ The interval case now closes in symmetry.
 Under the min-max objective, one minimum spanning tree computation at the upper bounds solved the problem outright (\Cref{cor:mm-interval-polynomial}); under the regret objective, one at the midpoints comes within a factor of two, and \Cref{thm:regret-interval-hard} is what rules the exact analogue out.
 Each objective ends at a single representative scenario; the difference is what one scenario can still deliver.
 
+%───────────────────────────────────────────────────────
+% SECTION 4.3: DISCRETE SCENARIOS
+%
+% Provenance: Unit R4, Writer B. v1 drafted 2026-09-01; v2 the
+%   author-directed revamp of 2026-09-02; v3, this text, the Checker B
+%   pass of 2026-09-02.
+%
+% SOURCES OPENED VERBATIM (Goerigk and Hartisch):
+%   Thm 8.4 ([KY97]), Thm 8.5 ([KZ09]), Thm 8.6 ([ABV05]),
+%   Thm 8.7 (no key), Thm 8.8 ([KY97]) INCLUDING ITS FULL PROOF,
+%   Thm 8.9 ([KZ09]), Cor 5.22 ([Baa+24]), Open Problems 1 and 2.
+%   Garey and Johnson 1979: bibliographic record verified (publisher
+%   record; ISBN 0-7167-1045-5); locator Section 4.2.2 verified against
+%   the book's own table of contents. The finer locator Theorem 4.4
+%   rests on a secondary source only and was deliberately NOT used;
+%   upgrade it if the physical book is checked.
+%
+% DECISIONS, v2 (items 1 to 3 of v1 stand: three retitles, the 8.8+8.9
+% fold with the K-scoping, Goerigk-only attribution for Thm 8.7):
+%
+%  4. SUPERSEDED from v1: "the hardness builds a graph of its own,
+%     reusing nothing of Ch3" was READ OFF THE THEOREM, NOT THE PROOF.
+%     Goerigk 8.8's proof grows the Thm 8.4 grid from two rows to m,
+%     one scenario per row ("Similar to the proof of Theorem 8.4",
+%     twice), and INVOKES THE ZERO-FLOOR OBSERVATION ITSELF ("a
+%     spanning tree with zero cost exists in every scenario ... the
+%     min-max regret problem boils down to a min-max problem").
+%  5. 3-PARTITION enters with exactly TWO noun uses (definition
+%     sentence; "writes a 3-partition instance into the grid").
+%     CONSIDERED AND NOT HEDGED: the m-row zero-cost tree needs m >= 2;
+%     Goerigk asserts it unhedged and the m = 1 instance is trivial,
+%     same ruling as the all-degenerate interval hedge (DECLINED, do
+%     not re-raise).
+%  6. THE ZERO-FLOOR OBSERVATION threads all three hardness statements:
+%     stated once in S4.3.1, it carries the K=2 proof, the 8.8
+%     construction, and the 2-eps transfer. The close names this and
+%     the count "three" is exactly those statements; the KZ11
+%     no-constant-factor fact is CITED, not carried.
+%
+% [Checker B, 2026-09-02] v3. TWO CHANGES on author direction; every
+%   other line of S4.3 is byte-identical to v2. No result, statement,
+%   attribution, locator or number was altered.
+%   1. S4.3.1's close ("they fail with it") was ambiguous in its
+%      pronoun and carried an unstated "unless P = NP". Split into two
+%      plain sentences that state the hypothesis and hand over, leaving
+%      the conclusion to S4.3.2, which qualifies it. The Ch3
+%      close-skeleton v1 had copied (Ch3 line 520, "This is exactly
+%      what the next subsection removes") is still avoided.
+%   2. S4.3.2 simplified for readability. The opening names the two
+%      source problems instead of contrasting "numbers" with "logic".
+%      The 3-partition definition is split from its statement. The
+%      2-eps paragraph replaces the nested "in each of the at most two
+%      gadgets a scenario touches" with a counting statement, "No
+%      scenario can therefore block every route of a gadget", which is
+%      both simpler and stronger. The close is four short sentences.
+%   REGISTER: 19 / 20.5 / 41 against v2's 22 / 23.1 / 47 and S3.2's
+%   21.5 / 21.2 / 51. Deliberately below baseline, per direction.
+%
+% ONE SINGLE-USE TERM: "3-SAT", once, in the S4.3.2 opening. NOT a new
+%   term: sealed S3.3.2 defines and uses it, so the two-use rule does
+%   not apply. It is load-bearing, since the whole paragraph is a
+%   contrast between two named source problems. Do not cut it in a
+%   later trim without restoring the contrast some other way.
+%
+% CHECKER B VERIFICATION, reconstructed from the sealed Ch3 text and
+%   not copied from any writer record:
+%   - partition grid, w=(3,1,2): 56 spanning trees, MST 0 in both
+%     scenarios, regret = cost on all 56, min max regret 3 = Q, and
+%     T_P for P={1} costs (3,3). w=(1,5): 15 trees, min max regret 5.
+%   - 3-SAT gadget chain, m=2: 144 spanning trees, MST 0 in EVERY
+%     scenario, regret = cost on all 144, optimum 1 satisfiable and 2
+%     unsatisfiable. Closes an item open since Ch3.
+%   - "No scenario blocks every route of a gadget": 1603 scenarios over
+%     300 random instances, 0 counterexamples.
+%   - Goerigk, four lines above Thm 8.9: "Regarding the approximability
+%     of the min-max regret spanning tree problem, it is known that
+%     there is no approximation algorithm with a constant approximation
+%     factor [KZ11]." The KZ11 sentence is the source's OWN regret
+%     claim, not a transfer from the min-max side.
+%
+% REAL BIBER BUILD RUN, closing the acceptance item standing since R3:
+%   0 errors, 0 undefined references, 0 UNDEFINED CITATIONS, 0
+%   multiply-defined, 0 OVERFULL BOXES, 56 pages. The container's three
+%   overfull boxes are shim artefacts and vanish under lmodern with
+%   microtype at full strength. THE ACCEPTANCE BAR FOR Ch4 IS ZERO
+%   OVERFULL, NOT THREE. GareyJohnson1979 resolves; biber reads 20
+%   citekeys and prints 20 entries.
+%
+% MEASUREMENTS are in the claims log, not here, so this header cannot
+%   go stale on them.
+%
+% [Writer B, 2026-09-02] LOCK PASS. Four edits, no result, statement,
+%   attribution, locator or number altered.
+%   1. COHERENCE DEFECT, the only one the lock found. The close said
+%      all three hardness results "cross from min-max to regret",
+%      contradicting this section's own opening, which says two
+%      constructions are reused outright and the third reduction is
+%      new. Goerigk 8.8 reduces 3-partition to the REGRET problem
+%      directly and inherits no Ch3 result; what it shares with the
+%      other two is the zero-floor OBSERVATION, not a crossing. The
+%      close now says that, and all three constructions were
+%      enumerated to confirm the zero floor in each.
+%   2. "inherited from thm:mm-kunbdd-hard, WHERE the zero floor does
+%      its work" placed the floor inside a min-max theorem. "and".
+%   3. The KZ11 sentence lost its nominalisation and doubled hedge.
+%   4. "once more" and "again" in one sentence; "again" cut.
+%
+% FOR R5: mechanism as a CLAUSE only; no result list; no new
+%   Ch3-interval reference (budget spent at eight); Ch4 closes at three
+%   proof environments.
+%───────────────────────────────────────────────────────
+
 \section{Discrete Scenarios}\label{sec:regret-complexity-discrete}
-% UNIT R4  ~1000 words.  Same subsection split as S3.3.
+
+Under a finite uncertainty set the first of the two questions of \Cref{sec:regret-definition} needs no argument: the maximum in~\eqref{eq:regret-evaluator} runs over $K$ scenarios and is read off directly, one difference per scenario.
+Only the second question remains, and the answer repeats the pattern of \Cref{sec:mm-complexity}.
+The problem is weakly $\mathsf{NP}$-hard for every constant $K$, with a pseudo-polynomial algorithm and an approximation scheme alongside it, and strongly $\mathsf{NP}$-hard once $K$ is part of the input.
+The repetition is no coincidence.
+Twice a construction of \Cref{ch:minmax} is reused outright, and the one reduction that is new grows out of a familiar grid.
 
 \subsection{Constant \texorpdfstring{$K$}{K}}\label{sec:regret-const-k}
-% PROVED RESULT 2 of 2, by REUSE of thm:mm-k2-hard. Refer to
-% fig:partition-grid, do not redraw it.
 
-\begin{theorem}[K=2 Weak NP-Hardness]\label{thm:regret-k2-hard}
+The natural first move is to reuse the two-scenario reduction of \Cref{ch:minmax}, but in general a reduction built for one objective does not serve the other.
+The regret of a tree is its cost less the floor of its scenario.
+Subtracting a quantity that changes with the scenario can move the maximum to a different scenario, and with it the ranking of the trees.
+One case removes the difference entirely.
+If every scenario of an instance admits a spanning tree of cost zero, then every floor is zero and each difference $\cs{k}(T) - \MSTcost{\cs{k}}$ collapses to $\cs{k}(T)$.
+Maximum regret and worst-case cost then agree on every tree of that instance.
+The instances built for \Cref{thm:mm-k2-hard} have exactly this property, so the reuse is sound there, and it yields the first result of the section.
+
+\begin{theorem}[Hardness for Two Scenarios]\label{thm:regret-k2-hard}
+Under discrete uncertainty, the min-max regret spanning tree problem is weakly $\mathsf{NP}$-hard, even when restricted to $K = 2$ scenarios.
 \end{theorem}
 
-% \paragraph{A Small Instance.} Echo of the paragraph of the same name in
-% S3.3.1: reuse the instance worked there, show regret and cost coincide.
+The result is \cite[Theorem~8.7]{Goerigk2021RCO}, obtained there from the construction of \Cref{thm:mm-k2-hard}, itself due to \textcite{KouvelisYu1997}.
 
-\begin{theorem}[Pseudo-Polynomial for Constant K]\label{thm:regret-kconst-pseudo}
+\begin{proof}[Proof of \Cref{thm:regret-k2-hard}]
+Take the grid graph of \Cref{fig:partition-grid} and its two scenarios without any alteration, so the construction stays computable in polynomial time.
+They encode a partition instance with weights $w_1, \ldots, w_n$, total weight $W$ and target $Q = W/2$.
+
+\emph{Step 1: each scenario admits a spanning tree of cost zero.}
+Step~2 of the proof of \Cref{thm:mm-k2-hard} describes the spanning trees that contain every vertical edge: each is a set $T_P$, adding the first-row edge $a_j$ for every $j \in P$ and the second-row edge $b_j$ for every $j$ outside $P$.
+Its two costs are $\cs{1}(T_P) = w(P)$ and $\cs{2}(T_P) = W - w(P)$.
+Choosing $P = \emptyset$ gives a spanning tree of cost zero in $\cs{1}$, and $P = \{1, \ldots, n\}$ one of cost zero in $\cs{2}$.
+No cost in the construction is negative, so $\MSTcost{\cs{1}} = \MSTcost{\cs{2}} = 0$.
+
+\emph{Step 2: the two objectives coincide on these instances.}
+With both floors at zero, $\Regret{T}{\cs{k}} = \cs{k}(T)$ for every spanning tree $T$ and each $k \in \{1, 2\}$, so $\wcr{T} = \wc{T}$ throughout.
+Step~3 of the same proof shows that the smallest worst-case cost equals $Q$ when the partition instance is a yes-instance and exceeds $Q$ otherwise, and the smallest maximum regret now inherits both statements.
+Deciding whether some spanning tree has maximum regret at most $Q$ therefore decides the partition instance, and the problem is $\mathsf{NP}$-hard.
+The hardness is weak rather than strong, since \Cref{thm:regret-kconst-pseudo} gives a pseudo-polynomial algorithm (\Cref{sec:complexity}).
+\end{proof}
+
+\paragraph{A Small Instance.}
+
+The instance worked in \Cref{sec:mm-complexity} makes the coincidence concrete, its numbers intact.
+For $w = (3, 1, 2)$ the two trees of Step~1 are $T_\emptyset$ and $T_{\{1,2,3\}}$: each places the whole weight $W = 6$ in one scenario and nothing in the other, so both floors are zero.
+The costs $\cs{1}(T_{\{1\}}) = \cs{2}(T_{\{1\}}) = 3$ recorded there are therefore also its two regrets, and the resulting maximum regret of $3 = Q$ is the best any spanning tree achieves.
+For $w = (1, 5)$ the worst-case costs $5$ and $6$ become maximum regrets in the same way.
+The smaller of them lies above $Q = 3$, matching the fact that no subset of $\{1, 5\}$ sums to $3$.
+
+The positive half of the constant-$K$ picture crosses over just as directly.
+
+\begin{theorem}[Pseudo-Polynomial Algorithm and FPTAS]\label{thm:regret-kconst-pseudo}
+For every constant $K$, the min-max regret spanning tree problem under discrete uncertainty is solvable in pseudo-polynomial time and admits a fully polynomial-time approximation scheme.
 \end{theorem}
+
+Both results are due to \textcite{AissiBazganVanderpooten2005ESA} and are stated together as \cite[Theorem~8.6]{Goerigk2021RCO}.
+The route is the one taken in \Cref{sec:mm-complexity}, with a single adjustment.
+There a tree carried a list of $K$ costs, the search ran over the lists that some tree realises, and the exact spanning tree problem tested each prescribed list.
+Regret shifts every entry of such a list by the floor of its scenario, and the floors do not depend on the tree: the $K$ minimum spanning trees are computed once, as \Cref{sec:regret-definition} has already noted.
+Subtracting $K$ fixed numbers leaves the realisable lists a translate of the old collection, pseudo-polynomially many as before.
+The same search therefore returns the tree whose largest entry is smallest, the entries now being regrets, and the same scaling delivers the approximation scheme.
+Both guarantees carry the same hypothesis as their min-max counterparts, that $K$ is fixed.
+\Cref{sec:regret-unbdd-k} takes that hypothesis away.
 
 \subsection{Unbounded \texorpdfstring{$K$}{K}}\label{sec:regret-unbdd-k}
-% Stated and cited only. Note the 2-eps symmetry with Ch3.
 
-\begin{theorem}[Strong NP-Hardness]\label{thm:regret-kunbdd-hard}
+With $K$ part of the input the hardness becomes strong here as well, but it is not reached the way \Cref{sec:mm-complexity} reached it.
+There the route to strong hardness left the partition problem behind and started again from 3-SAT.
+Here it stays with weights and strengthens the problem they come from.
+
+\begin{theorem}[Strong NP-Hardness and Inapproximability]\label{thm:regret-kunbdd-hard}
+If $K$ is part of the input, the min-max regret spanning tree problem under discrete uncertainty is strongly $\mathsf{NP}$-hard, and unless $\mathsf{P} = \mathsf{NP}$ it cannot be approximated within a factor of $2 - \varepsilon$ for any $\varepsilon > 0$.
 \end{theorem}
 
-% UNIT R5  ~280 words, several paragraphs, cap 0.75 pages.
-% Mechanism + ONE contrast with min-max + a provenance sentence naming
-% what is proved here and what is quoted. No result list.
+The hardness is due to \textcite{KouvelisYu1997} and the inapproximability to \textcite{KasperskiZielinski2009}; the two appear as \cite[Theorems~8.8 and~8.9]{Goerigk2021RCO}.
+
+The hardness rests on the \emph{\textcolor{RWTHBlue}{3-partition problem}}, a harder relative of the partition problem behind \Cref{thm:mm-k2-hard}.
+An instance gives $3m$ positive integers with total $mB$, each of them strictly between $B/4$ and $B/2$, and asks whether they split into $m$ triples of sum $B$.
+Its numbers can be kept small: the problem stays $\mathsf{NP}$-hard even when every one of them is bounded by a polynomial in the input \cite[Section~4.2.2]{GareyJohnson1979}, which is strong hardness in the sense of \Cref{sec:complexity}.
+The scaling that tamed the constant-$K$ case therefore has nothing left to shrink.
+The reduction writes a 3-partition instance into the grid of \Cref{fig:partition-grid}, grown from two rows to $m$, with one scenario charging each row.
+A spanning tree of cost zero is again available in every scenario, so the two objectives coincide here just as they did in \Cref{sec:regret-const-k}.
+
+The bound of $2 - \varepsilon$ needs no new construction at all.
+It is inherited from \Cref{thm:mm-kunbdd-hard}, and the zero floor does its work a third time.
+Every scenario of that construction charges two literal edges and leaves all other edges free, while each gadget offers three literal routes.
+No scenario can therefore block every route of a gadget.
+The tree built in that proof takes one literal edge per gadget, and for a given scenario those edges can be chosen among the routes it leaves free, so the tree costs nothing at all.
+The floor is zero in every scenario once more, maximum regret equals worst-case cost, and the argument that reads satisfiability off the returned tree carries over unchanged.
+The problem admits no constant-factor approximation at all \cite{KasperskiZielinski2011}, exactly as under the min-max objective.
+
+The three hardness results therefore rest on a single observation, the zero floors of \Cref{sec:regret-const-k}: each of their constructions admits a spanning tree of cost zero in every scenario, so regret there can be measured as cost.
+The positive side is where the mirror breaks.
+No regret counterpart of the logarithmic guarantee of \Cref{thm:mm-kunbdd-approx} is known.
+Whether the argument behind that guarantee can be adapted is on record as an open question \cite[Open Problem~1]{Goerigk2021RCO}.
+
+
+%───────────────────────────────────────────────────────
+% CHAPTER 4 SUMMARY
+%
+% Provenance: Unit R5, Writer B, 2026-09-02. Real build (lmodern +
+%   biber): 0 errors, 0 undefined references, 0 undefined citations,
+%   0 multiply-defined, 0 overfull.
+%
+% BUDGET DECISION TAKEN, closing the item the header records as open
+%   since 2026-08-21. The plan set ~280 words AND a 0.75-page cap;
+%   these are incompatible. Ch3's Summary measures 357 words over 1.53
+%   printed pages, so 233 w/pg, at which 0.75 pg is 175 words and will
+%   not carry four beats. THE WORD COUNT BINDS, THE PAGE CAP DOES NOT.
+%
+% SHAPE: four paragraphs against Ch3's five, one model fewer.
+%   1  the two questions of S4.1, the first answered in both models by
+%      different routes.  MECHANISM CLAUSE LIVES HERE, once.
+%   2  evaluation is polynomial in both models, so the difficulty is
+%      entirely in the choice; the two models differ in the GRADE of
+%      that hardness, strong from the start against strong only at the
+%      top of the range.
+%   3  the criterion extension.  Ch3's Summary establishes it for
+%      min-max; Ch5's header expects Ch4's Summary to extend it, and
+%      Ch5 then states it across all six combinations as a finding.
+%   4  provenance in Ch3's three tiers, then the forward pointer.
+%
+% SCOPE BOUNDARIES HELD, each checked against the Ch5 header:
+%   - Ch5 pattern 1 (extremal behaviour): allocation is S4.2.1 full,
+%     HERE A CLAUSE, Ch5 the consequence.  One clause, in paragraph 1.
+%   - Ch5 pattern 3 (interval dichotomy, min-max easy regret hard) is
+%     CH5's.  THE FLOW CARD HAD IT AS THIS SUMMARY'S ONE CONTRAST AND
+%     WAS WRONG.  R3's close already states it for the body, so saying
+%     it here would collide twice over.  Replaced by the criterion
+%     extension, which Ch5 explicitly wants from this Summary.
+%   - Ch5 pattern 5 (midpoint recurrence) is Ch5's: the midpoint is
+%     not a theme here and thm:regret-2approx is not referenced.
+%   - Ch5 pattern 2 (K as the complexity parameter) gets ONE sentence
+%     in Ch5; this Summary does not theorise K, it only says where the
+%     grade of the hardness changes.
+%   - Budgeted uncertainty: the chapter opening owns the out-of-scope
+%     sentence.  Here it is a four-word allusion, not a restatement.
+%   - THE ZERO-FLOOR OBSERVATION IS NOT REPEATED.  S4.3.2's close owns
+%     it and sits one page above; the draft deliberately gives no
+%     reason for the discrete reductions carrying over.
+%
+% REFERENCES: FOUR, the budget set in the Flow Card, against Ch3's
+%   Summary's five.  sec:regret-definition, lem:interval-extremal-regret,
+%   ch:minmax, ch:conclusion.  No Ch3-interval reference, so the
+%   chapter total holds at eight.  No result list: only the two
+%   objects the argument actually uses are named.
+%
+% thm:regret-kunbdd-hard IS DELIBERATELY NOT CONSUMED HERE.  It is
+%   Ch4's one label without an inbound reference, and clearing that by
+%   naming it in a Summary is how a Summary becomes an inventory.
+%   Ch5's tab:complexity-landscape cell for discrete regret at
+%   unbounded K MUST consume it.
+%
+% CHECKED FOR CORRECTNESS, not only for style:
+%   - "the guarantees are approximations" was DROPPED from paragraph 3.
+%     It is false: thm:regret-kconst-pseudo also supplies an exact
+%     pseudo-polynomial algorithm.
+%   - "weakly NP-hard at two already, strong only when the number of
+%     scenarios is free to grow" carries both adverbs and is scoped.
+%   - the provenance tiers split thm:regret-kunbdd-hard, whose two
+%     halves genuinely sit in different tiers: S4.3.2 develops the
+%     2-eps transfer and only states the hardness.
+%
+% THREE DELIBERATE VERBATIM ECHOES, do not "fix" them:
+%   1. the two questions are recalled close to R1's wording (0.43 on
+%      the near-duplicate sweep, the only hit above 0.32).  A Summary
+%      that closes over a device must let the reader recognise it.
+%   2. "each tree brings its own worst case" is R2's own phrase.  It
+%      IS the compression the allocation asks for; two uses total,
+%      full statement in S4.2.1 and this clause.
+%   3. the three provenance tier labels are Ch3's Summary word for
+%      word ("proved in full here", "developed from their sources in
+%      the text", "stated on the authority of the literature").
+%      Identical labels are what make the two chapters' provenance
+%      statements comparable, which is the point the RWTH guidelines
+%      grade.  Only the lists attached to them differ.
+%
+% CLOSES THE LOOP to the chapter opening, which judged Ch3's objective
+%   "by an absolute standard"; the last sentence of paragraph 3 names
+%   that standard again as the thing regret gives up.
+%
+% [Writer B, 2026-09-02] SHARPENING PASS on author direction. Nine
+%   micro-edits, no claim, reference or scope boundary touched. Two
+%   were substantive: "the scenario that attains it" pointed the
+%   pronoun at the question rather than the maximum, and "a finite
+%   list" would have been Ch4's first use of "list" for anything other
+%   than a cost list, whose sense is reserved. The rest trade "and"
+%   chains and trailing participles for colons and full stops, drop a
+%   doubled "scenarios", strengthen "could dispose" to "disposed", and
+%   split the closing verdict onto its own sentence.
+%
+% [Writer B, 2026-09-02] CLOSE-OUT PASS, after the Checker B rebuild of
+%   paragraphs 1 and 3. Two edits.
+%   1. PARAGRAPH 3, COHERENCE. The rebuild quotes Ch3's criterion and
+%      then applies it against Ch3's own application. Ch3 line 995:
+%      "none is NEEDED under intervals, one enumerated parameter
+%      suffices under a budget, and under discrete scenarios no such
+%      device can exist unless P = NP". Under intervals there was no
+%      dependence to dispose of, so "disposed of the adversary's
+%      dependence TWICE" and "Under intervals ONE DID [exist]" both
+%      misdescribed the sealed sentence the paragraph invokes. Ch3's
+%      split is three-way, none needed / one parameter / impossible,
+%      and the paragraph now reproduces it.
+%      THE ESCALATED SCOPE QUESTION IS DECIDED: KEEP the scoping. An
+%      extension of the criterion that never says where it bites is
+%      not an extension; Ch3's Summary already announces this
+%      transition; and the price sentence is true ONLY when scoped
+%      this way, which is what the checker's own false-attribution fix
+%      established. RECORDED FOR Ch5: state pattern 3 over the table,
+%      do NOT re-derive it from the criterion, or it becomes a third
+%      telling of one fact.
+%   2. PARAGRAPH 2, the checker's NOTED item, applied. "The two models
+%      differ in how quickly that difficulty arrives" frames a GRADE
+%      contrast as a SPEED one, and an interval set carries no
+%      parameter for anything to arrive along. CUT rather than
+%      reworded: the two parallel "Over ..." sentences frame
+%      themselves, and naming a "grade" would enter a noun used once.
+%
+% A FIFTH DELIBERATE ECHO, now the largest in R5: the criterion is
+%   quoted from Ch3 line 995 almost word for word. Same licence as the
+%   provenance tier labels. Ch5 states the criterion a third time as a
+%   finding across six combinations; that chain of three is by design,
+%   per the Ch5 header.
+%───────────────────────────────────────────────────────
+
 \section*{Summary}
 \addcontentsline{toc}{section}{Summary}
+
+The two questions of \Cref{sec:regret-definition} organised this chapter: what form the maximum regret takes as a function of the tree, and whether that form can be minimised over all trees at once.
+The first is answered in both models, at very different cost.
+Under discrete uncertainty it costs nothing, the maximum running over finitely many scenarios.
+Under interval uncertainty it takes \Cref{lem:interval-extremal-regret}: the maximum is attained at a scenario read off the tree itself, so each tree brings its own worst case.
+
+A given tree can be evaluated in polynomial time under either model; all of the difficulty lies in choosing one.
+Over an interval set the choice is strongly $\mathsf{NP}$-hard, and stays so when every interval is identical: no magnitude is left for an algorithm to work on.
+Over discrete scenarios it is weakly $\mathsf{NP}$-hard already at two, and turns strong only once their number is free to grow.
+
+\Cref{ch:minmax} closed on a criterion: whether the adversary's dependence on the tree can be stripped away by a bounded amount of extra work.
+Two of its three models met it, intervals needing no work at all, since one cost vector was worst for every tree, and a budget needing one enumerated parameter.
+Neither model of this chapter meets it unless $\mathsf{P} = \mathsf{NP}$, and under discrete scenarios neither does the min-max objective.
+Under intervals it did, and losing that is the price of judging a tree against the best one available in its scenario rather than by an absolute standard.
+
+The interval extremal characterisation and the two-scenario reduction are proved in full here.
+The interval hardness, the midpoint guarantee and the transfer of the inapproximability bound are developed from their sources in the text.
+Only the algorithms for constant $K$ and the strong hardness for unbounded $K$ are stated on the authority of the literature.
+\Cref{ch:conclusion} sets the two objectives side by side across all their models, including the one left aside here.
