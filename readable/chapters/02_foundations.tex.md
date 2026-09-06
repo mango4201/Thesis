@@ -154,7 +154,7 @@ e_4 &\colon [4, 6], \quad e_5 \colon [5, 7].
 From these intervals, we derive three \emph{discrete scenarios} that instantiate specific cost realisations: $\cs{1} = (2, 3, 1, 4, 5)$ (all lower bounds), $\cs{2} = (4, 5, 7, 6, 7)$ (all upper bounds), and $\cs{3} = (3, 4, 4, 5, 6)$ (interval midpoints).
 Graph $G$ admits eight spanning trees in total.
 We highlight three representative trees that exhibit different structural properties: $T_1 = \{e_1, e_2, e_3\}$ (star centred at vertex~2), $T_2 = \{e_1, e_2, e_4\}$ (path $1$--$2$--$3$--$4$), and $T_3 = \{e_2, e_3, e_5\}$ (path $1$--$3$--$2$--$4$).
-These trees and scenarios provide a consistent testbed for demonstrating how optimal solutions vary across objectives and uncertainty models in subsequent chapters.
+These trees and scenarios provide a consistent test bed for demonstrating how optimal solutions vary across objectives and uncertainty models in subsequent chapters.
 
 \begin{figure}[htbp]
 \centering
@@ -448,7 +448,7 @@ The correctness of classical greedy algorithms such as Kruskal's and Prim's foll
 %─────────────────────────────────────────────────────────
 \section{Kruskal and Prim: Algorithmic Remarks}\label{sec:kruskal-prim}
 
-The optimality criteria developed in \Cref{sec:mst-criteria} directly yield the correctness of the two most classical MST algorithms: Kruskal's algorithm (1956) and Prim's algorithm (1957).
+The optimality criteria developed in \Cref{sec:mst-criteria} directly yield the correctness of the two most classical MST algorithms: Kruskal's algorithm \cite{Kruskal1956} and Prim's algorithm \cite{Prim1957}.
 Both are \emph{greedy} methods that build a spanning tree incrementally, maintaining optimality conditions throughout \cite[Section~2.3]{BuesingOptiB2023}.
 A comprehensive account of minimum spanning tree algorithms is given by \textcite[Chapter~13]{AhujaMagnantiOrlin1993}.
 We describe each algorithm briefly, emphasising its connection to the criteria rather than implementation details.

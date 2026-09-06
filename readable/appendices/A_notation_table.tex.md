@@ -8,12 +8,18 @@
 % Provides: Comprehensive symbol reference
 % Labels created: app:notation
 % Page budget: 1-2 pages (longtable handles page breaks)
-% Status: COMPLETE through Chapter 3, plus S4.1. Ch3 contributes wc(T),
-%   the upper-bound vector u, and the three S3.4 symbols pi, Pi and
-%   [z]^+. S4.1 contributes wcr(T). Proof-local symbols are defined at
-%   the point of use and stay out of this table by design: v_{i,j},
-%   a_j, b_j, r_j, T_P, W, Q, w(P) in §3.3.1; a_i, b_i, v_{i,j},
-%   L_{i,j}, p in §3.3.2; f_j, g, c^*, c^pi and phi_T in §3.4.
+% Status: COMPLETE through Chapter 4. Ch3 contributes wc(T), the
+%   upper-bound vector u, and the three S3.4 symbols pi, Pi and [z]^+.
+%   Ch4 contributes wcr(T) in S4.1, c^T in S4.2.1 and c^av in S4.2.2.
+%   The "Introduced" column gives the section where a symbol is
+%   DEFINED, not where it first appears in print: NP is used in S1.2
+%   and introduced in S2.5, and the micro-graph instantiates c^(k) and
+%   [l_e, u_e] in S2.1 under an explicit forward reference to S2.4.
+%   Proof-local symbols are defined at the point of use and stay out of
+%   this table by design: v_{i,j}, a_j, b_j, r_j, T_P, W, Q, w(P) in
+%   §3.3.1; a_i, b_i, v_{i,j}, L_{i,j}, p in §3.3.2; f_j, g, c^*, c^pi
+%   and phi_T in §3.4; B in §4.1; the competing tree S in §4.2.2;
+%   w_i, W, Q in §4.3.1; m and B in §4.3.2.
 %
 % REQUIRES: \usepackage{longtable} in main.tex preamble
 %           Add after \usepackage{booktabs}
@@ -22,16 +28,16 @@
 \chapter{Notation}\label{app:notation}
 
 This appendix provides a reference for the mathematical notation used throughout the thesis.
-Symbols are grouped by category with the section of first use indicated.
+Symbols are grouped by category, with the section in which each symbol is introduced.
 
 \begin{longtable}{@{}l>{\raggedright\arraybackslash}p{0.56\textwidth}l@{}}
 \toprule
-\textbf{Symbol} & \textbf{Meaning} & \textbf{First Use} \\
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Introduced} \\
 \midrule
 \endfirsthead
 
 \toprule
-\textbf{Symbol} & \textbf{Meaning} & \textbf{First Use} \\
+\textbf{Symbol} & \textbf{Meaning} & \textbf{Introduced} \\
 \midrule
 \endhead
 
@@ -51,8 +57,9 @@ $\cut{X}$ & Cut induced by vertex set $X \subseteq V$ & \S\ref{sec:graph-notatio
 \multicolumn{3}{l}{\textit{Trees and Costs}} \\
 $\cT$ & Set of all spanning trees of $G$ & \S\ref{sec:graph-notation} \\
 $T$ & Spanning tree, $T \in \cT$ & \S\ref{sec:graph-notation} \\
+$E(T)$ & Edge set of the spanning tree $T$, with $|E(T)| = n - 1$ & \S\ref{sec:graph-notation} \\
 $c \colon E \to \R$ & Edge cost function & \S\ref{sec:graph-notation} \\
-$c(T)$ & Cost of tree $T$, i.e., $\sum_{e \in T} c_e$ & \S\ref{sec:graph-notation} \\
+$c(T)$ & Cost of tree $T$, the sum $\sum_{e \in E(T)} c_e$ & \S\ref{sec:graph-notation} \\
 $\MSTcost{c}$ & Minimum spanning tree cost under $c$ & \S\ref{sec:graph-notation} \\
 $T^*$ & A minimum spanning tree, $c(T^*) = \MSTcost{c}$ & \S\ref{sec:graph-notation} \\
 $C_f$ & Fundamental cycle of non-tree edge $f$ & \S\ref{sec:graph-notation} \\
