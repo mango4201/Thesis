@@ -1,6 +1,8 @@
 %═══════════════════════════════════════════════════════════
 % CHAPTER 5: CONCLUSION
-% Status: SKELETON.
+% Status: CHAPTER 5 IS LOCKED. Checker pass and lock pass 2026-09-05;
+%         writer's final review 2026-09-06, ten changes applied.
+%         Nothing in this chapter is open. See the final record below.
 %═══════════════════════════════════════════════════════════
 %
 % ── BUDGET: A CONTENT COUNT, NOT A PAGE COUNT ─────────────
@@ -121,6 +123,9 @@
 %    intractable when it cannot."
 % Ch3's Summary already establishes this for min-max and Ch4's extends
 % it, so state it here as a finding, do not re-derive it.
+% [C2 OVERRULED THIS SENTENCE AS A BICONDITIONAL OVERCLAIM; the
+%  checker confirms the ruling. See the C2 record and the checker
+%  record below.]
 %
 % ── S5.2 EXAMPLE GALLERY ──────────────────────────────────
 %
@@ -224,66 +229,906 @@
 % As in Ch2, Ch3 and Ch4. Reference by label, never by number.
 % British English, no em dashes, no -ize, no contractions, no
 % hand-wave markers. Qualifiers survive compression.
+%
+% ── C1 RECORD (chapter opening + S5.1 table) ──────────────
+%
+% THREE LINES OF THE PLAN ABOVE ARE STALE. Corrected, not deleted:
+%   (a) "BIBLIOGRAPHY GAP: ... nor is [AV04]". [AV04] IS present as
+%       AronVanHentenryck2004 and [AL04] as AverbakhLebedev2004, both
+%       cited in Ch4. Only [GH23], [GKZ20] and [KKZ13] are missing.
+%   (b) "chapter boundary waste 0.5". Measured on the real build the
+%       chapter heading costs 0.18 pg. The document is oneside, so no
+%       blank verso is paid for.
+%   (c) The plan asks the gallery to copy "the SAME 2x3 SHAPE AS
+%       tab:complexity-landscape". The table as built is objectives
+%       DOWN and models ACROSS, which is the geometry the plan wants,
+%       but with FOUR model columns, the discrete one split at
+%       constant K versus K in the input. The gallery keeps 2x3 by
+%       merging the two discrete columns into one panel column. The
+%       split cannot be dropped: thm:regret-kunbdd-hard has no other
+%       consumer anywhere in the thesis.
+%
+% DECISIONS TAKEN IN C1, each open to override:
+%   1. TABLE GEOMETRY. Two objective bands, each with a Complexity row
+%      and a Guarantee row, over four model columns. Built and
+%      measured: \small, tabcolsep 4pt, columns .215/.215/.165/.165 of
+%      \textwidth. Zero overfull boxes on the real build. Wider
+%      columns or a 12pt body overflow the text block; that was tested.
+%   2. ALL TWELVE classification results of Ch3 and Ch4 appear in the
+%      table, so it is the complete inventory and not a selection.
+%      thm:regret-kunbdd-hard is consumed twice, closing the only
+%      orphaned label in the thesis.
+%   3. THE SIXTH CELL carries an original one-step inheritance in the
+%      table note, on the author's authorisation of 2026-09-04. It
+%      adds NO proof environment: Ch5 still has zero proved results.
+%      It uses only def:budgeted-uncertainty's own endpoint sentence
+%      and thm:regret-interval-hard, so it is one hop from sealed text
+%      and needs no vocabulary the thesis does not already have.
+%      NEW, and not in the plan: Goerigk records the same transfer
+%      himself in Section 8.5, so the note now cites it as well.
+%      ADVERB WATCH: Goerigk's own Table 8.1 grades this cell NPH
+%      WITHOUT the adverb. The "strongly" in our cell comes from OUR
+%      inheritance and thm:regret-interval-hard, never from the cite.
+%   4. FIVE DEAD PARAGRAPH SHELLS REMOVED, per the master context's
+%      "delete them in the first delivery, not the last".
+%      [CHECKER CORRECTION: FOUR, not five. "Extremal Behaviour
+%      Visualisation." belonged to the figure this header cuts;
+%      "Scope of Uncertainty Models.", "Scope of Solution Concepts."
+%      and "Proof Selection." sat under no section at all. The master
+%      context's headline says five while its own prose lists four.]
+%      "Proof Selection." is not lost: the chapter opening's last two
+%      sentences discharge it, which is where a provenance statement
+%      belongs in a chapter that proves nothing. S5.3 still carries
+%      three headings for a two-paragraph plan; that is C4's call.
+%   5. QUALIFIER PLACEMENT. "unless P = NP" is carried once, in the
+%      caption, rather than repeated in four cells.
+%
+% ── C2 RECORD (S5.1 pattern synthesis and the closing criterion) ──
+%
+% TWO DIVERGENCES FROM THE PLAN, both for correctness:
+%
+%   (i) THE PLAN'S ONE-SENTENCE CRITERION CLOSE IS AN OVERCLAIM AND
+%       WAS NOT USED. It reads "tractable EXACTLY WHEN the adversary's
+%       best response can be made independent of the chosen tree at
+%       bounded cost, AND INTRACTABLE WHEN IT CANNOT". That is a
+%       biconditional, and the second half is never established
+%       anywhere in this thesis. What Ch3 proves runs the other way:
+%       the hardness comes first and the non-existence of the device
+%       follows from it, unless P = NP. Ch4's Summary was rebuilt once
+%       during close-out for exactly this inversion. The close is
+%       therefore a paragraph, not a sentence: the criterion, then the
+%       constructive direction, then the contrapositive, then a guard
+%       against reading it as a theorem. That guard is what the plan's
+%       own sentence lacked. REVERT ON REQUEST, but not to the plan's
+%       wording.
+%
+%  (ii) PATTERN 3 AS PLANNED IS INCOMPLETE. "The interval dichotomy:
+%       min-max easy, regret hard" is true, but with the sixth cell
+%       now filled it is not the whole pattern: the BUDGETED column
+%       separates the two objectives as well. The delivered version
+%       states the discrete column as the place they agree and both
+%       continuous columns as the places they part, and it says that
+%       the budgeted separation is the interval one inherited rather
+%       than a second phenomenon. This makes the sixth cell
+%       load-bearing instead of a footnote. It also means Ch1's
+%       "parallel hardness for discrete scenarios but diverge for
+%       intervals" is now incomplete; added to the deferred list.
+%
+% DECISIONS TAKEN IN C2:
+%   6. Pattern 1 states the CONSEQUENCE and \Crefs to sec:regret-extremal,
+%      as the plan requires. The naming of the upper-bound vector was
+%      dropped to keep the sentence off Ch3's Summary wording.
+%   7. Ch4's Summary sharpening "and stays so when every interval is
+%      identical" was drafted into pattern 3 and CUT: the theorem, the
+%      Ch4 Summary and Ch5 would have been three tellings.
+%   8. Pattern 5 asserts NO tightness for the factor 2. It states the
+%      openness instead, which is the positive form of that
+%      prohibition. Goerigk's Thm 5.4 does call the factor-K guarantee
+%      tight, but for a general problem class; it was NOT claimed here
+%      for spanning trees specifically.
+%   9. TWO C1 SENTENCES AMENDED, on the author's note of 2026-09-04
+%      that the thesis should not undersell what it does:
+%      the opening no longer leads with "No new result is established
+%      here", and the S5.1 reading note no longer introduces the
+%      averaging method, which pattern 5 owns and now defines properly.
+%      The second was found by the continuous read, not by any lens.
+%  10. CONSIDERED AND DECLINED, do not re-raise: "an interval set is
+%      infinite" fails if every interval is degenerate. Same class as
+%      the all-degenerate hedges declined twice in Ch4, and the
+%      degenerate case makes the chapter vacuous.
+%
+% DEFERRED TO THE END-OF-THESIS SWEEP OF Ch1 AND THE ABSTRACT, on the
+% author's instruction of 2026-09-04 that Ch1 and the abstract are to
+% be tuned to Ch2 to Ch5 and not the reverse. Ch5 is therefore written
+% on its own terms and these are RECORDED, not obeyed:
+%   - the abstract drops "strongly" on the interval regret hardness;
+%   - the abstract attributes the logarithmic guarantee to both
+%     objectives; it is a min-max guarantee only;
+%   - Ch1 says "boundary vertices of the interval box", which collides
+%     with this thesis's use of "vertex" for a graph node and uses the
+%     one vocabulary the Ch5 plan cuts a figure to avoid;
+%   - Ch1 promises that Ch5 "acknowledges the deliberate scope
+%     limitations of this work". Ch5 discharges the substance in
+%     sec:outlook without a limitations section; the Ch1 wording is
+%     the thing to adjust;
+%   - Ch1 S1.3 says the two objectives "display parallel hardness for
+%     discrete scenarios but diverge for intervals". With the budgeted
+%     regret cell filled they diverge under a budget as well.
+% The author's instruction for that sweep is to REFORMULATE rather
+% than patch, and not to undersell the thesis for what it left out.
+%
+% ── C1+C2 REVAMP RECORD (v2, author review 2026-09-04) ────
+%
+% The review was a QUALITY complaint (no plan, dragged framing,
+% avoidable redundancy, lax dagger note, table improvable), so this
+% is a redraft, not local edits. Method: facts first, then a plan
+% with ONE GOAL PER PARAGRAPH, then prose.
+%
+% THE v2 PLAN (goals, in order):
+%   opening  hand over from Ch4 and route the reader; 5 short lines.
+%   A        how to read the table; nothing else.
+%   B        the sixth cell exists and where its argument lives.
+%   C        WHERE the objectives agree and part: discrete column
+%            identical, both continuous columns separate them,
+%            interval is the source, budgeted inherits. Carries the
+%            one pattern-2 sentence ("K sets only the grade").
+%   D        approximation: FPTAS at constant K; ONE method (averaged
+%            cost vector) behind every remaining guarantee but the
+%            O(log K) exception; the two open questions.
+%   E        the criterion, answering Ch1's question; punchline first
+%            (size of the set does not decide), corrected logic kept.
+%
+% REDUNDANCY REMOVED IN v2 (the review's point 3):
+%   - the opening and S5.1's first line said "collects the results of
+%     Ch3 and Ch4 into one table" TWICE; now said once.
+%   - "not developed" appeared in the caption, a cell AND the prose;
+%     the caption now points at the note, the prose says it once.
+%   - the C1 reading note and pattern 5 both explained averaging;
+%     merged into paragraph D.
+%   - pattern 1 (extremal boundary) and pattern 3 (interval split)
+%     told overlapping stories; the extremal fact now lives ONLY in
+%     the criterion paragraph as its instance, per the header's own
+%     allocation, and v2 cut its "one vector worst for every tree"
+%     clause (0.47 against Ch4's Summary) down to "at no cost" (0.33).
+%   - "deterministic ... computation" appeared three times; now once.
+%
+% THE TABLE, REWORKED (the review's point 6):
+%   - rows are now Complexity and Algorithms per objective. Every
+%     cell is real content; the filler "none required" cells are
+%     replaced by the actual runtimes O(m log n) and O(m^2 log n),
+%     read off cor:mm-interval-polynomial and thm:mm-budgeted-poly.
+%   - the 2-eps barrier now sits WITH its hardness theorem in the
+%     Complexity row, one reference instead of two per column.
+%   - geometry retuned by build experiment: \small, tabcolsep 4pt,
+%     columns .19/.205/.2075/.16, \mbox on "2-approximation" and
+%     "K-approximation". Zero overfull; no reference breaks across
+%     lines; the only hyphen break left is pseudo-/polynomial at its
+%     own compound hyphen.
+%   - the NOTE now opens with its role ("The hardness entry follows
+%     by reduction from the interval column"), per the review's
+%     point 5, then gives the construction, the cite, and why the
+%     algorithm entry is empty.
+% ONE ENTRY IS DELIBERATELY ABSENT and a checker should not add it:
+%   no inapproximability entry exists for interval regret; only
+%   openness is on record (Open Problem 2), and asserting a barrier
+%   there would be false.
+%
+% ── CHECKER RECORD (v3), independent pass 2026-09-04 ──────
+%
+% BUILD REPRODUCED INDEPENDENTLY: 0 errors, 0 undefined references,
+% 0 undefined citations, 0 multiply-defined, 0 overfull, 0 underfull.
+% All twelve table entries were reconstructed from the sealed
+% statements BEFORE the delivered cells were read; all twelve
+% transcribe correctly. Both runtimes confirmed INSIDE their theorem
+% environments, not in surrounding prose.
+%
+% SOURCES OPENED INDEPENDENTLY BY THE CHECKER:
+%   Goerigk Section 8.5, closing sentence, CONFIRMED.
+%   Goerigk Table 8.1: regret x budgeted is graded NPH with NO adverb.
+%   Goerigk Thm 5.4: "This guarantee is tight" is demonstrated on a
+%     SHORTEST PATH example (his Figure 5.3), so it is NOT established
+%     for spanning trees. C2's decision to leave it out is CONFIRMED.
+%   The reduction is sound and the note is NOT circular.
+%   THE ADVERB IS CARRIED, from our side: thm:regret-interval-hard
+%     holds when every interval is [0,1].
+%   SEALED PROMISE KEPT: 04_regret.tex line 563 promises that
+%     sec:synthesis "records BY CITATION". Do not remove that citation.
+%
+% FIVE DEFECTS FOUND AND FIXED IN v3:
+%   MAJOR 1. The opening promised the gallery "under every objective
+%     and every model"; panel (f) is out of scope, so it covers five
+%     of six. Scoped.
+%   MAJOR 2. THE TABLE NOTE CONTRADICTED ITSELF three sentences apart:
+%     it established that at Gamma = |E| the budgeted set IS an
+%     interval set, then asserted unqualified that evaluating one
+%     fixed tree is known only as a reformulation over all trees.
+%     FALSE at exactly the budget the note constructs, since
+%     cor:regret-interval-evaluation evaluates by ONE MST computation.
+%     Repaired by anchoring on that corollary and scoping "in general".
+%   MINOR 1. "same classification at every K" clashed with the
+%     O(log K) asymmetry; scoped to complexity at every K.
+%   MINOR 2. "grade" was a once-used noun; the Ch4 close-out declined
+%     that exact noun on record. Replaced.
+%   MINOR 3. "record the same transfer" sat next to our adverb;
+%     reordered so the cite attaches to the INHERITANCE only.
+%
+% NOTED: \footnotesize inside a minipage is NOT a \footnote, so the
+%   thesis still contains zero footnotes and no package was added.
+% NOTED, DEFERRED TO THE LOCK PASS: tab:complexity-landscape floats to
+%   a page of its own. Do not tune [htbp] now.
+% CHECKER CORRECTION TO THE MASTER CONTEXT: references.bib holds 24
+%   entries, not 23; 20 cited, four not. CH5_CLAIMS_LOG.md did not
+%   exist in the repository and is created with the v3 delivery.
+%
+% ── C3 RECORD (S5.2 example gallery) ──────────────────────
+%
+% TWO FLOATS, NOT ONE. fig:micro-graph-gallery is the planned grid.
+% fig:micro-graph-tradeoff is NEW, added on the author's request of
+% 2026-09-04 for something that earns the section's slack.
+%
+% WHY THE SECOND FIGURE EXISTS. The section's headline is "two of the
+% eight trees are selected, and no others". The reader has never seen
+% six of those eight: Ch2 draws T1, T2, T3 and no others. So the
+% headline was, as planned, an assertion no reader could check.
+% fig:micro-graph-tradeoff places all eight trees by the two
+% quantities the objectives minimise, wc(T) and wcr(T), under interval
+% uncertainty. Six lie in a region anchored at T1 and are worse than
+% it in BOTH coordinates, so neither objective can return them. It is
+% ours: exhaustive enumeration on the running instance, an
+% observation no source makes. It introduces NO vocabulary: no
+% Pareto, no dominance (the thesis reserves "dominated" for
+% runtimes), no polytope, no convex, and no "price", which is on the
+% forbidden list.
+%
+% VERIFIED BY ENUMERATION, exact rationals, this session:
+%   interval (wc, wcr): T2 (15,5)  T1 (16,3)  and (17,4) (17,9)
+%     (18,7) (18,10) (19,8) (20,9)
+%   discrete (wc, wcr): T2 (15,3)  T1 (16,1)  and (17,2) (17,5)
+%     (18,3) (18,6) (19,4) (20,5)
+%   Exactly TWO trees are not worse-in-both than another, T1 and T2,
+%   under BOTH models. The trade is 1 against 2 in both. So the
+%   figure's point is not an artefact of one uncertainty model.
+%
+% GEOMETRY, tested by build before any prose was written:
+%   gallery  326.4 pt tall, 412.6 of 426.8 pt wide. WIDTH-BOUND: the
+%            panels cannot be drawn larger. scale 1.30, Ch2's
+%            minivertex/treeedge/nonedge styles unchanged.
+%   trade-off 193.5 pt tall. Ch3's fig:budgeted-sweep plot styles and
+%            its colour convention (T1 red, T2 blue) reused.
+%   Both label every panel and point in text, so colour never carries
+%   a distinction on its own. RWTHBlue and RWTHRed are near-identical
+%   in greyscale.
+%
+% DECISIONS:
+%   11. Panels show the winning tree and its value, NOTHING ELSE. No
+%       per-edge costs: fig:micro-graph and fig:regret-extremal-
+%       scenarios already carry those.
+%   12. The three identical panels in the min-max row STAY. The
+%       repetition is the evidence, and paragraph 2 names it so it
+%       cannot read as an error.
+%   13. NO margins or rankings. Every optimum here beats its
+%       runner-up by exactly 1, a striking instance artefact that
+%       Ch4's rules forbid building on. The trade-off figure carries
+%       the meaningful comparison instead.
+%   14. Panel (0) is labelled c^av, the notation Ch4 uses and states
+%       to equal the midpoint scenario c^(3).
+%   15. CAPTION AND PROSE ARE SPLIT BY JOB. Captions say what is
+%       drawn; prose says what follows. Three duplications between
+%       the two were cut during revision.
+%
+% DEFECTS CAUGHT IN THE PRE-DELIVERY CONTINUOUS READ, invisible to
+% every mechanical lens:
+%   FALSE SENTENCE: "Only T2 lies outside" the shaded region. T1
+%     ANCHORS the region, so it lies outside it as well. Replaced by
+%     "That leaves T1 and T2". The Jaccard, label and number lenses
+%     all passed it.
+%   SENSE COLLISION: the close said "separate the two objectives",
+%     which is S5.1's word for a COMPLEXITY split two printed pages
+%     earlier. Now "make the two objectives disagree".
+%
+% NO new macro, no Appendix A row, no bibliography entry, no
+% citation. wc, wcr and c^av all already have Appendix A rows. Ch5
+% still contains ZERO proof environments.
+%
+% ── C4 RECORD (S5.3 scope and outlook) ────────────────────
+%
+% TWO PLAN DEFECTS FOUND BEFORE DRAFTING:
+%
+%   (i) THE "Open Problems." HEADING IS DELETED. The plan assigns S5.3
+%       both of Goerigk's open problems. Open Problem 1 is already
+%       discharged in S4.3.2 and pointed at by S5.1; Open Problem 2 is
+%       already cited in Ch1 and again in S5.1. Either would be a
+%       third telling. This also settles the "three headings against a
+%       two-paragraph plan" question the C1 record left open.
+%
+%  (ii) THE PLAN'S SECOND OPEN PROBLEM CANNOT BE WRITTEN AS STATED. It
+%       asks for "the gap between the O(log K) upper bound and the
+%       inapproximability lower bound". The thesis states the upper
+%       bound as O(log K) and the lower bound as no constant factor at
+%       all. Goerigk's logarithmic lower bound is Omega(log^{1-eps} n),
+%       in n and NOT in K, and the thesis never states it. The gap
+%       cannot be characterised without importing a bound in a
+%       different parameter. Dropped.
+%
+% THE ORGANISING IDEA, which is what makes this section ADD rather
+% than repeat Ch1's exclusion list: S5.1 found that interval and
+% discrete uncertainty separate the two objectives. BOTH neighbouring
+% solution concepts reproduce the min-max half of that split, and
+% Goerigk's own Table 8.1 supplies every cell:
+%   two-stage    discrete NP-hard at K=2 (Thm 8.17), strong once K is
+%                input (Thm 8.18); interval P (Thm 4.10)
+%   recoverable  discrete NP-hard at K=2 (Thm 8.19), strong once K is
+%                input (Thm 8.20); interval P (Cor 8.22)
+% All six locators read verbatim this session, plus Definitions 3.3
+% and 3.4 for the two models themselves.
+%
+% ADVERB DISCIPLINE, and a checker must NOT "fix" it: 8.17 and 8.19
+% say NP-hard with NO adverb, so the text says NP-hard with no adverb.
+% 8.18 and 8.20 DO say strongly, so the next sentence says the
+% hardness turns strong once K is part of the input. The bare use at
+% constant K is deliberate and is licensed by the sources.
+%
+% BIBLIOGRAPHY. Three entries added, each verified against the
+% publisher record and never against a bracket key:
+%   GoerigkKasperskiZielinski2020  TCS 804 (2020) 29-45
+%   KasperskiKurpiszZielinski2014  OR Proc 2012, Springer, 147-153.
+%     YEAR 2014, NOT Goerigk's 2013. Springer's copyright line, its
+%     own citation block and two independent reference lists all give
+%     2014; only "first online" was November 2013.
+%   GoerigkHartisch2023            DAM 328 (2023) 40-59
+% HradovichKasperskiZielinski2017 was already present and uncited; it
+% is now verified against the Springer record and used. references.bib
+% holds 27 entries, 24 cited, 3 uncited.
+%
+% ESCALATION APPROVED BY THE AUTHOR, and it REOPENS THE LOCKED S5.1
+% NOTE for one clause: Theorem 4.25 was cited through the textbook
+% alone, and Goerigk attributes it to [GH23]. The note now names
+% \textcite{GoerigkHartisch2023} and keeps the textbook locator, which
+% is the house attribution formula. No other word of S5.1 changed.
+%
+% DECISIONS:
+%   16. Ellipsoidal and distributional robustness are dropped, per the
+%       plan. Ch1's live \Cref{sec:outlook} promises the outlook
+%       discusses all five of its exclusions; that sentence goes on
+%       the deferred list.
+%   17. The interval recoverable result is stated, NEVER its method.
+%       Goerigk proves it through a matroid reduction and "matroid"
+%       has zero occurrences in Ch1 to Ch4 by policy.
+%   18. "price" is NOT used as a verb. Ch3 and Ch4 each use it once as
+%       an ordinary noun, and a technical verb sense would clash.
+%   19. The budgeted device is NOT restated. A first draft described
+%       its level and its charging rule and scored 0.50 against Ch3.
+%       S5.3 needs only the fact that ONE number does the job, and
+%       \Cref{sec:mm-budgeted} carries the rest.
+%   20. "separate" avoided again, as in S5.2: it is S5.1's word for a
+%       complexity split.
+%
+% TWO REDUNDANCY PAIRS REMAIN AT 0.44, both legitimate: the two-stage
+% hardness sentence against Ch3's own hardness statement, which is the
+% house theorem-statement pattern; and "the hardness turns strong once
+% K is part of the input" against Ch3's line, which is a DELIBERATE
+% parallel, made explicit by the sentence after it pointing at
+% tab:complexity-landscape.
+%
+% CHAPTER 5 CLOSES AT EXACTLY 5.000 PRINTED PAGES: opening 0.248,
+% S5.1 1.985, S5.2 1.596, S5.3 1.171. Document 60 pages. Register
+% 16.0 median / 16.8 mean / 37 max over 93 sentences, homogeneous
+% across four separately drafted units. ZERO proof environments, and
+% every label in the thesis is now referenced.
+%
+% ── C3+C4 REVAMP RECORD (v2, author major review 2026-09-05) ──
+%
+% Fourteen-point QUALITY review; both sections redrafted from a plan,
+% not patched. THE ARC, stated so the next reader knows the belief
+% behind each paragraph: the table says how hard (S5.1); the gallery
+% shows what the objectives do (S5.2); the trade-off figure says why
+% and at what cost (S5.2); the outlook owns the scope, looks at the
+% neighbours, gathers the questions and ENDS THE THESIS (S5.3).
+%
+% S5.2 v2:
+%   - fig:micro-graph-gallery now opens with an INSTANCE PANEL: the
+%     graph with its five intervals and the scenario legend, in Ch2's
+%     exact style and proportions (label clearance needs
+%     spread x scale of about 3.0cm; at less the e2/e3 labels
+%     collide, which the first build showed). Every number in the
+%     grid is checkable against it (review points 6, 4).
+%   - panel (0) is GONE (point 7). Its content moved to prose with
+%     its purpose stated: the deterministic tree is the reference a
+%     planner starts from. The paragraph closes: min-max is the
+%     deterministic answer to the most pessimistic reading of the
+%     data; regret, on this instance, to the even one.
+%   - panel (f) now reads "settled by reduction from panel (e)" with
+%     "(f) see tab:complexity-landscape" beneath (point 8): the
+%     educated choice is visible, not an apparent gap.
+%   - fig:micro-graph-tradeoff names ALL EIGHT trees (point 5): T1,
+%     T2 in \scriptsize colour, T3 with its edge set and the five
+%     unnamed trees by edge sets in \tiny TextGray. Caption now opens
+%     with the figure's purpose (point 9): "Why the contest in
+%     fig:micro-graph-gallery is between two trees only."
+%   - the section opens from the table ("says how hard; does not show
+%     what the objectives do"), giving the gallery its motivation
+%     (point 1).
+% S5.3 v2 (points 10-14):
+%   - opens AT HOME: budgeted regret, the one untreated cell of our
+%     own table, why it was left aside (nothing to curate: Table 8.1
+%     of the book lists no algorithm and no guarantee; locator read
+%     verbatim) (point 13).
+%   - the budget is recalled in Ch2's own terms ("caps the cumulative
+%     deviation across the whole graph") before the several-budgets
+%     generalisation (point 11); the device is summarised by its
+%     effect, one number and m+1 candidates, never restated.
+%   - solution concepts open from the table's shared assumption ("the
+%     whole tree is fixed before a single cost is known"). The two
+%     results paragraphs carry DELIBERATE mirrored topic sentences:
+%     "Flexibility does not buy tractability where this thesis found
+%     none." / "Where this thesis found tractability, flexibility
+%     keeps it." Internal Jaccard 0.50 BY DESIGN; do not fix.
+%   - "Open Problems." RESTORED (point 14), non-redundantly: the two
+%     questions are gathered once, each with what an answer would
+%     change in OUR table (the one cell with a constant factor of
+%     unknown optimality; the single guarantee asymmetry).
+%   - THE THESIS ENDING (point 3): what is left behind (deliberately
+%     small and thoroughly checked; do not undersell), then the
+%     planner returns and the final line lands the research question:
+%     "What such a planner no longer has to guess is what either
+%     choice will cost to compute." The 48-word colon-list sentence
+%     before it is the deliberate closing summary, house shape.
+%
+% FLAGGED REOPEN OF LOCKED S5.1, paragraph D, driven by point 14:
+%   with the open problems now gathered in S5.3, S5.1 stating both in
+%   full was a double telling (Jaccard 0.52). D's last two sentences
+%   became one forward pointer to sec:outlook. NOTHING else in S5.1
+%   changed; OP2's citation moved with the content and OP1's home
+%   remains Ch4 line 1258.
+%
+% MEASURED: S5.2 546w at 20/20.1/31 over 2.085pg; S5.3 639w at
+% 20/20.5/48 over 1.702pg; CHAPTER 1947w at 19/19.1/48 over 6.000pg,
+% document 61pp. The chapter now sits AT Ch3/Ch4's register (about
+% 20), per review point 2, no longer below it. The growth from 5.0 to
+% 6.0 pages is carried entirely by review-mandated content: the
+% instance panel, the restored Open Problems, the budgeted-regret
+% scope passage and the ending.
+% "separate" appears once, as the ordinary adjective in "risks of
+% their own" replaced it; "contest" is a two-use light metaphor
+% (caption + prose); "planner" spans S5.2 and the ending BY DESIGN,
+% the coherence device of point 2.
+%
+% ── CHECKER RECORD, C3+C4 (independent pass, 2026-09-05) ──
+%
+% BUILD REPRODUCED: 0 errors, 0 undefined refs, 0 undefined citations,
+% 0 multiply-defined, 0 overfull, 0 underfull, 61 pages, 24 citekeys.
+% All eight trees re-enumerated in BOTH coordinate systems from
+% 02_foundations.tex; reproduces the C3 record exactly. All eight point
+% labels sit at the correct coordinates. Panel edge sets audited edge by
+% edge: (a)(b)(c) draw T2, (d)(e) draw T1. The instance panel matches
+% Ch2 line for line, spread x scale 2.97 cm against Ch2's 3.00 cm.
+% All eight Ch8 and Ch3/Ch4 locators opened verbatim and every adverb
+% ruled on. Three new bibliography entries verified independently.
+%
+% THREE DEFECTS FOUND AND FIXED:
+%   MAJOR 1, CORRECTNESS. "the single asymmetry in the table's guarantee
+%     entries" is FALSE: THREE of four columns differ in the Algorithms
+%     row. The true claim is the one column where the objectives share a
+%     COMPLEXITY but not a guarantee, which is K in the input, and that
+%     IS unique. Tell: a closing clause quantifying over the table
+%     without counting it.
+%   MAJOR 2, ATTRIBUTION. Cor 8.22 follows from Thm 8.21, which carries
+%     [LPT21]. HradovichKasperskiZielinski2017 appears only in Goerigk's
+%     Section 8.5 Further Reading. Split into two claims: the fact with
+%     Cor 8.22, the spanning-tree attribution with HKZ2017.
+%   MAJOR 3, UNSOURCED. "whose complexity remained open for some time"
+%     has no source in Goerigk 8.4.2. Cut rather than sourced.
+%
+% AUTHOR DIRECTION APPLIED: panel (f) reads "not developed", which also
+%   fixed an overflow of its dashed box; the Solution Concepts paragraph
+%   was split in two so the mirrored topic sentences are legible.
+%
+% NOTED, and the RECORD is what was wrong, not the choice: the C3
+%   record's "Ch2's styles unchanged" is false for nonedge. Ch2 uses
+%   black!25; this figure uses black!35, matching Ch4's
+%   fig:regret-extremal-scenarios. Following the nearer sibling is
+%   house-consistent, so the figure stays and the record is corrected.
+%
+% ── CHAPTER 5 LOCK PASS (checker, 2026-09-05) ─────────────
+%
+% 22 of 22 numerical checks pass. 80 labels thesis-wide, none dangling.
+% 18 citation moments, 5 keys; EVERY LOCATOR IN Ch5 OPENED VERBATIM.
+% NEGATIVE-CAPABILITY LENS: ten claims enumerated and each tested.
+%
+% FOUR DEFECTS FOUND BY THE CONTINUOUS READ, two of them the checker's
+% own from the C3+C4 readability pass:
+%   L1, CORRECTNESS. "no 2 - eps" carried no "unless P = NP" in prose;
+%     the qualifier sat only in the caption, on the FOLLOWING page.
+%     Predates the checker's edits and was missed in the C1+C2 pass.
+%   L2, STRICTNESS DRIFT. "which has no regret counterpart" asserts
+%     non-existence; sealed 04_regret line 1257 says "is known", and
+%     S5.3 treats it as a gap in knowledge. Now "for which no regret
+%     counterpart is known".
+%   L3, ATTRIBUTION, THE CHECKER'S OWN. "The interval one is proved in
+%     Ch4" gave a two-sided separation to one chapter. What the budgeted
+%     column inherits is the REGRET HARDNESS, not the separation.
+%   L4, COUNT, THE CHECKER'S OWN. "The remaining two columns" implies
+%     three where the table has four. Recast as "The interval and
+%     budgeted columns".
+%
+% ── WRITER FINAL REVIEW AND LOCK (2026-09-06) ─────────────
+%
+% Author-requested last pass over the whole chapter, every lens
+% re-executed from the final text and every number re-derived from
+% 02_foundations.tex by regex rather than recalled. 26 of 26 numerical
+% checks pass. Acceptance 0/0/0/0/0/0, 61 pages, 24 citekeys, printed
+% p.47 to p.52.
+%
+% TWO SOURCE FINDINGS THAT SETTLE EARLIER DECISIONS:
+%   Goerigk's OPEN PROBLEM 10 is exactly the O(K) versus
+%     Omega(log^{1-eps}) gap, stated FOR SHORTEST PATHS. The C4
+%     decision to drop that open problem is therefore right for a
+%     stronger reason than the one recorded: it is not a spanning tree
+%     problem at all. Do not reinstate it.
+%   "curate" is ANCHORED by the abstract, which says the remaining
+%     results "are curated from the literature". Two uses thesis-wide,
+%     so the two-use rule holds. Flagged as a violation and cleared.
+%
+% ONE MAJOR DEFECT FOUND, and it is the reason this pass happened:
+%   "Where this thesis found tractability, flexibility keeps it" is a
+%   FALSE UNIVERSAL. This thesis found tractability in TWO columns,
+%   interval AND budgeted; the paragraph evidences only interval.
+%   Goerigk's Table 8.1 gives Recoverable x Budgeted as "cont.:
+%   unknown, disc.: sNPH (Cor. 8.26)" and Two-Stage x Budgeted as
+%   unknown in both, all read verbatim. Corollary 8.26: "The
+%   recoverable spanning tree problem under discrete budgeted
+%   uncertainty is strongly NP-hard."
+%   SAME CLASS as the checker's own MAJOR 1, and it survived three
+%   passes because the negative-capability lens tests NEGATIVE claims
+%   and this one is a POSITIVE universal. ADD POSITIVE UNIVERSALS TO
+%   THAT LENS.
+%   Repaired by scoping both mirrored topic sentences to the model each
+%   evidences: "Under discrete scenarios, flexibility does not buy
+%   tractability" and "Under interval costs, flexibility keeps it". The
+%   mirror survives, the paragraph break survives, and the mirror now
+%   turns on the axis the whole chapter is organised on.
+%
+% ONE MAJOR JUDGEMENT CALL, applied on author instruction:
+%   S5.2's closing line set an IDENTITY and a COINCIDENCE in parallel.
+%   Min-max under intervals IS the deterministic problem at the upper
+%   bounds, always (cor:mm-interval-polynomial). That regret agrees
+%   with the midpoint answer holds on THIS INSTANCE only, and Ch4
+%   disclaims exactly that inference. Split into two sentences so the
+%   general half is stated as general and the instance half as an
+%   instance. DO NOT re-flatten it into one parallel sentence.
+%
+% SEVEN FURTHER CHANGES:
+%   "One further tree is worth locating" promised a new tree and
+%     delivered T1, already plotted. Now "One more answer belongs
+%     beside these two".
+%   "so that every number below can be checked against it": panel (c)
+%     needs the nominal/half-width reading of S3.4, which the upper
+%     panel does not carry. Now "the values below can be traced back
+%     to it". The lock pass ruled this held; this pass disagrees and
+%     the author chose the weaker claim.
+%   S5.1 called the enumerated object "one parameter", S5.3 "a single
+%     level". "Level" is Ch3's own noun, 29 uses. S5.1 now says level.
+%   "plain" appeared twice in adjacent paragraphs in two senses; the
+%     second is now "it".
+%   fig:micro-graph-tradeoff: on the row wcr = 9 both points sat at the
+%     outside with both labels in the middle, and the anchor convention
+%     flipped for the (20,9) point alone, the one place where pairing
+%     was by proximity. Its label moved ABOVE the point. This is the
+%     reported "crowding", diagnosed precisely and fixed on author
+%     instruction; the project's do-not-touch-TikZ rule was waived here.
+%   The %----- rule before \section{Scope and Outlook} was missing
+%     while S5.1 and S5.2 both had it. Restored.
+%   Status line was stale, reading "S5.2 and S5.3 are still to be
+%     written" in a header ending "CHAPTER 5 IS LOCKED".
+%
+% RECORD CORRECTIONS:
+%   The lock pass says "the two bare uses in S5.3". There is ONE
+%     textual occurrence of bare NP-hard; the second result inherits it
+%     through "prove the same". Both remain licensed by 8.17 and 8.19.
+%   Top redundancy is 0.73 on this pass's extraction against the lock
+%     pass's 0.62, same recorded pair (the table note against
+%     cor:regret-interval-evaluation). Extraction difference only.
+%   "It trades the budget for a single level" scores 0.43 against Ch3,
+%     up from 0.37, because the checker's readability fix adopted Ch3's
+%     own noun. That was the right call; the rise is deliberate.
+%   THE WRITER C3 AND C4 RECORDS WERE ABSENT from the delivered file,
+%     leaving the checker's "The C3 record's ..." dangling. Both are
+%     restored above, so the reference resolves.
+%
+% PLAN CORRECTIONS AT LOCK. The S5.2 and S5.3 plans near the top of
+% this header are SUPERSEDED in these places and were kept, not
+% deleted, per house practice:
+%   S5.2's reference panel "(0) deterministic MST under the midpoints"
+%     was CUT; the deterministic answer is prose with its purpose
+%     stated. Its grid line "(f) out of scope" is now "not developed".
+%   S5.2's "only two of the eight trees are ever selected" is carried
+%     by fig:micro-graph-tradeoff, not by the sentence the plan drafts.
+%   S5.3's "~550 words, two paragraphs" is three paragraph blocks and
+%     643 words; "Open Problems" was deleted and then RESTORED on the
+%     author's review of 2026-09-05.
+%   S5.3's second open problem, "the gap between the O(log K) upper
+%     bound and the inapproximability lower bound", CANNOT be written:
+%     see Open Problem 10 above.
+%   The "BIBLIOGRAPHY GAP" line is discharged; all three keys are in
+%     references.bib and verified against publisher records.
+%
+% FINAL MEASUREMENT: 1959 words, 103 sentences, register 19 median /
+% 18.9 mean / 48 max, against Ch2 16/17.1/42, Ch3 19/20.5/52, Ch4
+% 20/20.4/50. Sixteen prose paragraphs, median 96, longest 191, under
+% Ch4's 203. Chapter 6.000 printed pages. Zero proof environments,
+% three floats, no macro or Appendix A row added anywhere in Ch5.
+%
+% STILL OPEN, NONE OF IT Ch5's: the Ch1 and abstract sweep, six items
+% listed in the C2 record; and three bibliography entries cited zero
+% times (AissiBazganVanderpooten2007EJOR, BuesingTGNO2023,
+% PapadimitriouYannakakis2000).
+%
+% CHAPTER 5 IS LOCKED.
 %═══════════════════════════════════════════════════════════
 
 \chapter{Conclusion}\label{ch:conclusion}
 
+\Cref{ch:minmax,ch:regret} each followed one objective across the uncertainty models of \Cref{sec:uncertainty}. This chapter sets the two side by side.
+\Cref{sec:synthesis} condenses both chapters into one classification and states what it shows.
+\Cref{sec:gallery} solves the running micro-graph under the objectives and models the thesis develops.
+\Cref{sec:outlook} turns to the models and questions beyond the scope of this thesis.
+Every claim rests on a result established earlier or on a source cited at the point of use; nothing further is proved.
+
 %─────────────────────────────────────────────────────────
 %─────────────────────────────────────────────────────────
 \section{Synthesis of Results}\label{sec:synthesis}
-% tab:complexity-landscape (~300w + float) then pattern synthesis
-% (~450w, patterns 1, 3, 5 and one sentence of 2). See header.
 
 \paragraph{Complexity Landscape.}
 
+\Cref{tab:complexity-landscape} holds the classification.
+Each column is one uncertainty model, with the discrete model split into constant $K$ and $K$ part of the input, because the two sides are classified differently.
+Each objective fills two rows: the complexity of the problem, and the algorithms available for it.
+Every entry names the result or source that establishes it.
+
 \begin{table}[htbp]
 \centering
-\caption{Complexity and approximability of robust spanning tree problems. Skeleton; the entries are compiled from \Cref{ch:minmax,ch:regret} in the final pass of this chapter.}
+\caption{Classification of the robust spanning tree problem, by objective and by uncertainty model. The entry ``no $2 - \varepsilon$'' means that no polynomial-time approximation within a factor of $2 - \varepsilon$ exists for any $\varepsilon > 0$, unless $\mathsf{P} = \mathsf{NP}$. The note beneath the table explains the two entries marked $^{\dagger}$.}
 \label{tab:complexity-landscape}
-\begin{tabular}{lcc}
+{\small\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l >{\raggedright\arraybackslash}p{0.19\textwidth} >{\raggedright\arraybackslash}p{0.205\textwidth} >{\raggedright\arraybackslash}p{0.2075\textwidth} >{\raggedright\arraybackslash}p{0.16\textwidth}@{}}
 \toprule
-Uncertainty model & Min-max & Min-max regret \\
+& \multicolumn{2}{c}{Discrete scenarios} & & \\
+\cmidrule(lr){2-3}
+& Constant $K$ & $K$ in the input & Interval & Budgeted \\
 \midrule
-Discrete, constant $K$ & & \\
-Discrete, unbounded $K$ & & \\
-Interval & & \\
-Budgeted & & \\
+\multicolumn{5}{@{}l}{\textit{Min-max}} \\
+Complexity & weakly $\mathsf{NP}$-hard (\Cref{thm:mm-k2-hard}) & strongly $\mathsf{NP}$-hard; no $2 - \varepsilon$ (\Cref{thm:mm-kunbdd-hard}) & in $\mathsf{P}$ (\Cref{cor:mm-interval-polynomial}) & in $\mathsf{P}$ (\Cref{thm:mm-budgeted-poly}) \\
+\addlinespace[2pt]
+Algorithms & pseudo-polynomial; FPTAS (\Cref{thm:mm-kconst-pseudo,thm:mm-kconst-fptas}) & $O(\log K)$-approximation (\Cref{thm:mm-kunbdd-approx}) & exact, $O(m \log n)$ (\Cref{cor:mm-interval-polynomial}) & exact, $O(m^{2} \log n)$ (\Cref{thm:mm-budgeted-poly}) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Min-max regret}} \\
+Complexity & weakly $\mathsf{NP}$-hard (\Cref{thm:regret-k2-hard}) & strongly $\mathsf{NP}$-hard; no $2 - \varepsilon$ (\Cref{thm:regret-kunbdd-hard}) & strongly $\mathsf{NP}$-hard (\Cref{thm:regret-interval-hard}) & strongly $\mathsf{NP}$-hard$^{\dagger}$ \\
+\addlinespace[2pt]
+Algorithms & pseudo-polynomial; FPTAS (\Cref{thm:regret-kconst-pseudo}) & \mbox{$K$-approximation} \mbox{\cite[Theorem~5.4]{Goerigk2021RCO}} & \mbox{$2$-approximation} (\Cref{thm:regret-2approx}) & none developed$^{\dagger}$ \\
 \bottomrule
 \end{tabular}
+
+\vspace{0.9ex}
+\begin{minipage}{\textwidth}
+\footnotesize $^{\dagger}$ The hardness entry follows by reduction from the interval column. At $\Gamma = \abs{E}$ the budget constraint is inactive, and the budgeted set of \Cref{def:budgeted-uncertainty} is exactly the interval set $\prod_{e \in E} [\bar{c}_e, \bar{c}_e + \hat{c}_e]$. The choice $\bar{c} = \ell$, $\hat{c} = u - \ell$ therefore writes any interval regret instance as a budgeted one. \textcite[Section~8.5]{Goerigk2021RCO} record the same inheritance. The hardness inherited is strong, because \Cref{thm:regret-interval-hard} holds already when every interval equals $[0,1]$, where every number of the instance is a $0$ or a $1$. The algorithm entry stays empty because this thesis develops none. Under interval uncertainty the maximum regret of a single tree is found by one minimum spanning tree computation (\Cref{cor:regret-interval-evaluation}). Under a budget no such shortcut is known in general, and the reformulation of \textcite{GoerigkHartisch2023} still optimises over all spanning trees \cite[Theorem~4.25]{Goerigk2021RCO}.
+\end{minipage}}
 \end{table}
 
+Five of the six combinations of objective and model are developed in \Cref{ch:minmax,ch:regret}.
+The sixth, min-max regret under a budget, was left aside by \Cref{ch:regret} and is settled here by reduction from the interval case; the note beneath the table gives the argument.
+
 \paragraph{Key Patterns.}
+
+The discrete column does not separate the two objectives.
+Min-max and min-max regret carry the same complexity at every $K$, and while $K$ is constant they carry the same algorithms as well.
+Both are weakly $\mathsf{NP}$-hard already at two scenarios, solvable in pseudo-polynomial time and approximable to any precision.
+Both turn strongly $\mathsf{NP}$-hard once $K$ is part of the input, and unless $\mathsf{P} = \mathsf{NP}$ neither is approximable within $2 - \varepsilon$.
+Beyond two scenarios, $K$ decides only whether that hardness is weak or strong.
+The interval and budgeted columns separate the objectives completely: under each of them min-max is solved exactly in polynomial time, while min-max regret is strongly $\mathsf{NP}$-hard.
+These two separations are not independent.
+The regret hardness that creates the budgeted one is inherited from the interval one, by the reduction in the note beneath the table.
+
+At constant $K$ both objectives admit an FPTAS, the strongest guarantee short of exactness.
+Every remaining guarantee in the table but one comes from a single method: solve the deterministic problem at an averaged cost vector.
+The midpoint of each interval gives the $2$-approximation for interval regret (\Cref{thm:regret-2approx}); the average of the $K$ scenarios gives the $K$-approximation for both objectives \cite[Theorem~5.4]{Goerigk2021RCO}.
+The exception is the $O(\log K)$ bound for min-max (\Cref{thm:mm-kunbdd-approx}), for which no regret counterpart is known (\Cref{sec:regret-unbdd-k}); this asymmetry, and the question whether the factor $2$ is the best possible, are taken up in \Cref{sec:outlook}.
+
+What decides this classification is not the size of the uncertainty set: an interval set is infinite yet polynomial for min-max, while two scenarios already make both objectives hard.
+The deciding factor, identified in the Summary of \Cref{ch:minmax} and extended in that of \Cref{ch:regret}, is whether the adversary's worst case depends on the chosen tree, and at what cost that dependence can be removed.
+Min-max removes it under both continuous models, at no cost under intervals and at the cost of enumerating one level under a budget; these are the table's two polynomial cells (\Cref{cor:mm-interval-polynomial,thm:mm-budgeted-poly}).
+For regret the worst case moves with the tree instead, a dependence \Cref{sec:regret-extremal} makes explicit for intervals.
+Wherever the table records hardness, on either objective, no such bounded removal can exist unless $\mathsf{P} = \mathsf{NP}$.
+The answer to the question this thesis opened with is therefore short: across objectives and models, complexity is set by the cost of making the adversary's answer independent of the tree.
 
 %─────────────────────────────────────────────────────────
 %─────────────────────────────────────────────────────────
 \section{Example Gallery}\label{sec:gallery}
-% fig:micro-graph-gallery (~350w + float). PROTECTED. Six panels in the
-% SAME 2x3 shape as tab:complexity-landscape, plus one reference panel.
-% Values verified by enumeration; see header. Close with the observation
-% that only two of the eight trees are ever selected.
 
 \paragraph{Micro-Graph Solutions Across Objectives.}
 
-\paragraph{Extremal Behaviour Visualisation.}
+\Cref{tab:complexity-landscape} says how hard each problem is; it does not show what the objectives do.
+This section shows them at work, on the instance that has run through the thesis since \Cref{fig:micro-graph}.
+The upper panel of \Cref{fig:micro-graph-gallery} restates its data, five edges with interval costs and the three discrete scenarios read off them, so that the values below can be traced back to it.
+The grid then solves each combination the thesis develops and reports the optimal tree, which is unique in every case, together with its optimal value.
 
-%─────────────────────────────────────────────────────────
-%─────────────────────────────────────────────────────────
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    scale=1.80,
+    vertex/.style={circle, draw=RWTHBlue, very thick, fill=RWTHBlue!20, minimum size=7.5mm, font=\small\bfseries},
+    edge/.style={very thick, color=black!70},
+    every node/.style={font=\small}
+]
+    \node[vertex] (v1) at (0, 1.8) {$1$};
+    \node[vertex] (v2) at (1.65, 1.8) {$2$};
+    \node[vertex] (v3) at (0, 0) {$3$};
+    \node[vertex] (v4) at (1.65, 0) {$4$};
+    \draw[edge] (v1) -- (v2) node[midway, above, font=\scriptsize] {$e_1$: $[2,4]$};
+    \draw[edge] (v2) -- (v3) node[midway, right, font=\scriptsize] {$e_2$: $[3,5]$};
+    \draw[edge] (v2) -- (v4) node[midway, right, font=\scriptsize] {$e_3$: $[1,7]$};
+    \draw[edge] (v3) -- (v4) node[midway, below, font=\scriptsize] {$e_4$: $[4,6]$};
+    \draw[edge] (v1) -- (v3) node[midway, left, font=\scriptsize] {$e_5$: $[5,7]$};
+    \node[anchor=north, align=center, font=\scriptsize] at (0.825, -0.55) {
+        \textcolor{RWTHBlue}{\textbf{Scenarios:}} $\cs{1} = (2,3,1,4,5)$, $\cs{2} = (4,5,7,6,7)$, $\cs{3} = (3,4,4,5,6)$
+    };
+\end{tikzpicture}
 
-\paragraph{Scope of Uncertainty Models.}
+\vspace{1.2em}
 
-\paragraph{Scope of Solution Concepts.}
+\begin{tikzpicture}[
+    scale=1.30,
+    minivertex/.style={circle, draw=RWTHBlue, thick, fill=RWTHBlue!20, minimum size=6mm, font=\scriptsize\bfseries, inner sep=0pt},
+    treeedge/.style={ultra thick, color=RWTHOrange},
+    nonedge/.style={thin, color=black!35, dotted},
+    plab/.style={anchor=north, align=center, font=\scriptsize},
+    colhead/.style={anchor=south, align=center, font=\scriptsize\bfseries},
+    rowhead/.style={anchor=east, align=right, font=\scriptsize\bfseries},
+    every node/.style={font=\scriptsize}
+]
+    \node[colhead] at (0.6,1.75) {Discrete};
+    \node[colhead] at (4.4,1.75) {Interval};
+    \node[colhead] at (8.2,1.75) {Budgeted, $\Gamma = 2$};
+    \node[rowhead] at (-0.45,0.6) {Min-max};
+    \begin{scope}[shift={(0,0)}]
+        \node[minivertex] (a1) at (0,1.2) {$1$}; \node[minivertex] (a2) at (1.2,1.2) {$2$};
+        \node[minivertex] (a3) at (0,0) {$3$};   \node[minivertex] (a4) at (1.2,0) {$4$};
+        \draw[treeedge] (a1) -- (a2); \draw[treeedge] (a2) -- (a3); \draw[nonedge] (a2) -- (a4);
+        \draw[treeedge] (a3) -- (a4); \draw[nonedge] (a1) -- (a3);
+        \node[plab] at (0.6,-0.35) {(a) $T_2$, worst case $15$};
+    \end{scope}
+    \begin{scope}[shift={(3.8,0)}]
+        \node[minivertex] (b1) at (0,1.2) {$1$}; \node[minivertex] (b2) at (1.2,1.2) {$2$};
+        \node[minivertex] (b3) at (0,0) {$3$};   \node[minivertex] (b4) at (1.2,0) {$4$};
+        \draw[treeedge] (b1) -- (b2); \draw[treeedge] (b2) -- (b3); \draw[nonedge] (b2) -- (b4);
+        \draw[treeedge] (b3) -- (b4); \draw[nonedge] (b1) -- (b3);
+        \node[plab] at (0.6,-0.35) {(b) $T_2$, worst case $15$};
+    \end{scope}
+    \begin{scope}[shift={(7.6,0)}]
+        \node[minivertex] (c1) at (0,1.2) {$1$}; \node[minivertex] (c2) at (1.2,1.2) {$2$};
+        \node[minivertex] (c3) at (0,0) {$3$};   \node[minivertex] (c4) at (1.2,0) {$4$};
+        \draw[treeedge] (c1) -- (c2); \draw[treeedge] (c2) -- (c3); \draw[nonedge] (c2) -- (c4);
+        \draw[treeedge] (c3) -- (c4); \draw[nonedge] (c1) -- (c3);
+        \node[plab] at (0.6,-0.35) {(c) $T_2$, worst case $14$};
+    \end{scope}
+    \node[rowhead] at (-0.45,-2.15) {Min-max \\ regret};
+    \begin{scope}[shift={(0,-2.75)}]
+        \node[minivertex] (d1) at (0,1.2) {$1$}; \node[minivertex] (d2) at (1.2,1.2) {$2$};
+        \node[minivertex] (d3) at (0,0) {$3$};   \node[minivertex] (d4) at (1.2,0) {$4$};
+        \draw[treeedge] (d1) -- (d2); \draw[treeedge] (d2) -- (d3); \draw[treeedge] (d2) -- (d4);
+        \draw[nonedge] (d3) -- (d4);  \draw[nonedge] (d1) -- (d3);
+        \node[plab] at (0.6,-0.35) {(d) $T_1$, max regret $1$};
+    \end{scope}
+    \begin{scope}[shift={(3.8,-2.75)}]
+        \node[minivertex] (e1) at (0,1.2) {$1$}; \node[minivertex] (e2) at (1.2,1.2) {$2$};
+        \node[minivertex] (e3) at (0,0) {$3$};   \node[minivertex] (e4) at (1.2,0) {$4$};
+        \draw[treeedge] (e1) -- (e2); \draw[treeedge] (e2) -- (e3); \draw[treeedge] (e2) -- (e4);
+        \draw[nonedge] (e3) -- (e4);  \draw[nonedge] (e1) -- (e3);
+        \node[plab] at (0.6,-0.35) {(e) $T_1$, max regret $3$};
+    \end{scope}
+    \begin{scope}[shift={(7.6,-2.75)}]
+        \draw[dashed, color=black!30] (-0.35,-0.15) rectangle (1.55,1.35);
+        \node[align=center, font=\scriptsize, text=black!55] at (0.6,0.6) {not developed};
+        \node[plab] at (0.6,-0.35) {(f) see \Cref{tab:complexity-landscape}};
+    \end{scope}
+\end{tikzpicture}
+\caption{The running micro-graph solved under each objective and each uncertainty model. The upper panel restates the instance: the interval costs, and the three discrete scenarios derived from them as their lower bounds, upper bounds and midpoints. In the grid, orange edges form the optimal tree, which is unique in every panel; the remaining edges are dotted. The upper row reports worst-case cost and the lower row maximum regret, so values are comparable within a row only. Panel (f) carries no tree by design: no algorithm for it is developed in this thesis, and its hardness is inherited from the interval case through the note to \Cref{tab:complexity-landscape}.}
+\label{fig:micro-graph-gallery}
+\end{figure}
 
-\paragraph{Proof Selection.}
+The two rows do not mix.
+Min-max returns $T_2$ in each of its three panels, and min-max regret returns $T_1$ in each of its two.
+On this instance the choice of objective decides the answer, while the choice of uncertainty model changes only the value attached to it.
+One of these agreements is built into the instance rather than found by the objectives.
+$\cs{2}$ is the vector of upper bounds, and it is at least as expensive as the other two scenarios on every tree.
+Panels (a) and (b) therefore pose the same problem, and they agree on all eight trees, not only at the optimum.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    axis/.style={TextGray, thick, -{Stealth[length=2mm]}},
+    ptTone/.style={circle, fill=RWTHRed, inner sep=1.9pt},
+    ptTtwo/.style={circle, fill=RWTHBlue, inner sep=1.9pt},
+    ptOther/.style={circle, draw=TextGray, fill=white, thick, inner sep=1.4pt},
+    lbl/.style={font=\scriptsize, TextGray},
+    nlbl/.style={font=\scriptsize},
+    tlbl/.style={font=\tiny, TextGray},
+    xscale=1.25, yscale=0.62
+]
+    \fill[RWTHLightBlue!22] (16,3) rectangle (20.8,10.9);
+    \draw[RuleGray, dashed] (16,3) -- (16,10.9);
+    \draw[RuleGray, dashed] (16,3) -- (20.8,3);
+    \draw[axis] (14.5,2.2) -- (21.1,2.2) node[right, lbl] {$\wc{T}$};
+    \draw[axis] (14.5,2.2) -- (14.5,11.3) node[above, lbl] {$\wcr{T}$};
+    \foreach \x in {15,16,17,18,19,20} {\draw[TextGray] (\x,2.2) -- (\x,2.0) node[below, lbl] {$\x$};}
+    \foreach \y in {3,4,5,6,7,8,9,10} {\draw[TextGray] (14.5,\y) -- (14.35,\y) node[left, lbl] {$\y$};}
+    \node[ptOther] at (17,4) {};  \node[tlbl, anchor=west] at (17.10,4.0) {$\{e_1,e_3,e_4\}$};
+    \node[ptOther] at (17,9) {};  \node[tlbl, anchor=west] at (17.10,9.0) {$\{e_1,e_4,e_5\}$};
+    \node[ptOther] at (18,7) {};  \node[tlbl, anchor=west] at (18.10,7.0) {$\{e_1,e_3,e_5\}$};
+    \node[ptOther] at (18,10) {}; \node[tlbl, anchor=west] at (18.10,10.0) {$\{e_2,e_4,e_5\}$};
+    \node[ptOther] at (19,8) {};  \node[tlbl, anchor=west] at (19.10,8.0) {$T_3 = \{e_2,e_3,e_5\}$};
+    \node[ptOther] at (20,9) {};  \node[tlbl, anchor=south] at (20,9.22) {$\{e_3,e_4,e_5\}$};
+    \node[ptTtwo] at (15,5) {}; \node[nlbl, anchor=west, text=RWTHBlue] at (15.15,5.4) {$T_2$};
+    \node[ptTone] at (16,3) {}; \node[nlbl, anchor=east, text=RWTHRed] at (15.85,3.0) {$T_1$};
+    \node[nlbl, anchor=south east, align=right, text=TextGray] at (20.9,3.35) {worse than $T_1$ \\ in both coordinates};
+\end{tikzpicture}
+\caption{Why the contest in \Cref{fig:micro-graph-gallery} is between two trees only. Each of the eight spanning trees is placed by its worst-case cost $\wc{T}$ and its maximum regret $\wcr{T}$ under interval uncertainty. The shaded region is anchored at $T_1$ and holds every tree that is worse than $T_1$ in both coordinates.}
+\label{fig:micro-graph-tradeoff}
+\end{figure}
+
+\Cref{fig:micro-graph-tradeoff} explains why the contest is so narrow, and what choosing between its two winners amounts to.
+Six of the eight trees land in the shaded region, worse than $T_1$ in both of the quantities this thesis has minimised, so neither objective can ever return them.
+What remains is a plain trade: $T_2$ saves one unit of worst-case cost, $T_1$ saves two units of maximum regret, and no tree offers both.
+Drawn with the discrete values instead, the picture keeps the same two trees outside the region and the same trade of one against two.
+
+One more answer belongs beside these two: the tree a planner would build with no robustness at all.
+Reading every interval at its midpoint and solving the deterministic problem returns $T_1$, at cost $11$, so it coincides with the regret answer and not with the min-max one.
+The comparison has content only because the midpoint reads the intervals evenly: read at their upper bounds instead, the deterministic problem is the min-max interval problem itself (\Cref{cor:mm-interval-polynomial}).
+Under interval costs min-max is therefore the deterministic answer to the most pessimistic reading of the data, whatever the instance.
+That regret agrees with the deterministic answer to the even reading is a fact about this instance alone.
 
 %─────────────────────────────────────────────────────────
 %─────────────────────────────────────────────────────────
 \section{Scope and Outlook}\label{sec:outlook}
-% ~550w, two paragraphs. Must ADD to Ch1's exclusion list, not repeat
-% it. Keep two-stage, recoverable, polyhedral, two open problems.
-% Drop ellipsoidal, distributional, min-max-min. See header.
 
 \paragraph{Extensions in Uncertainty Modelling.}
 
+The nearest untreated problem sits inside \Cref{tab:complexity-landscape} itself: min-max regret under a budget.
+It was left aside not because nothing is known about it, but because almost nothing is.
+Its hardness follows in one step from the interval case, and there the record ends; the overview of \textcite[Table~8.1]{Goerigk2021RCO} lists no algorithm and no guarantee for the problem.
+This thesis set out to curate and prove what is established, and for this combination the established part is exactly the note beneath its table.
+The budgeted model invites a second question of its own.
+A single number $\Gamma$ caps the cumulative deviation across the whole graph, wherever the adversary chooses to place it; a network whose regions face risks of their own invites one cap per region instead.
+\Cref{thm:mm-budgeted-poly} does not extend as it stands.
+It trades the budget for a single level, which takes one of at most $m + 1$ values, and pays one minimum spanning tree computation at each of them.
+With several budgets there is a level to fix for each, and the candidates multiply.
+Whether some other device restores the polynomial result is not settled by anything in this thesis.
+
 \paragraph{Extensions in Solution Concepts.}
 
+Every problem in \Cref{tab:complexity-landscape} rests on one assumption that no choice of cost model touches: the whole tree is fixed before a single cost is known.
+Two settings in the literature relax it.
+In the two-stage problem, part of the tree is bought at known first-stage costs and the rest is added once the scenario is revealed, at the costs it brings \cite[Definition~3.3]{Goerigk2021RCO}.
+In the recoverable problem, a complete tree is chosen at once, with the right to exchange a bounded number of its edges after the scenario is known \cite[Definition~3.4]{Goerigk2021RCO}.
+
+Under discrete scenarios, flexibility does not buy tractability.
+The two-stage problem is $\mathsf{NP}$-hard for constant $K$, already at two scenarios, as \textcite{GoerigkKasperskiZielinski2020} show \cite[Theorem~8.17]{Goerigk2021RCO}.
+\textcite{KasperskiKurpiszZielinski2014} prove the same for the recoverable problem, whatever the number of exchanges the recovery allows \cite[Theorem~8.19]{Goerigk2021RCO}.
+In both, the hardness turns strong once $K$ is part of the input \cite[Theorems~8.18 and~8.20]{Goerigk2021RCO}.
+That is the same line \Cref{tab:complexity-landscape} draws in its own discrete column.
+
+Under interval costs, flexibility keeps it.
+The two-stage problem has the same complexity as its deterministic counterpart \cite[Theorem~4.10]{Goerigk2021RCO}.
+The recoverable problem is solvable in polynomial time as well \cite[Corollary~8.22]{Goerigk2021RCO}, a result \textcite{HradovichKasperskiZielinski2017} establish for spanning trees directly.
+The split that organised \Cref{ch:minmax}, hard under discrete scenarios and tractable under interval costs, is therefore not a property of the min-max objective alone: it persists when the tree itself is allowed to move.
+
 \paragraph{Open Problems.}
+
+Two questions from the literature run through this thesis, and both remain open exactly where its table stops.
+The first asks whether any algorithm can improve on the factor $2$ for a min-max regret problem with interval costs whose deterministic version is polynomial \cite[Open Problem~2]{Goerigk2021RCO}.
+An answer would settle the one cell of \Cref{tab:complexity-landscape} in which a constant factor is known but its optimality is not.
+The second asks whether the technique behind the logarithmic min-max guarantee extends to the regret objective \cite[Open Problem~1]{Goerigk2021RCO}.
+An answer would close the one gap in \Cref{tab:complexity-landscape} where the two objectives share a complexity but not a guarantee.
+
+What this thesis leaves behind is deliberately small and thoroughly checked: a classification whose every entry is carried by a proof or by a cited source, a criterion that reads it, and a five-edge graph on which the disagreement of the two objectives can be verified by hand.
+A planner who must commit to a network before its costs are certain still faces the choice this thesis began with, between guarding against the worst outcome and guarding against regret.
+What such a planner no longer has to guess is what either choice will cost to compute.

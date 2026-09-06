@@ -990,7 +990,7 @@ The result is due to \textcite{AronVanHentenryck2004} and \textcite{AverbakhLebe
 Its content becomes visible on the unit intervals.
 There the scenario of \Cref{lem:interval-extremal-regret} charges each edge of $T$ one and every other edge nothing, so any spanning tree $S$ costs exactly the number of edges it shares with $T$, and
 \[
-\wcr{T} \;=\; (n - 1) \;-\; \min_{S \in \cT}\, \abs{E(T) \cap E(S)} \;=\; \max_{S \in \cT}\, \abs{E(T) \setminus E(S)},
+\wcr{T} \;=\; (n - 1) \;-\; \min_{S \in \cT}\, |E(T) \cap E(S)| \;=\; \max_{S \in \cT}\, |E(T) \setminus E(S)|,
 \]
 the largest number of its own edges that some spanning tree avoids.
 A spanning tree for which this maximum is as small as possible is called a \emph{\textcolor{RWTHBlue}{central tree}} of the graph, a notion going back to \textcite{Deo1966}.
