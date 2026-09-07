@@ -5,9 +5,14 @@
 % CHAPTER 4: MIN-MAX REGRET SPANNING TREE
 %
 % Prerequisites: Ch2 (MST, regret definition), Ch3 (min-max, for contrast)
-% Status: R1, R2, R3 and R4 delivered and LOCKED (S4.1, S4.2.1, S4.2.2,
-%   S4.3). R5 (Summary) remains; its shell carries the heading and the
-%   \addcontentsline only.
+% Status: ALL FIVE UNITS DELIVERED AND LOCKED (S4.1, S4.2.1, S4.2.2,
+%   S4.3, Summary). The Summary is written, not a shell: four paragraphs
+%   closing on Ch3's criterion, ending with the three provenance tiers.
+% Content sweep (Ch4 pass): every micro-graph number re-verified by
+%   exhaustive enumeration; all promises checked both directions; the
+%   Summary's three provenance tiers checked against the section content
+%   and found accurate. Two defects found and fixed: this status block
+%   (stale) and one mis-scoped "maximum regrets" in S4.2.2.
 %═══════════════════════════════════════════════════════════
 %
 % ── WHY THIS PLAN LOOKS DIFFERENT FROM THE OLD ONE ────────
@@ -1009,7 +1014,7 @@ The hardness has not closed the problem to exact computation: branch-and-bound a
 \paragraph{The Midpoint Guarantee.}
 
 With no efficient exact algorithm to be expected, the natural fallback is to trust one representative scenario and take a minimum spanning tree there.
-\Cref{sec:regret-extremal} has already disqualified the obvious candidate: at the all-upper-bounds vector the micro-graph's maximum regrets read $1$ for $T_1$ against $0$ for $T_2$, so that scenario would return $T_2$, whose maximum regret is the larger of the two.
+\Cref{sec:regret-extremal} has already disqualified the obvious candidate: at the all-upper-bounds vector the micro-graph's regrets read $1$ for $T_1$ against $0$ for $T_2$, so that scenario would return $T_2$, whose maximum regret is the larger of the two.
 The midpoints are the even-handed choice, and for them the fallback carries a guarantee.
 
 \begin{theorem}[2-Approximation via Midpoint]\label{thm:regret-2approx}
@@ -1090,6 +1095,11 @@ Each objective ends at a single representative scenario; the difference is what 
 %     construction, and the 2-eps transfer. The close names this and
 %     the count "three" is exactly those statements; the KZ11
 %     no-constant-factor fact is CITED, not carried.
+%     DO NOT ADD "unless P = NP" here. KasperskiZielinski2011 prove the
+%     no-constant-factor bound under NP not in DTIME(n^polylog n), which
+%     is stronger than P != NP; their P = NP version needs negative edge
+%     costs, excluded by def:discrete-uncertainty. Matches the note in
+%     the S3.3 banner of 03_minmax.tex. Author declined qualifying it.
 %
 % [Checker B, 2026-09-02] v3. TWO CHANGES on author direction; every
 %   other line of S4.3 is byte-identical to v2. No result, statement,

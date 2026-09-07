@@ -59,7 +59,9 @@ This chapter studies the min-max version~\eqref{eq:minmax-objective}, where the 
 \Cref{sec:mm-formulation} writes this objective out at the edge level and examines its structure under each of the three uncertainty models from \Cref{sec:uncertainty}, isolating the inner worst-case evaluator that drives the subsequent analysis.
 \Cref{sec:mm-extremal} treats interval uncertainty, where the problem reduces to a minimum spanning tree under the upper-bound cost vector and is therefore polynomial.
 \Cref{sec:mm-complexity} treats discrete uncertainty: weakly $\mathsf{NP}$-hard already at $K = 2$, admitting an FPTAS for any constant $K$, and strongly $\mathsf{NP}$-hard when $K$ grows with the input, though still approximable within a logarithmic factor in $K$.
-\Cref{sec:mm-budgeted} treats budgeted uncertainty, polynomial via a richer reformulation, and a closing summary draws the three models together.
+\Cref{sec:mm-budgeted} treats budgeted uncertainty, where a shared budget makes the adversary's answer depend on the tree, as it does under discrete scenarios.
+The problem is nonetheless polynomial: one enumerated parameter removes that dependence and reduces the problem to at most $m + 1$ deterministic minimum spanning tree computations.
+A closing summary draws the three models together.
 
 %─────────────────────────────────────────────────────────
 % SECTION 3.1: PROBLEM FORMULATION (~1.5-1.7 pages)
@@ -110,7 +112,10 @@ In general no fixed weight vector~$w$ reproduces this tree-dependent choice, so 
 Consequently the problem does not reduce to one MST computation, and this obstruction is the source of the hardness established in \Cref{sec:mm-complexity}.
 
 Under \emph{budgeted} uncertainty $\wc{T}$ is in general not linear either, because the shared deviation budget couples the edges of~$T$: which of them the adversary drives upward depends on the tree.
-The problem therefore does not reduce to a single MST computation either, but \Cref{sec:mm-budgeted} shows that it nonetheless remains polynomial.
+The problem therefore does not reduce to a single MST computation.
+The dependence is nevertheless milder than the discrete one.
+\Cref{sec:mm-budgeted} removes it by fixing a single scalar parameter, after which a tree's cost is once more a sum of fixed per-edge weights, up to a constant that does not depend on the tree.
+Only polynomially many values of that parameter need be tried, so the problem remains polynomial.
 
 %─────────────────────────────────────────────────────────
 % SECTION 3.2: INTERVAL WORST-CASE CHARACTERISATION -- LOCKED
