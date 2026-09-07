@@ -910,7 +910,7 @@ Algorithms & pseudo-polynomial; FPTAS (\Cref{thm:regret-kconst-pseudo}) & \mbox{
 
 \vspace{0.9ex}
 \begin{minipage}{\textwidth}
-\footnotesize $^{\dagger}$ The hardness entry follows by reduction from the interval column. At $\Gamma = \abs{E}$ the budget constraint is inactive, and the budgeted set of \Cref{def:budgeted-uncertainty} is exactly the interval set $\prod_{e \in E} [\bar{c}_e, \bar{c}_e + \hat{c}_e]$. The choice $\bar{c} = \ell$, $\hat{c} = u - \ell$ therefore writes any interval regret instance as a budgeted one. \textcite[Section~8.5]{Goerigk2021RCO} record the same inheritance. The hardness inherited is strong, because \Cref{thm:regret-interval-hard} holds already when every interval equals $[0,1]$, where every number of the instance is a $0$ or a $1$. The algorithm entry stays empty because this thesis develops none. Under interval uncertainty the maximum regret of a single tree is found by one minimum spanning tree computation (\Cref{cor:regret-interval-evaluation}). Under a budget no such shortcut is known in general, and the reformulation of \textcite{GoerigkHartisch2023} still optimises over all spanning trees \cite[Theorem~4.25]{Goerigk2021RCO}.
+\footnotesize $^{\dagger}$ The hardness entry follows by reduction from the interval column. At $\Gamma = |E|$ the budget constraint is inactive, and the budgeted set of \Cref{def:budgeted-uncertainty} is exactly the interval set $\prod_{e \in E} [\bar{c}_e, \bar{c}_e + \hat{c}_e]$. The choice $\bar{c} = \ell$, $\hat{c} = u - \ell$ therefore writes any interval regret instance as a budgeted one. \textcite[Section~8.5]{Goerigk2021RCO} record the same inheritance. The hardness inherited is strong, because \Cref{thm:regret-interval-hard} holds already when every interval equals $[0,1]$, where every number of the instance is a $0$ or a $1$. The algorithm entry stays empty because this thesis develops none. Under interval uncertainty the maximum regret of a single tree is found by one minimum spanning tree computation (\Cref{cor:regret-interval-evaluation}). Under a budget no such shortcut is known in general, and the reformulation of \textcite{GoerigkHartisch2023} still optimises over all spanning trees \cite[Theorem~4.25]{Goerigk2021RCO}.
 \end{minipage}}
 \end{table}
 
@@ -926,7 +926,7 @@ Both turn strongly $\mathsf{NP}$-hard once $K$ is part of the input, and unless 
 Beyond two scenarios, $K$ decides only whether that hardness is weak or strong.
 The interval and budgeted columns separate the objectives completely: under each of them min-max is solved exactly in polynomial time, while min-max regret is strongly $\mathsf{NP}$-hard.
 These two separations are not independent.
-The regret hardness that creates the budgeted one is inherited from the interval one, by the reduction in the note beneath the table.
+The regret hardness in the budgeted column is inherited from the interval column, by the reduction in the note beneath the table.
 
 At constant $K$ both objectives admit an FPTAS, the strongest guarantee short of exactness.
 Every remaining guarantee in the table but one comes from a single method: solve the deterministic problem at an averaged cost vector.
