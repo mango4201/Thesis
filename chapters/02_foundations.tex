@@ -1,12 +1,39 @@
 %═══════════════════════════════════════════════════════════
 % CHAPTER 2: FOUNDATIONS
-% 
-% Status: SECTIONS 2.1-2.2 FINALISED
-% Date: 2026-04-10
-% Final review: 12 changes applied (cost note, cycle def, 
-%   property binding, E(P) clarification, only-tree-edge 
-%   justification, Remark on Cost Ties, expanded iterations,
-%   \Cref fixes throughout)
+%
+% Status: COMPLETE. Content sweep passed with zero changes.
+%
+% Sources for 2.1-2.2. The fundamental cycle and cut constructions
+%   and the optimality criteria follow Skript_OptiB (Buesing),
+%   Section 2.2: Definition 27 (fundamental cycle), Definition 30
+%   (fundamental cut), Lemma 29 (cycle criterion), Lemma 31
+%   (fundamental cut lemma, incl. e unique tree edge in delta(X_e)),
+%   Theorem 32 (three-way optimality equivalence, split here into
+%   thm:cycle-criterion, thm:cut-criterion, thm:mst-equivalence).
+%   Korte-Vygen Theorem 6.3 covers the same ground with a different
+%   structure (four conditions incl. an ordering condition) and is
+%   NOT the source this chapter follows. Do not cite it for 2.2.
+%
+% Settled in the content sweep. Do not re-raise:
+%   - 2.2 carries no citations. Declined by the author: fundamental
+%     results, proofs shown from first principles, sources adjacent
+%     in 2.1 and 2.3, provenance disclosed in Ch1 and the abstract.
+%   - The two lemma proofs repeat a spanning-tree verification block
+%     verbatim. Not a defect: short proofs repeat, long proofs
+%     cross-reference (see thm:cut-criterion). Deliberate.
+%   - thm:mst-equivalence reads as a corollary. Deliberate: OptiB
+%     states one theorem, this chapter splits it into three, and Ch1
+%     promises "three MST optimality criteria".
+%
+% Verified by exhaustive enumeration, not by reading:
+%   micro-graph has 8 spanning trees; T1={e1,e2,e3} star at vertex 2,
+%   T2={e1,e2,e4} path 1-2-3-4, T3={e2,e3,e5} path 1-3-2-4;
+%   MST = 6 / 15 / 11 under c^(1) / c^(2) / c^(3); every cost and
+%   regret in tab:micro-graph-costs; min-max optimum T2 at 15 and
+%   regret optimum T1 at 1, both unique across all eight trees.
+%
+% Register: 287 prose sentences, median 16, mean 18.1, max 46.
+% Length: printed pages 5 to 18.
 %═══════════════════════════════════════════════════════════
 
 \chapter{Foundations}\label{ch:foundations}
