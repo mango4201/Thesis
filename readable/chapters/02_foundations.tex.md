@@ -486,7 +486,7 @@ Kruskal's algorithm constructs an MST by processing edges in non-decreasing orde
 Starting with an empty edge set, the algorithm considers each edge in turn and adds it to the current forest if and only if it does not create a cycle.
 The process terminates when the forest becomes a spanning tree (after adding exactly $n - 1$ edges).
 
-The correctness follows immediately from the cycle criterion (\Cref{thm:cycle-criterion}).
+The correctness follows from the cycle criterion (\Cref{thm:cycle-criterion}).
 When the algorithm terminates with spanning tree $T$, consider any non-tree edge $f \in E \setminus E(T)$.
 Since $f$ was rejected, adding $f$ would have created a cycle with edges already in $T$.
 All edges in this cycle were added before $f$ was considered, hence each has cost at most $c_f$ (by the sorting order).

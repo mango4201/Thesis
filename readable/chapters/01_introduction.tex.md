@@ -110,7 +110,7 @@ That worst case therefore moves with the tree, and the minimisation over trees s
 Both lemmas carry complete proofs, as do the two corollaries that draw their algorithmic consequences.
 
 Third, we prove that min-max stays polynomial under budgeted uncertainty (\Cref{sec:mm-budgeted}).
-The worst case again depends on the tree here, since the budget is spent on the edges of the chosen tree, and \Cref{thm:mm-budgeted-poly} removes that dependence cheaply: fixing a single deviation level restores an edge-by-edge cost for every tree, and at most $\abs{E} + 1$ levels need to be tried.
+The worst case again depends on the tree here, since the budget is spent on the edges of the chosen tree, and \Cref{thm:mm-budgeted-poly} removes that dependence cheaply: fixing a single deviation level restores an edge-by-edge cost for every tree, and at most $|E| + 1$ levels need to be tried.
 The result is due to \textcite{BertsimasSim2003}; the two supporting lemmas and the theorem are proved here in full.
 
 Fourth, we give two representative hardness proofs (\Cref{ch:minmax,ch:regret}).

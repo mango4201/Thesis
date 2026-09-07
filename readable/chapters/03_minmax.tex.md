@@ -312,6 +312,22 @@ Second, the insensitivity to the lower bounds is special to the min-max objectiv
 %   ("p-norm" appears once, as a literature signpost); §3.3.2's
 %   argument runs as prose rather than a proof environment, marking
 %   it as an exposition of a cited proof.
+%
+% DO NOT ADD "unless P = NP" TO ANY NO-CONSTANT-FACTOR CLAIM.
+%   Four sites in this section state the KZ11 inapproximability with no
+%   hypothesis (§3.3 roadmap; the "far stronger" sentence in §3.3.2; the
+%   "no-constant-factor barrier" sentence; the §3.3.2 closing).
+%   KasperskiZielinski2011 prove it under NP not contained in
+%   DTIME(n^polylog n), STRICTLY STRONGER than P != NP. Their
+%   "not at all approximable unless P = NP" result needs NEGATIVE edge
+%   costs, which def:discrete-uncertainty (R^|E|_{>=0}) excludes.
+%   Goerigk §8.1 states it the same unqualified way, so a thread checking
+%   only against Goerigk will find the thesis faithful and stop.
+%   The house rule "unless P = NP on every no-device claim" DOES NOT
+%   APPLY HERE: applying it turns a faithful report into a
+%   misattribution. Author reviewed and declined qualifying these sites
+%   (an unnamed stronger assumption is machinery Ch2's primer does not
+%   define). Leave as is.
 %─────────────────────────────────────────────────────────
 
 \section{Complexity and Approximation}\label{sec:mm-complexity}

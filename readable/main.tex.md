@@ -93,7 +93,7 @@
 \newcommand{\thesisAuthor}{Archit Dhama}
 % TODO before submission: replace \today with the actual submission date,
 %   e.g. \newcommand{\thesisDate}{15th September 2026}
-\newcommand{\thesisDate}{\today}
+\newcommand{\thesisDate}{7th September 2026}
 \newcommand{\thesisTitleFull}{\thesisTitleMain\ \thesisTitleSubA: \thesisTitleSubB}
 \hypersetup{pdftitle={\thesisTitleFull},pdfauthor={\thesisAuthor}}
 
