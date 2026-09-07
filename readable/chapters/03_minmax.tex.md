@@ -24,7 +24,7 @@
 %   thm:mm-kunbdd-hard, fig:sat-gadget, eq:mm-aggregate-bracket,
 %   thm:mm-kunbdd-approx, sec:mm-budgeted, lem:budgeted-extremal-cost,
 %   eq:mm-budgeted-inner, lem:budgeted-threshold-form,
-%   thm:mm-budgeted-poly, tab:budgeted-micrograph, fig:budgeted-sweep.
+%   thm:mm-budgeted-poly, tab:micro-graph-budgeted, fig:budgeted-sweep.
 %
 % CONVENTIONS
 %   Equations referenced with \eqref, named objects with \Cref.
@@ -885,7 +885,7 @@ Its candidate levels are
 \Pi \;=\; \{0\} \cup \{\hat{c}_e : e \in E\} \;=\; \{0, 1, 3\},
 \]
 three rather than the six that $m + 1$ permits, since the repeated deviations collapse to one candidate.
-\Cref{tab:budgeted-micrograph} performs the three deterministic solves.
+\Cref{tab:micro-graph-budgeted} performs the three deterministic solves.
 Its outer rows hold two cost vectors the chapter has met before: at $\pi = 0$ nothing is discounted and $c^{0} = u$, while at $\pi = 3$ every deviation is absorbed and $c^{3} = \bar{c}$.
 The middle row wins: the level $\pi^{*} = 1$ gives the total $12 + 2 \cdot 1 = 14$, with minimum spanning tree $T_2$.
 The two routes agree, in the value and in the tree.
@@ -893,7 +893,7 @@ The two routes agree, in the value and in the tree.
 \begin{table}[htbp]
 \centering
 \caption{The reformulation of \Cref{thm:mm-budgeted-poly} on the micro-graph at $\Gamma = 2$. Each row solves one deterministic minimum spanning tree problem under the modified costs $c^{\pi}$; the smallest total identifies the optimal value and an optimal tree.}
-\label{tab:budgeted-micrograph}
+\label{tab:micro-graph-budgeted}
 \begin{tabular}{c c c c c}
 \toprule
 $\pi$ & $c^{\pi} = \bar{c} + [\hat{c} - \pi]^{+}$ & $\MSTcost{c^{\pi}}$ & $\Gamma\pi$ & Total \\
@@ -907,7 +907,7 @@ $3$ & $(3, 4, 4, 5, 6)$ & $11$ & $6$ & $17$ \\
 
 One budget exercises the machinery; the range of budgets shows the model.
 \Cref{fig:budgeted-sweep} records the optimal value at every integer budget, and we read it from left to right.
-\Cref{tab:budgeted-micrograph} keeps working throughout: only its flat-payment column depends on $\Gamma$, so the same three rows answer each budget that follows.
+\Cref{tab:micro-graph-budgeted} keeps working throughout: only its flat-payment column depends on $\Gamma$, so the same three rows answer each budget that follows.
 
 \begin{figure}[htbp]
 \centering

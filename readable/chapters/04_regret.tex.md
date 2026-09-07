@@ -331,8 +331,8 @@
 %          asserted Cor 3.1 has none; that was false and Checker A
 %          caught it. The short corollary proof is budgeted at the top
 %          of this file and is NOT a third substantial proof.
-%      (c) \paragraph{Worked Example.}  tab:regret-micrograph, columns
-%          exactly analogous to tab:budgeted-micrograph: tree, c^T,
+%      (c) \paragraph{Worked Example.}  tab:micro-graph-regret, columns
+%          exactly analogous to tab:micro-graph-budgeted: tree, c^T,
 %          c^T(T), MST(c^T), regret. Discharges the Ch2 promise that
 %          the interval worked example waits for this chapter.
 %          VERIFIED BY ENUMERATION, do not re-derive from prose:
@@ -560,13 +560,13 @@ This chapter keeps the setting: a tree is still committed before the costs are r
 What changes is the standard.
 The min-max regret objective~\eqref{eq:minmax-regret-objective} charges the tree only the gap between its cost and the best cost available in the same scenario, so the adversary now works to widen a gap rather than to inflate a total.
 
-\Cref{sec:regret-definition} writes this objective out at the edge level and isolates the evaluator the chapter minimises.
+\Cref{sec:regret-formulation} writes this objective out at the edge level and isolates the evaluator the chapter minimises.
 \Cref{sec:regret-interval} treats interval uncertainty: an extremal characterisation as explicit as the min-max one exists, the problem is strongly $\mathsf{NP}$-hard nonetheless, and a $2$-approximation is available.
 \Cref{sec:regret-complexity-discrete} treats discrete uncertainty, where the hierarchy of \Cref{sec:mm-complexity} returns: weakly $\mathsf{NP}$-hard already at $K = 2$, pseudo-polynomial and approximable for any constant $K$, and strongly $\mathsf{NP}$-hard once $K$ is part of the input.
 Budgeted uncertainty is treated in this thesis only for the min-max objective; \Cref{sec:synthesis} records by citation what is known for its regret counterpart.
 A closing summary draws the two models together.
 
-\section{Regret Formulation}\label{sec:regret-definition}
+\section{Regret Formulation}\label{sec:regret-formulation}
 
 The regret~\eqref{eq:regret-def} introduced in \Cref{sec:uncertainty} measures a spanning tree $T \in \cT$ under a realised cost vector $c$ by the difference $\Regret{T}{c} = c(T) - \MSTcost{c}$.
 Expanding the tree cost edge by edge turns the min-max regret objective~\eqref{eq:minmax-regret-objective} into the \emph{\textcolor{RWTHBlue}{min-max regret spanning tree problem}}
@@ -689,7 +689,7 @@ Under interval uncertainty even the first requires proof.
 %   mirroring cor:mm-interval-polynomial, whose own proof is 81 words.
 %   The short corollary proof is budgeted at the top of this file and
 %   is NOT a third substantial proof.
-% NEW LABELS: cor:regret-interval-evaluation, tab:regret-micrograph,
+% NEW LABELS: cor:regret-interval-evaluation, tab:micro-graph-regret,
 %   fig:regret-extremal-scenarios. NEW MACROS: none; c^T is a plain
 %   superscript with an Appendix A row shipped in the same delivery.
 %
@@ -714,7 +714,7 @@ The answers point in opposite directions: the maximum regret of a fixed tree is 
 \subsection{Extremal Characterisation}\label{sec:regret-extremal}
 
 The scenario that answers the first question can be written down before anything is proved.
-The difficulty identified in \Cref{sec:regret-definition} is that raising the cost of $T$ gains the adversary nothing if the floor rises with it.
+The difficulty identified in \Cref{sec:regret-formulation} is that raising the cost of $T$ gains the adversary nothing if the floor rises with it.
 On an interval set it resolves edge by edge.
 An edge of $T$ should cost the most its interval allows: $T$ pays for it, and the scenario-optimal tree need not.
 An edge outside $T$ should cost the least its interval allows: $T$ never pays for it, and the scenario-optimal tree may.
@@ -753,19 +753,19 @@ The chain holds for every $c \in \Scenarios$, and $c^{T}$ itself lies in $\Scena
 The maximum regret of $T$ is therefore $\Regret{T}{c^{T}}$, and it equals $\sum_{e \in E(T)} u_e - \MSTcost{c^{T}}$ because $c^{T}$ sets every edge of $T$ to its upper bound.
 \end{proof}
 
-\Cref{lem:interval-extremal-regret} answers the first of \Cref{sec:regret-definition}'s two questions: as a function of the tree, the maximum regret is a sum of upper bounds less a minimum spanning tree cost, both taken at a scenario read off the tree itself.
+\Cref{lem:interval-extremal-regret} answers the first of \Cref{sec:regret-formulation}'s two questions: as a function of the tree, the maximum regret is a sum of upper bounds less a minimum spanning tree cost, both taken at a scenario read off the tree itself.
 The characterisation is the spanning tree instance of \cite[Theorem~4.12]{Goerigk2021RCO}, which establishes it for interval min-max regret problems in general, following \textcite{AissiBazganVanderpooten2009Survey}.
 The evaluative consequence is immediate.
 
 \begin{corollary}[Polynomial Evaluation under Interval Uncertainty]\label{cor:regret-interval-evaluation}
 Under interval uncertainty, the maximum regret $\wcr{T}$ of a given spanning tree $T \in \cT$ is computed by a single minimum spanning tree computation under $c^{T}$, in $O(m \log n)$ time.
-In particular the inner maximisation of~\eqref{eq:regret-objective} is polynomial, and the decision version of \Cref{sec:regret-definition} lies in $\mathsf{NP}$.
+In particular the inner maximisation of~\eqref{eq:regret-objective} is polynomial, and the decision version of \Cref{sec:regret-formulation} lies in $\mathsf{NP}$.
 \end{corollary}
 
 \begin{proof}
 By \Cref{lem:interval-extremal-regret}, $\wcr{T} = \sum_{e \in E(T)} u_e - \MSTcost{c^{T}}$.
 Assembling $c^{T}$ costs $O(m)$ and the sum $O(n)$, while $\MSTcost{c^{T}}$ is one run of Kruskal's algorithm, which computes a minimum spanning tree under any fixed cost vector in $O(m \log n)$ time (\Cref{sec:kruskal-prim}); this term dominates.
-Membership in $\mathsf{NP}$ then follows as in \Cref{sec:regret-definition}, with $T$ itself as the certificate.
+Membership in $\mathsf{NP}$ then follows as in \Cref{sec:regret-formulation}, with $T$ itself as the certificate.
 \end{proof}
 
 What \Cref{cor:regret-interval-evaluation} does not deliver is the second answer.
@@ -782,7 +782,7 @@ The tie does no harm: the lemma fixes the scenario, not the tree the scenario is
 For $T_2 = \{e_1, e_2, e_4\}$ the roles of $e_3$ and $e_4$ swap, giving $c^{T_2} = (4, 5, 1, 6, 5)$, and the same computation yields $\wcr{T_2} = 15 - 10 = 5$, the minimum again attained twice.
 \Cref{fig:regret-extremal-scenarios} sets the two scenarios side by side: $e_3$ swings furthest, from $7$, charged to $T_1$, which uses it, to $1$, offered to any tree that can undercut $T_2$; both trees attaining the minimum of $10$ take it.
 
-\Cref{tab:regret-micrograph} adds $T_3$ and collects the three computations.
+\Cref{tab:micro-graph-regret} adds $T_3$ and collects the three computations.
 Read together, the three scenarios obey one rule: any two of them differ exactly on the edges that lie in one of the two trees but not the other, and agree elsewhere, at an upper bound on a shared edge and at a lower bound on one both trees avoid.
 
 Enumerating all eight spanning trees gives maximum regrets $3$, $4$, $5$, $7$, $8$, $9$, $9$ and $10$; the optimum is $3$, attained by $T_1$ alone.
@@ -794,7 +794,7 @@ On eight trees that is an option; on a graph with exponentially many spanning tr
 \begin{table}[htbp]
 \centering
 \caption{\Cref{lem:interval-extremal-regret} on the three representative spanning trees of \Cref{fig:micro-graph}. Each row solves one deterministic minimum spanning tree problem under its own scenario $c^{T}$; the smallest maximum regret is set in bold.}
-\label{tab:regret-micrograph}
+\label{tab:micro-graph-regret}
 \begin{tabular}{c c c c c}
 \toprule
 $T$ & $c^{T}$ & $c^{T}(T)$ & $\MSTcost{c^{T}}$ & $\wcr{T}$ \\
@@ -860,7 +860,7 @@ Because the two rules split $E$ into $E(T)$ and $E \setminus E(T)$, the scenario
 
 Second, the tree-dependence is what closes the route of \Cref{cor:mm-interval-polynomial}, which minimised over all trees at one fixed cost vector.
 The failure is not marginal.
-Evaluated at $u$, the regrets of $T_1$ and $T_2$ read $1$ and $0$ against the true maxima $3$ and $5$ of \Cref{tab:regret-micrograph}; indeed $u$ understates the maximum regret of every spanning tree of the micro-graph.
+Evaluated at $u$, the regrets of $T_1$ and $T_2$ read $1$ and $0$ against the true maxima $3$ and $5$ of \Cref{tab:micro-graph-regret}; indeed $u$ understates the maximum regret of every spanning tree of the micro-graph.
 This is the first half of what the close of \Cref{sec:mm-extremal} promised: the regret comparison does depend on the lower bounds.
 The second half, that the interval problem becomes substantially harder, is the subject of \Cref{sec:regret-approx-interval}.
 
@@ -976,7 +976,7 @@ The second half, that the interval problem becomes substantially harder, is the 
 
 \subsection{Hardness and Approximation}\label{sec:regret-approx-interval}
 
-The second question of \Cref{sec:regret-definition} divides in two, and the halves pull against each other.
+The second question of \Cref{sec:regret-formulation} divides in two, and the halves pull against each other.
 Minimising the maximum regret over all spanning trees is strongly $\mathsf{NP}$-hard, and yet a single minimum spanning tree computation at the right scenario comes within a factor of two of the optimum.
 Neither result is proved here; both are explained in enough detail that the mechanism, and not only the statement, is available.
 
@@ -1041,7 +1041,7 @@ That this alone buys a factor of two is the content of \Cref{thm:regret-2approx}
 \paragraph{Worked Example.}
 
 On the micro-graph the midpoint vector is $c^{\mathrm{av}} = (3, 4, 4, 5, 6)$, which is the midpoint scenario $\cs{3}$ of \Cref{tab:micro-graph-costs}, and the half-widths are $(1, 1, 3, 1, 1)$, so $e_3$, the one wide interval, is where most of the room sits.
-Kruskal's algorithm selects $T_1$ under $c^{\mathrm{av}}$, uniquely and at cost $11$, and \Cref{tab:regret-micrograph} has already evaluated it: $\wcr{T_1} = 3$, the optimum identified in \Cref{sec:regret-extremal}.
+Kruskal's algorithm selects $T_1$ under $c^{\mathrm{av}}$, uniquely and at cost $11$, and \Cref{tab:micro-graph-regret} has already evaluated it: $\wcr{T_1} = 3$, the optimum identified in \Cref{sec:regret-extremal}.
 The two pieces show in the numbers.
 Measured against $T_2$, one of the two rivals at which its maximum is attained, $T_1$ carries a midpoint gap of $-1$ and room $4$, and $-1 + 4$ is the $3$ just recalled.
 The poorest of the eight, $\{e_2, e_4, e_5\}$, carries a gap of $+4$ and room $6$, and its maximum regret is $10$.
@@ -1166,13 +1166,13 @@ Each objective ends at a single representative scenario; the difference is what 
 
 \section{Discrete Scenarios}\label{sec:regret-complexity-discrete}
 
-Under a finite uncertainty set the first of the two questions of \Cref{sec:regret-definition} needs no argument: the maximum in~\eqref{eq:regret-evaluator} runs over $K$ scenarios and is read off directly, one difference per scenario.
+Under a finite uncertainty set the first of the two questions of \Cref{sec:regret-formulation} needs no argument: the maximum in~\eqref{eq:regret-evaluator} runs over $K$ scenarios and is read off directly, one difference per scenario.
 Only the second question remains, and the answer repeats the pattern of \Cref{sec:mm-complexity}.
 The problem is weakly $\mathsf{NP}$-hard for every constant $K$, with a pseudo-polynomial algorithm and an approximation scheme alongside it, and strongly $\mathsf{NP}$-hard once $K$ is part of the input.
 The repetition is no coincidence.
 Twice a construction of \Cref{ch:minmax} is reused outright, and the one reduction that is new grows out of a familiar grid.
 
-\subsection{Constant \texorpdfstring{$K$}{K}}\label{sec:regret-const-k}
+\subsection{Constant \texorpdfstring{$K$}{K}}\label{sec:regret-kconst}
 
 The natural first move is to reuse the two-scenario reduction of \Cref{ch:minmax}, but in general a reduction built for one objective does not serve the other.
 The regret of a tree is its cost less the floor of its scenario.
@@ -1222,13 +1222,13 @@ For every constant $K$, the min-max regret spanning tree problem under discrete 
 Both results are due to \textcite{AissiBazganVanderpooten2005ESA} and are stated together as \cite[Theorem~8.6]{Goerigk2021RCO}.
 The route is the one taken in \Cref{sec:mm-complexity}, with a single adjustment.
 There a tree carried a list of $K$ costs, the search ran over the lists that some tree realises, and the exact spanning tree problem tested each prescribed list.
-Regret shifts every entry of such a list by the floor of its scenario, and the floors do not depend on the tree: the $K$ minimum spanning trees are computed once, as \Cref{sec:regret-definition} has already noted.
+Regret shifts every entry of such a list by the floor of its scenario, and the floors do not depend on the tree: the $K$ minimum spanning trees are computed once, as \Cref{sec:regret-formulation} has already noted.
 Subtracting $K$ fixed numbers leaves the realisable lists a translate of the old collection, pseudo-polynomially many as before.
 The same search therefore returns the tree whose largest entry is smallest, the entries now being regrets, and the same scaling delivers the approximation scheme.
 Both guarantees carry the same hypothesis as their min-max counterparts, that $K$ is fixed.
-\Cref{sec:regret-unbdd-k} takes that hypothesis away.
+\Cref{sec:regret-kunbdd} takes that hypothesis away.
 
-\subsection{Unbounded \texorpdfstring{$K$}{K}}\label{sec:regret-unbdd-k}
+\subsection{Unbounded \texorpdfstring{$K$}{K}}\label{sec:regret-kunbdd}
 
 With $K$ part of the input the hardness becomes strong here as well, but it is not reached the way \Cref{sec:mm-complexity} reached it.
 There the route to strong hardness left the partition problem behind and started again from 3-SAT.
@@ -1245,7 +1245,7 @@ An instance gives $3m$ positive integers with total $mB$, each of them strictly 
 Its numbers can be kept small: the problem stays $\mathsf{NP}$-hard even when every one of them is bounded by a polynomial in the input \cite[Section~4.2.2]{GareyJohnson1979}, which is strong hardness in the sense of \Cref{sec:complexity}.
 The scaling that tamed the constant-$K$ case therefore has nothing left to shrink.
 The reduction writes a 3-partition instance into the grid of \Cref{fig:partition-grid}, grown from two rows to $m$, with one scenario charging each row.
-A spanning tree of cost zero is again available in every scenario, so the two objectives coincide here just as they did in \Cref{sec:regret-const-k}.
+A spanning tree of cost zero is again available in every scenario, so the two objectives coincide here just as they did in \Cref{sec:regret-kconst}.
 
 The bound of $2 - \varepsilon$ needs no new construction at all.
 It is inherited from \Cref{thm:mm-kunbdd-hard}, and the zero floor does its work a third time.
@@ -1255,7 +1255,7 @@ The tree built in that proof takes one literal edge per gadget, and for a given 
 The floor is zero in every scenario once more, maximum regret equals worst-case cost, and the argument that reads satisfiability off the returned tree carries over unchanged.
 The problem admits no constant-factor approximation at all \cite{KasperskiZielinski2011}, exactly as under the min-max objective.
 
-The three hardness results therefore rest on a single observation, the zero floors of \Cref{sec:regret-const-k}: each of their constructions admits a spanning tree of cost zero in every scenario, so regret there can be measured as cost.
+The three hardness results therefore rest on a single observation, the zero floors of \Cref{sec:regret-kconst}: each of their constructions admits a spanning tree of cost zero in every scenario, so regret there can be measured as cost.
 The positive side is where the mirror breaks.
 No regret counterpart of the logarithmic guarantee of \Cref{thm:mm-kunbdd-approx} is known.
 Whether the argument behind that guarantee can be adapted is on record as an open question \cite[Open Problem~1]{Goerigk2021RCO}.
@@ -1306,7 +1306,7 @@ Whether the argument behind that guarantee can be adapted is on record as an ope
 %     reason for the discrete reductions carrying over.
 %
 % REFERENCES: FOUR, the budget set in the Flow Card, against Ch3's
-%   Summary's five.  sec:regret-definition, lem:interval-extremal-regret,
+%   Summary's five.  sec:regret-formulation, lem:interval-extremal-regret,
 %   ch:minmax, ch:conclusion.  No Ch3-interval reference, so the
 %   chapter total holds at eight.  No result list: only the two
 %   objects the argument actually uses are named.
@@ -1392,7 +1392,7 @@ Whether the argument behind that guarantee can be adapted is on record as an ope
 \section*{Summary}
 \addcontentsline{toc}{section}{Summary}
 
-The two questions of \Cref{sec:regret-definition} organised this chapter: what form the maximum regret takes as a function of the tree, and whether that form can be minimised over all trees at once.
+The two questions of \Cref{sec:regret-formulation} organised this chapter: what form the maximum regret takes as a function of the tree, and whether that form can be minimised over all trees at once.
 The first is answered in both models, at very different cost.
 Under discrete uncertainty it costs nothing, the maximum running over finitely many scenarios.
 Under interval uncertainty it takes \Cref{lem:interval-extremal-regret}: the maximum is attained at a scenario read off the tree itself, so each tree brings its own worst case.

@@ -89,7 +89,7 @@ $[z]^{+}$ & Positive part, $\max\{z, 0\}$ & \S\ref{sec:mm-budgeted} \\
 \multicolumn{3}{l}{\textit{Robust Objectives}} \\
 $\Regret{T}{c}$ & Regret of $T$ under $c$: $c(T) - \MSTcost{c}$ & \S\ref{sec:uncertainty} \\
 $\wc{T}$ & Worst-case cost of tree $T$: $\max_{c \in \Scenarios} c(T)$ & \S\ref{sec:mm-formulation} \\
-$\wcr{T}$ & Maximum regret of tree $T$: $\max_{c \in \Scenarios} \Regret{T}{c}$ & \S\ref{sec:regret-definition} \\
+$\wcr{T}$ & Maximum regret of tree $T$: $\max_{c \in \Scenarios} \Regret{T}{c}$ & \S\ref{sec:regret-formulation} \\
 \midrule
 
 \multicolumn{3}{l}{\textit{Complexity}} \\
