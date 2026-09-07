@@ -931,7 +931,7 @@ The regret hardness that creates the budgeted one is inherited from the interval
 At constant $K$ both objectives admit an FPTAS, the strongest guarantee short of exactness.
 Every remaining guarantee in the table but one comes from a single method: solve the deterministic problem at an averaged cost vector.
 The midpoint of each interval gives the $2$-approximation for interval regret (\Cref{thm:regret-2approx}); the average of the $K$ scenarios gives the $K$-approximation for both objectives \cite[Theorem~5.4]{Goerigk2021RCO}.
-The exception is the $O(\log K)$ bound for min-max (\Cref{thm:mm-kunbdd-approx}), for which no regret counterpart is known (\Cref{sec:regret-unbdd-k}); this asymmetry, and the question whether the factor $2$ is the best possible, are taken up in \Cref{sec:outlook}.
+The exception is the $O(\log K)$ bound for min-max (\Cref{thm:mm-kunbdd-approx}), for which no regret counterpart is known (\Cref{sec:regret-kunbdd}); this asymmetry, and the question whether the factor $2$ is the best possible, are taken up in \Cref{sec:outlook}.
 
 What decides this classification is not the size of the uncertainty set: an interval set is infinite yet polynomial for min-max, while two scenarios already make both objectives hard.
 The deciding factor, identified in the Summary of \Cref{ch:minmax} and extended in that of \Cref{ch:regret}, is whether the adversary's worst case depends on the chosen tree, and at what cost that dependence can be removed.
